@@ -1,0 +1,7 @@
+{
+  "name": "placetobe.nl",
+  "short_name": "placetobe.nl",
+  "description": "Organisational website for Place to Be Crowdfunding",
+  "start_url": "/",
+  "display": "standalone"
+}
