@@ -4,6 +4,7 @@
 <link rel="import" href="../placetobe-header/placetobe-header.html">
 <link rel="import" href="../placetobe-hero/placetobe-hero.html">
 <link rel="import" href="../placetobe-styles/placetobe-styles.html">
+<link rel="import" href="../placetobe-button/placetobe-button.html">
 
 <dom-module id="placetobe-app">
   <template>
@@ -33,7 +34,7 @@
         @apply(--placetobe-body);
       }
 
-      :host #calls {
+      :host #calls:not([hidden]) {
         @apply(--placetobe-two-column-layout);
       }
 
@@ -118,15 +119,23 @@
       <div id="call-to-entrepreneur">
         <h4>Project starten?</h4>
         <article>
-          Je bent geïnteresseerd om  met behulp van crowdfunding  projecten te realiseren maar je weet niet of het iets voor je is.  
+          Je bent geïnteresseerd om  met behulp van crowdfunding  projecten te realiseren maar je weet niet of het iets voor je is.<p>
         </article>
+        <placetobe-button
+          label="5 vragen aan ondernemers"
+          url="#/ondernemen/test"
+        ></placetobe-button>
       </div>
 
       <div id="call-to-investor">
         <h4>Investeren?</h4>
         <article>
-          Je bent geïnteresseerd om  te investeren in vastgoed via  crowdfunding maar je weet niet  of het iets voor je is. 
+          Je bent geïnteresseerd om  te investeren in vastgoed via  crowdfunding maar je weet niet  of het iets voor je is.<p>
         </article>
+        <placetobe-button
+          label="5 vragen aan investeerders"
+          url="#/investeren/test"
+        ></placetobe-button>
       </div>
 
     </section>

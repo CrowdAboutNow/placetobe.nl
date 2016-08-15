@@ -1,0 +1,26 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../placetobe-styles/placetobe-styles.html">
+
+<dom-module id="placetobe-button">
+  <template>
+    <style>
+      :host a {
+        @apply(--placetobe-button);
+      }
+      :host a:hover {
+        @apply(--placetobe-button-hover);
+      }
+    </style>
+
+    <a href="[[url]]">[[label]]</a>
+
+  </template>
+
+  <script>
+    Polymer({
+
+      is: 'placetobe-button'
+
+    });
+  </script>
+</dom-module>

@@ -62,6 +62,7 @@
         text-align: left;
         @apply(--placetobe-two-column-item);
         position: relative;
+        z-index: 1;
       }
 
       :host > section article span {
@@ -74,6 +75,7 @@
         color: transparent;
         display: block;
         transform: translateY(50px);
+        pointer-events: none;
       }
 
       :host > section div {
@@ -102,11 +104,33 @@
 
       <article>
         
-        <span hidden$="[[!homePageActive]]">Iedereen heeft een plek nodig. Een plek om te wonen, te werken, te sporten, te ondernemen, te eten, te relaxen… een plek om te zijn.</span>
+        <span hidden$="[[!homePageActive]]">Iedereen heeft een plek nodig. Een plek om te wonen, te werken, te sporten, te ondernemen, te eten, te relaxen… een plek om te zijn.<p>
+        <placetobe-button
+          label="Direct een project starten"
+          url="#/ondernemen"
+        ></placetobe-button>
+        <placetobe-button
+          label="Hoe werkt investeren?"
+          url="#/ondernemen"
+        ></placetobe-button>
+        </p>
+        </span>
 
-        <span hidden$="[[!investPageActive]]">Je bent geïnteresseerd om met behulp van crowdfunding  projecten te realiseren maar je weet niet of het iets voor je is. Doe hier de test en vind het uit.</span>
+        <span hidden$="[[!investPageActive]]">Je bent geïnteresseerd om met behulp van crowdfunding  projecten te realiseren maar je weet niet of het iets voor je is.<p>
+          <placetobe-button
+            label="Doe de test!"
+            url="#/investeren/test"
+          ></placetobe-button>
+        </p>
+        </span>
 
-        <span hidden$="[[!entrepreneurPageActive]]">Je bent geïnteresseerd om te investeren in vastgoed via crowdfunding maar je weet niet of het iets voor je is. Doe hier de test en vind het uit.</span>
+        <span hidden$="[[!entrepreneurPageActive]]">Je bent geïnteresseerd om te investeren in vastgoed via crowdfunding maar je weet niet of het iets voor je is..<p>
+          <placetobe-button
+            label="Doe de test!"
+            url="#/ondernemen/test"
+          ></placetobe-button>
+        </p>
+        </span>
 
       </article>
 
