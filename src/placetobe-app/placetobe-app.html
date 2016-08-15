@@ -10,20 +10,54 @@
     <style>
       :host {
         display: block;
-        margin: 0;
+        margin: 0 0 36px 0;
+      }
+
+      :host placetobe-hero {
+        margin-bottom: 36px;
       }
 
       :host #why {
-        margin: 0 auto;
+        margin: 72px auto;
         max-width: var(--placetobe-two-column-width);
+        max-height: 9999px;
+        overflow: hidden;
       }
 
       :host #why h2 {
         @apply(--placetobe-heading3-bold);
+        margin-bottom: 54px;
       }
 
       :host #why article {
         @apply(--placetobe-body);
+      }
+
+      :host #calls {
+        @apply(--placetobe-two-column-layout);
+      }
+
+      :host #calls > div {
+        @apply(--placetobe-two-column-item);
+        text-align: center;
+        padding: 36px;
+        box-sizing: border-box;
+      }
+
+      :host #calls > div h4 {
+        @apply(--placetobe-heading3-bold);  
+      }
+
+      :host #calls > div article {
+        @apply(--placetobe-body);  
+      }
+
+      :host #call-to-entrepreneur {
+        background-color: var(--placetobe-blue);
+      }
+
+      :host #call-to-investor {
+        background-color: var(--placetobe-green);
       }
     </style>
 
@@ -69,11 +103,32 @@
       id="why"
       hidden$="[[!homePageActive]]"
       >
-      <h2>Een eerlijkere vastgoedmarkt</h2>
+      <h2>Een eerlijke vastgoedmarkt</h2>
       <article>Wij vinden dat de vastgoedmarkt anders kan. Makkelijker, eerlijker, en vooral: beter voor elkaar. Waarom zou alleen een bank iets te vinden hebben over hoe we wonen, werken, leven? Dat kunnen we toch beter samen beslissen?<p>
       Met Placetobe brengen we ontwikkelaars, investeerders en gebruikers bij elkaar en zorgen we voor een win-win-win voor iedereen.
       </p>
       </article>
+    </section>
+
+    <section
+      id="calls"
+      hidden$="[[!homePageActive]]"
+      >
+      
+      <div id="call-to-entrepreneur">
+        <h4>Project starten?</h4>
+        <article>
+          Je bent geïnteresseerd om  met behulp van crowdfunding  projecten te realiseren maar je weet niet of het iets voor je is.  
+        </article>
+      </div>
+
+      <div id="call-to-investor">
+        <h4>Investeren?</h4>
+        <article>
+          Je bent geïnteresseerd om  te investeren in vastgoed via  crowdfunding maar je weet niet  of het iets voor je is. 
+        </article>
+      </div>
+
     </section>
 
   </template>
