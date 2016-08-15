@@ -1,0 +1,159 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../placetobe-styles/placetobe-styles.html">
+<link rel="import" href="../placetobe-illustrations/man-holding-key-illustration.html">
+<link rel="import" href="../placetobe-illustrations/man-thinking-illustration.html">
+<link rel="import" href="../placetobe-illustrations/man-reading-illustration.html">
+
+<dom-module id="placetobe-hero">
+  <template>
+    <style>
+      :host {
+        display: block;
+        width: 100%;
+        height: 753px;
+        display: flex;
+        transition: 0.5s background-color;
+        position: relative;
+        overflow: hidden;
+      }
+
+      :host:after {
+        position: absolute;
+        background-image: linear-gradient(-180deg, rgba(0,0,0,0.00) 0%, #000000 100%);
+        content: "";
+        top: -100px;
+        left: -200px;
+        right: -200px;
+        bottom: 200px;
+        opacity: 0.3;
+        transform: rotate(-4deg);
+        z-index: 0;
+        transition: 0.5s transform;
+      }
+
+      :host[invest-page-active]:after {
+        transform: rotate(2deg);
+      }
+
+      :host[entrepreneur-page-active]:after {
+        transform: rotate(-2deg);
+      }
+
+      :host[home-page-active] {
+        background-color: var(--placetobe-red);        
+      }
+
+      :host[invest-page-active] {
+        background-color: var(--placetobe-green);        
+      }
+
+      :host[entrepreneur-page-active] {
+        background-color: var(--placetobe-blue);        
+      }
+
+      :host > section {
+        flex: 1;
+        display: flex;
+        @apply(--placetobe-two-column-layout);
+      }
+
+      :host > section article {
+        margin-top: 272px;
+        text-align: left;
+        @apply(--placetobe-heading3);
+        @apply(--placetobe-two-column-item);
+        position: relative;
+      }
+
+      :host > section article span {
+        position: absolute;
+        transition: 0.5s all;
+      }
+
+      :host > section article span[hidden] {
+        opacity: 0;
+        color: transparent;
+        display: block;
+        transform: translateY(50px);
+      }
+
+      :host > section div {
+        @apply(--placetobe-two-column-item);
+        display: flex;
+        position: relative;
+        height: 100%;
+      }
+
+      :host .illustration {
+        z-index: 1;
+        position: relative;
+        position: absolute;
+        width: 100%;
+        bottom: -4px;
+        transition: 0.5s all;
+      }
+
+      :host .illustration[hidden] {
+        opacity: 0;
+        transform: translateY(100px) translateX(50px);
+      }
+    </style>
+
+    <section>
+
+      <article>
+        
+        <span hidden$="[[!homePageActive]]">Iedereen heeft een plek nodig. Een plek om te wonen, te werken, te sporten, te ondernemen, te eten, te relaxen… een plek om te zijn.</span>
+
+        <span hidden$="[[!investPageActive]]">Je bent geïnteresseerd om met behulp van crowdfunding  projecten te realiseren maar je weet niet of het iets voor je is. Doe hier de test en vind het uit.</span>
+
+        <span hidden$="[[!entrepreneurPageActive]]">Je bent geïnteresseerd om te investeren in vastgoed via crowdfunding maar je weet niet of het iets voor je is. Doe hier de test en vind het uit.</span>
+
+      </article>
+
+      <div>
+
+        <man-holding-key-illustration
+        hidden$="[[!homePageActive]]"
+        class="illustration"
+        ></man-holding-key-illustration>
+
+        <man-thinking-illustration
+        hidden$="[[!investPageActive]]"
+        class="illustration"
+        ></man-thinking-illustration>
+
+        <man-reading-illustration
+        hidden$="[[!entrepreneurPageActive]]"
+        class="illustration"
+        ></man-reading-illustration>
+
+      </div>
+
+    </section>
+
+  </template>
+
+  <script>
+    Polymer({
+
+      is: 'placetobe-hero',
+
+      properties: {
+        homePageActive: {
+          type: Boolean,
+          reflectToAttribute: true
+        },
+        investPageActive: {
+          type: Boolean,
+          reflectToAttribute: true
+        },
+        entrepreneurPageActive: {
+          type: Boolean,
+          reflectToAttribute: true
+        }
+      },
+
+    });
+  </script>
+</dom-module>

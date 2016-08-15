@@ -1,13 +1,56 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/app-route/app-location.html">
+<link rel="import" href="../../bower_components/app-route/app-route.html">
+<link rel="import" href="../placetobe-header/placetobe-header.html">
+<link rel="import" href="../placetobe-hero/placetobe-hero.html">
 
 <dom-module id="placetobe-app">
   <template>
     <style>
       :host {
         display: block;
+        margin: 0;
       }
     </style>
-    <h2>Hello [[prop1]]</h2>
+
+    <app-location
+      route="{{route}}"
+      use-hash-as-path
+    ></app-location>
+
+    <app-route
+      route="{{route}}"
+      pattern="/"
+      data="{{routeData}}"
+      active="{{homePageActive}}"
+    ></app-route>
+
+    <app-route
+      route="{{route}}"
+      pattern="/investeren"
+      data="{{routeData}}"
+      active="{{investPageActive}}"
+    ></app-route>
+
+    <app-route
+      route="{{route}}"
+      pattern="/ondernemen"
+      data="{{routeData}}"
+      active="{{entrepreneurPageActive}}"
+    ></app-route>
+
+    <placetobe-header
+      home-page-active="[[homePageActive]]"
+      invest-page-active="[[investPageActive]]"
+      entrepreneur-page-active="[[entrepreneurPageActive]]"
+    ></placetobe-header>
+
+    <placetobe-hero
+      home-page-active="[[homePageActive]]"
+      invest-page-active="[[investPageActive]]"
+      entrepreneur-page-active="[[entrepreneurPageActive]]"
+    ></placetobe-hero>
+
   </template>
 
   <script>
@@ -16,10 +59,15 @@
       is: 'placetobe-app',
 
       properties: {
-        prop1: {
-          type: String,
-          value: 'placetobe-app',
+        route: {
+          type: Object
         },
+        routeData: {
+          type: Object
+        },
+        homePageActive: Boolean,
+        investPageActive: Boolean,
+        entrepreneurPageActive: Boolean
       },
 
     });

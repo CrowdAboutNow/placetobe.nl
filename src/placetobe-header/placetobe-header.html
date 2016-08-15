@@ -1,0 +1,125 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../placetobe-styles/placetobe-styles.html">
+<link rel="import" href="../placetobe-logo/placetobe-logo.html">
+
+<dom-module id="placetobe-header">
+  <template>
+    <style>
+      :host {
+        position: fixed;
+        width: 100%;
+        height: 112px;
+        box-shadow: 0 2px 4px rgba(0,0,0,.0);
+        z-index: 2;
+        display: flex;
+        transition: 0.5s all;
+      }
+
+      :host[scrolled] {
+        background-color: white;      	
+        box-shadow: 0 2px 4px rgba(0,0,0,.50);
+      }
+
+      :host header {
+      	@apply(--placetobe-two-column-layout);
+      	align-items: center;
+      	flex: 1;
+      	display: flex;
+      }
+
+      :host #menu {
+        display: flex;
+      }
+
+      :host #menu a {
+      	flex: 1;
+      	width: auto;
+      	@apply(--placetobe-heading5);
+      	margin-left: 18px;
+      	color: var(--placetobe-darkblue);
+      	text-decoration: none;
+        transition: 0.25s color;
+      }
+
+      :host #menu a:hover:not([data-active]) {
+        opacity: 0.5;
+      }
+
+      :host #menu a[data-active] {
+        color: rgba(255, 255, 255, 1);
+      }
+
+      :host[scrolled] #menu a[data-active] {
+        color: var(--placetobe-red)
+      }
+
+      :host a {
+        @apply(--placetobe-two-column-item);
+      }
+
+      :host a placetobe-logo {
+      	max-width: 221px;
+      	max-height: 47px;
+      }
+
+    </style>
+
+    <header>
+    	<a href="#/"><placetobe-logo></placetobe-logo></a>
+    	<nav id="menu">
+		    <a href="#/ondernemen" data-active$="[[entrepreneurPageActive]]">Ondernemen</a>
+		    <a href="#/investeren" data-active$="[[investPageActive]]">Investeren</a>
+    	</nav>
+    </header>
+
+  </template>
+
+  <script>
+    Polymer({
+
+      is: 'placetobe-header',
+
+      properties: {
+        homePageActive: {
+          type: Boolean,
+          reflectToAttribute: true
+        },
+        investPageActive: {
+          type: Boolean,
+          reflectToAttribute: true
+        },
+        entrepreneurPageActive: {
+          type: Boolean,
+          reflectToAttribute: true
+        },
+        scrolled: {
+        	type: Boolean,
+        	value: false
+        },
+        scrollY: {
+        	type: String,
+        	value: 0,
+        	readOnly: true
+        },
+        scrolled: {
+        	type: Boolean,
+        	computed: "_computeScrolled(scrollY)",
+        	reflectToAttribute: true
+        }
+      },
+
+      ready: function() {
+        window.addEventListener('scroll', this._handleScroll.bind(this));
+      },
+
+      _handleScroll: function() {
+      	this._setScrollY(window.scrollY)
+      },
+
+      _computeScrolled: function(scrollY) {
+      	return (scrollY > 112)
+      }
+
+    });
+  </script>
+</dom-module>
