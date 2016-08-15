@@ -3,6 +3,7 @@
 <link rel="import" href="../../bower_components/app-route/app-route.html">
 <link rel="import" href="../placetobe-header/placetobe-header.html">
 <link rel="import" href="../placetobe-hero/placetobe-hero.html">
+<link rel="import" href="../placetobe-styles/placetobe-styles.html">
 
 <dom-module id="placetobe-app">
   <template>
@@ -10,6 +11,19 @@
       :host {
         display: block;
         margin: 0;
+      }
+
+      :host #why {
+        margin: 0 auto;
+        max-width: var(--placetobe-two-column-width);
+      }
+
+      :host #why h2 {
+        @apply(--placetobe-heading3-bold);
+      }
+
+      :host #why article {
+        @apply(--placetobe-body);
       }
     </style>
 
@@ -50,6 +64,17 @@
       invest-page-active="[[investPageActive]]"
       entrepreneur-page-active="[[entrepreneurPageActive]]"
     ></placetobe-hero>
+
+    <section
+      id="why"
+      hidden$="[[!homePageActive]]"
+      >
+      <h2>Een eerlijkere vastgoedmarkt</h2>
+      <article>Wij vinden dat de vastgoedmarkt anders kan. Makkelijker, eerlijker, en vooral: beter voor elkaar. Waarom zou alleen een bank iets te vinden hebben over hoe we wonen, werken, leven? Dat kunnen we toch beter samen beslissen?<p>
+      Met Placetobe brengen we ontwikkelaars, investeerders en gebruikers bij elkaar en zorgen we voor een win-win-win voor iedereen.
+      </p>
+      </article>
+    </section>
 
   </template>
 
