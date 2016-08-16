@@ -5,7 +5,7 @@
 <style is="custom-style">
   :root {
     
-    --placetobe-button: {
+    --placetobe-button-base: {
       box-sizing: border-box;
       height: 60px;
       padding: 20px 12px;
@@ -13,11 +13,20 @@
       display: inline-block;
       color: var(--placetobe-darkblue);
       @apply(--placetobe-heading5);
-      background-color: white;
       cursor: pointer;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    --placetobe-button: {
+      @apply(--placetobe-button-base);
+      background-color: white;
       border-radius: 5px;
       box-shadow: 0 2px 4px rgba(0,0,0,.50);
-      text-decoration: none;
+    }
+
+    --placetobe-flat-button: {
+      @apply(--placetobe-button-base);      
     }
 
     --placetobe-button-hover: {
