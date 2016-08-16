@@ -6,6 +6,7 @@
 <link rel="import" href="../placetobe-styles/placetobe-styles.html">
 <link rel="import" href="../placetobe-button/placetobe-button.html">
 <link rel="import" href="../placetobe-pricing/placetobe-pricing.html">
+<link rel="import" href="../placetobe-action-block/placetobe-action-block.html">
 
 <dom-module id="placetobe-app">
   <template>
@@ -28,7 +29,7 @@
 
       :host .intro h2 {
         @apply(--placetobe-heading3-bold);
-        margin-bottom: 54px;
+        margin-bottom: 36px;
       }
 
       :host .intro article {
@@ -39,23 +40,12 @@
         @apply(--placetobe-two-column-layout);
       }
 
+      :host #calls > * {
+        @apply(--placetobe-two-column-item);
+      }
+
       :host placetobe-pricing[hidden] {
         display: none;
-      }
-
-      :host #calls > div {
-        @apply(--placetobe-two-column-item);
-        text-align: center;
-        padding: 36px;
-        box-sizing: border-box;
-      }
-
-      :host #calls > div h4 {
-        @apply(--placetobe-heading3-bold);  
-      }
-
-      :host #calls > div article {
-        @apply(--placetobe-body);  
       }
 
       :host #call-to-entrepreneur {
@@ -111,7 +101,10 @@
       hidden$="[[!homePageActive]]"
       >
       <h2>Een eerlijke vastgoedmarkt</h2>
-      <article>Wij vinden dat de vastgoedmarkt anders kan. Makkelijker, eerlijker, en vooral: beter voor elkaar. Waarom zou alleen een bank iets te vinden hebben over hoe we wonen, werken, leven? Dat kunnen we toch beter samen beslissen?<p>
+      <article>
+      Iedereen heeft een plek nodig. Een plek om te wonen, te werken, te sporten, te ondernemen, te eten, te relaxen… een plek om te zijn.
+      <p>
+      Wij vinden dat de vastgoedmarkt anders kan. Makkelijker, eerlijker, en vooral: beter voor elkaar. Waarom zou alleen een bank iets te vinden hebben over hoe we wonen, werken, leven? Dat kunnen we toch beter samen beslissen?<p>
       Met Placetobe brengen we ontwikkelaars, investeerders en gebruikers bij elkaar en zorgen we voor een win-win-win voor iedereen.
       </p>
       </article>
@@ -122,39 +115,56 @@
       class="intro"
       hidden$="[[!entrepreneurPageActive]]"
       >
-      <h2>Gebouwen ❤️ mensen</h2>
-      <article>Wij vinden dat de vastgoedmarkt anders kan. Makkelijker, eerlijker, en vooral: beter voor elkaar. Waarom zou alleen een bank iets te vinden hebben over hoe we wonen, werken, leven? Dat kunnen we toch beter samen beslissen?<p>
-      Met Placetobe brengen we ontwikkelaars, investeerders en gebruikers bij elkaar en zorgen we voor een win-win-win voor iedereen.
+      <h2>Vastgoed crowdfunden met placetobe</h2>
+      <article>Hier pitchen in een paar zinnen onze propositie naar ondernemers/projectontwikkelaars.<p>Eerst signaleren we het probleem: het is lastig om  kleine vastgoedprojecten te financieren mbv banken. Daarnaast is er vaak onvoldoende betrokkenheid van gebruikers bij ontwikkeling van vastgoed, wat de slagingskans niet ten goede komt.
+      <p>
+      Vervolgens vertellen we waarom wij het antwoord daarop zijn: crowdfunding in het algemeen om een grotere groep mensen betrokken te maken, en wij in het bijzonder door onze kennis van de markt en de gebruiksvriendelijkheid en veiligheid van de webapplicatie.
+      <p>
+      Dit alles moet korter dan de tekst die hier nu staat. 
       </p>
       </article>
     </section>
 
     <section
+      id="intro-investors" 
+      class="intro"
+      hidden$="[[!investPageActive]]"
+      >
+      <h2>Investeren in vastgoed met placetobe</h2>
+      <article>In een aantal zinnen pitchen we waarom investeren via placetobe een goed idee is. We doen eerst een beroep op het besef dat samen vastgoed realiseren een goed idee is. Daarnaast moet ook duidelijk zijn dat hier op een veilige en gebruiksvriendelijke manier rendement kan worden gemaakt op investeringen.<p>Zowel de hardcore investeerder als de toekomstige gebruiker met een kleinere portemonnee moet zich aangesproken voelen.
+      </p>
+      </article>
+    </section>
+
+    <placetobe-action-block
+      title="Heb jij een placetobe?"
+      action-label="doe de quickscan"
+      action-url="#/ondernemen/test"
+      target="entrepreneurs"
+      hidden$="[[!entrepreneurPageActive]]"
+    >Aan de hand van 5 vragen kijken we of wij passen bij jouw project. Supersnel en makkelijk.
+    </placetobe-action-block>
+
+    <section
       id="calls"
       hidden$="[[!homePageActive]]"
       >
-      
-      <div id="call-to-entrepreneur">
-        <h4>Project starten?</h4>
-        <article>
-          Je bent geïnteresseerd om  met behulp van crowdfunding  projecten te realiseren maar je weet niet of het iets voor je is.<p>
-        </article>
-        <placetobe-button
-          label="5 vragen aan ondernemers"
-          url="#/ondernemen/test"
-        ></placetobe-button>
-      </div>
 
-      <div id="call-to-investor">
-        <h4>Investeren?</h4>
-        <article>
-          Je bent geïnteresseerd om  te investeren in vastgoed via  crowdfunding maar je weet niet  of het iets voor je is.<p>
-        </article>
-        <placetobe-button
-          label="5 vragen aan investeerders"
-          url="#/investeren/test"
-        ></placetobe-button>
-      </div>
+      <placetobe-action-block
+        title="Project starten?"
+        action-label="5 vragen aan ondernemers"
+        action-url="#/ondernemen/test"
+        target="entrepreneurs"
+      >Je bent geïnteresseerd om  met behulp van crowdfunding  projecten te realiseren maar je weet niet of het iets voor je is.
+      </placetobe-action-block>
+
+      <placetobe-action-block
+        title="Investeren in een project?"
+        action-label="5 vragen aan ondernemers"
+        action-url="#/investeren/test"
+        target="investors"
+      >Je bent geïnteresseerd om  te investeren in vastgoed via  crowdfunding maar je weet niet  of het iets voor je is.
+      </placetobe-action-block>
 
     </section>
 

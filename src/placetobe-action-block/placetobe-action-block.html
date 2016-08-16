@@ -1,0 +1,62 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../placetobe-styles/placetobe-styles.html">
+<link rel="import" href="../placetobe-button/placetobe-button.html">
+
+<dom-module id="placetobe-action-block">
+
+  <template>
+    <style>
+      :host div {
+        text-align: center;
+        padding: 36px;
+        box-sizing: border-box;
+      }
+
+      :host[target="entrepreneurs"] div {
+        background-color: var(--placetobe-blue);
+      }
+
+      :host[target="investors"] div {
+        background-color: var(--placetobe-green);
+      }
+
+      :host div h4 {
+        @apply(--placetobe-heading3-bold);  
+      }
+
+      :host div article {
+        @apply(--placetobe-body);
+        text-align: center;
+        max-width: var(--placetobe-two-column-width);
+        margin: 0 auto;
+      }
+    </style>
+
+    <div>
+      <h4>[[title]]</h4>
+      <article>
+        <content></content><p>
+      </article>
+      <placetobe-button
+        label="[[actionLabel]]"
+        url="[[actionUrl]]"
+      ></placetobe-button>
+    </div>
+
+  </template>
+
+  <script>
+    Polymer({
+      is: 'placetobe-action-block',
+      properties: {
+        title: String,
+        actionLabel: String,
+        actionUrl: String,
+        target: {
+          type: String,
+          reflectToAttribute: true
+        }
+      }
+    });
+  </script>
+</dom-module>
