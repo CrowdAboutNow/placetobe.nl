@@ -13,11 +13,11 @@
     <style>
       :host {
         display: block;
-        margin: 0 0 36px 0;
+        margin: 0;
       }
 
       :host placetobe-hero {
-        margin-bottom: 36px;
+        margin-bottom: 0;
       }
 
       :host .intro {
@@ -81,6 +81,14 @@
       pattern="/ondernemen"
       data="{{routeData}}"
       active="{{entrepreneurPageActive}}"
+      tail="{{entrepreneurSubroute}}"
+    ></app-route>
+
+    <app-route
+      route="{{entrepreneurSubroute}}"
+      pattern="/test"
+      data="{{entrepreneurSubrouteData}}"
+      active="{{entrepreneurTestPageActive}}"
     ></app-route>
 
     <placetobe-header
@@ -93,6 +101,7 @@
       home-page-active="[[homePageActive]]"
       invest-page-active="[[investPageActive]]"
       entrepreneur-page-active="[[entrepreneurPageActive]]"
+      entrepreneur-test-page-active="[[entrepreneurTestPageActive]]"
     ></placetobe-hero>
 
     <section
@@ -111,21 +120,6 @@
     </section>
 
     <section
-      id="intro-entepreneurs" 
-      class="intro"
-      hidden$="[[!entrepreneurPageActive]]"
-      >
-      <h2>Vastgoed crowdfunden met placetobe</h2>
-      <article>Hier pitchen in een paar zinnen onze propositie naar ondernemers/projectontwikkelaars.<p>Eerst signaleren we het probleem: het is lastig om  kleine vastgoedprojecten te financieren mbv banken. Daarnaast is er vaak onvoldoende betrokkenheid van gebruikers bij ontwikkeling van vastgoed, wat de slagingskans niet ten goede komt.
-      <p>
-      Vervolgens vertellen we waarom wij het antwoord daarop zijn: crowdfunding in het algemeen om een grotere groep mensen betrokken te maken, en wij in het bijzonder door onze kennis van de markt en de gebruiksvriendelijkheid en veiligheid van de webapplicatie.
-      <p>
-      Dit alles moet korter dan de tekst die hier nu staat. 
-      </p>
-      </article>
-    </section>
-
-    <section
       id="intro-investors" 
       class="intro"
       hidden$="[[!investPageActive]]"
@@ -136,41 +130,61 @@
       </article>
     </section>
 
-    <placetobe-action-block
-      title="Heb jij een placetobe?"
-      action-label="doe de quickscan"
-      action-url="#/ondernemen/test"
-      target="entrepreneurs"
-      hidden$="[[!entrepreneurPageActive]]"
-    >Aan de hand van 5 vragen kijken we of wij passen bij jouw project. Supersnel en makkelijk.
-    </placetobe-action-block>
+    <template is="dom-if" if="[[!entrepreneurTestPageActive]]">
 
-    <section
-      id="calls"
-      hidden$="[[!homePageActive]]"
-      >
+      <section
+        id="intro-entepreneurs" 
+        class="intro"
+        hidden$="[[!entrepreneurPageActive]]"
+        >
+        <h2>Vastgoed crowdfunden met placetobe</h2>
+        <article>Hier pitchen in een paar zinnen onze propositie naar ondernemers/projectontwikkelaars.<p>Eerst signaleren we het probleem: het is lastig om  kleine vastgoedprojecten te financieren mbv banken. Daarnaast is er vaak onvoldoende betrokkenheid van gebruikers bij ontwikkeling van vastgoed, wat de slagingskans niet ten goede komt.
+        <p>
+        Vervolgens vertellen we waarom wij het antwoord daarop zijn: crowdfunding in het algemeen om een grotere groep mensen betrokken te maken, en wij in het bijzonder door onze kennis van de markt en de gebruiksvriendelijkheid en veiligheid van de webapplicatie.
+        <p>
+        Dit alles moet korter dan de tekst die hier nu staat. 
+        </p>
+        </article>
+      </section>
 
       <placetobe-action-block
-        title="Project starten?"
-        action-label="5 vragen aan ondernemers"
+        title="Heb jij een placetobe?"
+        action-label="doe de quickscan"
         action-url="#/ondernemen/test"
         target="entrepreneurs"
-      >Je bent geïnteresseerd om  met behulp van crowdfunding  projecten te realiseren maar je weet niet of het iets voor je is.
+        hidden$="[[!entrepreneurPageActive]]"
+      >Aan de hand van 5 vragen kijken we of wij passen bij jouw project. Supersnel en makkelijk.
       </placetobe-action-block>
 
-      <placetobe-action-block
-        title="Investeren in een project?"
-        action-label="5 vragen aan ondernemers"
-        action-url="#/investeren/test"
-        target="investors"
-      >Je bent geïnteresseerd om  te investeren in vastgoed via  crowdfunding maar je weet niet  of het iets voor je is.
-      </placetobe-action-block>
+      <section
+        id="calls"
+        hidden$="[[!homePageActive]]"
+        >
 
-    </section>
+        <placetobe-action-block
+          title="Project starten?"
+          action-label="5 vragen aan ondernemers"
+          action-url="#/ondernemen/test"
+          target="entrepreneurs"
+        >Je bent geïnteresseerd om  met behulp van crowdfunding  projecten te realiseren maar je weet niet of het iets voor je is.
+        </placetobe-action-block>
 
-    <placetobe-pricing
-      hidden$="[[!entrepreneurPageActive]]"
-    ></placetobe-pricing>
+        <placetobe-action-block
+          title="Investeren in een project?"
+          action-label="5 vragen aan ondernemers"
+          action-url="#/investeren/test"
+          target="investors"
+        >Je bent geïnteresseerd om  te investeren in vastgoed via  crowdfunding maar je weet niet  of het iets voor je is.
+        </placetobe-action-block>
+
+      </section>
+
+      <placetobe-pricing
+        hidden$="[[!entrepreneurPageActive]]"
+      ></placetobe-pricing>
+
+    </template>
+
 
   </template>
 
@@ -186,9 +200,16 @@
         routeData: {
           type: Object
         },
+        entrepreneurSubroute: {
+          type: Object
+        },
+        entrepreneurSubrouteData: {
+          type: Object
+        },
         homePageActive: Boolean,
         investPageActive: Boolean,
-        entrepreneurPageActive: Boolean
+        entrepreneurPageActive: Boolean,
+        entrepreneurTestPageActive: Boolean
       },
 
     });

@@ -3,6 +3,7 @@
 <link rel="import" href="../placetobe-illustrations/man-holding-key-illustration.html">
 <link rel="import" href="../placetobe-illustrations/man-thinking-illustration.html">
 <link rel="import" href="../placetobe-illustrations/man-reading-illustration.html">
+<link rel="import" href="../placetobe-quickscan/placetobe-quickscan.html">
 
 <dom-module id="placetobe-hero">
   <template>
@@ -12,7 +13,7 @@
         width: 100%;
         height: 753px;
         display: flex;
-        transition: 0.5s background-color;
+        transition: 0.5s all;
         position: relative;
         overflow: hidden;
       }
@@ -29,6 +30,10 @@
         transform: rotate(-4deg);
         z-index: 0;
         transition: 0.5s transform;
+      }
+
+      :host[entrepreneur-test-page-active] {
+        height:100vh;
       }
 
       :host[invest-page-active]:after {
@@ -65,12 +70,12 @@
         z-index: 1;
       }
 
-      :host > section article span {
+      :host > section article .intro-text {
         position: absolute;
         transition: 0.5s all;
       }
 
-      :host > section article span[hidden] {
+      :host > section article .intro-text[hidden] {
         opacity: 0;
         color: transparent;
         display: block;
@@ -104,7 +109,9 @@
 
       <article>
         
-        <span hidden$="[[!homePageActive]]">Dé plek voor het crowdfunden en investeren in vastgoed.<p>
+        <span
+          class="intro-text"
+          hidden$="[[!homePageActive]]">Dé plek voor het crowdfunden en investeren in vastgoed.<p>
         <placetobe-button
           label="Start een project"
           url="#/ondernemen"
@@ -116,15 +123,27 @@
         </p>
         </span>
 
-        <span hidden$="[[!entrepreneurPageActive]]">Gebouwen houden van mensen. Wij helpen je de juiste mensen te bereiken: investeerders én gebruikers.<p>
-          <placetobe-button
-            label="Direct je project starten"
-            url="#/ondernemen/test"
-          ></placetobe-button>
-        </p>
+        <span
+          class="intro-text"
+          hidden$="[[!entrepreneurPageActive]]">
+          <span hidden$="[[entrepreneurTestPageActive]]">
+          Gebouwen houden van mensen. Wij helpen je de juiste mensen te bereiken: investeerders én gebruikers.<p>
+            <placetobe-button
+              label="Direct je project starten"
+              url="#/ondernemen/test"
+            ></placetobe-button>
+          </p>
+          </span>
         </span>
 
-        <span hidden$="[[!investPageActive]]">De betrouwbaarste vorm van beleggen. Gebruiksvriendelijk. Veilig. Samen.<p>
+        <placetobe-quickscan
+          hidden$="[[!entrepreneurTestPageActive]]"
+          target="entrepreneurs"
+        ></placetobe-quickscan>
+
+        <span
+          class="intro-text"
+          hidden$="[[!investPageActive]]">De betrouwbaarste vorm van beleggen. Gebruiksvriendelijk. Veilig. Samen.<p>
           <placetobe-button
             label="Test hier of dit iets voor jou is"
             url="#/investeren/test"
@@ -172,6 +191,10 @@
           reflectToAttribute: true
         },
         entrepreneurPageActive: {
+          type: Boolean,
+          reflectToAttribute: true
+        },
+        entrepreneurTestPageActive: {
           type: Boolean,
           reflectToAttribute: true
         }

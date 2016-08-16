@@ -10,6 +10,16 @@
       :host a:hover {
         @apply(--placetobe-button-hover);
       }
+      :host[disabled] {
+        pointer-events: none;
+      }
+      :host[hidden] {
+        display: none;
+      }
+      :host[disabled] a {
+        pointer-events: none;
+        opacity: 0.5;
+      }
     </style>
 
     <a href="[[url]]">[[label]]</a>
@@ -19,7 +29,14 @@
   <script>
     Polymer({
 
-      is: 'placetobe-button'
+      is: 'placetobe-button',
+      properties: {
+        disabled: {
+          type: Boolean,
+          value: false,
+          reflectToAttribute: true
+        }
+      }
 
     });
   </script>
