@@ -136,10 +136,13 @@
           </span>
         </span>
 
-        <placetobe-quickscan
-          hidden$="[[!entrepreneurTestPageActive]]"
-          target="entrepreneurs"
-        ></placetobe-quickscan>
+        <span
+          hidden$="[[!entrepreneurPageActive]]">
+          <placetobe-quickscan
+            hidden$="[[!entrepreneurTestPageActive]]"
+            target="entrepreneurs"
+          ></placetobe-quickscan>
+        </span>
 
         <span
           class="intro-text"
@@ -196,6 +199,7 @@
         },
         entrepreneurTestPageActive: {
           type: Boolean,
+          value: false,
           reflectToAttribute: true
         }
       },

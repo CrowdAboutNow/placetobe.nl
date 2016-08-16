@@ -12,149 +12,149 @@
       }
 
       :host h3 {
-      	@apply(--placetobe-heading3);
-      	margin-bottom: 36px;
+        @apply(--placetobe-heading3);
+        margin-bottom: 36px;
       }
 
       :host h6  {
-      	@apply(--placetobe-body);
-      	margin-bottom: 9px;
+        @apply(--placetobe-body);
+        margin-bottom: 9px;
       }
 
       :host iron-selector {
-      	list-style: none;
-      	padding: 0;
-      	margin-bottom: 36px;
-      	display: block;
+        list-style: none;
+        padding: 0;
+        margin-bottom: 36px;
+        display: block;
       }
 
       :host iron-selector button {
-      	@apply(--placetobe-body);
-      	margin-bottom: 12px;
-      	padding-left: 54px;
-      	position: relative;
-      	background-color: transparent;
-      	display: block;
-      	border:0;
-      	outline: none;
-      	cursor: pointer;
+        @apply(--placetobe-body);
+        margin-bottom: 12px;
+        padding-left: 54px;
+        position: relative;
+        background-color: transparent;
+        display: block;
+        border:0;
+        outline: none;
+        cursor: pointer;
       }
 
       :host iron-selector button:before {
-      	position: absolute;
-      	width: 24px;
-      	height: 24px;
-      	border-radius: 50%;
-      	top: 9px;
-      	left: 0;
-      	background-color: white;
-      	content: "";
+        position: absolute;
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        top: 9px;
+        left: 0;
+        background-color: white;
+        content: "";
       }
 
       :host iron-selector button:hover:before {
-      	background-color: #ddd;
+        background-color: #ddd;
       }
 
       :host iron-selector button.iron-selected:before {
-      	background-color: black;
+        background-color: black;
       }
     </style>
 
     <h6>[[currentStep]] van [[numberOfQuestions]]</h6>
     
     <span hidden="[[!_atIndex(0, currentIndex)]]">
-    	<h3>Wat voor financiering zoek je?</h3>
-	    <iron-selector selected="{{answers.0}}" attr-for-selected="value">
-	    	<button value="#0">Eigen vermogen</button>
-	    	<button value="#1">Vreemd vermogen</button>
-	    	<button value="#2">Voorverkoop</button>
-	    	<button value="#3">Donaties</button>
-	    	<button value="#4">Weet ik niet</button>
-	    </iron-selector>
+        <h3>Wat voor financiering zoek je?</h3>
+        <iron-selector selected="{{answers.0}}" attr-for-selected="value">
+            <button value="#0">Eigen vermogen</button>
+            <button value="#1">Vreemd vermogen</button>
+            <button value="#2">Voorverkoop</button>
+            <button value="#3">Donaties</button>
+            <button value="#4">Weet ik niet</button>
+        </iron-selector>
     </span>
 
     <span hidden="[[!_atIndex(1, currentIndex)]]">
-    	<h3>Hoe lang sta je al ingeschreven bij de KvK?</h3>
-	    <iron-selector selected="{{answers.1}}" attr-for-selected="value">
-	    	<button value="#0">De onderneming is nog niet ingeschreven</button>
-	    	<button value="#1">0-1 jaar</button>
-	    	<button value="#2">1-3 jaar</button>
-	    	<button value="#3">3-5 jaar</button>
-	    	<button value="#4">meer dan 5 jaar</button>
-	    </iron-selector>
+        <h3>Hoe lang sta je al ingeschreven bij de KvK?</h3>
+        <iron-selector selected="{{answers.1}}" attr-for-selected="value">
+            <button value="#0">De onderneming is nog niet ingeschreven</button>
+            <button value="#1">0-1 jaar</button>
+            <button value="#2">1-3 jaar</button>
+            <button value="#3">3-5 jaar</button>
+            <button value="#4">meer dan 5 jaar</button>
+        </iron-selector>
     </span>
 
     <span hidden="[[!_atIndex(2, currentIndex)]]">
-    	<h3>Wat is je voornaamste persoonlijke inkomstenbron?</h3>
-	    <iron-selector selected="{{answers.2}}" attr-for-selected="value">
-	    	<button value="#0">Kan volledig rondkomen van de onderneming</button>
-	    	<button value="#1">In loondienst</button>
-	    	<button value="#2">Student</button>
-	    	<button value="#3">Werkzoekend</button>
-	    	<button value="#4">Anders</button>
-	    </iron-selector>
+        <h3>Wat is je voornaamste persoonlijke inkomstenbron?</h3>
+        <iron-selector selected="{{answers.2}}" attr-for-selected="value">
+            <button value="#0">Kan volledig rondkomen van de onderneming</button>
+            <button value="#1">In loondienst</button>
+            <button value="#2">Student</button>
+            <button value="#3">Werkzoekend</button>
+            <button value="#4">Anders</button>
+        </iron-selector>
     </span>
 
     <span hidden="[[!_atIndex(3, currentIndex)]]">
-    	<h3>Hoeveel klanten heb je per maand?</h3>
-	    <iron-selector selected="{{answers.3}}" attr-for-selected="value">
-	    	<button value="#0">0-10</button>
-	    	<button value="#1">10-100</button>
-	    	<button value="#2">100-500</button>
-	    	<button value="#3">500-1000</button>
-	    	<button value="#4">Meer dan 1000</button>
-	    </iron-selector>
+        <h3>Hoeveel klanten heb je per maand?</h3>
+        <iron-selector selected="{{answers.3}}" attr-for-selected="value">
+            <button value="#0">0-10</button>
+            <button value="#1">10-100</button>
+            <button value="#2">100-500</button>
+            <button value="#3">500-1000</button>
+            <button value="#4">Meer dan 1000</button>
+        </iron-selector>
     </span>
 
     <span hidden="[[!_atIndex(4, currentIndex)]]">
-    	<h3>Hoe actief is je Facebook-pagina?</h3>
-	    <iron-selector selected="{{answers.4}}" attr-for-selected="value">
-	    	<button value="#0">Niet actief</button>
-	    	<button value="#1">Wel actief, 0-100 likes</button>
-	    	<button value="#2">Wel actief, 500 likes</button>
-	    	<button value="#3">Wel actief, meer dan 500 likes</button>
-	    </iron-selector>
+        <h3>Hoe actief is je Facebook-pagina?</h3>
+        <iron-selector selected="{{answers.4}}" attr-for-selected="value">
+            <button value="#0">Niet actief</button>
+            <button value="#1">Wel actief, 0-100 likes</button>
+            <button value="#2">Wel actief, 500 likes</button>
+            <button value="#3">Wel actief, meer dan 500 likes</button>
+        </iron-selector>
     </span>
 
     <placetobe-button
-    	label="vorige"
-    	on-tap="back"
-    	disabled="[[_atIndex(0, currentIndex)]]"
+        label="vorige"
+        on-tap="back"
+        disabled="[[_atIndex(0, currentIndex)]]"
     ></placetobe-button>
 
     <placetobe-button
-    	label="volgende"
-    	on-tap="forward"
-    	hidden="[[!_atIndex(0, currentIndex)]]"
-    	disabled="[[!answers.0]]"
+        label="volgende"
+        on-tap="forward"
+        hidden="[[!_atIndex(0, currentIndex)]]"
+        disabled="[[!answers.0]]"
     ></placetobe-button>
 
     <placetobe-button
-    	label="volgende"
-    	on-tap="forward"
-    	hidden="[[!_atIndex(1, currentIndex)]]"
-    	disabled="[[!answers.1]]"
+        label="volgende"
+        on-tap="forward"
+        hidden="[[!_atIndex(1, currentIndex)]]"
+        disabled="[[!answers.1]]"
     ></placetobe-button>
 
     <placetobe-button
-    	label="volgende"
-    	on-tap="forward"
-    	hidden="[[!_atIndex(2, currentIndex)]]"
-    	disabled="[[!answers.2]]"
+        label="volgende"
+        on-tap="forward"
+        hidden="[[!_atIndex(2, currentIndex)]]"
+        disabled="[[!answers.2]]"
     ></placetobe-button>
 
     <placetobe-button
-    	label="volgende"
-    	on-tap="forward"
-    	hidden="[[!_atIndex(3, currentIndex)]]"
-    	disabled="[[!answers.3]]"
+        label="volgende"
+        on-tap="forward"
+        hidden="[[!_atIndex(3, currentIndex)]]"
+        disabled="[[!answers.3]]"
     ></placetobe-button>
 
     <placetobe-button
-    	label="afronden"
-    	on-tap="bekijk resultaat"
-    	hidden="[[!_atIndex(4, currentIndex)]]"
-    	disabled="[[!answers.4]]"
+        label="bekijk resultaat"
+        on-tap="finish"
+        hidden="[[!_atIndex(4, currentIndex)]]"
+        disabled="[[!answers.4]]"
     ></placetobe-button>
 
   </template>
@@ -165,43 +165,47 @@
       is: 'placetobe-quickscan',
       
       properties: {
-      	
-      	answers: {
-      		type: Object,
-      		value: {}
-      	},
+        
+        answers: {
+            type: Object,
+            value: {}
+        },
 
-      	currentIndex: {
-      		type: Number,
-      		value: 0,
-      		readOnly: true
-      	},
+        currentIndex: {
+            type: Number,
+            value: 0,
+            readOnly: true
+        },
 
-      	numberOfQuestions: {
-      		type: Number,
-      		value: 5
-      	},
+        numberOfQuestions: {
+            type: Number,
+            value: 5
+        },
 
-      	currentStep: {
-      		type: Number,
-      		computed: "_computeStep(currentIndex)"
-      	}
+        currentStep: {
+            type: Number,
+            computed: "_computeStep(currentIndex)"
+        }
       },
 
       back: function() {
-      	if(this.currentIndex > 0) this._setCurrentIndex(this.currentIndex-1);
+        if(this.currentIndex > 0) this._setCurrentIndex(this.currentIndex-1);
       },
 
       forward: function() {
-      	if(this.currentIndex < (this.numberOfQuestions-1)) this._setCurrentIndex(this.currentIndex+1);
+        if(this.currentIndex < (this.numberOfQuestions-1)) this._setCurrentIndex(this.currentIndex+1);
+      },
+
+      finish() {
+        alert("Not implemented yet...");
       },
 
       _atIndex: function(i, currentIndex) {
-      	return (i == currentIndex)
+        return (i == currentIndex)
       },
 
       _computeStep: function(currentIndex) {
-      	return (currentIndex+1)
+        return (currentIndex+1)
       }
 
     });
