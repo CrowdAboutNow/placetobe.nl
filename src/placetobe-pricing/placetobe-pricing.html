@@ -1,0 +1,105 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../placetobe-styles/placetobe-styles.html">
+
+<dom-module id="placetobe-pricing">
+  <template>
+    <style>
+      :host {
+        display: block;
+        background-color: var(--placetobe-red);
+        text-align: center;
+        padding: 36px 0;
+      }
+      :host #pricing-table {
+        @apply(--placetobe-two-column-layout);
+      }
+
+      :host h3 {
+        @apply(--placetobe-heading3-bold);
+        margin-bottom: 36px;
+      }
+
+      :host #pricing-table div {
+        @apply(--placetobe-two-column-item);
+      }
+
+      :host h4 {
+        @apply(--placetobe-heading4);
+        margin-bottom: 18px;
+      }
+
+      :host #pricing-table div article {
+        @apply(--placetobe-body);
+      }
+
+      :host #pricing-table div article b, :host #pricing-table div article strong {
+        @apply(--placetobe-body--bold);        
+      }
+
+      :host footer {
+        text-align: center;
+        margin-top: 38px;
+      }
+
+      :host footer span {
+        @apply(--placetobe-body);
+      }
+
+      :host footer span b {
+        @apply(--placetobe-body--bold);
+      }
+
+    </style>
+
+    <header>
+      <h3>Tarieven</h3>      
+    </header>
+
+    <main id="pricing-table">
+      <div>
+        <h4>Plaatsingsfee</h4>
+        <article>
+          <b>1%</b> over eerste <b>€ 100.000,-</b> (minimum <b>€ 500,-</b>)<br>
+          <b>0,1%</b> over meerdere tot <b>€ 1.000.000,-</b><br>
+          <b>0,05%</b> over meerdere boven <b>€ 1.000.000,-</b>        
+        </article>
+      </div>
+      <div>
+        <h4>Succesfee</h4>
+        <article>
+        <b>3%</b> over eerste <b>€ 100.000,-</b><br>
+          <b>1,9%</b> over meerdere tot <b>€ 1.000.000,-</b><br>
+          <b>1,45%</b> over meerdere boven <b>€ 1.000.000,-</b>
+        </article>
+      </div>
+    </main>
+
+    <footer>
+      <span>beheerkosten <b>0,5%</b> per jaar gedurende de looptijd</span>
+    </footer>
+
+  </template>
+
+  <script>
+    Polymer({
+
+      is: 'placetobe-pricing',
+
+      properties: {
+        homePageActive: {
+          type: Boolean,
+          reflectToAttribute: true
+        },
+        investPageActive: {
+          type: Boolean,
+          reflectToAttribute: true
+        },
+        entrepreneurPageActive: {
+          type: Boolean,
+          reflectToAttribute: true
+        }
+      },
+
+    });
+  </script>
+</dom-module>

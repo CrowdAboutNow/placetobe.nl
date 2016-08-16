@@ -5,6 +5,7 @@
 <link rel="import" href="../placetobe-hero/placetobe-hero.html">
 <link rel="import" href="../placetobe-styles/placetobe-styles.html">
 <link rel="import" href="../placetobe-button/placetobe-button.html">
+<link rel="import" href="../placetobe-pricing/placetobe-pricing.html">
 
 <dom-module id="placetobe-app">
   <template>
@@ -18,24 +19,28 @@
         margin-bottom: 36px;
       }
 
-      :host #why {
+      :host .intro {
         margin: 72px auto;
         max-width: var(--placetobe-two-column-width);
         max-height: 9999px;
         overflow: hidden;
       }
 
-      :host #why h2 {
+      :host .intro h2 {
         @apply(--placetobe-heading3-bold);
         margin-bottom: 54px;
       }
 
-      :host #why article {
+      :host .intro article {
         @apply(--placetobe-body);
       }
 
       :host #calls:not([hidden]) {
         @apply(--placetobe-two-column-layout);
+      }
+
+      :host placetobe-pricing[hidden] {
+        display: none;
       }
 
       :host #calls > div {
@@ -102,9 +107,22 @@
 
     <section
       id="why"
+      class="intro"
       hidden$="[[!homePageActive]]"
       >
       <h2>Een eerlijke vastgoedmarkt</h2>
+      <article>Wij vinden dat de vastgoedmarkt anders kan. Makkelijker, eerlijker, en vooral: beter voor elkaar. Waarom zou alleen een bank iets te vinden hebben over hoe we wonen, werken, leven? Dat kunnen we toch beter samen beslissen?<p>
+      Met Placetobe brengen we ontwikkelaars, investeerders en gebruikers bij elkaar en zorgen we voor een win-win-win voor iedereen.
+      </p>
+      </article>
+    </section>
+
+    <section
+      id="intro-entepreneurs" 
+      class="intro"
+      hidden$="[[!entrepreneurPageActive]]"
+      >
+      <h2>Gebouwen ❤️ mensen</h2>
       <article>Wij vinden dat de vastgoedmarkt anders kan. Makkelijker, eerlijker, en vooral: beter voor elkaar. Waarom zou alleen een bank iets te vinden hebben over hoe we wonen, werken, leven? Dat kunnen we toch beter samen beslissen?<p>
       Met Placetobe brengen we ontwikkelaars, investeerders en gebruikers bij elkaar en zorgen we voor een win-win-win voor iedereen.
       </p>
@@ -139,6 +157,10 @@
       </div>
 
     </section>
+
+    <placetobe-pricing
+      hidden$="[[!entrepreneurPageActive]]"
+    ></placetobe-pricing>
 
   </template>
 
