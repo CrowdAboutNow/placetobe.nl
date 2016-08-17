@@ -58,6 +58,12 @@
       :host iron-selector button.iron-selected:before {
         background-color: black;
       }
+
+      :host #try-again-button {
+        display: block;
+        --text-color: white;
+      }
+
     </style>
 
     <template is="dom-if" if="[[!finished]]">
@@ -173,8 +179,16 @@
         <article>[[answerText]]</p></article>
 
         <placetobe-button
+            hidden$="[[_scoreIsLessThan(score, 10)]]"
+            label="Meld je aan als investeerder"
+            url="/investeren/aanmelden"
+        ></placetobe-button>
+
+        <placetobe-button
+            id="try-again-button"
             label="Doe de scan opnieuw"
             on-tap="reset"
+            flat
         ></placetobe-button>
 
     </template>

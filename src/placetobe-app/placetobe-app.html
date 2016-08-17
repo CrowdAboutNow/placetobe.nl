@@ -99,6 +99,13 @@
       active="{{investQuickscanPageActive}}"
     ></app-route>
 
+    <app-route
+      route="{{investSubroute}}"
+      pattern="/aanmelden"
+      data="{{investSubrouteData}}"
+      active="{{investRegisterPageActive}}"
+    ></app-route>
+
     <placetobe-header
       home-page-active="[[homePageActive]]"
       invest-page-active="[[investPageActive]]"
@@ -111,6 +118,7 @@
       entrepreneur-page-active="[[entrepreneurPageActive]]"
       entrepreneur-test-page-active="[[entrepreneurTestPageActive]]"
       invest-quickscan-page-active="[[investQuickscanPageActive]]"
+      invest-register-page-active="[[investRegisterPageActive]]"
     ></placetobe-hero>
 
     <section
@@ -128,7 +136,7 @@
       </article>
     </section>
 
-    <template is="dom-if" if="[[!investQuickscanPageActive]]">
+    <template is="dom-if" if="[[!investSubPageActive]]">
 
       <section
         id="intro-investors" 
@@ -226,8 +234,17 @@
         investPageActive: Boolean,
         entrepreneurPageActive: Boolean,
         entrepreneurTestPageActive: Boolean,
-        investQuickscanPageActive: Boolean
+        investQuickscanPageActive: Boolean,
+        investRegisterPageActive: Boolean,
+        investSubPageActive: {
+          type: Boolean,
+          computed: "_computeInvestSubPageActive(investQuickscanPageActive, investRegisterPageActive)"
+        }
       },
+
+      _computeInvestSubPageActive(investQuickscanPageActive, investRegisterPageActive) {
+        return (investQuickscanPageActive === true || investRegisterPageActive === true)
+      }
 
     });
   </script>

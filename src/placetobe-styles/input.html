@@ -5,34 +5,22 @@
 <style is="custom-style">
   :root {
     
-    --placetobe-button-base: {
+    --placetobe-textinput-base: {
       box-sizing: border-box;
       height: 60px;
       padding: 20px 12px;
-      text-align: center;
+      text-align: left;
       display: inline-block;
       color: var(--placetobe-darkblue);
-      @apply(--placetobe-heading5);
-      cursor: pointer;
+      @apply(--placetobe-body);
       text-decoration: none;
       white-space: nowrap;
       outline: none;
       border: 0;
     }
 
-    --placetobe-button: {
-      @apply(--placetobe-button-base);
-      background-color: white;
-      border-radius: 5px;
-      box-shadow: 0 2px 4px rgba(0,0,0,.50);
-    }
-
-    --placetobe-flat-button: {
-      @apply(--placetobe-button-base);      
-    }
-
-    --placetobe-button-hover: {
-      background-color: var(--placetobe-gray);
+    --placetobe-textinput: {
+      @apply(--placetobe-textinput-base);
     }
 
   }

@@ -4,6 +4,8 @@
 <link rel="import" href="../placetobe-illustrations/man-thinking-illustration.html">
 <link rel="import" href="../placetobe-illustrations/man-reading-illustration.html">
 <link rel="import" href="../placetobe-quickscan/placetobe-investor-quickscan.html">
+<link rel="import" href="../placetobe-investor-registration-form/placetobe-investor-registration-form
+.html">
 
 <dom-module id="placetobe-hero">
   <template>
@@ -32,7 +34,7 @@
         transition: 0.5s transform;
       }
 
-      :host[entrepreneur-page-active][entrepreneur-test-page-active], :host[invest-page-active][invest-quickscan-page-active] {
+      :host[entrepreneur-page-active][entrepreneur-test-page-active], :host[invest-page-active][invest-sub-page-active] {
         min-height:100vh;
       }
 
@@ -165,18 +167,24 @@
 
         <span
           hidden$="[[!investPageActive]]">
+          
           <placetobe-investor-quickscan
             hidden$="[[!investQuickscanPageActive]]"
           ></placetobe-investor-quickscan>
+          <placetobe-investor-registration-form
+            hidden$="[[!investRegisterPageActive]]"
+          ></placetobe-investor-registration-form>
+
         </span>
 
         <span
           class="intro-text"
           hidden$="[[!investPageActive]]">
-          <span hidden$="[[investQuickscanPageActive]]">
+          <span hidden$="[[investSubPageActive]]">
           De betrouwbaarste vorm van beleggen. Gebruiksvriendelijk. Veilig. Samen.<p>
             <placetobe-button
               label="Meld je aan als investeerder"
+              url="/investeren/aanmelden"
             ></placetobe-button>
             <placetobe-button
               label="Doe de quickscan"
@@ -241,10 +249,24 @@
           value: false,
           reflectToAttribute: true          
         },
+        investRegisterPageActive: {
+          type: Boolean,
+          value: false,
+          reflectToAttribute: true
+        },
+        investSubPageActive: {
+          type: Boolean,
+          reflectToAttribute: true,
+          computed: "_computeInvestSubPageActive(investQuickscanPageActive, investRegisterPageActive)"
+        }
       },
 
       scrollToPricing: function() {
         window.scrollTo(0, window.innerHeight)
+      },
+
+      _computeInvestSubPageActive(investQuickscanPageActive, investRegisterPageActive) {
+        return (investQuickscanPageActive === true || investRegisterPageActive === true)
       }
 
     });
