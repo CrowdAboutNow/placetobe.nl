@@ -18,6 +18,7 @@
       :host[scrolled] {
         background-color: white;      	
         box-shadow: 0 2px 4px rgba(0,0,0,.50);
+        height: 72px;
       }
 
       :host header {
@@ -34,7 +35,6 @@
       :host #menu a {
       	flex: 1;
         @apply(--placetobe-flat-button);
-      	margin-left: 18px;
       	color: var(--placetobe-darkblue);
         transition: 0.25s color;
       }
@@ -56,8 +56,14 @@
       }
 
       :host a placetobe-logo {
-      	max-width: 221px;
-      	max-height: 47px;
+        max-width: 221px;
+        max-height: 47px;
+        transition: 0.5s all;
+      }
+
+      :host[scrolled] a placetobe-logo {
+        max-width: 169px;
+        max-height: 36px;
       }
 
     </style>
