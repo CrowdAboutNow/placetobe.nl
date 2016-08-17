@@ -60,7 +60,6 @@
 
     <app-location
       route="{{route}}"
-      use-hash-as-path
     ></app-location>
 
     <app-route
@@ -151,7 +150,7 @@
       <placetobe-action-block
         title="Heb jij een placetobe?"
         action-label="doe de quickscan"
-        action-url="#/ondernemen/test"
+        action-url="/ondernemen/test"
         target="entrepreneurs"
         hidden$="[[!entrepreneurPageActive]]"
       >Aan de hand van 5 vragen kijken we of wij passen bij jouw project. Supersnel en makkelijk.
@@ -165,7 +164,7 @@
         <placetobe-action-block
           title="Project starten?"
           action-label="5 vragen aan ondernemers"
-          action-url="#/ondernemen/test"
+          action-url="/ondernemen/test"
           target="entrepreneurs"
         >Je bent geïnteresseerd om  met behulp van crowdfunding  projecten te realiseren maar je weet niet of het iets voor je is.
         </placetobe-action-block>
@@ -173,7 +172,7 @@
         <placetobe-action-block
           title="Investeren in een project?"
           action-label="5 vragen aan ondernemers"
-          action-url="#/investeren/test"
+          action-url="/investeren/test"
           target="investors"
         >Je bent geïnteresseerd om  te investeren in vastgoed via  crowdfunding maar je weet niet  of het iets voor je is.
         </placetobe-action-block>
