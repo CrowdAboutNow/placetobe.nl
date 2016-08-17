@@ -36,6 +36,7 @@
 
       :host[entrepreneur-page-active][entrepreneur-test-page-active], :host[invest-page-active][invest-sub-page-active] {
         min-height:100vh;
+        padding-bottom: 36px;
       }
 
       :host[invest-page-active]:after {
@@ -63,26 +64,41 @@
         @apply(--placetobe-two-column-layout);
       }
 
-      @media (max-width: 1236px) {
+      @media (max-width: 959px) {
         :host > section {
-          flex: 1;
           @apply(--placetobe-two-column-layout--phone);
         }        
       }
 
       :host > section article {
-        @apply(--placetobe-heading3);
-        margin-top: 272px;
-        text-align: left;
         @apply(--placetobe-two-column-item);
+        @apply(--placetobe-heading3);
+        text-align: left;
         position: relative;
         z-index: 1;
+        justify-content: center;
+      }
+
+      @media (max-width: 959px) {
+        :host > section article {
+          @apply(--placetobe-heading3--phone);          
+          position: relative;
+          margin-top: 130px;
+        }
       }
 
       :host > section article .intro-text {
         position: absolute;
         transition: 0.5s all;
+        bottom:0;
       }
+
+      @media (max-width: 959px) {
+        :host > section article .intro-text {
+          bottom:auto;
+        }
+      }
+
 
       :host > section article .intro-text[hidden] {
         opacity: 0;
@@ -98,6 +114,22 @@
         position: relative;
       }
 
+      @media (min-width: 959px and max-width: 1236px) {
+        :host > section div {
+          display: flex;
+          max-width: 100%;
+          justify-content: flex-end;
+        }
+      }
+
+      @media (max-width: 600px) {
+        :host > section div {
+          display: flex;
+          max-width: 100%;
+          justify-content: flex-start;
+        }
+      }
+
       :host .illustration {
         z-index: 1;
         position: relative;
@@ -105,6 +137,12 @@
         width: 100%;
         bottom: -4px;
         transition: 0.5s all;
+      }
+
+      @media (max-width: 959px) {
+        :host .illustration {
+          max-width: 50%;
+        }
       }
 
       :host .illustration[hidden] {
@@ -269,7 +307,7 @@
       },
 
       scrollToPricing: function() {
-        window.scrollTo(0, window.innerHeight)
+        window.scrollTo(0, document.querySelector("placetobe-pricing").offsetTops)
       },
 
       _computeInvestSubPageActive(investQuickscanPageActive, investRegisterPageActive) {

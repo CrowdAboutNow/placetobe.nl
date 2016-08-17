@@ -39,6 +39,12 @@
         transition: 0.25s color;
       }
 
+      @media (max-width: 959px) {
+        :host #menu a {
+          display: none;
+        }
+      }
+
       :host #menu a:hover:not([data-active]) {
         opacity: 0.5;
       }
