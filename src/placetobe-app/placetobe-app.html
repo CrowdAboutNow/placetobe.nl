@@ -74,6 +74,7 @@
       pattern="/investeren"
       data="{{routeData}}"
       active="{{investPageActive}}"
+      tail="{{investSubroute}}"
     ></app-route>
 
     <app-route
@@ -91,6 +92,13 @@
       active="{{entrepreneurTestPageActive}}"
     ></app-route>
 
+    <app-route
+      route="{{investSubroute}}"
+      pattern="/test"
+      data="{{investSubrouteData}}"
+      active="{{investQuickscanPageActive}}"
+    ></app-route>
+
     <placetobe-header
       home-page-active="[[homePageActive]]"
       invest-page-active="[[investPageActive]]"
@@ -102,6 +110,7 @@
       invest-page-active="[[investPageActive]]"
       entrepreneur-page-active="[[entrepreneurPageActive]]"
       entrepreneur-test-page-active="[[entrepreneurTestPageActive]]"
+      invest-quickscan-page-active="[[investQuickscanPageActive]]"
     ></placetobe-hero>
 
     <section
@@ -194,22 +203,17 @@
       is: 'placetobe-app',
 
       properties: {
-        route: {
-          type: Object
-        },
-        routeData: {
-          type: Object
-        },
-        entrepreneurSubroute: {
-          type: Object
-        },
-        entrepreneurSubrouteData: {
-          type: Object
-        },
+        route: Object,
+        routeData: Object,
+        entrepreneurSubroute: Object,
+        entrepreneurSubrouteData: Object,
+        investSubroute: Object,
+        investSubrouteData: Object,
         homePageActive: Boolean,
         investPageActive: Boolean,
         entrepreneurPageActive: Boolean,
-        entrepreneurTestPageActive: Boolean
+        entrepreneurTestPageActive: Boolean,
+        investQuickscanPageActive: Boolean
       },
 
     });

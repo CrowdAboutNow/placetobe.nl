@@ -32,7 +32,7 @@
         transition: 0.5s transform;
       }
 
-      :host[entrepreneur-page-active][entrepreneur-test-page-active] {
+      :host[entrepreneur-page-active][entrepreneur-test-page-active], :host[invest-page-active][invest-quickscan-page-active] {
         min-height:100vh;
       }
 
@@ -148,13 +148,24 @@
         </span>
 
         <span
+          hidden$="[[!investPageActive]]">
+          <placetobe-quickscan
+            hidden$="[[!investQuickscanPageActive]]"
+            target="investors"
+          ></placetobe-quickscan>
+        </span>
+
+        <span
           class="intro-text"
-          hidden$="[[!investPageActive]]">De betrouwbaarste vorm van beleggen. Gebruiksvriendelijk. Veilig. Samen.<p>
-          <placetobe-button
-            label="Test hier of dit iets voor jou is"
-            url="/investeren/test"
-          ></placetobe-button>
-        </p>
+          hidden$="[[!investPageActive]]">
+          <span hidden$="[[investQuickscanPageActive]]">
+          De betrouwbaarste vorm van beleggen. Gebruiksvriendelijk. Veilig. Samen.<p>
+            <placetobe-button
+              label="Test hier of dit iets voor jou is"
+              url="/investeren/test"
+            ></placetobe-button>
+          </p>
+          </span>
         </span>
 
       </article>
@@ -204,6 +215,11 @@
           type: Boolean,
           value: false,
           reflectToAttribute: true
+        },
+        investQuickscanPageActive: {
+          type: Boolean,
+          value: false,
+          reflectToAttribute: true          
         }
       },
 
