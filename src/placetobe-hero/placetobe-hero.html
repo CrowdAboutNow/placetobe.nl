@@ -107,8 +107,11 @@
         margin-top: -200px;
       }
 
-      :host #prices-button {
+      :host placetobe-button {
         display: block;
+      }
+
+      :host placetobe-button[flat] {
         --text-color: white;
       }
     </style>
@@ -121,12 +124,13 @@
           class="intro-text"
           hidden$="[[!homePageActive]]">Dé plek voor het crowdfunden van vastgoed in Nederland.<p>
         <placetobe-button
-          label="Start een project"
+          label="Hoe start ik een project?"
           url="/start-project"
         ></placetobe-button>
         <placetobe-button
-          label="Hoe werkt investeren?"
-          url="/start-project"
+          label="Informatie over investeren"
+          url="/investeren"
+          flat
         ></placetobe-button>
         </p>
         </span>
@@ -172,8 +176,13 @@
           <span hidden$="[[investQuickscanPageActive]]">
           De betrouwbaarste vorm van beleggen. Gebruiksvriendelijk. Veilig. Samen.<p>
             <placetobe-button
-              label="Test hier of dit iets voor jou is"
+              label="Meld je aan als investeerder"
+            ></placetobe-button>
+            <placetobe-button
+              label="Doe de quickscan"
               url="/investeren/test"
+              on-tap="scrollToPricing"
+              flat
             ></placetobe-button>
           </p>
           </span>
