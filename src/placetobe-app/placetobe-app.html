@@ -128,16 +128,20 @@
       </article>
     </section>
 
-    <section
-      id="intro-investors" 
-      class="intro"
-      hidden$="[[!investPageActive]]"
-      >
-      <h2>Investeren in vastgoed met placetobe</h2>
-      <article>In een aantal zinnen pitchen we waarom investeren via placetobe een goed idee is. We doen eerst een beroep op het besef dat samen vastgoed realiseren een goed idee is. Daarnaast moet ook duidelijk zijn dat hier op een veilige en gebruiksvriendelijke manier rendement kan worden gemaakt op investeringen.<p>Zowel de hardcore investeerder als de toekomstige gebruiker met een kleinere portemonnee moet zich aangesproken voelen.
-      </p>
-      </article>
-    </section>
+    <template is="dom-if" if="[[!investQuickscanPageActive]]">
+
+      <section
+        id="intro-investors" 
+        class="intro"
+        hidden$="[[!investPageActive]]"
+        >
+        <h2>Investeren in vastgoed met placetobe</h2>
+        <article>In een aantal zinnen pitchen we waarom investeren via placetobe een goed idee is. We doen eerst een beroep op het besef dat samen vastgoed realiseren een goed idee is. Daarnaast moet ook duidelijk zijn dat hier op een veilige en gebruiksvriendelijke manier rendement kan worden gemaakt op investeringen.<p>Zowel de hardcore investeerder als de toekomstige gebruiker met een kleinere portemonnee moet zich aangesproken voelen.
+        </p>
+        </article>
+      </section>
+
+    </template>
 
     <template is="dom-if" if="[[!entrepreneurTestPageActive]]">
 

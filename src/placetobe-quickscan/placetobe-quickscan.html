@@ -61,60 +61,123 @@
     </style>
 
     <h6>[[currentStep]] van [[numberOfQuestions]]</h6>
+
+    <template is="dom-if" if="[[_isTarget('investors', target)]]">
+        
+        <span hidden="[[!_atIndex(0, currentIndex)]]">
+            <h3>Ik wil rente verdienen op mijn geld</h3>
+            <iron-selector selected="{{answers.0}}" attr-for-selected="value">
+                <button value="1">Totaal onbelangrijk</button>
+                <button value="2">Redelijk onbelangrijk</button>
+                <button value="3">Neutraal</button>
+                <button value="4">Redelijk belangrijk</button>
+                <button value="5">Heel belangrijk</button>
+            </iron-selector>
+        </span>
+
+        <span hidden="[[!_atIndex(1, currentIndex)]]">
+            <h3>Ik wil iedere dag mijn spaargeld kunnen opnemen</h3>
+            <iron-selector selected="{{answers.1}}" attr-for-selected="value">
+                <button value="1">Totaal onbelangrijk</button>
+                <button value="2">Redelijk onbelangrijk</button>
+                <button value="3">Neutraal</button>
+                <button value="4">Redelijk belangrijk</button>
+                <button value="5">Heel belangrijk</button>
+            </iron-selector>
+        </span>
+
+        <span hidden="[[!_atIndex(2, currentIndex)]]">
+            <h3>Ik wil geen enkel risico lopen dat ik geld verllies</h3>
+            <iron-selector selected="{{answers.2}}" attr-for-selected="value">
+                <button value="1">Totaal onbelangrijk</button>
+                <button value="2">Redelijk onbelangrijk</button>
+                <button value="3">Neutraal</button>
+                <button value="4">Redelijk belangrijk</button>
+                <button value="5">Heel belangrijk</button>
+            </iron-selector>
+        </span>
+
+        <span hidden="[[!_atIndex(3, currentIndex)]]">
+            <h3>Ik wil een hoog rendement maken</h3>
+            <iron-selector selected="{{answers.3}}" attr-for-selected="value">
+                <button value="1">Totaal onbelangrijk</button>
+                <button value="2">Redelijk onbelangrijk</button>
+                <button value="3">Neutraal</button>
+                <button value="4">Redelijk belangrijk</button>
+                <button value="5">Heel belangrijk</button>
+            </iron-selector>
+        </span>
+
+        <span hidden="[[!_atIndex(4, currentIndex)]]">
+            <h3>Ik wil deelnemen in de verhalen van ondernemers</h3>
+            <iron-selector selected="{{answers.4}}" attr-for-selected="value">
+                <button value="1">Totaal onbelangrijk</button>
+                <button value="2">Redelijk onbelangrijk</button>
+                <button value="3">Neutraal</button>
+                <button value="4">Redelijk belangrijk</button>
+                <button value="5">Heel belangrijk</button>
+            </iron-selector>
+        </span>
+
+    </template>
     
-    <span hidden="[[!_atIndex(0, currentIndex)]]">
-        <h3>Wat voor financiering zoek je?</h3>
-        <iron-selector selected="{{answers.0}}" attr-for-selected="value">
-            <button value="#0">Eigen vermogen</button>
-            <button value="#1">Vreemd vermogen</button>
-            <button value="#2">Voorverkoop</button>
-            <button value="#3">Donaties</button>
-            <button value="#4">Weet ik niet</button>
-        </iron-selector>
-    </span>
+    <template is="dom-if" if="[[_isTarget('entrepreneurs', target)]]">
 
-    <span hidden="[[!_atIndex(1, currentIndex)]]">
-        <h3>Hoe lang sta je al ingeschreven bij de KvK?</h3>
-        <iron-selector selected="{{answers.1}}" attr-for-selected="value">
-            <button value="#0">De onderneming is nog niet ingeschreven</button>
-            <button value="#1">0-1 jaar</button>
-            <button value="#2">1-3 jaar</button>
-            <button value="#3">3-5 jaar</button>
-            <button value="#4">meer dan 5 jaar</button>
-        </iron-selector>
-    </span>
+        <span hidden="[[!_atIndex(0, currentIndex)]]">
+            <h3>Wat voor financiering zoek je?</h3>
+            <iron-selector selected="{{answers.0}}" attr-for-selected="value">
+                <button value="#0">Eigen vermogen</button>
+                <button value="#1">Vreemd vermogen</button>
+                <button value="#2">Voorverkoop</button>
+                <button value="#3">Donaties</button>
+                <button value="#4">Weet ik niet</button>
+            </iron-selector>
+        </span>
 
-    <span hidden="[[!_atIndex(2, currentIndex)]]">
-        <h3>Wat is je voornaamste persoonlijke inkomstenbron?</h3>
-        <iron-selector selected="{{answers.2}}" attr-for-selected="value">
-            <button value="#0">Kan volledig rondkomen van de onderneming</button>
-            <button value="#1">In loondienst</button>
-            <button value="#2">Student</button>
-            <button value="#3">Werkzoekend</button>
-            <button value="#4">Anders</button>
-        </iron-selector>
-    </span>
+        <span hidden="[[!_atIndex(1, currentIndex)]]">
+            <h3>Hoe lang sta je al ingeschreven bij de KvK?</h3>
+            <iron-selector selected="{{answers.1}}" attr-for-selected="value">
+                <button value="#0">De onderneming is nog niet ingeschreven</button>
+                <button value="#1">0-1 jaar</button>
+                <button value="#2">1-3 jaar</button>
+                <button value="#3">3-5 jaar</button>
+                <button value="#4">meer dan 5 jaar</button>
+            </iron-selector>
+        </span>
 
-    <span hidden="[[!_atIndex(3, currentIndex)]]">
-        <h3>Hoeveel klanten heb je per maand?</h3>
-        <iron-selector selected="{{answers.3}}" attr-for-selected="value">
-            <button value="#0">0-10</button>
-            <button value="#1">10-100</button>
-            <button value="#2">100-500</button>
-            <button value="#3">500-1000</button>
-            <button value="#4">Meer dan 1000</button>
-        </iron-selector>
-    </span>
+        <span hidden="[[!_atIndex(2, currentIndex)]]">
+            <h3>Wat is je voornaamste persoonlijke inkomstenbron?</h3>
+            <iron-selector selected="{{answers.2}}" attr-for-selected="value">
+                <button value="#0">Kan volledig rondkomen van de onderneming</button>
+                <button value="#1">In loondienst</button>
+                <button value="#2">Student</button>
+                <button value="#3">Werkzoekend</button>
+                <button value="#4">Anders</button>
+            </iron-selector>
+        </span>
 
-    <span hidden="[[!_atIndex(4, currentIndex)]]">
-        <h3>Hoe actief is je Facebook-pagina?</h3>
-        <iron-selector selected="{{answers.4}}" attr-for-selected="value">
-            <button value="#0">Niet actief</button>
-            <button value="#1">Wel actief, 0-100 likes</button>
-            <button value="#2">Wel actief, 500 likes</button>
-            <button value="#3">Wel actief, meer dan 500 likes</button>
-        </iron-selector>
-    </span>
+        <span hidden="[[!_atIndex(3, currentIndex)]]">
+            <h3>Hoeveel klanten heb je per maand?</h3>
+            <iron-selector selected="{{answers.3}}" attr-for-selected="value">
+                <button value="#0">0-10</button>
+                <button value="#1">10-100</button>
+                <button value="#2">100-500</button>
+                <button value="#3">500-1000</button>
+                <button value="#4">Meer dan 1000</button>
+            </iron-selector>
+        </span>
+
+        <span hidden="[[!_atIndex(4, currentIndex)]]">
+            <h3>Hoe actief is je Facebook-pagina?</h3>
+            <iron-selector selected="{{answers.4}}" attr-for-selected="value">
+                <button value="#0">Niet actief</button>
+                <button value="#1">Wel actief, 0-100 likes</button>
+                <button value="#2">Wel actief, 500 likes</button>
+                <button value="#3">Wel actief, meer dan 500 likes</button>
+            </iron-selector>
+        </span>
+
+    </template>
 
     <placetobe-button
         label="vorige"
@@ -185,7 +248,10 @@
         currentStep: {
             type: Number,
             computed: "_computeStep(currentIndex)"
-        }
+        },
+
+        target: String
+
       },
 
       back: function() {
@@ -206,6 +272,10 @@
 
       _computeStep: function(currentIndex) {
         return (currentIndex+1)
+      },
+
+      _isTarget: function(targetName, target) {
+        return (targetName === target)
       }
 
     });
