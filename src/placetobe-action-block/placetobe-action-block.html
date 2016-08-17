@@ -40,6 +40,7 @@
       <placetobe-button
         label="[[actionLabel]]"
         url="[[actionUrl]]"
+        external-link="[[externalAction]]"
       ></placetobe-button>
     </div>
 
@@ -55,6 +56,10 @@
         target: {
           type: String,
           reflectToAttribute: true
+        },
+        externalAction: {
+          type: Boolean,
+          value: false
         }
       }
     });

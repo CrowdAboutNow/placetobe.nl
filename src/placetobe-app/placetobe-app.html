@@ -179,11 +179,12 @@
 
       <placetobe-action-block
         title="Heb jij een placetobe?"
-        action-label="doe de quickscan"
-        action-url="/start-project/test"
+        action-label="Project aanmelden"
+        action-url="https://docs.google.com/forms/d/e/1FAIpQLSdFZhTSDI4kRKZlLedroXEmMCEAGVB6fUPSYJkdIL9jrQR1yg/viewform"
         target="entrepreneurs"
         hidden$="[[!entrepreneurPageActive]]"
-      >Aan de hand van 5 vragen kijken we of wij passen bij jouw project. Supersnel en makkelijk.
+        external-action
+      >Meld direct online je project aan.
       </placetobe-action-block>
 
       <section
@@ -193,15 +194,15 @@
 
         <placetobe-action-block
           title="Project starten?"
-          action-label="5 vragen aan ondernemers"
-          action-url="/start-project/test"
+          action-label="Meer info"
+          action-url="/start-project"
           target="entrepreneurs"
         >Je bent geïnteresseerd om  met behulp van crowdfunding  projecten te realiseren maar je weet niet of het iets voor je is.
         </placetobe-action-block>
 
         <placetobe-action-block
           title="Investeren in een project?"
-          action-label="5 vragen aan ondernemers"
+          action-label="Doe de quickscan"
           action-url="/investeren/test"
           target="investors"
         >Je bent geïnteresseerd om  te investeren in vastgoed via  crowdfunding maar je weet niet  of het iets voor je is.
@@ -224,7 +225,10 @@
       is: 'placetobe-app',
 
       properties: {
-        route: Object,
+        route: {
+          type: Object,
+          observer: "routeChanged"
+        },
         routeData: Object,
         entrepreneurSubroute: Object,
         entrepreneurSubrouteData: Object,
@@ -244,6 +248,15 @@
 
       _computeInvestSubPageActive(investQuickscanPageActive, investRegisterPageActive) {
         return (investQuickscanPageActive === true || investRegisterPageActive === true)
+      },
+
+      routeChanged: function(newRoute, oldRoute) {
+        if(!(newRoute && oldRoute)) return;
+        if(newRoute.path !== oldRoute.path) this._handleRouteChanged(newRoute.path, oldRoute.path);
+      },
+
+      _handleRouteChanged: function(newPath, oldPath) {
+        window.scrollTo(0,0)
       }
 
     });
