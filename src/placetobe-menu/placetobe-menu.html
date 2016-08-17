@@ -10,6 +10,9 @@
       background-color: var(--background-color, --placetobe-darkblue);
       padding: 36px 0;
       box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
     }
 
     @media(max-width: 959px) {
@@ -34,15 +37,20 @@
     }
 
     :host main a {
-      @apply(--placetobe-flat-button);
+      @apply(--placetobe-body);
       @apply(--placetobe-two-column-item);
       color: white;
       position: relative;
+      text-decoration: none;
+      padding: 0 18px;
     }
 
     @media(max-width: 959px) {
-      :host a {
+      :host main a {
         max-width: none;
+        display: block;
+        height: 54px;
+        -webkit-tap-highlight-color: transparent;
       }
     }
 
@@ -70,6 +78,7 @@
       @apply(--placetobe-body--phone);
       color: white;
       font-size: 16px;
+      -webkit-tap-highlight-color: transparent;
     }
 
     :host footer a {
@@ -80,10 +89,10 @@
   <template>
 
   <main>
-    <a href="/" title="place to be">Home</a>
-    <a href="/start-project" title="start een project">Start een project</a>
-    <a href="/investeren" title="investeren">Investeer</a>
-    <a href="/investeren/test" title="doe de quickscan">Quickscan investeren</a>
+    <a on-tap="_handleLinkTap" href="/" title="place to be">Home</a>
+    <a on-tap="_handleLinkTap" href="/start-project" title="start een project">Start een project</a>
+    <a on-tap="_handleLinkTap" href="/investeren" title="investeren">Investeer</a>
+    <a on-tap="_handleLinkTap" href="/investeren/test" title="doe de quickscan">Quickscan investeren</a>
   </main>
 
   <footer>
@@ -95,6 +104,10 @@
     Polymer({
 
       is: 'placetobe-menu',
+
+      _handleLinkTap: function(evt) {
+        this.fire("link-tap", evt.target.href)
+      }
 
     });
   </script>

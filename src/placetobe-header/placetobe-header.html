@@ -74,6 +74,10 @@
         height: 36px;
       }
 
+      :host a {
+        -webkit-tap-highlight-color: transparent;
+      }
+
       :host a placetobe-logo {
         width: 221px;
         height: 47px;
@@ -85,12 +89,13 @@
         height: 54px;
         display: none;
         transition: 0.5s all;
-          margin-top: -6px;
+        margin-top: -6px;
       }
 
       @media (max-width: 959px) {
         :host placetobe-menu-icon {
           display: block;
+          cursor: pointer;
         }
         :host[scrolled] placetobe-menu-icon {
           height: 36px;
@@ -101,7 +106,7 @@
     </style>
 
     <header>
-    	<a href="/"><placetobe-logo></placetobe-logo></a>
+    	<a href="/"><placetobe-logo on-tap="hideMenu"></placetobe-logo></a>
     	<nav id="menu">
 		    <a
           title="Een project starten"
@@ -111,7 +116,7 @@
           title="Investeren"
           href="/investeren"
           data-active$="[[investPageActive]]">Investeer</a>
-        <placetobe-menu-icon></placetobe-menu-icon>
+        <placetobe-menu-icon on-tap="toggleMenu"></placetobe-menu-icon>
       </nav>
     </header>
 
@@ -123,6 +128,12 @@
       is: 'placetobe-header',
 
       properties: {
+
+        menuHidden: {
+          type: Boolean,
+          notify: true
+        },
+
         homePageActive: {
           type: Boolean,
           reflectToAttribute: true
@@ -135,10 +146,6 @@
           type: Boolean,
           reflectToAttribute: true
         },
-        scrolled: {
-        	type: Boolean,
-        	value: false
-        },
         scrollY: {
         	type: String,
         	value: 0,
@@ -147,12 +154,21 @@
         scrolled: {
         	type: Boolean,
         	computed: "_computeScrolled(scrollY)",
-        	reflectToAttribute: true
+        	reflectToAttribute: true,
+          notify: true
         }
       },
 
       ready: function() {
         window.addEventListener('scroll', this._handleScroll.bind(this));
+      },
+
+      toggleMenu: function() {
+        this.menuHidden = !this.menuHidden;
+      },
+
+      hideMenu: function() {
+        this.menuHidden = true
       },
 
       _handleScroll: function() {

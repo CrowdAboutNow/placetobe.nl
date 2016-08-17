@@ -151,14 +151,14 @@
         transform: translateY(100px) translateX(50px);
       }
 
-      :host placetobe-investor-quickscan:not([hidden]) {
+      :host placetobe-investor-quickscan:not([hidden]), :host placetobe-investor-registration-form:not([hidden]) {
         display: block;
         position: absolute;
         bottom: 50%;
       }
 
       @media (max-width: 959px) {
-        :host placetobe-investor-quickscan:not([hidden]) {
+        :host placetobe-investor-quickscan:not([hidden]), placetobe-investor-registration-form:not([hidden]) {
           position: relative;
         }
          :host[invest-page-active][invest-sub-page-active] .illustration {

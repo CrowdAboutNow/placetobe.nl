@@ -97,6 +97,25 @@
       :host #call-to-investor {
         background-color: var(--placetobe-green);
       }
+
+
+      @media (max-width: 959px) {
+
+        :host placetobe-menu {
+          position: fixed;
+          top: 108px;
+          bottom:0;
+          z-index: 4;
+        }
+
+        :host[header-scrolled] placetobe-menu {
+          top: 72px;
+        }
+
+        :host[menu-hidden] placetobe-menu {
+          display: none;
+        }
+      }
     </style>
 
     <app-location
@@ -148,6 +167,8 @@
     ></app-route>
 
     <placetobe-header
+      menu-hidden="{{menuHidden}}"
+      scrolled="{{headerScrolled}}"
       home-page-active="[[homePageActive]]"
       invest-page-active="[[investPageActive]]"
       entrepreneur-page-active="[[entrepreneurPageActive]]"
@@ -257,7 +278,12 @@
 
     </template>
 
-    <placetobe-menu></placetobe-menu>
+    <placetobe-menu
+      for-home-page$="[[homePageActive]]"
+      for-invest-page$="[[entrepreneurPageActive]]"
+      for-entrepreneur-page$="[[investPageActive]]"
+      on-link-tap="hideMenu"
+    ></placetobe-menu>
 
   </template>
 
@@ -285,6 +311,15 @@
         investSubPageActive: {
           type: Boolean,
           computed: "_computeInvestSubPageActive(investQuickscanPageActive, investRegisterPageActive)"
+        },
+        menuHidden: {
+          type: Boolean,
+          value: true,
+          reflectToAttribute: true
+        },
+        headerScrolled: {
+          type: Boolean,
+          reflectToAttribute: true          
         }
       },
 
@@ -299,6 +334,17 @@
 
       _handleRouteChanged: function(newPath, oldPath) {
         window.scrollTo(0,0)
+      },
+
+      showMenu: function() {
+        this.menuHidden = false;
+      },
+
+      hideMenu: function() {
+        var self = this;
+        window.setTimeout(function() {
+          self.menuHidden = true;
+        }, 50)
       }
 
     });
