@@ -4,11 +4,20 @@
 <dom-module id="placetobe-button">
   <template>
     <style>
-      :host a {
+      :host:not([flat]) a {
         @apply(--placetobe-button);
+        color: var(--text-color, --placetobe-darkblue);
       }
-      :host a:hover {
+      :host[flat] a {
+        @apply(--placetobe-flat-button);
+        color: var(--text-color, --placetobe-darkblue);
+      }
+      :host:not([flat]) a:hover {
         @apply(--placetobe-button-hover);
+        color: var(--text-hover-color, --placetobe-darkblue);
+      }
+      :host[flat] a:hover {
+        color: var(--text-hover-color, --placetobe-darkblue);
       }
       :host[disabled] {
         pointer-events: none;
@@ -22,7 +31,7 @@
       }
     </style>
 
-    <a href="[[url]]">[[label]]</a>
+    <a href="[[url]]" target$="[[target]]">[[label]]</a>
 
   </template>
 
@@ -31,11 +40,28 @@
 
       is: 'placetobe-button',
       properties: {
+        flat: {
+          type: Boolean,
+          value: false,
+          reflectToAttribute: true
+        },
         disabled: {
           type: Boolean,
           value: false,
           reflectToAttribute: true
+        },
+        externalLink: {
+          type: Boolean,
+          value: false
+        },
+        target: {
+          type: String,
+          computed: "_computeTarget(externalLink)"
         }
+      },
+
+      _computeTarget: function(externalLink) {
+        return (externalLink) ? "_blank" : "_self";
       }
 
     });

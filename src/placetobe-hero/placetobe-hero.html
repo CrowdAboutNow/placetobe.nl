@@ -3,7 +3,7 @@
 <link rel="import" href="../placetobe-illustrations/man-holding-key-illustration.html">
 <link rel="import" href="../placetobe-illustrations/man-thinking-illustration.html">
 <link rel="import" href="../placetobe-illustrations/man-reading-illustration.html">
-<link rel="import" href="../placetobe-quickscan/placetobe-quickscan.html">
+<link rel="import" href="../placetobe-quickscan/placetobe-investor-quickscan.html">
 
 <dom-module id="placetobe-hero">
   <template>
@@ -103,8 +103,13 @@
         transform: translateY(100px) translateX(50px);
       }
 
-      :host placetobe-quickscan {
+      :host placetobe-investor-quickscan {
         margin-top: -200px;
+      }
+
+      :host #prices-button {
+        display: block;
+        --text-color: white;
       }
     </style>
 
@@ -133,26 +138,32 @@
           Gebouwen houden van mensen. Wij helpen je de juiste mensen te bereiken: investeerders én gebruikers.<p>
             <placetobe-button
               label="Direct je project starten"
-              url="/start-project/test"
+              url="https://docs.google.com/forms/d/e/1FAIpQLSdFZhTSDI4kRKZlLedroXEmMCEAGVB6fUPSYJkdIL9jrQR1yg/viewform"
+              external-link
+            ></placetobe-button>
+            <placetobe-button
+              id="prices-button"
+              label="Bekijk onze tarieven"
+              on-tap="scrollToPricing"
+              flat
             ></placetobe-button>
           </p>
           </span>
         </span>
-
+<!-- 
         <span
           hidden$="[[!entrepreneurPageActive]]">
           <placetobe-quickscan
             hidden$="[[!entrepreneurTestPageActive]]"
             target="entrepreneurs"
           ></placetobe-quickscan>
-        </span>
+        </span> -->
 
         <span
           hidden$="[[!investPageActive]]">
-          <placetobe-quickscan
+          <placetobe-investor-quickscan
             hidden$="[[!investQuickscanPageActive]]"
-            target="investors"
-          ></placetobe-quickscan>
+          ></placetobe-investor-quickscan>
         </span>
 
         <span
@@ -220,8 +231,12 @@
           type: Boolean,
           value: false,
           reflectToAttribute: true          
-        }
+        },
       },
+
+      scrollToPricing: function() {
+        window.scrollTo(0, window.innerHeight)
+      }
 
     });
   </script>
