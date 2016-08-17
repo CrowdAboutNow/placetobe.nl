@@ -33,11 +33,12 @@
     @media(max-width: 959px) {
       :host main, :host footer {
         max-width: auto;
+        text-align: left;
       }      
     }
 
     :host main a {
-      @apply(--placetobe-body);
+      @apply(--placetobe-body--phone);
       @apply(--placetobe-two-column-item);
       color: white;
       position: relative;
@@ -49,7 +50,7 @@
       :host main a {
         max-width: none;
         display: block;
-        height: 54px;
+        margin: 24px 0;
         -webkit-tap-highlight-color: transparent;
       }
     }
