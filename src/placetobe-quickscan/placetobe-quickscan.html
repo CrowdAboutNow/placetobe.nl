@@ -80,22 +80,22 @@
             <span hidden="[[!_atIndex(1, currentIndex)]]">
                 <h3>Ik wil iedere dag mijn spaargeld kunnen opnemen</h3>
                 <iron-selector selected="{{answers.1}}" attr-for-selected="value">
-                    <button value="1">Totaal onbelangrijk</button>
-                    <button value="2">Redelijk onbelangrijk</button>
+                    <button value="5">Totaal onbelangrijk</button>
+                    <button value="4">Redelijk onbelangrijk</button>
                     <button value="3">Neutraal</button>
-                    <button value="4">Redelijk belangrijk</button>
-                    <button value="5">Heel belangrijk</button>
+                    <button value="2">Redelijk belangrijk</button>
+                    <button value="1">Heel belangrijk</button>
                 </iron-selector>
             </span>
 
             <span hidden="[[!_atIndex(2, currentIndex)]]">
                 <h3>Ik wil geen enkel risico lopen dat ik geld verllies</h3>
                 <iron-selector selected="{{answers.2}}" attr-for-selected="value">
-                    <button value="1">Totaal onbelangrijk</button>
-                    <button value="2">Redelijk onbelangrijk</button>
+                    <button value="5">Totaal onbelangrijk</button>
+                    <button value="4">Redelijk onbelangrijk</button>
                     <button value="3">Neutraal</button>
-                    <button value="4">Redelijk belangrijk</button>
-                    <button value="5">Heel belangrijk</button>
+                    <button value="2">Redelijk belangrijk</button>
+                    <button value="1">Heel belangrijk</button>
                 </iron-selector>
             </span>
 
@@ -227,11 +227,12 @@
     <template is="dom-if" if="[[finished]]">
 
         <h6>conclusie</h6>
-        <h3>Je bent geen crowdfunder.</h3>
-        <article>
-        Je geeft aan dat rente krijgen op je geld niet zo belangrijk is en dat je het wel belangrijk vind om iedere dag je geld op te kunnen nemen. Ook wil je geen risico lopen geld kwijt te kunnen raken en ben je niet sterk geïnteresseerd in de verhalen van ondernemers en wat zij willen bereiken.<p>
-        Deelnemen in crowdfunding is voor jou waarschijnlijk geen goed idee. De voordelen zoals rendement maken en anderen steunen bij het bereiken van hun dromen en idealen wegen voor jou niet zwaar terwijl de nadelen zoals het niet dagelijks over je geld kunnen beschikken en het risico te lopen geld te verliezen dat juist wel doen. Je kunt beter geld op een spaarrekening bij de bank laten staan, je verdient dan geen rente maar loopt, tot €100.000,- per bank, geen risico en kunt ook steeds over het geld beschikken.</p>
-        </article>
+        
+        <h3 hidden$="[[!_scoreIsLessThan(score, 10)]]">Je bent geen crowdfunder.</h3>
+        <h3 hidden$="[[!_scoreIsBetween(score, 9, 18)]]">Jij bent een potentiële crowdfunder!</h3>
+        <h3 hidden$="[[!_scoreIsGreaterThan(score, 17)]]">Jij bent een supercrowdfunder!</h3>
+        
+        <article>[[answerText]]</p></article>
 
         <placetobe-button
             label="Doe de scan opnieuw"
@@ -275,6 +276,16 @@
         finished: {
             type: Boolean,
             computed: "_computeFinished(answers.*, numberOfQuestions, currentIndex)"
+        },
+
+        answerText: {
+            type: String,
+            computed: "_computeAnswerText(answers.*, numberOfQuestions)"
+        },
+
+        score: {
+            type: Number,
+            computed: "_computeScore(answers.*, numberOfQuestions)"
         }
 
       },
@@ -310,7 +321,115 @@
             if(answers[i] === undefined) return false;
         }
         return (currentIndex == numberOfQuestions)
-      }
+      },
+
+      _computeScore: function(answer, numberOfQuestions) {
+        var score = 0;
+        var answers = answer.base;
+        for(var i=0;i<numberOfQuestions;i++) {
+            score += parseInt(answers[i] || 0);
+        }
+        return score;
+      },
+
+      _scoreIsGreaterThan: function(score, greaterThan) {
+        return (score > greaterThan);
+      },
+
+      _scoreIsLessThan: function(score, lessThan) {
+        return (score < lessThan);
+      },
+
+      _scoreIsBetween(score, greaterThan, lessThan) {
+        return (this._scoreIsGreaterThan(score, greaterThan) && this._scoreIsLessThan(score, lessThan));
+      },
+
+      _computeAnswerText: function(answer, numberOfQuestions) {
+        var answerText = [];
+        var answers = answer.base;
+        for(var i=0;i<numberOfQuestions;i++) {
+            if(answers[i]) answerText.push(this._getAnswerTextByIndexAndValue(i, parseInt(answers[i])));
+        }
+        return answerText.join(" ");
+      },
+
+      _getAnswerTextByIndexAndValue: function(index, value) {
+        switch(index) {
+            case 0:
+                return this._getAnswerTextForQuestionOne(value);
+                break;
+            case 1:
+                return this._getAnswerTextForQuestionTwo(value);
+                break;
+            case 2:
+                return this._getAnswerTextForQuestionThree(value);
+                break;
+            case 3:
+                //return this._getAnswerTextForQuestionFour(value);
+                break;
+            case 4:
+                return this._getAnswerTextForQuestionFive(value);
+                break;
+        }
+      },
+
+      //Ik wil rente verdienen op mijn geld
+      _getAnswerTextForQuestionOne: function(value) {
+        switch(value) {
+            case 1:
+            case 2:
+                return "Je geeft aan dat rente krijgen op je geld niet zo belangrijk is.";
+            case 3:
+            case 4:
+            case 5:
+                return "Je wilt graag rendement op je geld maken.";
+        }
+      },
+
+      //Ik wil iedere dag mijn spaargeld kunnen opnemen
+      _getAnswerTextForQuestionTwo: function(value) {
+        switch(value) {
+            case 1:
+            case 2:
+                return "Wel vind je het belangrijk om elke dag bij je spaargeld te kunnen.";
+            case 3:
+            case 4:
+            case 5:
+                return "Je kent en accepteert de nadelen zoals het niet dagelijks geld kunnen opnemen van je spaarhgeld.";
+        }
+      },
+
+      //Ik wil geen enkel risico lopen dat ik geld verllies
+      _getAnswerTextForQuestionThree: function(value) {
+        switch(value) {
+            case 1:
+            case 2:
+                return "Ook wil je geen risico lopen geld kwijt te kunnen raken.";
+            case 3:
+            case 4:
+            case 5:
+                return "Je kent de risico's van verlies en laat de voordelen zwaarder wegen.";
+        }
+      },
+
+      //Ik wil een hoog rendement maken
+      _getAnswerTextForQuestionFour: function(value) {
+        return "";
+      },
+
+      //Ik wil deelnemen in de verhalen van ondernemers
+      _getAnswerTextForQuestionFive: function(value) {
+        switch(value) {
+            case 1:
+            case 2:
+                return "Daarnaast voel je geen inhoudelijke betrokkenheid bij de projecten van ondernemers.";
+            case 3:
+            case 4:
+            case 5:
+                return "Ten slotte voel je je betrokken bij de ondernemers en hun plannen waarvoor crowdfunding nodig is..";
+        }
+      },
+
 
     });
   </script>
