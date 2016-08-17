@@ -35,7 +35,7 @@
       }
 
       :host[entrepreneur-page-active][entrepreneur-test-page-active], :host[invest-page-active][invest-sub-page-active] {
-        min-height:100vh;
+        max-height: 1280px;
         padding-bottom: 36px;
       }
 
@@ -154,7 +154,7 @@
       :host placetobe-investor-quickscan:not([hidden]), :host placetobe-investor-registration-form:not([hidden]) {
         display: block;
         position: absolute;
-        bottom: 50%;
+        bottom: 0%;
       }
 
       @media (max-width: 959px) {
@@ -187,7 +187,7 @@
           url="/start-project"
         ></placetobe-button>
         <placetobe-button
-          label="Informatie over investeren"
+          label="Info voor investeerders"
           url="/investeren"
           flat
         ></placetobe-button>
@@ -213,14 +213,6 @@
           </p>
           </span>
         </span>
-<!-- 
-        <span
-          hidden$="[[!entrepreneurPageActive]]">
-          <placetobe-quickscan
-            hidden$="[[!entrepreneurTestPageActive]]"
-            target="entrepreneurs"
-          ></placetobe-quickscan>
-        </span> -->
 
         <span
           hidden$="[[!investPageActive]]">
