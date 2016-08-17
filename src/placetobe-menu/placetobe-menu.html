@@ -1,0 +1,101 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../placetobe-styles/placetobe-styles.html">
+
+<dom-module id="placetobe-menu">
+  <style>
+    :host {
+      display: block;
+      width: 100%;
+      height: auto;
+      background-color: var(--background-color, --placetobe-darkblue);
+      padding: 36px 0;
+      box-sizing: border-box;
+    }
+
+    @media(max-width: 959px) {
+      :host {
+        padding: 18px;
+      }
+    }
+
+    :host main, :host footer {
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    :host main {
+      margin-bottom: 18px;
+    }
+
+    @media(max-width: 959px) {
+      :host main, :host footer {
+        max-width: auto;
+      }      
+    }
+
+    :host main a {
+      @apply(--placetobe-flat-button);
+      @apply(--placetobe-two-column-item);
+      color: white;
+      position: relative;
+    }
+
+    @media(max-width: 959px) {
+      :host a {
+        max-width: none;
+      }
+    }
+
+    :host main a:not(:last-child):after {
+      position: absolute;
+      top: 25%;
+      right:0;
+      bottom:25%;
+      content:"";
+      width: 1px;
+      background-color: white;
+    }
+
+    :host footer {
+      display: block;
+    }
+
+    @media(max-width: 959px) {
+      :host a:not(:last-child):after {
+        display: none;
+      }
+    }
+
+    :host footer, :host footer a {
+      @apply(--placetobe-body--phone);
+      color: white;
+      font-size: 16px;
+    }
+
+    :host footer a {
+      text-decoration: underline;          
+    }
+
+  </style>
+  <template>
+
+  <main>
+    <a href="/" title="place to be">Home</a>
+    <a href="/start-project" title="start een project">Start een project</a>
+    <a href="/investeren" title="investeren">Investeer</a>
+    <a href="/investeren/test" title="doe de quickscan">Quickscan investeren</a>
+  </main>
+
+  <footer>
+    <span>Placetobe is een initiatief van <a target="_blank" href="http://www.socius-wonen.nl/" title="Socius Wonen">Socius Wonen</a> & <a target="_blank" href="https://crowdaboutnow.nl" title="CrowdAboutNow">CrowdAboutNow</a></span>
+  </footer>
+
+  </template>
+  <script>
+    Polymer({
+
+      is: 'placetobe-menu',
+
+    });
+  </script>
+</dom-module>
