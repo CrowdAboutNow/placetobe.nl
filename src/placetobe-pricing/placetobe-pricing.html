@@ -42,6 +42,7 @@
       @media (max-width: 1236px) {
         :host h3 {
           @apply(--placetobe-heading3-bold--phone);
+          margin-bottom: 36px;
         }
       }
 
@@ -66,12 +67,23 @@
         @apply(--placetobe-body);
       }
 
+      @media (max-width: 959px) {
+        :host #pricing-table div article {
+          @apply(--placetobe-body--phone);
+        }        
+      }
+
       :host #pricing-table div article b, :host #pricing-table div article strong {
-        @apply(--placetobe-body--bold);        
+        @apply(--placetobe-body-bold);        
+      }
+
+      @media (max-width: 959px) {
+        :host #pricing-table div article b, :host #pricing-table div article strong {
+          @apply(--placetobe-body-bold--phone);
+        }        
       }
 
       :host footer {
-        text-align: center;
         margin-top: 38px;
       }
 
@@ -79,9 +91,22 @@
         @apply(--placetobe-body);
       }
 
-      :host footer span b {
-        @apply(--placetobe-body--bold);
+      @media (max-width: 959px) {
+        :host footer span {
+          @apply(--placetobe-body--phone);
+        }        
       }
+
+      :host footer span b {
+        @apply(--placetobe-body-bold);
+      }
+
+      @media (max-width: 959px) {
+        :host footer span b {
+          @apply(--placetobe-body-bold--phone);
+        }        
+      }
+
 
     </style>
 

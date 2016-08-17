@@ -27,6 +27,12 @@
         margin-bottom: 9px;
       }
 
+      @media (max-width: 959px) {
+        :host h6, article {
+          @apply(--placetobe-body--phone);
+        }        
+      }
+
       :host iron-selector {
         list-style: none;
         padding: 0;
@@ -46,6 +52,14 @@
         cursor: pointer;
       }
 
+      @media (max-width: 959px) {
+        :host iron-selector button {
+          @apply(--placetobe-body--phone);
+          margin-bottom: 9px;
+        }        
+      }
+
+
       :host iron-selector button:before {
         position: absolute;
         width: 24px;
@@ -56,6 +70,14 @@
         background-color: white;
         content: "";
       }
+
+      @media (max-width: 959px) {
+        :host iron-selector button:before {
+          @apply(--placetobe-body--phone);
+          top: 3px;
+        }        
+      }
+
 
       :host iron-selector button:hover:before {
         background-color: #ddd;

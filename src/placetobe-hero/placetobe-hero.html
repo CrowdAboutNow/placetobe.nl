@@ -75,7 +75,7 @@
         @apply(--placetobe-heading3);
         text-align: left;
         position: relative;
-        z-index: 1;
+        z-index: 2;
         justify-content: center;
       }
 
@@ -90,7 +90,7 @@
       :host > section article .intro-text {
         position: absolute;
         transition: 0.5s all;
-        bottom:0;
+        bottom:90px;
       }
 
       @media (max-width: 959px) {
@@ -135,13 +135,14 @@
         position: relative;
         position: absolute;
         width: 100%;
-        bottom: -4px;
+        bottom: -6px;
         transition: 0.5s all;
       }
 
       @media (max-width: 959px) {
         :host .illustration {
           max-width: 50%;
+          z-index: 1;
         }
       }
 

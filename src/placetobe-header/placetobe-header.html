@@ -11,7 +11,7 @@
         width: 100%;
         height: 112px;
         box-shadow: 0 2px 4px rgba(0,0,0,.0);
-        z-index: 2;
+        z-index: 5;
         display: flex;
         transition: 0.5s all;
       }
@@ -37,10 +37,15 @@
 
       :host #menu {
         display: flex;
+        justify-content: flex-end;
+      }
+
+      :host #menu > * {
+        @apply(--placetobe-two-column-item);
+        flex: 1;
       }
 
       :host #menu a {
-      	flex: 1;
         @apply(--placetobe-flat-button);
       	color: var(--placetobe-darkblue);
         transition: 0.25s color;
@@ -64,10 +69,6 @@
         color: var(--placetobe-red)
       }
 
-      :host a {
-        @apply(--placetobe-two-column-item);
-      }
-
       :host[scrolled] a placetobe-logo {
         width: 169px;
         height: 36px;
@@ -83,14 +84,19 @@
         width: 54px;
         height: 54px;
         display: none;
+        transition: 0.5s all;
+          margin-top: -6px;
       }
 
       @media (max-width: 959px) {
         :host placetobe-menu-icon {
           display: block;
         }
+        :host[scrolled] placetobe-menu-icon {
+          height: 36px;
+          width: 36px;
+        }
       }
-
 
     </style>
 
@@ -100,7 +106,7 @@
 		    <a href="/start-project" data-active$="[[entrepreneurPageActive]]">Start een project</a>
 		    <a href="/investeren" data-active$="[[investPageActive]]">Investeer</a>
         <placetobe-menu-icon></placetobe-menu-icon>
-    	</nav>
+      </nav>
     </header>
 
   </template>

@@ -30,7 +30,8 @@
 
       @media (max-width: 1236px) {
         :host .intro {
-          padding: 0 18px;          
+          padding: 0 18px;  
+          margin: 36px auto 18px auto;        
         }     
       }
 
@@ -48,12 +49,18 @@
       @media (max-width: 1236px) {
         :host .intro h2 {
           @apply(--placetobe-heading3-bold--phone);
-          margin-bottom: 36px;
+          margin-bottom: 18px;
         }        
       }
 
       :host .intro article {
         @apply(--placetobe-body);
+      }
+
+      @media (max-width: 959px) {
+        :host .intro article {
+          @apply(--placetobe-body--phone);
+        }        
       }
 
       :host #calls:not([hidden]) {

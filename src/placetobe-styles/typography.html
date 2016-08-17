@@ -45,12 +45,22 @@
       font-style: normal;
       font-weight: 400;
       font-size: 24px;
-      line-height: 34px;
+      line-height: 1.41;
     }
 
-    --placetobe-body--bold: {
+    --placetobe-body--phone: {
+      @apply(--placetobe-body);
+      font-size: 20px;
+    }
+
+    --placetobe-body-bold: {
       @apply(--placetobe-body);
       font-weight: 500;
+    }
+
+    --placetobe-body-bold--phone: {
+      @apply(--placetobe-body-bold);
+      font-size: 20px;
     }
 
     --placetobe-heading4: {
