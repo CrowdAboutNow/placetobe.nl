@@ -1,6 +1,7 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../placetobe-styles/placetobe-styles.html">
 <link rel="import" href="../placetobe-logo/placetobe-logo.html">
+<link rel="import" href="../placetobe-menu-icon/placetobe-menu-icon.html">
 
 <dom-module id="placetobe-header">
   <template>
@@ -26,6 +27,12 @@
       	align-items: center;
       	flex: 1;
       	display: flex;
+      }
+
+      @media (max-width: 959px) {
+        :host header {
+          padding: 0 18px;
+        }
       }
 
       :host #menu {
@@ -72,6 +79,18 @@
         transition: 0.5s all;
       }
 
+      :host placetobe-menu-icon {
+        width: 54px;
+        height: 54px;
+        display: none;
+      }
+
+      @media (max-width: 959px) {
+        :host placetobe-menu-icon {
+          display: block;
+        }
+      }
+
 
     </style>
 
@@ -80,6 +99,7 @@
     	<nav id="menu">
 		    <a href="/start-project" data-active$="[[entrepreneurPageActive]]">Start een project</a>
 		    <a href="/investeren" data-active$="[[investPageActive]]">Investeer</a>
+        <placetobe-menu-icon></placetobe-menu-icon>
     	</nav>
     </header>
 

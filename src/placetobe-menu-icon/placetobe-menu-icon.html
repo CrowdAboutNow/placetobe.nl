@@ -1,0 +1,48 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../placetobe-styles/placetobe-styles.html">
+
+<dom-module id="placetobe-menu-icon">
+  <template>
+    <style>
+      :host svg {
+        width: 100%;
+        height: 100%;
+      }
+
+      :host #menu-button {
+        stroke: var(--placetobe-darkblue);
+      }
+    </style>
+
+    <svg viewBox="0 0 54 54" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+      <defs>
+          <circle id="path-1" cx="27" cy="27" r="27"></circle>
+          <mask id="mask-2" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="54" height="54" fill="white">
+              <use xlink:href="#path-1"></use>
+          </mask>
+      </defs>
+      <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+          <g id="menu-button">
+              <g id="Group-4">
+                  <use id="Oval-18" mask="url(#mask-2)" stroke-width="4" xlink:href="#path-1"></use>
+                  <path d="M42.2830189,19.3584906 L22.8977346,19.3584906" id="Line" stroke-width="2" stroke-linecap="square"></path>
+                  <path d="M42.2830189,27.509434 L17.3207547,27.509434" id="Line" stroke-width="2" stroke-linecap="square"></path>
+                  <path d="M42.2830189,35.6603774 L11.2075472,35.6603774" id="Line" stroke-width="2" stroke-linecap="square"></path>
+              </g>
+          </g>
+      </g>
+  </svg>
+
+  </template>
+
+  <script>
+    Polymer({
+
+      is: 'placetobe-menu-icon',
+      properties: {
+        
+      },
+
+    });
+  </script>
+</dom-module>
