@@ -15,15 +15,23 @@
         position: relative;
       }
 
-      :host #pricing-table:after {
-        position: absolute;
-        content: "";
-        top: 0;
-        bottom: 0;
-        left: 50%;
-        width: 1px;
-        height: 100%;
-        background-color: var(--placetobe-darkblue);
+      @media (max-width: 1236px) {
+        :host #pricing-table {
+          @apply(--placetobe-two-column-layout--phone);
+        }        
+      }
+
+      @media (min-width: 1237px) {
+        :host #pricing-table:after {
+          position: absolute;
+          content: "";
+          top: 0;
+          bottom: 0;
+          left: 50%;
+          width: 1px;
+          height: 100%;
+          background-color: var(--placetobe-darkblue);
+        }
       }
 
       :host h3 {
@@ -33,6 +41,14 @@
 
       :host #pricing-table div {
         @apply(--placetobe-two-column-item);
+      }
+
+      @media (max-width: 1236px) {
+        :host #pricing-table div {
+          @apply(--placetobe-two-column-item);
+          max-width: 100%;
+          margin-bottom: 36px;
+        }        
       }
 
       :host h4 {

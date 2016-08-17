@@ -63,6 +63,13 @@
         @apply(--placetobe-two-column-layout);
       }
 
+      @media (max-width: 1236px) {
+        :host > section {
+          flex: 1;
+          @apply(--placetobe-two-column-layout--phone);
+        }        
+      }
+
       :host > section article {
         @apply(--placetobe-heading3);
         margin-top: 272px;

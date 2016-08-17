@@ -41,8 +41,21 @@
         @apply(--placetobe-two-column-layout);
       }
 
+      @media (max-width: 1236px) {
+        :host #calls:not([hidden]) {
+          @apply(--placetobe-two-column-layout--phone);
+        }
+      }
+
       :host #calls > * {
         @apply(--placetobe-two-column-item);
+          margin-bottom: 36px;
+      }
+
+      @media (max-width: 1236px) {
+        :host #calls > * {
+          max-width: 100%;
+        }
       }
 
       :host placetobe-pricing[hidden] {
