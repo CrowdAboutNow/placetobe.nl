@@ -150,8 +150,19 @@
         transform: translateY(100px) translateX(50px);
       }
 
-      :host placetobe-investor-quickscan {
-        margin-top: -200px;
+      :host placetobe-investor-quickscan:not([hidden]) {
+        display: block;
+        position: absolute;
+        bottom: 50%;
+      }
+
+      @media (max-width: 959px) {
+        :host placetobe-investor-quickscan:not([hidden]) {
+          position: relative;
+        }
+         :host[invest-page-active][invest-sub-page-active] .illustration {
+            display: none;
+         }
       }
 
       :host placetobe-button {
@@ -307,7 +318,7 @@
       },
 
       scrollToPricing: function() {
-        window.scrollTo(0, document.querySelector("placetobe-pricing").offsetTops)
+        window.scrollTo(0, document.querySelector("placetobe-pricing").offsetTop - 72)
       },
 
       _computeInvestSubPageActive(investQuickscanPageActive, investRegisterPageActive) {

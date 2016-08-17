@@ -8,12 +8,18 @@
   <template>
     <style>
       :host {
-
       }
 
       :host h3 {
         @apply(--placetobe-heading3);
         margin-bottom: 18px;
+      }
+
+      @media (max-width: 1236px) {
+        :host h3 {
+          @apply(--placetobe-heading3--phone);
+          margin-bottom: 18px;
+        }
       }
 
       :host h6, article  {
