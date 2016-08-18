@@ -31,7 +31,7 @@
       }
     </style>
 
-    <a href="[[url]]" target$="[[target]]">[[label]]</a>
+    <a href$="[[url]]" target$="[[target]]">[[label]]</a>
 
   </template>
 
@@ -57,7 +57,9 @@
         target: {
           type: String,
           computed: "_computeTarget(externalLink)"
-        }
+        },
+        url: String,
+        label: String
       },
 
       _computeTarget: function(externalLink) {
