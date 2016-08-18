@@ -329,10 +329,13 @@
         "_setMetaData(route.path)"
       ],
 
+      ready: function() {
+        this.routeChanged();
+      },
+
       attached: function() {
         Polymer.AppMetadata.requestAvailability();
         this._setMetaData();
-        this.routeChanged();
       },
 
       _computeInvestSubPageActive: function(investQuickscanPageActive, investRegisterPageActive) {
@@ -341,7 +344,7 @@
 
       routeChanged: function(newRoute, oldRoute) {
         var routeExists = (newRoute || {path:""}).path.match(/^(\/(start-project|investeren)(|\/test|\/aanmelden)|(\/|))$/g);
-        if(!routeExists) window.location.href="/";
+        if(!routeExists) history.replaceState({}, "Placetobe", "/");
         if(!(newRoute && oldRoute)) return;
         if(newRoute.path !== oldRoute.path) this._handleRouteChanged(newRoute.path, oldRoute.path);
       },
