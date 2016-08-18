@@ -333,7 +333,7 @@
         this._setMetaData();
       },
 
-      _computeInvestSubPageActive(investQuickscanPageActive, investRegisterPageActive) {
+      _computeInvestSubPageActive: function(investQuickscanPageActive, investRegisterPageActive) {
         return (investQuickscanPageActive === true || investRegisterPageActive === true)
       },
 
@@ -391,7 +391,7 @@
         }
       },
 
-      _parseDocumentTitle(pageTitle) {
+      _parseDocumentTitle: function(pageTitle) {
         return [pageTitle, "Placetobe"].join(" | ");
       }
 

@@ -314,7 +314,7 @@
         return (score < lessThan);
       },
 
-      _scoreIsBetween(score, greaterThan, lessThan) {
+      _scoreIsBetween: function(score, greaterThan, lessThan) {
         return (this._scoreIsGreaterThan(score, greaterThan) && this._scoreIsLessThan(score, lessThan));
       },
 
