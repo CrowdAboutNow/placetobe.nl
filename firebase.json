@@ -8,6 +8,10 @@
       {
         "source": "**",
         "destination": "/index.html"
+      },
+      {
+        "source": "google0ae0a68c329d57ce.html",
+        "destination": "/google0ae0a68c329d57ce.html"
       }
     ]
   }
