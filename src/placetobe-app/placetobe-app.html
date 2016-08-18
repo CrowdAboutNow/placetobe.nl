@@ -1,6 +1,7 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/app-route/app-location.html">
 <link rel="import" href="../../bower_components/app-route/app-route.html">
+<link rel="import" href="../../bower_components/app-metadata/app-metadata.html">
 <link rel="import" href="../placetobe-header/placetobe-header.html">
 <link rel="import" href="../placetobe-hero/placetobe-hero.html">
 <link rel="import" href="../placetobe-styles/placetobe-styles.html">
@@ -323,6 +324,15 @@
         }
       },
 
+      observers: [
+        "_setMetaData(route.path)"
+      ],
+
+      attached: function() {
+        Polymer.AppMetadata.requestAvailability();
+        this._setMetaData();
+      },
+
       _computeInvestSubPageActive(investQuickscanPageActive, investRegisterPageActive) {
         return (investQuickscanPageActive === true || investRegisterPageActive === true)
       },
@@ -334,6 +344,11 @@
 
       _handleRouteChanged: function(newPath, oldPath) {
         window.scrollTo(0,0)
+        this.fire('app-metadata', {
+          title: 'This is the page title',
+          description: 'This is the page description',
+          keywords: 'these,are,keywords'
+        });
       },
 
       showMenu: function() {
@@ -345,6 +360,39 @@
         window.setTimeout(function() {
           self.menuHidden = true;
         }, 50)
+      },
+
+      _setMetaData: function(path) {
+        switch(this.route.path) {
+          case "/":
+            this.fire('app-metadata', {
+              title: this._parseDocumentTitle('Vastgoed crowdfunding'),
+              description: 'Dé plek voor het crowdfunden van vastgoed in Nederland.'
+            });
+            break;
+          case "/investeren":
+            this.fire('app-metadata', {
+              title: this._parseDocumentTitle('Investeren in vastgoed'),
+              description: 'De betrouwbaarste vorm van beleggen. Gebruiksvriendelijk. Veilig. Samen.'
+            });
+            break;
+          case "/investeren/test":
+            this.fire('app-metadata', {
+              title: this._parseDocumentTitle('Quickscan investeerders'),
+              description: 'Beantwoord 5 vragen en vind uit of jij een vastgoed crowdfunder bent.'
+            });
+            break;
+          case "/start-project":
+            this.fire('app-metadata', {
+              title: this._parseDocumentTitle('Start een project'),
+              description: 'Wij helpen je de crowdfunders te vinden voor jouw vastgoedproject.'
+            });
+            break;
+        }
+      },
+
+      _parseDocumentTitle(pageTitle) {
+        return [pageTitle, "Placetobe"].join(" | ");
       }
 
     });
