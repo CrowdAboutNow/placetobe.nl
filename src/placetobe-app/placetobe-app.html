@@ -1,6 +1,7 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/app-route/app-location.html">
 <link rel="import" href="../../bower_components/app-route/app-route.html">
+<link rel="import" href="../../bower_components/app-route/app-route-converter.html">
 <link rel="import" href="../../bower_components/app-metadata/app-metadata.html">
 <link rel="import" href="../placetobe-header/placetobe-header.html">
 <link rel="import" href="../placetobe-hero/placetobe-hero.html">
@@ -331,6 +332,7 @@
       attached: function() {
         Polymer.AppMetadata.requestAvailability();
         this._setMetaData();
+        this.routeChanged();
       },
 
       _computeInvestSubPageActive: function(investQuickscanPageActive, investRegisterPageActive) {
@@ -338,6 +340,8 @@
       },
 
       routeChanged: function(newRoute, oldRoute) {
+        var routeExists = (newRoute || {path:""}).path.match(/^(\/(start-project|investeren)(|\/test|\/aanmelden)|(\/|))$/g);
+        if(!routeExists) window.location.href="/";
         if(!(newRoute && oldRoute)) return;
         if(newRoute.path !== oldRoute.path) this._handleRouteChanged(newRoute.path, oldRoute.path);
       },
