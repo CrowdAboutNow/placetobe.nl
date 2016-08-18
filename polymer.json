@@ -1,0 +1,7 @@
+{
+  "entrypoint": "index.html",
+  "shell": "src/placetobe-app/placetobe-app.html",
+  "fragments": [
+    "src/placetobe-app/placetobe-app.html"
+  ]
+}
