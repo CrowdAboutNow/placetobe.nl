@@ -368,7 +368,7 @@
 
       _setMetaData: function(path) {
         switch(this.route.path) {
-          case "/":
+          default:
             this.fire('app-metadata', {
               title: this._parseDocumentTitle('Vastgoed crowdfunding'),
               description: 'Dé plek voor het crowdfunden van vastgoed in Nederland.'
@@ -384,6 +384,12 @@
             this.fire('app-metadata', {
               title: this._parseDocumentTitle('Quickscan investeerders'),
               description: 'Beantwoord 5 vragen en vind uit of jij een vastgoed crowdfunder bent.'
+            });
+            break;
+          case "/investeren/aanmelden":
+            this.fire('app-metadata', {
+              title: this._parseDocumentTitle('Aanmelden als investeerder'),
+              description: 'Dé plek voor het crowdfunden van vastgoed in Nederland.'
             });
             break;
           case "/start-project":
