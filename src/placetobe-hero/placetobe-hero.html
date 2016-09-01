@@ -14,7 +14,7 @@
       :host {
         display: block;
         width: 100%;
-        min-height: 753px;
+        min-height: 600px;
         display: flex;
         transition: 0.5s all;
         position: relative;
@@ -136,6 +136,8 @@
         width: 100%;
         bottom: -6px;
         transition: 0.5s all;
+        transform: scale(0.75, 0.75);
+        transform-origin: 100% 100%;
       }
 
       @media (max-width: 959px) {
@@ -147,7 +149,7 @@
 
       :host .illustration[hidden] {
         opacity: 0;
-        transform: translateY(100px) translateX(50px);
+        transform: translateY(100px) translateX(50px) scale(0.75, 0.75);
       }
 
       :host placetobe-investor-quickscan:not([hidden]), :host placetobe-investor-registration-form:not([hidden]) {
@@ -175,8 +177,8 @@
 
       :host placetobe-hero-background {
         position: absolute;
-        width: 762px;
-        height: 541px;
+        width: 463px;
+        height: 328px;
         bottom:0;
         left:50%;
         transform: translateX(-50%);
