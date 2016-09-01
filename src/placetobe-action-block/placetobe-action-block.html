@@ -8,33 +8,35 @@
     <style>
       :host div {
         text-align: center;
-        padding: 36px;
+        padding: 24px 36px 36px 36px;
         box-sizing: border-box;
+        border-radius: 6px;
       }
 
       :host[target="entrepreneurs"] div {
-        background-color: var(--placetobe-blue);
+        background-color: var(--placetobe-yellow);
       }
 
       :host[target="investors"] div {
-        background-color: var(--placetobe-green);
+        background-color: var(--placetobe-taupe);
       }
 
-      :host div h4 {
-        @apply(--placetobe-heading3-bold);  
+      :host div h3 {
+        @apply(--placetobe-heading3);
+        margin-bottom: 18px;
       }
 
       @media (max-width: 1236px) {
-        :host div h4 {
+        :host div h3 {
           @apply(--placetobe-heading3-bold--phone);
         }
       }
 
       :host div article {
-        @apply(--placetobe-body);
+        @apply(--placetobe-heading6);
         text-align: center;
         max-width: var(--placetobe-two-column-width);
-        margin: 0 auto;
+        margin: 0 auto 36px auto;
       }
 
       @media (max-width: 959px) {
@@ -52,7 +54,7 @@
     </style>
 
     <div>
-      <h4>[[title]]</h4>
+      <h3>[[title]]</h3>
       <article>
         <content></content><p>
       </article>

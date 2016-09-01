@@ -24,16 +24,14 @@
 
       :host:after {
         position: absolute;
-        background-image: linear-gradient(-270deg, #1329CE 0%, #FFFFFF 100%);
         content: "";
         top: 0;
         left: 0;
         right: 0;
         bottom: 0;
-        opacity: 0.3;
-/*        transform: rotate(-4deg);
-*/        z-index: 0;
-        transition: 0.5s transform;
+        opacity: 0.4;
+        z-index: 0;
+        transition: 0.5s all;
       }
 
       :host[entrepreneur-page-active][entrepreneur-test-page-active], :host[invest-page-active][invest-sub-page-active] {
@@ -41,11 +39,18 @@
         padding-bottom: 36px;
       }
 
+      :host[home-page-active]:after {
+        background: linear-gradient(-270deg, #1329CE 0%, #FFFFFF 100%);
+      }
+
       :host[invest-page-active]:after {
+        background: linear-gradient(-270deg, var(--placetobe-taupe) 0%, #FFFFFF 100%);
+        opacity: 0.2;
 /*        transform: rotate(3deg);
 */      }
 
       :host[entrepreneur-page-active]:after {
+        background: linear-gradient(-270deg, var(--placetobe-yellow) 0%, #FFFFFF 100%);
 /*        transform: rotate(-8deg) translateY(-50px);
 */      }
 
@@ -71,7 +76,7 @@
 
       :host > section article {
         @apply(--placetobe-two-column-item);
-        @apply(--placetobe-heading3);
+        @apply(--placetobe-heading2-regular);
         text-align: left;
         position: relative;
         z-index: 2;
@@ -80,7 +85,6 @@
 
       @media (max-width: 959px) {
         :host > section article {
-          @apply(--placetobe-heading3--phone);          
           position: relative;
           margin-top: 130px;
         }
@@ -169,6 +173,7 @@
 
       :host placetobe-button {
         display: block;
+        margin-bottom: 18px;
       }
 
       :host placetobe-button[flat] {

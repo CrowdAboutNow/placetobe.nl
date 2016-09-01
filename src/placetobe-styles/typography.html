@@ -14,6 +14,8 @@
 
 <style is="custom-style">
   :root {
+
+    /* base text styles */
     
     --placetobe-common-base: {
       font-kerning: normal;
@@ -24,42 +26,116 @@
       margin: 0;
     }
 
-    --placetobe-heading3: {
+    --placetobe-adelle-base: {
       @apply(--placetobe-common-base);
       font-family: "adelle", georgia, serif;
+    }
+
+    --placetobe-omnes-base: {
+      @apply(--placetobe-common-base);
+      font-family: "omnes-pro", Tahoma, "Geneva", arial, helvetica, sans-serif;
+    }
+
+    /*
+    Heading 1
+    */
+
+    --placetobe-heading1: {
+      @apply(--placetobe-adelle-base);
+      font-weight: 700;
+      font-size: 29px;
+      font-style: normal;
+      line-height: 1.37;
+    }
+
+    --placetobe-heading1-regular: {
+      @apply(--placetobe-heading1);
+      font-weight: 400;            
+    }
+
+    /*
+    Heading 2
+    */
+
+    --placetobe-heading2: {
+      @apply(--placetobe-heading1);
+    }
+
+    --placetobe-heading2-regular: {
+      @apply(--placetobe-heading1-regular);
+    }
+
+    /*
+    Heading 3
+    */
+
+    --placetobe-heading3: {
+      @apply(--placetobe-omnes-base);
       font-style: normal;
       font-weight: 400;
-      font-size: 29px; /*check*/
-      line-height: 1.36;
+      font-size: 32px;
+      line-height: 1.25;
     }
 
     --placetobe-heading3--phone: {
       @apply(--placetobe-heading3);
-      font-size: 21px; /*check*/
+      /* todo */
     }
 
     --placetobe-heading3-bold: {
-      @apply(--placetobe-heading3);
-      font-weight: 700;
+      /* deprecated */
     }
 
     --placetobe-heading3-bold--phone: {
-      @apply(--placetobe-heading3-bold);
-      font-size: 21px; /*check*/
+      /* deprecated */
     }
 
-    --placetobe-body: {
-      @apply(--placetobe-common-base);
-      font-family: "omnes-pro", Tahoma, "Geneva", arial, helvetica, sans-serif;
+    /*
+    Heading 4
+    */
+
+    --placetobe-heading4: {
+      @apply(--placetobe-adelle-base);
       font-style: normal;
-      font-weight: 400;
-      font-size: 18px; /*check*/
+      font-weight: 700;
+      font-size: 20px;
+      line-height: 1.56;
+    }
+
+    /*
+    Heading 5
+    */
+
+    --placetobe-heading5: {
+      @apply(--placetobe-adelle-base);
+      font-style: normal;
+      font-weight: 700;
+      font-size: 16px;
+      line-height: 1.56;
+    }
+
+    /*
+    Heading 6
+    */
+
+    --placetobe-heading6: {
+      @apply(--placetobe-heading5);
+    }
+
+
+    /*
+    Body
+    */
+
+    --placetobe-body: {
+      @apply(--placetobe-omnes-base);
+      font-size: 18px;
       line-height: 1.41;
     }
 
     --placetobe-body--phone: {
       @apply(--placetobe-body);
-      font-size: 20px;
+      /* todo */
     }
 
     --placetobe-body-bold: {
@@ -69,26 +145,9 @@
 
     --placetobe-body-bold--phone: {
       @apply(--placetobe-body-bold);
-      font-size: 20px;
+      /* todo */
     }
 
-    --placetobe-heading4: {
-      @apply(--placetobe-common-base);
-      font-family: "adelle", georgia, serif;
-      font-style: normal;
-      font-weight: 700;
-      font-size: 18px; /*check*/
-      line-height: 1;
-    }
-
-    --placetobe-heading5: {
-      @apply(--placetobe-common-base);
-      font-family: "adelle", georgia, serif;
-      font-style: normal;
-      font-weight: 700;
-      font-size: 14px; /*check*/
-      line-height: 1;
-    }
 
   }
 </style>
