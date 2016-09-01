@@ -7,12 +7,12 @@
     
     --placetobe-textinput-base: {
       box-sizing: border-box;
-      height: 60px;
-      padding: 20px 12px;
+      height: 36px;
+      @apply(--placetobe-body);
+      padding: 0 12px;
       text-align: left;
       display: inline-block;
       color: var(--placetobe-darkblue);
-      @apply(--placetobe-body);
       text-decoration: none;
       white-space: nowrap;
       outline: none;
@@ -21,12 +21,6 @@
 
     --placetobe-textinput: {
       @apply(--placetobe-textinput-base);
-    }
-
-    @media (max-width: 959px) {
-      --placetobe-textinput: {
-        @apply(--placetobe-body--phone);
-      }        
     }
 
   }

@@ -11,8 +11,9 @@
       }
 
       :host h3 {
-        @apply(--placetobe-heading3);
+        @apply(--placetobe-heading4);
         margin-bottom: 18px;
+        font-weight: 400;
       }
 
       @media (max-width: 1236px) {
@@ -99,7 +100,7 @@
         <h6>[[currentStep]] van [[numberOfQuestions]]</h6>
             
         <span hidden="[[!_atIndex(0, currentIndex)]]">
-            <h3>Ik wil rente verdienen op mijn geld</h3>
+            <h3>Ik wil <strong>rente</strong> verdienen op mijn <strong>geld</strong></h3>
             <iron-selector selected="{{answers.0}}" attr-for-selected="value">
                 <button value="1">Totaal onbelangrijk</button>
                 <button value="2">Redelijk onbelangrijk</button>
@@ -110,7 +111,7 @@
         </span>
 
         <span hidden="[[!_atIndex(1, currentIndex)]]">
-            <h3>Ik wil iedere dag mijn spaargeld kunnen opnemen</h3>
+            <h3>Ik wil <strong>iedere dag</strong> mijn spaargeld kunnen <strong>opnemen</strong></h3>
             <iron-selector selected="{{answers.1}}" attr-for-selected="value">
                 <button value="5">Totaal onbelangrijk</button>
                 <button value="4">Redelijk onbelangrijk</button>
@@ -121,7 +122,7 @@
         </span>
 
         <span hidden="[[!_atIndex(2, currentIndex)]]">
-            <h3>Ik wil geen enkel risico lopen dat ik geld verllies</h3>
+            <h3>Ik wil <strong>geen enkel risico</strong> lopen dat ik <strong>geld verllies</strong></h3>
             <iron-selector selected="{{answers.2}}" attr-for-selected="value">
                 <button value="5">Totaal onbelangrijk</button>
                 <button value="4">Redelijk onbelangrijk</button>
@@ -132,7 +133,7 @@
         </span>
 
         <span hidden="[[!_atIndex(3, currentIndex)]]">
-            <h3>Ik wil een hoog rendement maken</h3>
+            <h3>Ik wil een <strong>hoog rendement</strong> maken</h3>
             <iron-selector selected="{{answers.3}}" attr-for-selected="value">
                 <button value="1">Totaal onbelangrijk</button>
                 <button value="2">Redelijk onbelangrijk</button>
@@ -143,7 +144,7 @@
         </span>
 
         <span hidden="[[!_atIndex(4, currentIndex)]]">
-            <h3>Ik wil deelnemen in de verhalen van ondernemers</h3>
+            <h3>Ik wil <strong>deelnemen</strong> in de <strong>verhalen van ondernemers</strong></h3>
             <iron-selector selected="{{answers.4}}" attr-for-selected="value">
                 <button value="1">Totaal onbelangrijk</button>
                 <button value="2">Redelijk onbelangrijk</button>
