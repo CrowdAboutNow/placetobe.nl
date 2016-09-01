@@ -118,6 +118,12 @@
           display: none;
         }
       }
+
+      :host .large-action-block:not([hidden]) {
+        display: block;
+        max-width: var(--placetobe-layout-width);
+        margin: 36px auto;
+      }
     </style>
 
     <app-location
@@ -213,6 +219,7 @@
       </section>
 
       <placetobe-action-block
+        class="large-action-block"
         title="Ben jij een crowdfunder?"
         action-label="doe de quickscan"
         action-url="/investeren/test"
@@ -238,6 +245,7 @@
       </section>
 
       <placetobe-action-block
+        class="large-action-block"
         title="Heb jij een placetobe?"
         action-label="Project aanmelden"
         action-url="https://docs.google.com/forms/d/e/1FAIpQLSdFZhTSDI4kRKZlLedroXEmMCEAGVB6fUPSYJkdIL9jrQR1yg/viewform"

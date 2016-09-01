@@ -35,8 +35,11 @@
       }
 
       :host[entrepreneur-page-active][entrepreneur-test-page-active], :host[invest-page-active][invest-sub-page-active] {
-        max-height: 1280px;
-        padding-bottom: 36px;
+        min-height: 100vh;
+      }
+
+      :host[entrepreneur-page-active][entrepreneur-test-page-active] section article, :host[invest-page-active][invest-sub-page-active] section article {
+        margin-bottom: 36px;
       }
 
       :host[home-page-active]:after {
@@ -85,8 +88,8 @@
 
       @media (max-width: 959px) {
         :host > section article {
-          position: relative;
-          margin-top: 130px;
+          position: absolute;
+          bottom: 0;
         }
       }
 
