@@ -86,13 +86,6 @@
         justify-content: center;
       }
 
-      @media (max-width: 959px) {
-        :host > section article {
-          position: absolute;
-          bottom: 0;
-        }
-      }
-
       :host > section article .intro-text {
         position: absolute;
         transition: 0.5s all;
@@ -101,7 +94,7 @@
 
       @media (max-width: 959px) {
         :host > section article .intro-text {
-          bottom:auto;
+          bottom:0;
         }
       }
 
@@ -114,43 +107,49 @@
         pointer-events: none;
       }
 
-      :host > section div {
+      :host > section .illustrations {
         @apply(--placetobe-two-column-item);
         display: flex;
         position: relative;
       }
 
-      @media (min-width: 959px and max-width: 1236px) {
-        :host > section div {
+      @media (max-width: 959px) {
+        :host > section .illustrations {
+          position: absolute;
+          top:18px;
+          left:18px;
+          right:18px;
+          bottom:0;
           display: flex;
-          max-width: 100%;
-          justify-content: flex-end;
+          max-width: none;
         }
       }
 
-      @media (max-width: 600px) {
-        :host > section div {
+/*      @media (max-width: 600px) {
+        :host > section .illustrations {
           display: flex;
           max-width: 100%;
           justify-content: flex-start;
         }
       }
-
+*/
       :host .illustration {
         z-index: 1;
         position: relative;
         position: absolute;
         width: 100%;
         bottom: -6px;
+        right:0;
+        height: auto;
         transition: 0.5s all;
-        transform: scale(0.75, 0.75);
+        transform: scale(0.75);
         transform-origin: 100% 100%;
       }
 
       @media (max-width: 959px) {
         :host .illustration {
-          max-width: 50%;
           z-index: 1;
+          transform: scale(0.40);
         }
       }
 
@@ -185,8 +184,8 @@
 
       :host placetobe-hero-background {
         position: absolute;
-        width: 463px;
-        height: 328px;
+        width: 40vw;
+        height: auto;
         bottom:-6px;
         left:50%;
         transform: translateX(-50%);
@@ -271,7 +270,7 @@
 
       </article>
 
-      <div>
+      <div class="illustrations">
 
         <man-holding-key-illustration
         hidden$="[[!homePageActive]]"
