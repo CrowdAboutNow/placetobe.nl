@@ -7,25 +7,34 @@
       :host {
         display: block;
         -webkit-tap-highlight-color: transparent;
+        cursor: pointer;
       }
       :host svg {
         width: 100%;
         height: 100%;
         display: inline-block;
-        border: 2px solid var(--placetobe-darkblue);
+        border: 2px solid var(--tint-color, --placetobe-darkblue);
         border-radius: 50%;
       }
 
-      :host #menu-button {
-        stroke: var(--placetobe-darkblue);
+      :host g[hidden] {
+        display: none;
+      }
+
+      :host #menu-icon, #close-icon {
+        stroke: var(--tint-color, --placetobe-darkblue);
       }
     </style>
 
     <svg viewBox="0 0 54 54" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-      <g id="menu-button">
+      <g id="menu-icon" hidden$="[[close]]">
         <path d="M42.2830189,19.3584906 L22.8977346,19.3584906" stroke-width="2" stroke-linecap="square"></path>
         <path d="M42.2830189,27.509434 L17.3207547,27.509434" stroke-width="2" stroke-linecap="square"></path>
         <path d="M42.2830189,35.6603774 L11.2075472,35.6603774" stroke-width="2" stroke-linecap="square"></path>
+      </g>
+      <g id="close-icon" hidden$="[[!close]]">
+        <path d="M35.6509863,35.6509863 L18,18" id="Line" stroke-width="2" stroke-linecap="square"></path>
+        <path d="M35.6509863,35.6509863 L18,18" id="Line" stroke-width="2" stroke-linecap="square" transform="translate(26.825493, 26.825493) scale(-1, 1) translate(-26.825493, -26.825493) "></path>
       </g>
   </svg>
 
@@ -33,7 +42,14 @@
 
   <script>
     Polymer({
-      is: 'placetobe-menu-icon'
+      is: 'placetobe-menu-icon',
+      properties: {
+        close: {
+          type: Boolean,
+          value: false,
+          reflectToAttribute: true
+        }
+      }
     });
   </script>
 </dom-module>

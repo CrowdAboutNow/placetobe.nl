@@ -106,13 +106,9 @@
 
         :host placetobe-menu {
           position: fixed;
-          top: 108px;
+          top: 0;
           bottom:0;
-          z-index: 4;
-        }
-
-        :host[header-scrolled] placetobe-menu {
-          top: 72px;
+          z-index: 5;
         }
 
         :host[menu-hidden] placetobe-menu {
@@ -282,6 +278,7 @@
       for-invest-page$="[[entrepreneurPageActive]]"
       for-entrepreneur-page$="[[investPageActive]]"
       on-link-tap="hideMenu"
+      scrolled="[[headerScrolled]]"
     ></placetobe-menu>
 
   </template>

@@ -83,6 +83,13 @@
         transition: 0.5s all;
       }
 
+      @media (max-width: 959px) {
+        :host a placetobe-logo {
+          width: 169px;
+          height: 36px;
+        }
+      }
+
       :host placetobe-menu-icon {
         width: 54px;
         height: 54px;
@@ -95,10 +102,8 @@
         :host placetobe-menu-icon {
           display: block;
           cursor: pointer;
-        }
-        :host[scrolled] placetobe-menu-icon {
-          height: 36px;
           width: 36px;
+          height: 36px;
         }
       }
 
@@ -175,7 +180,7 @@
       },
 
       _computeScrolled: function(scrollY) {
-      	return (scrollY > 112)
+      	return (scrollY > 54)
       }
 
     });
