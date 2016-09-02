@@ -22,6 +22,12 @@
         background-color: #60D1D6;        
       }
 
+      @media (max-width: 959px) {
+        :host {
+          min-height: 90vh;
+        }
+      }
+
       :host:after {
         position: absolute;
         content: "";
@@ -37,6 +43,7 @@
       :host[entrepreneur-page-active][entrepreneur-test-page-active], :host[invest-page-active][invest-sub-page-active] {
         min-height: 100vh;
       }
+
 
       :host[entrepreneur-page-active][entrepreneur-test-page-active] section article, :host[invest-page-active][invest-sub-page-active] section article {
         margin-bottom: 36px;
@@ -84,6 +91,15 @@
         position: relative;
         z-index: 2;
         justify-content: center;
+      }
+
+      @media (max-width: 959px) {
+        :host > section article {
+          @apply(--placetobe-heading2-regular--mobile);
+          display: flex;
+          justify-content: flex-end;
+          flex-direction: column;
+        }
       }
 
       :host > section article .intro-text {
@@ -167,6 +183,7 @@
       @media (max-width: 959px) {
         :host placetobe-investor-quickscan:not([hidden]), placetobe-investor-registration-form:not([hidden]) {
           position: relative;
+          margin-bottom: 54px;
         }
          :host[invest-page-active][invest-sub-page-active] .illustration {
             display: none;
@@ -184,7 +201,7 @@
 
       :host placetobe-hero-background {
         position: absolute;
-        width: 40vw;
+        width: 50vw;
         height: auto;
         bottom:-6px;
         left:50%;

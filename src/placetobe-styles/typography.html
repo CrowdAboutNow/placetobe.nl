@@ -48,9 +48,19 @@
       line-height: 1.37;
     }
 
+    --placetobe-heading1--mobile: {
+      @apply(--placetobe-heading1);
+      font-size: 24px;
+    }
+
     --placetobe-heading1-regular: {
       @apply(--placetobe-heading1);
       font-weight: 400;            
+    }
+
+    --placetobe-heading1-regular--mobile: {
+      @apply(--placetobe-heading1-regular);
+      font-size: 24px;
     }
 
     /*
@@ -61,8 +71,16 @@
       @apply(--placetobe-heading1);
     }
 
+    --placetobe-heading2--mobile: {
+      @apply(--placetobe-heading1--mobile);
+    }
+
     --placetobe-heading2-regular: {
       @apply(--placetobe-heading1-regular);
+    }
+
+    --placetobe-heading2-regular--mobile: {
+      @apply(--placetobe-heading1-regular--mobile);
     }
 
     /*
@@ -77,17 +95,20 @@
       line-height: 1.25;
     }
 
-    --placetobe-heading3--phone: {
+    --placetobe-heading3--mobile: {
       @apply(--placetobe-heading3);
+      font-size: 26px;
       /* todo */
     }
 
     --placetobe-heading3-bold: {
-      /* deprecated */
+      @apply(--placetobe-heading3);
+      font-weight: 600;
     }
 
-    --placetobe-heading3-bold--phone: {
-      /* deprecated */
+    --placetobe-heading3-bold--mobile: {
+      @apply(--placetobe-heading3-bold);
+      font-size: 26px;
     }
 
     /*
@@ -100,6 +121,11 @@
       font-weight: 700;
       font-size: 20px;
       line-height: 1.56;
+    }
+
+    --placetobe-heading4--mobile: {
+      @apply(--placetobe-heading4);
+      font-size: 16px;
     }
 
     /*
