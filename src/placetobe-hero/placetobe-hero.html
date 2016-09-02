@@ -201,12 +201,21 @@
 
       :host placetobe-hero-background {
         position: absolute;
-        width: 50vw;
-        height: auto;
-        bottom:-6px;
-        left:50%;
+        bottom:0;
+        width: var(--placetobe-two-column-width);
+        height: 446px;
+        left: 50%;
         transform: translateX(-50%);
+        bottom:-3px;
       }
+
+      @media (max-width: 959px) {
+        :host placetobe-hero-background {
+          height: auto;
+          width: 50vw;
+        }
+      }
+
     </style>
 
     <section>

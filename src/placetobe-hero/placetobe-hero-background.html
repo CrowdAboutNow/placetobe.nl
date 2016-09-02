@@ -4,6 +4,11 @@
 
     <style>
 
+      :host svg {
+        height: auto;
+        width: auto;
+      }
+
       :host #car {
         transition: 3s transform ease;
         transform: translate(0, 481.166972px);
@@ -46,10 +51,10 @@
       }
 
       :host #metropole-illustration {
-        mix-blend-mode: multiply;
-        -webkit-mix-blend-mode: multiply;
-        -moz-mix-blend-mode: multiply;
-        -ms-mix-blend-mode: multiply;
+        mix-blend-mode: luminosity;
+        -webkit-mix-blend-mode: luminosity;
+        -moz-mix-blend-mode: luminosity;
+        -ms-mix-blend-mode: luminosity;
       }
 
     </style>
