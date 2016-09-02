@@ -12,8 +12,8 @@
   <template>
     <style>
       :host {
-        display: block;
         width: 100%;
+        height: 600px;
         min-height: 600px;
         display: flex;
         transition: 0.5s all;
@@ -46,6 +46,7 @@
 
 
       :host[entrepreneur-page-active][entrepreneur-test-page-active] section article, :host[invest-page-active][invest-sub-page-active] section article {
+        display: block;
         margin-bottom: 36px;
       }
 
@@ -74,12 +75,17 @@
       }
 
       :host > section {
+        display: block;
         flex: 1;
+        flex: none;
+        width: 100%;
         @apply(--placetobe-two-column-layout);
+        justify-content: flex-start;
       }
 
       @media (max-width: 959px) {
         :host > section {
+          display: block;
           @apply(--placetobe-two-column-layout--phone);
         }        
       }
@@ -91,6 +97,7 @@
         position: relative;
         z-index: 2;
         justify-content: center;
+        display: block;
       }
 
       @media (max-width: 959px) {
@@ -99,6 +106,7 @@
           display: flex;
           justify-content: flex-end;
           flex-direction: column;
+          display: block;
         }
       }
 
