@@ -10,6 +10,7 @@
 <link rel="import" href="../placetobe-pricing/placetobe-pricing.html">
 <link rel="import" href="../placetobe-action-block/placetobe-action-block.html">
 <link rel="import" href="../placetobe-menu/placetobe-menu.html">
+<link rel="import" href="../placetobe-investor-registration-form/placetobe-investor-registration-form.html">
 
 <dom-module id="placetobe-app">
   <template>
@@ -129,6 +130,20 @@
         :host .large-action-block:not([hidden]) {
           margin: 36px 18px;
         }
+      }
+
+      :host placetobe-investor-registration-form {
+        --submit-button-color: var(--placetobe-taupe);
+        position: relative;
+        z-index: 1;
+        margin: 0 0 36px 0;
+      }
+
+      :host placetobe-investor-registration-form h3 {
+        @apply(--placetobe-heading3);
+        width: var(--placetobe-column-width);
+        color: white;
+        margin: 0 auto 18px auto;
       }
     </style>
 
@@ -296,7 +311,20 @@
       for-entrepreneur-page$="[[investPageActive]]"
       on-link-tap="hideMenu"
       scrolled="[[headerScrolled]]"
-    ></placetobe-menu>
+    >
+
+    <placetobe-investor-registration-form
+      hide-first-name
+      hide-last-name
+      horizontal-layout
+    >
+      
+      <h3>Alles weten over onze nieuwe projecten?</h3>
+
+    </placetobe-investor-registration-form>
+
+
+    </placetobe-menu>
 
   </template>
 

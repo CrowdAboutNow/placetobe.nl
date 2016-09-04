@@ -84,6 +84,7 @@
         width: 100%;
         @apply(--placetobe-two-column-layout);
         justify-content: flex-start;
+        padding: 0;
       }
 
       @media (max-width: 959px) {
@@ -197,6 +198,29 @@
         bottom: 0%;
       }
 
+
+      :host placetobe-investor-registration-form h1 {
+        @apply(--placetobe-heading4);
+      }
+
+      @media (max-width: 1236px) {
+        :host placetobe-investor-registration-form h1 {
+          @apply(--placetobe-heading4-bold--mobile);
+        }
+      }
+
+      :host placetobe-investor-registration-form article {
+        @apply(--placetobe-body);
+        margin: 0 0 36px 0;
+      }
+
+      @media (max-width: 959px) {
+        :host placetobe-investor-registration-form article {
+          @apply(--placetobe-body--mobile);
+        }        
+      }
+
+
       @media (max-width: 959px) {
         :host placetobe-investor-quickscan:not([hidden]), placetobe-investor-registration-form:not([hidden]) {
           position: absolute;
@@ -288,7 +312,12 @@
           ></placetobe-investor-quickscan>
           <placetobe-investor-registration-form
             hidden$="[[!investRegisterPageActive]]"
-          ></placetobe-investor-registration-form>
+          >
+
+            <h1>Aanmelden als investeerder</h1>
+            <article>Goed dat je je wil aanmelden. Vul hieronder je naam en email adres in en nemen contact met je op.</article>
+            
+          </placetobe-investor-registration-form>
 
         </span>
 

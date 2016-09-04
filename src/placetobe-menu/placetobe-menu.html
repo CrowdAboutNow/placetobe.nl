@@ -1,6 +1,7 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../placetobe-styles/placetobe-styles.html">
 <link rel="import" href="../placetobe-menu-icon/placetobe-menu-icon.html">
+<link rel="import" href="../placetobe-hero/placetobe-hero-background.html">
 
 <dom-module id="placetobe-menu">
   <style>
@@ -9,11 +10,13 @@
       width: 100%;
       height: auto;
       background-color: var(--background-color, --placetobe-darkblue);
-      padding: 36px 0;
+      padding: 54px 0;
       box-sizing: border-box;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
+      overflow: hidden;
+      position: relative;
     }
 
     :host placetobe-menu-icon {
@@ -107,19 +110,43 @@
     :host footer span {
       display: block;
       text-align: center;
-      width: 100%;      
+      width: 100%;
+      z-index: 2;
+      position: relative;
     }
 
     :host footer a {
       text-decoration: underline;          
     }
 
+    :host placetobe-hero-background {
+      position: absolute;
+      width: var(--placetobe-two-column-width);
+      height: 100%;
+      left: 50%;
+      bottom: 0;
+      transform: translateX(-50%);
+      z-index: 0;
+      opacity: 0.1;
+    }
+
+    @media(max-width: 959px) {
+      :host ::content placetobe-investor-registration-form {
+        display: none;
+      }
+    }
+
   </style>
   <template>
+
+  <placetobe-hero-background></placetobe-hero-background>
 
   <placetobe-menu-icon close on-tap="_handleCloseTap"></placetobe-menu-icon>
 
   <main>
+
+    <content></content>
+
     <a on-tap="_handleLinkTap" href="/" title="place to be">Home</a>
     <a on-tap="_handleLinkTap" href="/start-project" title="start een project">Start een project</a>
     <a on-tap="_handleLinkTap" href="/investeren" title="investeren">Investeer</a>

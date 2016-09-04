@@ -6,30 +6,12 @@
   <template>
     <style>
       :host {
-
+        display: block;
       }
 
-      :host h1 {
-        @apply(--placetobe-heading4);
+      :host[hidden] {
+        display: none;
       }
-
-      @media (max-width: 1236px) {
-        :host h1 {
-          @apply(--placetobe-heading4-bold--mobile);
-        }
-      }
-
-      :host article {
-        @apply(--placetobe-body);
-        margin: 0 0 36px 0;
-      }
-
-      @media (max-width: 959px) {
-        :host article {
-          @apply(--placetobe-body--mobile);
-        }        
-      }
-
 
       :host form {
       }
@@ -37,8 +19,15 @@
       :host input {
         @apply(--placetobe-textinput);
         display: block;
+        vertical-align: top;
         margin: 9px 0;
       }
+
+      :host[horizontal-layout] input {
+        display: inline-block;
+        height: 54px;
+      }
+
 
       :host input[type="text"], :host input[type="email"] {
         width: 75%;
@@ -46,22 +35,27 @@
 
       :host input[type="submit"] {
         @apply(--placetobe-button);
+        margin: 9px 0;
+        background-color: var(--submit-button-color, white);
       }
 
       :host input[type="submit"]:hover {
         @apply(--placetobe-button-hover);
       }
+
+      :host input[hidden] {
+        display: none;
+      }
     </style>
 
-    <h1>Aanmelden als investeerder</h1>
-    <article>Goed dat je je wil aanmelden. Vul hieronder je naam en email adres in en nemen contact met je op.</article>
+    <content></content>
 
     <form
       action="//placetobe.us14.list-manage.com/subscribe/post?u=6c901df927e645406a166cd19&amp;id=f8e51975f5"
       method="post"
       target="_blank">
-      <input name="FNAME" type="text" placeholder="Voornaam">
-      <input name="LNAME" type="text" placeholder="Achternaam">
+      <input name="FNAME" type="text" placeholder="Voornaam" hidden$="[[hideFirstName]]">
+      <input name="LNAME" type="text" placeholder="Achternaam" hidden$="[[hideLastName]]">
       <input name="EMAIL" type="email" placeholder="Email Adres">
       <input type="submit" value="meld je aan!">
     </form>
@@ -73,7 +67,19 @@
 
       is: 'placetobe-investor-registration-form',
       properties: {
-        
+        horizontalLayout: {
+          type: Boolean,
+          value: false,
+          reflectToAttribute: true
+        },
+        hideFirstName: {
+          type: Boolean,
+          value: false
+        },
+        hideLastName: {
+          type: Boolean,
+          value: false
+        }
       },
 
     });
