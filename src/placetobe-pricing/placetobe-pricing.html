@@ -15,13 +15,13 @@
         position: relative;
       }
 
-      @media (max-width: 1236px) {
+      @media (max-width: 959px) {
         :host #pricing-table {
           @apply(--placetobe-two-column-layout--phone);
         }        
       }
 
-      @media (min-width: 1237px) {
+      @media (min-width: 960px) {
         :host #pricing-table:after {
           position: absolute;
           content: "";
@@ -39,7 +39,7 @@
         margin-bottom: 36px;
       }
 
-      @media (max-width: 1236px) {
+      @media (max-width: 959px) {
         :host h3 {
           @apply(--placetobe-heading3-bold--phone);
           margin-bottom: 36px;
@@ -47,10 +47,10 @@
       }
 
       :host #pricing-table div {
-        @apply(--placetobe-two-column-item);
+        flex: 1;
       }
 
-      @media (max-width: 1236px) {
+      @media (max-width: 959px) {
         :host #pricing-table div {
           @apply(--placetobe-two-column-item);
           max-width: 100%;
