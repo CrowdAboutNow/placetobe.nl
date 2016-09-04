@@ -177,7 +177,8 @@
       },
 
       _handleScroll: function() {
-      	this._setScrollY(window.scrollY)
+      	this._setScrollY(window.scrollY || document.documentElement.scrollTop);
+        console.log('scrolling', window.scrollY)
       },
 
       _computeScrolled: function(scrollY) {
