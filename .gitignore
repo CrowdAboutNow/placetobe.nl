@@ -3,3 +3,4 @@ node_modules
 bower_components
 /build/*/*
 !/build/bundled/sitemap.xml
+/firebase-debug.log

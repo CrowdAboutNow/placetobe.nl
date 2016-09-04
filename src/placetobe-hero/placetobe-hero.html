@@ -170,6 +170,12 @@
         transform-origin: 100% 100%;
       }
 
+      @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+        :host .illustration {
+          height: 100%;
+        }
+      }
+
       @media (max-width: 959px) {
         :host .illustration {
           z-index: 1;
