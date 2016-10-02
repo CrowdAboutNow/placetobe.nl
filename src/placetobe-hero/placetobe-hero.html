@@ -312,10 +312,11 @@
           ></placetobe-investor-quickscan>
           <placetobe-investor-registration-form
             hidden$="[[!investRegisterPageActive]]"
+            on-register="downloadBrochure"
           >
 
             <h1>Aanmelden als investeerder</h1>
-            <article>Goed dat je je wil aanmelden. Vul hieronder je naam en email adres in en nemen contact met je op.</article>
+            <article>Goed dat je je wil aanmelden. Vul hieronder je naam en email adres in en je krijgt direct van ons de brochure.</article>
             
           </placetobe-investor-registration-form>
 
@@ -411,6 +412,13 @@
 
       _computeInvestSubPageActive: function(investQuickscanPageActive, investRegisterPageActive) {
         return (investQuickscanPageActive === true || investRegisterPageActive === true)
+      },
+
+      downloadBrochure: function() {
+        var downloadElement = document.createElement('a');
+        downloadElement.setAttribute('download', true);
+        downloadElement.href = 'https://firebasestorage.googleapis.com/v0/b/placetobe-nl.appspot.com/o/Placetobe_Factsheet_versie_6.pdf?alt=media&token=c43f38ea-9413-4640-8a0f-edf62b641e5a';
+        downloadElement.click();
       }
 
     });
