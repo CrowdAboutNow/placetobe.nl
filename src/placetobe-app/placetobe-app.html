@@ -11,6 +11,7 @@
 <link rel="import" href="../placetobe-action-block/placetobe-action-block.html">
 <link rel="import" href="../placetobe-menu/placetobe-menu.html">
 <link rel="import" href="../placetobe-investor-registration-form/placetobe-investor-registration-form.html">
+<link rel="import" href="../placetobe-cookie-warning/placetobe-cookie-warning.html">
 
 <dom-module id="placetobe-app">
   <template>
@@ -173,7 +174,21 @@
         font-weight: 400;
       }
 
+      :host placetobe-cookie-warning {
+        display: block;
+        width: 100%;
+        position: fixed;
+        bottom:0;
+        z-index: 99;
+      }
+
     </style>
+
+    <template is="dom-if" if="[[!cookiesAccepted]]">
+      <placetobe-cookie-warning
+        on-cookies-accepted="_handleCookiesAccepted"
+      ></placetobe-cookie-warning>
+    </template>
 
     <app-location
       route="{{route}}"
@@ -434,6 +449,10 @@
         headerScrolled: {
           type: Boolean,
           reflectToAttribute: true          
+        },
+        cookiesAccepted: {
+          type: Boolean,
+          value: false
         }
       },
 
@@ -443,6 +462,7 @@
 
       ready: function() {
         this.routeChanged();
+        this.cookiesAccepted = window.localStorage.getItem('placetobe-cookies-accepted');
       },
 
       attached: function() {
@@ -479,6 +499,11 @@
         window.setTimeout(function() {
           self.menuHidden = true;
         }, 50)
+      },
+
+      _handleCookiesAccepted: function() {
+        window.localStorage.setItem('placetobe-cookies-accepted', true);
+        this.cookiesAccepted = window.localStorage.getItem('placetobe-cookies-accepted');
       },
 
       _setMetaData: function(path) {
