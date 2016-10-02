@@ -6,136 +6,52 @@
     <style>
       :host {
         display: block;
-        background-color: #eee;
-        text-align: center;
-        padding: 36px 0;
       }
-      :host #pricing-table {
+
+
+      :host #blocks:not([hidden]) {
         @apply(--placetobe-two-column-layout);
-        position: relative;
       }
 
-      @media (max-width: 959px) {
-        :host #pricing-table {
+      @media (max-width: 1044px) {
+        :host #blocks:not([hidden]) {
           @apply(--placetobe-two-column-layout--phone);
-        }        
-      }
-
-      @media (min-width: 960px) {
-        :host #pricing-table:after {
-          position: absolute;
-          content: "";
-          top: 0;
-          bottom: 0;
-          left: 50%;
-          width: 1px;
-          height: 100%;
-          background-color: var(--placetobe-darkblue);
         }
       }
 
-      :host h3 {
-        @apply(--placetobe-heading3);
-        margin-bottom: 36px;
+      :host #blocks > * {
+        @apply(--placetobe-two-column-item);
       }
 
-      @media (max-width: 959px) {
-        :host h3 {
-          @apply(--placetobe-heading3-bold--phone);
-          margin-bottom: 36px;
+      @media (max-width: 1044px) {
+        :host #blocks > * {
+          max-width: 100%;
+          margin-bottom: 18px;
         }
       }
 
-      :host #pricing-table div {
+      placetobe-action-block {
         flex: 1;
       }
-
-      @media (max-width: 959px) {
-        :host #pricing-table div {
-          @apply(--placetobe-two-column-item);
-          max-width: 100%;
-          margin-bottom: 36px;
-        }        
-      }
-
-      :host h6 {
-        @apply(--placetobe-heading6);
-        margin-bottom: 18px;
-      }
-
-      :host #pricing-table div article {
-        @apply(--placetobe-body);
-      }
-
-      @media (max-width: 959px) {
-        :host #pricing-table div article {
-          @apply(--placetobe-body--phone);
-        }        
-      }
-
-      :host #pricing-table div article b, :host #pricing-table div article strong {
-        @apply(--placetobe-body-bold);        
-      }
-
-      @media (max-width: 959px) {
-        :host #pricing-table div article b, :host #pricing-table div article strong {
-          @apply(--placetobe-body-bold--phone);
-        }        
-      }
-
-      :host footer {
-        margin-top: 38px;
-      }
-
-      :host footer span {
-        @apply(--placetobe-body);
-      }
-
-      @media (max-width: 959px) {
-        :host footer span {
-          @apply(--placetobe-body--phone);
-        }        
-      }
-
-      :host footer span b {
-        @apply(--placetobe-body-bold);
-      }
-
-      @media (max-width: 959px) {
-        :host footer span b {
-          @apply(--placetobe-body-bold--phone);
-        }        
-      }
-
-
     </style>
 
-    <header>
-      <h3>Tarieven</h3>      
-    </header>
+      <div id="blocks">
 
-    <main id="pricing-table">
-      <div>
-        <h6>Plaatsingsfee</h6>
-        <article>
-          <b>1%</b> over eerste <b>€ 100.000,-</b> (minimum <b>€ 500,-</b>)<br>
-          <b>0,1%</b> over meerdere tot <b>€ 1.000.000,-</b><br>
-          <b>0,05%</b> over meerdere boven <b>€ 1.000.000,-</b>        
-        </article>
-      </div>
-      <div>
-        <h6>Succesfee</h6>
-        <article>
-        <b>3%</b> over eerste <b>€ 100.000,-</b><br>
+      <placetobe-action-block title="Plaatsingsfee">
+        <b>1%</b> over eerste <b>€ 100.000,-</b> (minimum <b>€ 500,-</b>)<br>
+        <b>0,1%</b> over meerdere tot <b>€ 1.000.000,-</b><br>
+        <b>0,05%</b> over meerdere boven <b>€ 1.000.000,-</b>
+      </placetobe-action-block>
+
+      <placetobe-action-block title="Succesfee">
+          <b>3%</b> over eerste <b>€ 100.000,-</b><br>
           <b>1,9%</b> over meerdere tot <b>€ 1.000.000,-</b><br>
           <b>1,45%</b> over meerdere boven <b>€ 1.000.000,-</b>
-        </article>
-      </div>
-    </main>
+          <br>
+          beheerkosten <b>0,5%</b> per jaar gedurende de looptijd
+      </placetobe-action-block>
 
-    <footer>
-      <span>beheerkosten <b>0,5%</b> per jaar gedurende de looptijd</span>
-    </footer>
+      </div>
 
   </template>
 

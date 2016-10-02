@@ -50,9 +50,20 @@
         margin-bottom: 24px;
       }
 
+      :host .intro h2 {
+        @apply(--placetobe-heading2);
+        margin-bottom: 24px;
+      }
+
       @media (max-width: 1044px) {
+
         :host .intro h1 {
           @apply(--placetobe-heading1--mobile);
+          margin-bottom: 18px;
+        }    
+
+        :host .intro h2 {
+          @apply(--placetobe-heading2--mobile);
           margin-bottom: 18px;
         }        
       }
@@ -145,6 +156,23 @@
         color: white;
         margin: 0 auto 18px auto;
       }
+
+      :host #pricing {
+        padding-top: 108px;
+      }
+
+      :host #pricing h1, :host #pricing h2 {
+        margin: 0;
+      }
+
+      :host #pricing h1 {
+        margin-bottom: 36px;
+      }
+
+      :host #pricing h2 {
+        font-weight: 400;
+      }
+
     </style>
 
     <app-location
@@ -172,6 +200,13 @@
       data="{{routeData}}"
       active="{{entrepreneurPageActive}}"
       tail="{{entrepreneurSubroute}}"
+    ></app-route>
+
+    <app-route
+      route="{{route}}"
+      pattern="/tarieven"
+      data="{{routeData}}"
+      active="{{pricingPageActive}}"
     ></app-route>
 
     <app-route
@@ -203,14 +238,56 @@
       entrepreneur-page-active="[[entrepreneurPageActive]]"
     ></placetobe-header>
 
-    <placetobe-hero
-      home-page-active="[[homePageActive]]"
-      invest-page-active="[[investPageActive]]"
-      entrepreneur-page-active="[[entrepreneurPageActive]]"
-      entrepreneur-test-page-active="[[entrepreneurTestPageActive]]"
-      invest-quickscan-page-active="[[investQuickscanPageActive]]"
-      invest-register-page-active="[[investRegisterPageActive]]"
-    ></placetobe-hero>
+    <template is="dom-if" if="[[!pricingPageActive]]">
+      <placetobe-hero
+        home-page-active="[[homePageActive]]"
+        invest-page-active="[[investPageActive]]"
+        entrepreneur-page-active="[[entrepreneurPageActive]]"
+        entrepreneur-test-page-active="[[entrepreneurTestPageActive]]"
+        invest-quickscan-page-active="[[investQuickscanPageActive]]"
+        invest-register-page-active="[[investRegisterPageActive]]"
+      ></placetobe-hero>
+    </template>
+
+    <template is="dom-if" if="[[pricingPageActive]]">
+
+      <section
+        id="pricing"
+        class="intro"
+        >
+        <h2>Wat kost dat nou?</h2>
+        <h1>Tarieven voor crowfdfunden bij Placetobe</h1>
+        
+        <article>
+          <p>We begeleiden het hele proces en geven je advies over campagne voeren en hoe je betrokken investeerders vindt. Ook zorgen we ervoor dat de financiële afhandeling tot in de puntjes geregeld is.</p>
+<!--           <placetobe-button
+            url="bla"
+            label="Download de brochure"
+            external-link
+          ></placetobe-button>
+ -->        </article>
+
+      </section>
+
+        <placetobe-pricing></placetobe-pricing>
+
+      <section class="intro">
+
+        <article>
+          <p>Bij vastgoed hoort altijd financiering, maar voor veel 'kleinere' projecten blijft het bankloket helaas gesloten. Komt jouw project daardoor ook niet van de grond? Crowdfunding biedt nieuwe kansen. We bereiken ene grote groep investeerders en gebruikers. Samen realiseren we vastgoed.</p>
+        </article>
+      </section>
+
+      <placetobe-action-block
+        class="large-action-block"
+        title="Project starten?"
+        action-label="Meer info"
+        action-url="/start-project"
+        target="entrepreneurs"
+      >Financiering nodig voor een vastgoedproject? Misschien is crowdfunding de manier voor jou.
+      </placetobe-action-block>
+
+    </template>
 
     <section
       id="why"
@@ -299,10 +376,6 @@
 
       </section>
 
-      <placetobe-pricing
-        hidden$="[[!entrepreneurPageActive]]"
-      ></placetobe-pricing>
-
     </template>
 
     <placetobe-menu
@@ -382,7 +455,7 @@
       },
 
       routeChanged: function(newRoute, oldRoute) {
-        var routeExists = (newRoute || {path:""}).path.match(/^(\/(start-project|investeren)(|\/test|\/aanmelden)|(\/|))$/g);
+        var routeExists = (newRoute || {path:""}).path.match(/^(\/(start-project|investeren|tarieven)(|\/test|\/aanmelden)|(\/|))$/g);
         if(!routeExists) history.replaceState({}, "Placetobe", "/");
         if(!(newRoute && oldRoute)) return;
         if(newRoute.path !== oldRoute.path) this._handleRouteChanged(newRoute.path, oldRoute.path);
@@ -438,6 +511,12 @@
             this.fire('app-metadata', {
               title: this._parseDocumentTitle('Start een project'),
               description: 'Wij helpen je de crowdfunders te vinden voor jouw vastgoedproject.'
+            });
+            break;
+          case "/tarieven":
+            this.fire('app-metadata', {
+              title: this._parseDocumentTitle('Tarieven'),
+              description: 'We begeleiden het hele proces en geven je advies over campagne voeren en hoe je betrokken investeerders vindt.'
             });
             break;
         }
