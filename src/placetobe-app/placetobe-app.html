@@ -27,17 +27,41 @@
 
       :host .intro {
         margin: 36px auto;
-        max-width: var(--placetobe-two-column-width);
+        max-width: var(--placetobe-layout-width);
         max-height: 9999px;
-        overflow: hidden;
         padding: 0 36px;
+        display: flex;  
       }
+
+        :host .intro > * {
+          flex: 1;
+        }
+
+        @media (max-width: 1044px) {
+          :host .intro {
+            display: block;
+          }
+          :host .intro > *, :host .intro > article {
+            flex: none;
+            padding-right: 0;
+          }
+        }
+
+        :host .intro > article {
+          flex: 2;
+          padding-right: 18px;
+        }
+
+        :host .intro aside {
+          margin-top: -28px;
+          z-index: 4;
+        }
 
       @media (max-width: 1044px) {
         :host .intro {
           padding: 0 18px;  
-          margin: 36px auto 18px auto;        
-        }     
+          margin: 36px auto 18px auto;
+        }
       }
 
       @media (max-width: 1044px) {
@@ -117,7 +141,6 @@
         background-color: var(--placetobe-taupe);
       }
 
-
       @media (max-width: 959px) {
 
         :host placetobe-menu {
@@ -138,20 +161,20 @@
         margin: 36px auto;
       }
 
-      @media (max-width: 959px) {
+      @media (max-width: 1044px) {
         :host .large-action-block:not([hidden]) {
-          margin: 36px 18px;
-        }
+/*          margin: 36px 18px;
+*/        }
       }
 
-      :host placetobe-investor-registration-form {
+      :host placetobe-menu placetobe-investor-registration-form {
         --submit-button-color: var(--placetobe-taupe);
         position: relative;
         z-index: 1;
-        margin: 0 0 36px 0;
+        margin-bottom: 36px;
       }
 
-      :host placetobe-investor-registration-form h3 {
+      :host placetobe-menu placetobe-investor-registration-form h3 {
         @apply(--placetobe-heading3);
         width: var(--placetobe-column-width);
         color: white;
@@ -179,7 +202,7 @@
         width: 100%;
         position: fixed;
         bottom:0;
-        z-index: 99;
+        z-index: 9;
       }
 
     </style>
@@ -275,12 +298,7 @@
         
         <article>
           <p>We begeleiden het hele proces en geven je advies over campagne voeren en hoe je betrokken investeerders vindt. Ook zorgen we ervoor dat de financiële afhandeling tot in de puntjes geregeld is.</p>
-<!--           <placetobe-button
-            url="bla"
-            label="Download de brochure"
-            external-link
-          ></placetobe-button>
- -->        </article>
+        </article>
 
       </section>
 
@@ -304,32 +322,58 @@
 
     </template>
 
-    <section
-      id="why"
-      class="intro"
-      hidden$="[[!homePageActive]]"
-      >
-      <h1>Nieuwe kansen voor de vastgoedmarkt</h1>
-      <article>
-      <p>
-      <strong>Wij vinden dat de vastgoedmarkt anders kan. Makkelijker, eerlijker, en vooral: beter voor elkaar. Het is toch gek dat de bank met haar leningen zoveel invloed heeft op hoe we wonen, werken, leven? Laten we liever samen beslissen waar behoefte aan is, en wat het verdient om financiering te krijgen.</strong>
-      <p>Met Placetobe brengen we ontwikkelaars, investeerders en gebruikers bij elkaar en zorgen we voor financiering, rendement én een gewilde plek. Een win-win-win voor iedereen.
-      </article>
-    </section>
+    <section class="intro">
 
-    <template is="dom-if" if="[[!investSubPageActive]]">
+      <!-- / -->
+      <template is="dom-if" if="[[homePageActive]]">
+        <article>
+        <h1>Nieuwe kansen voor de vastgoedmarkt</h1>
+        <p>
+        <strong>Wij vinden dat de vastgoedmarkt anders kan. Makkelijker, eerlijker, en vooral: beter voor elkaar. Het is toch gek dat de bank met haar leningen zoveel invloed heeft op hoe we wonen, werken, leven? Laten we liever samen beslissen waar behoefte aan is, en wat het verdient om financiering te krijgen.</strong>
+        <p>Met Placetobe brengen we ontwikkelaars, investeerders en gebruikers bij elkaar en zorgen we voor financiering, rendement én een gewilde plek. Een win-win-win voor iedereen.
+        </article>
+      </template>
 
-      <section
-        id="intro-investors" 
-        class="intro"
-        hidden$="[[!investPageActive]]"
-        >
+      <!-- /investeren -->
+      <template is="dom-if" if="[[investPageActive]]">
+        <article>
         <h1>Investeren in vastgoed met placetobe</h1>
-        <article><strong>Zie je je spaarkapitaal bij de bank meer krimpen dan groeien, maar is beleggen in aandelen net een stap te ver? Investeren in vastgoed via crowdfunding is een veilige en gebruiksvriendelijke manier van beleggen. Niet alleen ontvang je meer rendement, je helpt vastgoedprojecten realiseren die jou aanspreken. Crowdfunden is waarde creëren voor jezelf en de omgeving.  </strong>
+        <strong>Zie je je spaarkapitaal bij de bank meer krimpen dan groeien, maar is beleggen in aandelen net een stap te ver? Investeren in vastgoed via crowdfunding is een veilige en gebruiksvriendelijke manier van beleggen. Niet alleen ontvang je meer rendement, je helpt vastgoedprojecten realiseren die jou aanspreken. Crowdfunden is waarde creëren voor jezelf en de omgeving.  </strong>
         <p>Placetobe is voor de spaarder die meer rendement wil en de investeerder die bijzondere beleggingsprojecten zoekt. We zijn ervaren in crowdfunding en vastgoed en weten projecten op hun haalbaarheid en succes te toetsen. 
         </p>
         </article>
-      </section>
+      </template>
+
+      <!-- /start-project -->
+      <template is="dom-if" if="[[entrepreneurPageActive]]">
+        <article>
+        <h1>Vastgoed crowdfunden met placetobe</h1>
+        <strong>Bij vastgoed hoort altijd financiering, maar voor veel 'kleinere' projecten blijft het bankloket helaas gesloten. Komt jouw project daardoor ook niet van de grond? Crowdfunding biedt nieuwe kansen. We bereiken een grote groep investeerders en gebruikers. Samen realiseren we vastgoed.</strong>
+        <p>Placetobe is opgericht door een crowdfundpartij en een vastgoedontwikkelaar. Wij willen dat de vastgoedmarkt minder over geld en gebouwen gaat en meer over mensen en hun behoeftes.<p>We begeleiden het hele proces en geven je advies over campagne voeren en hoe je betrokken investeerders vindt. Ook zorgen we ervoor dat de financiële afhandeling tot in de puntjes geregeld is.
+        </p>
+        </article>
+      </template>
+
+      <aside>
+
+        <placetobe-action-block
+          class="large-action-block"
+          title="Meer informatie?"
+        >
+          Schrijf je in voor onze mailinglist en ontvang de brochure.
+
+          <placetobe-investor-registration-form
+            button-label="Download brochure"
+            on-register="downloadBrochure"
+          ></placetobe-investor-registration-form>
+
+        </placetobe-action-block>
+
+      </aside>
+
+    </section>
+
+    <template is="dom-if" if="[[!investSubPageActive]]">
 
       <placetobe-action-block
         class="large-action-block"
@@ -344,18 +388,6 @@
     </template>
 
     <template is="dom-if" if="[[!entrepreneurTestPageActive]]">
-
-      <section
-        id="intro-entepreneurs" 
-        class="intro"
-        hidden$="[[!entrepreneurPageActive]]"
-        >
-        <h1>Vastgoed crowdfunden met placetobe</h1>
-        <article><strong>Bij vastgoed hoort altijd financiering, maar voor veel 'kleinere' projecten blijft het bankloket helaas gesloten. Komt jouw project daardoor ook niet van de grond? Crowdfunding biedt nieuwe kansen. We bereiken een grote groep investeerders en gebruikers. Samen realiseren we vastgoed.</strong>
-        <p>Placetobe is opgericht door een crowdfundpartij en een vastgoedontwikkelaar. Wij willen dat de vastgoedmarkt minder over geld en gebouwen gaat en meer over mensen en hun behoeftes.<p>We begeleiden het hele proces en geven je advies over campagne voeren en hoe je betrokken investeerders vindt. Ook zorgen we ervoor dat de financiële afhandeling tot in de puntjes geregeld is.
-        </p>
-        </article>
-      </section>
 
       <placetobe-action-block
         class="large-action-block"
@@ -406,9 +438,7 @@
       hide-last-name
       horizontal-layout
     >
-      
       <h3>Alles weten over onze nieuwe projecten?</h3>
-
     </placetobe-investor-registration-form>
 
 
@@ -468,6 +498,13 @@
       attached: function() {
         Polymer.AppMetadata.requestAvailability();
         this._setMetaData();
+      },
+
+      downloadBrochure: function() {
+        var downloadElement = document.createElement('a');
+        downloadElement.setAttribute('download', true);
+        downloadElement.href = 'https://firebasestorage.googleapis.com/v0/b/placetobe-nl.appspot.com/o/Placetobe_Factsheet_versie_6.pdf?alt=media&token=c43f38ea-9413-4640-8a0f-edf62b641e5a';
+        downloadElement.click();
       },
 
       _computeInvestSubPageActive: function(investQuickscanPageActive, investRegisterPageActive) {
