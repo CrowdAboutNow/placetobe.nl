@@ -5,7 +5,14 @@
   "dependencies": {
     "polymer": "Polymer/polymer#^1.6.0",
     "app-route": "PolymerElements/app-route#^0.9.2",
-    "app-metadata": "^0.0.6"
+    "app-metadata": "^0.0.6",
+    "placetobe-behaviors": "Placetobe/placetobe-behaviors",
+    "placetobe-styles": "Placetobe/placetobe-styles",
+    "placetobe-button": "Placetobe/placetobe-button",
+    "placetobe-card": "Placetobe/placetobe-card",
+    "placetobe-header": "Placetobe/placetobe-header",
+    "placetobe-cookie-warning": "Placetobe/placetobe-cookie-warning",
+    "placetobe-icons": "Placetobe/placetobe-icons"
   },
   "devDependencies": {
     "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
