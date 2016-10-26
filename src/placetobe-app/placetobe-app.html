@@ -1,10 +1,10 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/placetobe-cookie-warning/placetobe-cookie-warning.html">
+<link rel="import" href="../../bower_components/placetobe-header/placetobe-header.html">
 <link rel="import" href="../../bower_components/app-route/app-location.html">
 <link rel="import" href="../../bower_components/app-route/app-route.html">
 <link rel="import" href="../../bower_components/app-route/app-route-converter.html">
 <link rel="import" href="../../bower_components/app-metadata/app-metadata.html">
-<link rel="import" href="../placetobe-header/placetobe-header.html">
 <link rel="import" href="../placetobe-hero/placetobe-hero.html">
 <link rel="import" href="../placetobe-styles/placetobe-styles.html">
 <link rel="import" href="../placetobe-button/placetobe-button.html">
@@ -205,6 +205,14 @@
         z-index: 9;
       }
 
+      placetobe-header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 9;
+      }
+
     </style>
 
     <template is="dom-if" if="[[!cookiesAccepted]]">
@@ -269,11 +277,7 @@
     ></app-route>
 
     <placetobe-header
-      menu-hidden="{{menuHidden}}"
-      scrolled="{{headerScrolled}}"
-      home-page-active="[[homePageActive]]"
-      invest-page-active="[[investPageActive]]"
-      entrepreneur-page-active="[[entrepreneurPageActive]]"
+      collapsed="[[headerCollapsed]]"
     ></placetobe-header>
 
     <template is="dom-if" if="[[!pricingPageActive]]">
@@ -476,14 +480,22 @@
           value: true,
           reflectToAttribute: true
         },
-        headerScrolled: {
+        headerCollapsed: {
           type: Boolean,
+          computed: "_computeHeaderCollapsed(scrollY)",
           reflectToAttribute: true          
         },
         cookiesAccepted: {
           type: Boolean,
           value: false
-        }
+        },
+
+        scrollY: {
+          type: String,
+          value: 0,
+          readOnly: true
+        },
+
       },
 
       observers: [
@@ -493,6 +505,7 @@
       ready: function() {
         this.routeChanged();
         this.cookiesAccepted = window.localStorage.getItem('placetobe-cookies-accepted');
+        window.addEventListener('scroll', this._handleScroll.bind(this));
       },
 
       attached: function() {
@@ -516,6 +529,14 @@
         if(!routeExists) history.replaceState({}, "Placetobe", "/");
         if(!(newRoute && oldRoute)) return;
         if(newRoute.path !== oldRoute.path) this._handleRouteChanged(newRoute.path, oldRoute.path);
+      },
+
+      _handleScroll: function() {
+        this._setScrollY(window.scrollY || document.documentElement.scrollTop);
+      },
+
+      _computeHeaderCollapsed: function(scrollY) {
+        return (scrollY > 54)
       },
 
       _handleRouteChanged: function(newPath, oldPath) {
