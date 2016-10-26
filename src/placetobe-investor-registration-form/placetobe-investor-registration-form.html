@@ -1,6 +1,5 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../placetobe-styles/placetobe-styles.html">
-<link rel="import" href="../placetobe-button/placetobe-button.html">
 
 <dom-module id="placetobe-investor-registration-form">
   <template>
@@ -38,7 +37,7 @@
       }
 
       :host input[type="submit"] {
-        @apply(--placetobe-button);
+        @apply(--placetobe-default-button);
         margin: 9px 0;
         background-color: var(--submit-button-color, white);
       }
@@ -46,10 +45,6 @@
       :host input[type="submit"][disabled] {
         pointer-events: none;
         opacity: 0.5;
-      }
-
-      :host input[type="submit"]:hover {
-        @apply(--placetobe-button-hover);
       }
 
       :host input[hidden] {

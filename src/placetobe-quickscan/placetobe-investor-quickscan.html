@@ -1,7 +1,7 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/iron-selector/iron-selector.html">
+<link rel="import" href="../../bower_components/placetobe-button/placetobe-button.html">
 <link rel="import" href="../placetobe-styles/placetobe-styles.html">
-<link rel="import" href="../placetobe-button/placetobe-button.html">
 
 <dom-module id="placetobe-investor-quickscan">
 
@@ -155,45 +155,45 @@
         </span>
 
         <placetobe-button
-            label="vorige"
+            title="vorige"
             on-tap="back"
             disabled="[[_atIndex(0, currentIndex)]]"
-        ></placetobe-button>
+        ><span>vorige</span></placetobe-button>
 
         <placetobe-button
-            label="volgende"
+            title="volgende"
             on-tap="forward"
             hidden="[[!_atIndex(0, currentIndex)]]"
             disabled="[[!answers.0]]"
-        ></placetobe-button>
+        ><span>volgende</span></placetobe-button>
 
         <placetobe-button
-            label="volgende"
+            title="volgende"
             on-tap="forward"
             hidden="[[!_atIndex(1, currentIndex)]]"
             disabled="[[!answers.1]]"
-        ></placetobe-button>
+        ><span>volgende</span></placetobe-button>
 
         <placetobe-button
-            label="volgende"
+            title="volgende"
             on-tap="forward"
             hidden="[[!_atIndex(2, currentIndex)]]"
             disabled="[[!answers.2]]"
-        ></placetobe-button>
+        ><span>volgende</span></placetobe-button>
 
         <placetobe-button
-            label="volgende"
+            title="volgende"
             on-tap="forward"
             hidden="[[!_atIndex(3, currentIndex)]]"
             disabled="[[!answers.3]]"
-        ></placetobe-button>
+        ><span>volgende</span></placetobe-button>
 
         <placetobe-button
-            label="bekijk resultaat"
+            title="bekijk resultaat"
             on-tap="forward"
             hidden="[[!_atIndex(4, currentIndex)]]"
             disabled="[[!answers.4]]"
-        ></placetobe-button>
+        ><span>bekijk resultaat</span></placetobe-button>
 
     </template>
 
@@ -209,16 +209,17 @@
 
         <placetobe-button
             hidden$="[[_scoreIsLessThan(score, 10)]]"
-            label="Meld je aan als investeerder"
-            url="/investeren/aanmelden"
-        ></placetobe-button>
+            title="Meld je aan als investeerder"
+            href="/investeren/aanmelden"
+        ><span>Meld je aan als investeerder</span></placetobe-button>
 
         <placetobe-button
             id="try-again-button"
-            label="Doe de scan opnieuw"
+            title="Doe de scan opnieuw"
             on-tap="reset"
-            flat
-        ></placetobe-button>
+            link
+        ><span>Doe de scan opnieuw</span></placetobe-button>
+
 
     </template>
 

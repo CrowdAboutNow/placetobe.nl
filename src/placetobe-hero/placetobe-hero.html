@@ -1,10 +1,10 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/placetobe-button/placetobe-button.html">
 <link rel="import" href="../placetobe-styles/placetobe-styles.html">
 <link rel="import" href="../placetobe-illustrations/man-holding-key-illustration.html">
 <link rel="import" href="../placetobe-illustrations/man-thinking-illustration.html">
 <link rel="import" href="../placetobe-illustrations/man-reading-illustration.html">
 <link rel="import" href="../placetobe-quickscan/placetobe-investor-quickscan.html">
-<link rel="import" href="../placetobe-button/placetobe-button.html">
 <link rel="import" href="../placetobe-investor-registration-form/placetobe-investor-registration-form.html">
 <link rel="import" href="placetobe-hero-background.html">
 
@@ -271,15 +271,18 @@
         <span
           class="intro-text"
           hidden$="[[!homePageActive]]"><b>Iedereen heeft een plek nodig.</b> Een plek om te wonen, werken, ondernemen, relaxen... Een plek om te zijn.<p>
+        
         <placetobe-button
-          label="Hoe start ik een project?"
-          url="/start-project"
-        ></placetobe-button>
+          title="Hoe start ik een project?"
+          href="/start-project"
+        ><span>Hoe start ik een project?</span></placetobe-button>
+        
         <placetobe-button
-          label="Info voor investeerders"
-          url="/investeren"
-          flat
-        ></placetobe-button>
+          title="Info voor investeerders"
+          href="/investeren"
+          link
+        ><span>Info voor investeerders</span></placetobe-button>
+        
         </p>
         </span>
 
@@ -289,17 +292,20 @@
           <span hidden$="[[entrepreneurTestPageActive]]">
           <b>Geen gebouw neerzetten, maar een plek maken.</b> Vastgoed ontwikkel je samen met de crowd.
           <p>
+            
             <placetobe-button
-              label="Direct je project starten"
-              url="https://docs.google.com/forms/d/e/1FAIpQLSdFZhTSDI4kRKZlLedroXEmMCEAGVB6fUPSYJkdIL9jrQR1yg/viewform"
+              title="Direct je project starten"
+              href="https://docs.google.com/forms/d/e/1FAIpQLSdFZhTSDI4kRKZlLedroXEmMCEAGVB6fUPSYJkdIL9jrQR1yg/viewform"
               external-link
-            ></placetobe-button>
+            ><span>Direct je project starten</span></placetobe-button>
+
             <placetobe-button
               id="prices-button"
-              label="Bekijk onze tarieven"
-              url="/tarieven"
-              flat
-            ></placetobe-button>
+              title="Bekijk onze tarieven"
+              href="/tarieven"
+              link
+            ><span>Bekijk onze tarieven</span></placetobe-button>
+
           </p>
           </span>
         </span>
@@ -310,6 +316,7 @@
           <placetobe-investor-quickscan
             hidden$="[[!investQuickscanPageActive]]"
           ></placetobe-investor-quickscan>
+
           <placetobe-investor-registration-form
             hidden$="[[!investRegisterPageActive]]"
             on-register="downloadBrochure"
@@ -327,16 +334,19 @@
           hidden$="[[!investPageActive]]">
           <span hidden$="[[investSubPageActive]]">
           <b>Crowdfunding in vastgoed.</b> Iedereen een plek en jij rendement.<p>
+            
             <placetobe-button
-              label="Meld je aan als investeerder"
+              title="Meld je aan als investeerder"
               url="/investeren/aanmelden"
-            ></placetobe-button>
+            ><span>Meld je aan als investeerder</span></placetobe-button>
+            
             <placetobe-button
-              label="Doe de quickscan"
-              url="/investeren/test"
+              title="Doe de quickscan"
+              href="/investeren/test"
               on-tap="scrollToPricing"
-              flat
-            ></placetobe-button>
+              link
+            ><span>Doe de quickscan</span></placetobe-button>
+
           </p>
           </span>
         </span>
