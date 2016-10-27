@@ -6,208 +6,96 @@
 <link rel="import" href="../../bower_components/app-route/app-route.html">
 <link rel="import" href="../../bower_components/app-route/app-route-converter.html">
 <link rel="import" href="../../bower_components/app-metadata/app-metadata.html">
-<link rel="import" href="../placetobe-hero/placetobe-hero.html">
-<link rel="import" href="../placetobe-styles/placetobe-styles.html">
-<link rel="import" href="../placetobe-pricing/placetobe-pricing.html">
-<link rel="import" href="../placetobe-action-block/placetobe-action-block.html">
-<link rel="import" href="../placetobe-menu/placetobe-menu.html">
-<link rel="import" href="../placetobe-investor-registration-form/placetobe-investor-registration-form.html">
+<link rel="import" href="../../bower_components/placetobe-hero/placetobe-hero.html">
+<link rel="import" href="../../bower_components/placetobe-illustrations/placetobe-illustrations.html">
 
 <dom-module id="placetobe-app">
   <template>
     <style>
-      :host {
-        display: block;
-        margin: 0;
-      }
-
-      :host placetobe-hero {
-        margin-bottom: 0;
-      }
-
-      :host .intro {
-        margin: 36px auto;
-        max-width: var(--placetobe-layout-width);
-        max-height: 9999px;
-        padding: 0 36px;
-        display: flex;  
-      }
-
-      :host .intro > * {
-        flex: 1;
-      }
-
-      @media (max-width: 1044px) {
-        :host .intro {
-          display: block;
-        }
-        :host .intro > *, :host .intro > article {
-          flex: none;
-          padding-right: 0;
-        }
-      }
-
-        :host .intro > article {
-          flex: 2;
-          padding-right: 18px;
-        }
-
-        :host .intro aside {
-          margin-top: -28px;
-          z-index: 4;
-        }
-
-      @media (max-width: 1044px) {
-        :host .intro {
-          padding: 0 18px;  
-          margin: 36px auto 18px auto;
-        }
-      }
-
-      @media (max-width: 1044px) {
-        :host .intro {
-          max-width: 100%;
-        }
-      }
-
-      :host .intro h1 {
-        @apply(--placetobe-heading1);
-        margin-bottom: 24px;
-      }
-
-      :host .intro h2 {
-        @apply(--placetobe-heading2);
-        margin-bottom: 24px;
-      }
-
-      @media (max-width: 1044px) {
-
-        :host .intro h1 {
-          @apply(--placetobe-heading1--mobile);
-          margin-bottom: 18px;
-        }    
-
-        :host .intro h2 {
-          @apply(--placetobe-heading2--mobile);
-          margin-bottom: 18px;
-        }        
-      }
-
-      :host .intro article {
-        @apply(--placetobe-body);
-      }
-
-      :host .intro article strong {
-        @apply(--placetobe-body-bold);
-      }
-
-      @media (max-width: 959px) {
-        :host .intro article {
-          @apply(--placetobe-body--phone);
-        }        
-      }
-
-      :host #calls:not([hidden]) {
-        @apply(--placetobe-two-column-layout);
-      }
-
-      @media (max-width: 1044px) {
-        :host #calls:not([hidden]) {
-          @apply(--placetobe-two-column-layout--phone);
-        }
-      }
-
-      :host #calls > * {
-        @apply(--placetobe-two-column-item);
-          margin-bottom: 36px;
-          flex: none;
-      }
-
-      @media (max-width: 1044px) {
-        :host #calls > * {
-          max-width: 100%;
-          margin-bottom: 18px;
-        }
-      }
-
-      :host placetobe-pricing[hidden] {
-        display: none;
-      }
-
-      :host #call-to-entrepreneur {
-      }
-
-      :host #call-to-investor {
-        background-color: var(--placetobe-taupe);
-      }
-
-      @media (max-width: 959px) {
-
-        :host placetobe-menu {
-          display: nine;
-        }
-
-        :host[menu-hidden] placetobe-menu {
-          display: none;
-        }
-      }
-
-      :host .large-action-block:not([hidden]) {
-        display: block;
-        max-width: var(--placetobe-layout-width);
-        margin: 36px auto;
-      }
-
-      @media (max-width: 1044px) {
-        :host .large-action-block:not([hidden]) {
-/*          margin: 36px 18px;
-*/        }
-      }
-
-      :host placetobe-menu placetobe-investor-registration-form {
-        --submit-button-color: var(--placetobe-taupe);
-        position: relative;
-        z-index: 1;
-        margin-bottom: 36px;
-      }
-
-      :host placetobe-menu placetobe-investor-registration-form h3 {
-        @apply(--placetobe-heading3);
-        width: var(--placetobe-column-width);
-        color: white;
-        margin: 0 auto 18px auto;
-      }
-
-      :host #pricing {
-        padding-top: 108px;
-      }
-
-      :host #pricing h1, :host #pricing h2 {
-        margin: 0;
-      }
-
-      :host #pricing h1 {
-        margin-bottom: 36px;
-      }
-
-      :host #pricing h2 {
-        font-weight: 400;
-      }
-
-      :host placetobe-cookie-warning {
-        display: block;
-        width: 100%;
-        position: fixed;
-        bottom:0;
-        z-index: 9;
-      }
-
-      placetobe-header {
+      :host placetobe-header {
         position: fixed;
         top: 0;
         left: 0;
         right: 0;
         z-index: 9;
+      }
+
+      :host placetobe-hero {
+        height: 10vh;
+        min-height: 600px;
+/*        --placetobe-default-button-color: white;
+*/      }
+
+      :host placetobe-hero[hidden] {
+        display: none;
+      }
+
+      :host placetobe-hero[car-parked] {
+        --placetobe-hero-color: var(--placetobe-color-taupe);
+      }
+
+      :host placetobe-hero[car-gone] {
+        --placetobe-hero-color: var(--placetobe-color-yellow);
+      }
+
+      :host .horizontal-layout {
+        @apply(--placetobe-border-box);
+        @apply(--placetobe-flex-layout--vertical);
+        @apply(--placetobe-flex-align--space-between);
+        @apply(--placetobe-cross-align--baseline);
+        max-width: calc( var(--placetobe-layout-width) + (var(--placetobe-margin) * 2) );
+        padding: 0 calc(var(--placetobe-margin));
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      @media (min-width: 601px) {
+
+        :host .horizontal-layout {
+          @apply(--placetobe-flex-layout--horizontal);
+        }
+        
+        :host .horizontal-layout > * {
+          @apply(--placetobe-flex-item--1);
+        }
+
+        :host .horizontal-layout.layout-50-50 > * {
+          max-width: calc(50% - 12px);
+        }        
+
+        :host .layout-66-33--item-1 {
+          @apply(--placetobe-flex-item--2);
+          max-width: calc(66.66666% - 12px);
+        }
+
+        :host .layout-66-33--item-2 > *:nth-child(2) {
+          @apply(--placetobe-flex-item--1);
+          max-width: calc(33.333333% - 12px);
+        }
+
+      }
+
+      :host article {
+        @apply(--placetobe-font-body);
+        padding: auto;
+      }
+
+      :host article strong {
+        @apply(--placetobe-font-body-bold);
+      }
+
+      :host main {
+        font-size: 0;
+        margin-bottom: -10px;
+      }
+
+      :host main h1 {
+        @apply(--placetobe-font-heading1);
+      }
+
+      :host section {
+        margin-top: calc(var(--placetobe-margin)*1.25);
+        margin-bottom: calc(var(--placetobe-margin)*1.25);
       }
 
     </style>
@@ -224,248 +112,128 @@
 
     <app-route
       route="{{route}}"
-      pattern="/"
+      pattern="/:page"
       data="{{routeData}}"
       active="{{homePageActive}}"
     ></app-route>
 
-    <app-route
-      route="{{route}}"
-      pattern="/investeren"
-      data="{{routeData}}"
-      active="{{investPageActive}}"
-      tail="{{investSubroute}}"
-    ></app-route>
-
-    <app-route
-      route="{{route}}"
-      pattern="/start-project"
-      data="{{routeData}}"
-      active="{{entrepreneurPageActive}}"
-      tail="{{entrepreneurSubroute}}"
-    ></app-route>
-
-    <app-route
-      route="{{route}}"
-      pattern="/tarieven"
-      data="{{routeData}}"
-      active="{{pricingPageActive}}"
-    ></app-route>
-
-    <app-route
-      route="{{entrepreneurSubroute}}"
-      pattern="/test"
-      data="{{entrepreneurSubrouteData}}"
-      active="{{entrepreneurTestPageActive}}"
-    ></app-route>
-
-    <app-route
-      route="{{investSubroute}}"
-      pattern="/test"
-      data="{{investSubrouteData}}"
-      active="{{investQuickscanPageActive}}"
-    ></app-route>
-
-    <app-route
-      route="{{investSubroute}}"
-      pattern="/aanmelden"
-      data="{{investSubrouteData}}"
-      active="{{investRegisterPageActive}}"
-    ></app-route>
-
     <placetobe-header
       collapsed="[[headerCollapsed]]"
+      current-page="[[routeData.page]]"
+      home-page-active="{{homePageActive}}"
+      entrepreneur-page-active="{{entrepreneurPageActive}}"
+      invest-page-active="{{investPageActive}}"
+      campaign-page-active="{{campaignPageActive}}"
     ></placetobe-header>
 
-    <template is="dom-if" if="[[!pricingPageActive]]">
-      <placetobe-hero
-        home-page-active="[[homePageActive]]"
-        invest-page-active="[[investPageActive]]"
-        entrepreneur-page-active="[[entrepreneurPageActive]]"
-        entrepreneur-test-page-active="[[entrepreneurTestPageActive]]"
-        invest-quickscan-page-active="[[investQuickscanPageActive]]"
-        invest-register-page-active="[[investRegisterPageActive]]"
-      ></placetobe-hero>
-    </template>
+    <placetobe-hero
+      car-parked$="[[investPageActive]]"
+      car-gone$="[[entrepreneurPageActive]]"
+      hidden$="[[!landingPageActive]]"
+      >
 
-    <template is="dom-if" if="[[pricingPageActive]]">
+      <main slot="main">
 
-      <section
-        id="pricing"
-        class="intro"
-        >
-        <article>
-        <h2>Wat kost dat nou?</h2>
-        <h1>Tarieven voor crowfdfunden bij Placetobe</h1>
+        <span hidden$="[[!homePageActive]]">
+          <h2>Iedereen heeft een plek nodig. <strong>Een plek om te wonen</strong>, werken, ondernemen, relaxen... Een plek om te zijn.</h2>      
+          <placetobe-button href="/start-project"><span>Hoe start ik een project</span></placetobe-button>
+          <placetobe-button href="/investeren" link><span>Info voor investeerders</span></placetobe-button>
+        </span>
         
-          <p>We begeleiden het hele proces en geven je advies over campagne voeren en hoe je betrokken investeerders vindt. Ook zorgen we ervoor dat de financiële afhandeling tot in de puntjes geregeld is.</p>
-        </article>
+        <span hidden$="[[!entrepreneurPageActive]]">
+          <h2><strong>Geen gebouw neerzetten, maar een plek maken.</strong> Vastgoed ontwikkel je samen met de crowd.</h2>      
+          <placetobe-button href="https://docs.google.com/forms/d/e/1FAIpQLSdFZhTSDI4kRKZlLedroXEmMCEAGVB6fUPSYJkdIL9jrQR1yg/viewform" target="_blank"><span>Direct je project starten</span></placetobe-button>
+          <placetobe-button href="/tarieven" link><span>Bekijk onze tarieven</span></placetobe-button>
+        </span>
+        
+        <span hidden$="[[!investPageActive]]">
+          <h2><strong>Crowdfunding in vastgoed.</strong> Iedereen een plek en jij rendement.</h2>      
+          <placetobe-button href="/investeren/aanmelden"><span>Meld je aan als investeerder</span></placetobe-button>
+          <placetobe-button href="/investeren/test" link><span>Doe de quickscan</span></placetobe-button>
+        </span>
+        
+      </main>
 
-      </section>
+      <placetobe-manholdingkey-illustration slot="illustration" hidden$="[[!homePageActive]]"></placetobe-manholdingkey-illustration>
+      <placetobe-manreading-illustration slot="illustration" hidden$="[[!entrepreneurPageActive]]"></placetobe-manreading-illustration>
+      <placetobe-manthinking-illustration slot="illustration" hidden$="[[!investPageActive]]"></placetobe-manthinking-illustration>
+      
+    </placetobe-hero>
 
-        <placetobe-pricing></placetobe-pricing>
+    <template is="dom-if" if="[[landingPageActive]]">
 
-      <section class="intro">
+      <section class="horizontal-layout layout-66-33">
 
-        <article>
-          <p>Bij vastgoed hoort altijd financiering, maar voor veel 'kleinere' projecten blijft het bankloket helaas gesloten. Komt jouw project daardoor ook niet van de grond? Crowdfunding biedt nieuwe kansen. We bereiken een grote groep investeerders en gebruikers. Samen realiseren we vastgoed.</p>
-        </article>
-      </section>
+          <template is="dom-if" if="[[homePageActive]]">
+            <main class="layout-66-33--item-1">
+              <h1>Nieuwe kansen voor de vastgoedmarkt</h1>
+              <article>
+                <p><strong>Wij vinden dat de vastgoedmarkt anders kan. Makkelijker, eerlijker, en vooral: beter voor elkaar. Het is toch gek dat de bank met haar leningen zoveel invloed heeft op hoe we wonen, werken, leven? Laten we liever samen beslissen waar behoefte aan is, en wat het verdient om financiering te krijgen.</strong>
+                </p><p>
+                Met Placetobe brengen we ontwikkelaars, investeerders en gebruikers bij elkaar en zorgen we voor financiering, rendement én een gewilde plek. Een win-win-win voor iedereen.
+                </p>
+              </article>
+            </main>
+          </template>
 
-      <placetobe-card
-        title="Project starten?"
-        class="large-action-block"
-      >
-        <article slot="main">Financiering nodig voor een vastgoedproject? Misschien is crowdfunding de manier voor jou.</article>
-        <placetobe-button
-          href="/start-project"
-          title="Meer info"
-          slot="footer"
-        ><span>Meer info</span>
-        </placetobe-button>
-      </placetobe-card>
+          <template is="dom-if" if="[[investPageActive]]">
+            <main class="layout-66-33--item-1">
+              <h1>Investeren in vastgoed met placetobe</h1>
+              <article>
+                <p><strong>Zie je je spaarkapitaal bij de bank meer krimpen dan groeien, maar is beleggen in aandelen net een stap te ver? Investeren in vastgoed via crowdfunding is een veilige en gebruiksvriendelijke manier van beleggen. Niet alleen ontvang je meer rendement, je helpt vastgoedprojecten realiseren die jou aanspreken. Crowdfunden is waarde creëren voor jezelf en de omgeving. </strong><p>Placetobe is voor de spaarder die meer rendement wil en de investeerder die bijzondere beleggingsprojecten zoekt. We zijn ervaren in crowdfunding en vastgoed en weten projecten op hun haalbaarheid en succes te toetsen.</p>
+              </article>
+            </main>
+          </template>
 
-    </template>
+          <template is="dom-if" if="[[entrepreneurPageActive]]">
+            <main class="layout-66-33--item-1">
+              <h1>Vastgoed crowdfunden met placetobe</h1>
+              <article>
+                
+                <p>Bij vastgoed hoort altijd financiering, maar voor veel 'kleinere' projecten blijft het bankloket helaas gesloten. Komt jouw project daardoor ook niet van de grond? Crowdfunding biedt nieuwe kansen. We bereiken een grote groep investeerders en gebruikers. Samen realiseren we vastgoed.</p>
 
-    <section class="intro">
+                <p>Placetobe is opgericht door een crowdfundpartij en een vastgoedontwikkelaar. Wij willen dat de vastgoedmarkt minder over geld en gebouwen gaat en meer over mensen en hun behoeftes.</p>
+                <p>We begeleiden het hele proces en geven je advies over campagne voeren en hoe je betrokken investeerders vindt. Ook zorgen we ervoor dat de financiële afhandeling tot in de puntjes geregeld is.</p>
+              </article>
+            </main>
+          </template>
 
-      <!-- / -->
-      <template is="dom-if" if="[[homePageActive]]">
-        <article>
-        <h1>Nieuwe kansen voor de vastgoedmarkt</h1>
-        <p>
-        <strong>Wij vinden dat de vastgoedmarkt anders kan. Makkelijker, eerlijker, en vooral: beter voor elkaar. Het is toch gek dat de bank met haar leningen zoveel invloed heeft op hoe we wonen, werken, leven? Laten we liever samen beslissen waar behoefte aan is, en wat het verdient om financiering te krijgen.</strong>
-        <p>Met Placetobe brengen we ontwikkelaars, investeerders en gebruikers bij elkaar en zorgen we voor financiering, rendement én een gewilde plek. Een win-win-win voor iedereen.
-        </article>
-      </template>
-
-      <!-- /investeren -->
-      <template is="dom-if" if="[[investPageActive]]">
-        <article>
-        <h1>Investeren in vastgoed met placetobe</h1>
-        <strong>Zie je je spaarkapitaal bij de bank meer krimpen dan groeien, maar is beleggen in aandelen net een stap te ver? Investeren in vastgoed via crowdfunding is een veilige en gebruiksvriendelijke manier van beleggen. Niet alleen ontvang je meer rendement, je helpt vastgoedprojecten realiseren die jou aanspreken. Crowdfunden is waarde creëren voor jezelf en de omgeving.  </strong>
-        <p>Placetobe is voor de spaarder die meer rendement wil en de investeerder die bijzondere beleggingsprojecten zoekt. We zijn ervaren in crowdfunding en vastgoed en weten projecten op hun haalbaarheid en succes te toetsen. 
-        </p>
-        </article>
-      </template>
-
-      <!-- /start-project -->
-      <template is="dom-if" if="[[entrepreneurPageActive]]">
-        <article>
-        <h1>Vastgoed crowdfunden met placetobe</h1>
-        <strong>Bij vastgoed hoort altijd financiering, maar voor veel 'kleinere' projecten blijft het bankloket helaas gesloten. Komt jouw project daardoor ook niet van de grond? Crowdfunding biedt nieuwe kansen. We bereiken een grote groep investeerders en gebruikers. Samen realiseren we vastgoed.</strong>
-        <p>Placetobe is opgericht door een crowdfundpartij en een vastgoedontwikkelaar. Wij willen dat de vastgoedmarkt minder over geld en gebouwen gaat en meer over mensen en hun behoeftes.<p>We begeleiden het hele proces en geven je advies over campagne voeren en hoe je betrokken investeerders vindt. Ook zorgen we ervoor dat de financiële afhandeling tot in de puntjes geregeld is.
-        </p>
-        </article>
-      </template>
-
-      <aside hidden$="[[pricingPageActive]]">
-
-        <placetobe-card
-          title="Meer informatie?"
-          class="large-action-block"
-        >
-          <article slot="main">Financiering nodig voor een vastgoedproject? Misschien is crowdfunding de manier voor jou.</article>
-          <placetobe-investor-registration-form
-            button-label="Download brochure"
+        <placetobe-card title="Project starten?" id="meer-informatie">
+          <article slot="main">Schrijf je in voor onze mailinglist en ontvang de brochure.</article>
+          <placetobe-button
+            href="/start-project"
+            title="Meer informatie?"
             slot="footer"
-          ></placetobe-investor-registration-form>
+          ><span>Meer informatie?</span>
+          </placetobe-button>
         </placetobe-card>
+      </section>
 
-      </aside>
 
-    </section>
+      <section class="horizontal-layout layout-50-50">
 
-    <template is="dom-if" if="[[!investSubPageActive]]">
-
-      <placetobe-card
-        title="Ben jij een crowdfunder?"
-        class="large-action-block"
-        hidden$="[[!investPageActive]]"
-      >
-        <article slot="main">Beantwoord vijf vragen en ontdek of investeren bij Placetobe iets voor je is.</article>
-        <placetobe-button
-          href="/investeren/test"
-          title="Ben jij een crowdfunder?"
-          slot="footer"
-        ><span>Doe de quickscan</span>
-        </placetobe-button>
-      </placetobe-card>
-
-    </template>
-
-    <template is="dom-if" if="[[!entrepreneurTestPageActive]]">
-
-      <placetobe-card
-        title="Heb jij een placetobe?"
-        class="large-action-block"
-        hidden$="[[!entrepreneurPageActive]]"
-      >
-        <article slot="main">Meld direct online je project aan.</article>
-        <placetobe-button
-          href="https://docs.google.com/forms/d/e/1FAIpQLSdFZhTSDI4kRKZlLedroXEmMCEAGVB6fUPSYJkdIL9jrQR1yg/viewform"
-          target="_blank"
-          title="Project aanmelden"
-          slot="footer"
-        ><span>Project aanmelden</span>
-        </placetobe-button>
-      </placetobe-card>
-
-      <section
-        id="calls"
-        hidden$="[[!homePageActive]]"
-        >
-
-        <placetobe-card
-          title="Project starten?"
-          class="large-action-block"
-          hidden$="[[!entrepreneurPageActive]]"
-        >
+        <placetobe-card title="Project starten?" id="project-starten">
           <article slot="main">Financiering nodig voor een vastgoedproject? Misschien is crowdfunding de manier voor jou.</article>
           <placetobe-button
             href="/start-project"
-            target="_blank"
             title="Meer info"
             slot="footer"
           ><span>Meer info</span>
           </placetobe-button>
         </placetobe-card>
 
-        <placetobe-card
-          title="Investeren in een project?"
-          class="large-action-block"
-          hidden$="[[!entrepreneurPageActive]]"
-        >
-          <article slot="main">Wil je investeren in vastgoed? Ontdek of crowdfunding bij je past.</article>
+        <placetobe-card title="Investeren in een project?" id="investeren-in-een-project">
+          <article slot="main">wil je investeren in vastgoed? Ontdek of crowdfunding bij je past</article>
           <placetobe-button
-            href="/investeren/test"
-            target="_blank"
+            href="/investeren/quickscan"
+            title="Doe de quickscan"
             slot="footer"
           ><span>Doe de quickscan</span>
           </placetobe-button>
         </placetobe-card>
 
       </section>
-
     </template>
-
-    <placetobe-menu
-      for-home-page$="[[homePageActive]]"
-      for-invest-page$="[[entrepreneurPageActive]]"
-      for-entrepreneur-page$="[[investPageActive]]"
-      on-link-tap="hideMenu"
-      scrolled="[[headerScrolled]]"
-    >
-
-    <placetobe-investor-registration-form
-      hide-first-name
-      hide-last-name
-      horizontal-layout
-    >
-      <h3>Alles weten over onze nieuwe projecten?</h3>
-    </placetobe-investor-registration-form>
-
-    </placetobe-menu>
 
   </template>
 
@@ -475,35 +243,48 @@
       is: 'placetobe-app',
 
       properties: {
+
         route: {
           type: Object,
           observer: "routeChanged"
         },
-        routeData: Object,
-        entrepreneurSubroute: Object,
-        entrepreneurSubrouteData: Object,
-        investSubroute: Object,
-        investSubrouteData: Object,
-        homePageActive: Boolean,
-        investPageActive: Boolean,
-        entrepreneurPageActive: Boolean,
-        entrepreneurTestPageActive: Boolean,
-        investQuickscanPageActive: Boolean,
-        investRegisterPageActive: Boolean,
-        investSubPageActive: {
-          type: Boolean,
-          computed: "_computeInvestSubPageActive(investQuickscanPageActive, investRegisterPageActive)"
+
+        routeData: {
+          type: Object,
+          value: {}
         },
-        menuHidden: {
+
+        homePageActive: {
           type: Boolean,
-          value: true,
-          reflectToAttribute: true
+          value: false
         },
+
+        entrepreneurPageActive: {
+          type: Boolean,
+          value: false
+        },
+
+        investPageActive: {
+          type: Boolean,
+          value: false
+        },
+
+        campaignPageActive: {
+          type: Boolean,
+          value: false
+        },
+
         headerCollapsed: {
           type: Boolean,
           computed: "_computeHeaderCollapsed(scrollY)",
           reflectToAttribute: true          
         },
+
+        landingPageActive: {
+          type: Boolean,
+          computed: '_computeLandingPageActive(homePageActive, investPageActive, entrepreneurPageActive)'
+        },
+
         cookiesAccepted: {
           type: Boolean,
           value: false
@@ -539,12 +320,8 @@
         downloadElement.click();
       },
 
-      _computeInvestSubPageActive: function(investQuickscanPageActive, investRegisterPageActive) {
-        return (investQuickscanPageActive === true || investRegisterPageActive === true)
-      },
-
       routeChanged: function(newRoute, oldRoute) {
-        var routeExists = (newRoute || {path:""}).path.match(/^(\/(start-project|investeren|tarieven)(|\/test|\/aanmelden)|(\/|))$/g);
+        var routeExists = (newRoute || {path:""}).path.match(/^(\/(start-project|investeren|tarieven|campagnes)(|\/test|\/aanmelden)|(\/|))$/g);
         if(!routeExists) history.replaceState({}, "Placetobe", "/");
         if(!(newRoute && oldRoute)) return;
         if(newRoute.path !== oldRoute.path) this._handleRouteChanged(newRoute.path, oldRoute.path);
@@ -565,17 +342,6 @@
           description: 'This is the page description',
           keywords: 'these,are,keywords'
         });
-      },
-
-      showMenu: function() {
-        this.menuHidden = false;
-      },
-
-      hideMenu: function() {
-        var self = this;
-        window.setTimeout(function() {
-          self.menuHidden = true;
-        }, 50)
       },
 
       _handleCookiesAccepted: function() {
@@ -626,6 +392,10 @@
 
       _parseDocumentTitle: function(pageTitle) {
         return [pageTitle, "Placetobe"].join(" | ");
+      },
+
+      _computeLandingPageActive: function(homePageActive, investPageActive, entrepreneurPageActive) {
+        return (homePageActive || investPageActive || entrepreneurPageActive);
       }
 
     });
