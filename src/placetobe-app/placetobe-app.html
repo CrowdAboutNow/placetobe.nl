@@ -9,6 +9,7 @@
 <link rel="import" href="../../bower_components/placetobe-hero/placetobe-hero.html">
 <link rel="import" href="../../bower_components/placetobe-illustrations/placetobe-illustrations.html">
 <link rel="import" href="../placetobe-investor-registration-form/placetobe-investor-registration-form.html">
+<link rel="import" href="../placetobe-pricing/placetobe-pricing.html">
 
 <dom-module id="placetobe-app">
   <template>
@@ -90,13 +91,21 @@
         margin-bottom: -10px;
       }
 
-      :host main h1 {
+      :host h1 {
         @apply(--placetobe-font-heading1);
+      }
+
+      :host h2 {
+        @apply(--placetobe-font-heading1-regular);
       }
 
       :host section {
         margin-top: calc(var(--placetobe-margin)*1.25);
         margin-bottom: calc(var(--placetobe-margin)*1.25);
+      }
+
+      :host #pricing {
+        margin-top: calc( var(--placetobe-margin) * 8 );
       }
 
     </style>
@@ -161,6 +170,50 @@
       
     </placetobe-hero>
 
+    <template is="dom-if" if="[[pricingPageActive]]">
+
+      <section
+        id="pricing"
+        class="horizontal-layout"      
+        >
+        <article>
+        <h2>Wat kost dat nou?</h2>
+        <h1>Tarieven voor crowfdfunden bij Placetobe</h1>
+        
+          <p>We begeleiden het hele proces en geven je advies over campagne voeren en hoe je betrokken investeerders vindt. Ook zorgen we ervoor dat de financiële afhandeling tot in de puntjes geregeld is.</p>
+        </article>
+
+      </section>
+
+        <placetobe-pricing></placetobe-pricing>
+
+      <section class="horizontal-layout">
+
+        <article>
+          <p>Bij vastgoed hoort altijd financiering, maar voor veel 'kleinere' projecten blijft het bankloket helaas gesloten. Komt jouw project daardoor ook niet van de grond? Crowdfunding biedt nieuwe kansen. We bereiken een grote groep investeerders en gebruikers. Samen realiseren we vastgoed.</p>
+        </article>
+      </section>
+
+      <section class="horizontal-layout">
+        
+        <placetobe-card title="Project starten?">
+          
+          <article slot="main">Financiering nodig voor een vastgoedproject? Misschien is crowdfunding de manier voor jou.</article>
+          
+          <placetobe-button
+            href="/start-project"
+            title="Meer info"
+            slot="footer"
+          ><span>Meer info</span>
+          </placetobe-button>
+
+        </placetobe-card>
+
+      </section>
+
+    </template>
+
+
     <template is="dom-if" if="[[landingPageActive]]">
 
       <section class="horizontal-layout layout-66-33">
@@ -205,7 +258,6 @@
           </placetobe-button>
         </placetobe-card>
       </section>
-
 
       <section class="horizontal-layout layout-50-50">
 
@@ -280,6 +332,11 @@
         landingPageActive: {
           type: Boolean,
           computed: '_computeLandingPageActive(homePageActive, investPageActive, entrepreneurPageActive)'
+        },
+
+        pricingPageActive: {
+          type: Boolean,
+          computed: '_computePricingPageActive(routeData.page)'
         },
 
         cookiesAccepted: {
@@ -393,6 +450,10 @@
 
       _computeLandingPageActive: function(homePageActive, investPageActive, entrepreneurPageActive) {
         return (homePageActive || investPageActive || entrepreneurPageActive);
+      },
+
+      _computePricingPageActive: function(page) {
+        return (page == 'tarieven');
       }
 
     });
