@@ -1,5 +1,5 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
-<link rel="import" href="../placetobe-styles/placetobe-styles.html">
+<link rel="import" href="../../bower_components/placetobe-styles/placetobe-styles.html">
 
 <dom-module id="placetobe-investor-registration-form">
   <template>
@@ -8,28 +8,21 @@
         display: block;
       }
 
-      :host[hidden] {
-        display: none;
-      }
-
-      :host form {
-      }
-
       :host input {
         @apply(--placetobe-textinput);
         display: block;
         vertical-align: top;
-        margin: 9px 0;
+        margin: calc( var(--placetobe-margin) / 2 ) 0;
       }
 
-      :host[horizontal-layout] input {
+      :host([horizontal-layout]) input {
         display: inline-block;
-        height: 54px;
+        height: calc( var(--placetobe-margin) * 3 );
       }
 
-      :host[horizontal-layout] input[type="email"] {
+      :host([horizontal-layout]) input[type="email"] {
         max-width: 50%;
-        margin-right: 18px;        
+        margin-right: var(--placetobe-margin);        
       }
 
       :host input[type="text"], :host input[type="email"] {
@@ -38,8 +31,7 @@
 
       :host input[type="submit"] {
         @apply(--placetobe-default-button);
-        margin: 9px 0;
-        background-color: var(--submit-button-color, white);
+        margin: calc( var(--placetobe-margin) / 2 ) 0;
       }
 
       :host input[type="submit"][disabled] {

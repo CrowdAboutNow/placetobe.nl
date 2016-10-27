@@ -8,6 +8,7 @@
 <link rel="import" href="../../bower_components/app-metadata/app-metadata.html">
 <link rel="import" href="../../bower_components/placetobe-hero/placetobe-hero.html">
 <link rel="import" href="../../bower_components/placetobe-illustrations/placetobe-illustrations.html">
+<link rel="import" href="../placetobe-investor-registration-form/placetobe-investor-registration-form.html">
 
 <dom-module id="placetobe-app">
   <template>
@@ -198,13 +199,9 @@
             </main>
           </template>
 
-        <placetobe-card title="Project starten?" id="meer-informatie">
+        <placetobe-card title="Meer informatie?" id="meer-informatie">
           <article slot="main">Schrijf je in voor onze mailinglist en ontvang de brochure.</article>
-          <placetobe-button
-            href="/start-project"
-            title="Meer informatie?"
-            slot="footer"
-          ><span>Meer informatie?</span>
+          <placetobe-investor-registration-form slot="footer"></placetobe-investor-registration-form>
           </placetobe-button>
         </placetobe-card>
       </section>
