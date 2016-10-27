@@ -122,11 +122,17 @@
 
     <app-route
       route="{{route}}"
-      pattern="/:page"
+      pattern="/:page/:subpage"
       data="{{routeData}}"
-      active="{{homePageActive}}"
+      tail="{{subroute}}"
     ></app-route>
 
+<!--     <app-route
+      route="{{subroute}}"
+      pattern="/:subpage"
+      data="{{subrouteData}}"
+    ></app-route>
+ -->
     <placetobe-header
       collapsed="[[headerCollapsed]]"
       current-page="[[routeData.page]]"
@@ -303,6 +309,16 @@
           value: {}
         },
 
+        subroute: {
+          type: Object,
+          value: {}
+        },
+
+        subrouteData: {
+          type: Object,
+          value: {}
+        },
+
         homePageActive: {
           type: Boolean,
           value: false
@@ -331,7 +347,7 @@
 
         landingPageActive: {
           type: Boolean,
-          computed: '_computeLandingPageActive(homePageActive, investPageActive, entrepreneurPageActive)'
+          computed: '_computeLandingPageActive(homePageActive, investPageActive, entrepreneurPageActive, routeData.*, subrouteData.*)'
         },
 
         pricingPageActive: {
@@ -353,7 +369,8 @@
       },
 
       observers: [
-        "_setMetaData(route.path)"
+        "_setMetaData(route.path)",
+        'observeRoutes(route.*, routeData.*)'
       ],
 
       ready: function() {
@@ -448,12 +465,17 @@
         return [pageTitle, "Placetobe"].join(" | ");
       },
 
-      _computeLandingPageActive: function(homePageActive, investPageActive, entrepreneurPageActive) {
-        return (homePageActive || investPageActive || entrepreneurPageActive);
+      _computeLandingPageActive: function(homePageActive, investPageActive, entrepreneurPageActive, routedataitem, subroutedataitem) {
+        var landingPageActive = ((homePageActive || investPageActive || entrepreneurPageActive) && (!subroutedataitem.base.subpage));
+        return landingPageActive;
       },
 
       _computePricingPageActive: function(page) {
         return (page == 'tarieven');
+      },
+
+      observeRoutes: function(routeItem, routeData) {
+        console.log(routeItem.base, routeData.base);
       }
 
     });
