@@ -8,30 +8,43 @@
         display: block;
       }
 
+      :host section {
+        @apply(--placetobe-flex-item--1);
+        @apply(--placetobe-border-box);
+        @apply(--placetobe-cross-align--stretch);        
+      }
+
+      :host section form {
+        @apply(--placetobe-flex-item--1);
+        @apply(--placetobe-border-box);
+        @apply(--placetobe-flex-layout--vertical);
+        @apply(--placetobe-flex-align--center);
+        @apply(--placetobe-cross-align--center);
+      }
+
+      @media(min-width: 601px) {
+        :host([horizontal-layout]) section form {
+          @apply(--placetobe-flex-layout--horizontal);        
+        }
+      }
+
       :host input {
+        @apply(--placetobe-flex-item--1);
         @apply(--placetobe-textinput);
-        display: block;
         vertical-align: top;
-        margin: calc( var(--placetobe-margin) / 2 ) 0;
-      }
-
-      :host([horizontal-layout]) input {
-        display: inline-block;
-        height: calc( var(--placetobe-margin) * 3 );
-      }
-
-      :host([horizontal-layout]) input[type="email"] {
-        max-width: 50%;
-        margin-right: var(--placetobe-margin);        
-      }
-
-      :host input[type="text"], :host input[type="email"] {
-        width: 100%;
+        margin: 3px 0;
       }
 
       :host input[type="submit"] {
+        @apply(--placetobe-flex-item--none);
         @apply(--placetobe-default-button);
-        margin: calc( var(--placetobe-margin) / 2 ) 0;
+        margin: 6px 0 0 0;        
+      }
+
+      @media(min-width: 601px) {
+        :host([horizontal-layout]) section form input[type="submit"] {
+          margin: 0 0 0 9px;
+        }
       }
 
       :host input[type="submit"][disabled] {
@@ -44,17 +57,38 @@
       }
     </style>
 
-    <content></content>
+    <section>
 
-    <form
-      action="//placetobe.us14.list-manage.com/subscribe/post?u=6c901df927e645406a166cd19&amp;id=f8e51975f5"
-      method="post"
-      target="_blank">
-      <input name="FNAME" type="text" placeholder="Voornaam" hidden$="[[hideFirstName]]" value="{{firstName::input}}">
-      <input name="LNAME" type="text" placeholder="Achternaam" hidden$="[[hideLastName]]" value="{{lastName::input}}">
-      <input name="EMAIL" type="email" placeholder="Email Adres" value="{{emailAddress::input}}">
-      <input type="submit" value$="[[buttonLabel]]" on-tap="_handleSubmit" disabled="[[!formIsvalid]]">
-    </form>
+      <form
+        action="//placetobe.us14.list-manage.com/subscribe/post?u=6c901df927e645406a166cd19&amp;id=f8e51975f5"
+        method="post"
+        target="_blank"
+      >
+        <input
+          name="FNAME"
+          type="text"
+          placeholder="Voornaam"
+          hidden$="[[hideFirstName]]"
+          value="{{firstName::input}}">
+        <input
+          name="LNAME"
+          type="text"
+          placeholder="Achternaam"
+          hidden$="[[hideLastName]]"
+          value="{{lastName::input}}">
+        <input
+          name="EMAIL"
+          type="email"
+          placeholder="Email Adres"
+          value="{{emailAddress::input}}">
+        <input
+          type="submit"
+          value$="[[buttonLabel]]"
+          on-tap="_handleSubmit"
+          disabled="[[!formIsvalid]]">
+      </form>
+
+    </section>
 
   </template>
 
@@ -94,13 +128,13 @@
         },
         formIsvalid: {
           type: Boolean,
-          computed: "_computeFormIsValid(firstName, lastName, emailAddress)"
+          computed: "_computeFormIsValid(firstName, lastName, emailAddress, hideFirstName, hideLastName)"
         }
       },
 
-      _computeFormIsValid: function(firstName, lastName, emailAddress) {
-        if(firstName.length < 2) return false;
-        if(lastName.length < 2) return false;
+      _computeFormIsValid: function(firstName, lastName, emailAddress, hideFirstName, hideLastName) {
+        if((!hideFirstName) && firstName.length < 2) return false;
+        if((!hideLastName) && lastName.length < 2) return false;
         if(emailAddress.length < 2) return false;
         if(!emailAddress.match(/^(.*?)@(.*?)\.[a-zA-Z]{2,100}$/)) return false;
         return true;

@@ -6,6 +6,7 @@
     "polymer": "Polymer/polymer#^1.6.0",
     "app-route": "PolymerElements/app-route#^0.9.2",
     "app-metadata": "^0.0.6",
+    "placetobe-route": "Placetobe/placetobe-route",
     "placetobe-behaviors": "Placetobe/placetobe-behaviors",
     "placetobe-styles": "Placetobe/placetobe-styles",
     "placetobe-button": "Placetobe/placetobe-button",
@@ -14,7 +15,8 @@
     "placetobe-cookie-warning": "Placetobe/placetobe-cookie-warning",
     "placetobe-icons": "Placetobe/placetobe-icons",
     "placetobe-hero": "Placetobe/placetobe-hero",
-    "placetobe-illustrations": "Placetobe/placetobe-illustrations"
+    "placetobe-illustrations": "Placetobe/placetobe-illustrations",
+    "placetobe-footer": "Placetobe/placetobe-footer"
   },
   "devDependencies": {
     "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",

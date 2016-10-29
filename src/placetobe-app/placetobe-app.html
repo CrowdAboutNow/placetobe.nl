@@ -2,10 +2,11 @@
 <link rel="import" href="../../bower_components/placetobe-cookie-warning/placetobe-cookie-warning.html">
 <link rel="import" href="../../bower_components/placetobe-card/placetobe-card.html">
 <link rel="import" href="../../bower_components/placetobe-header/placetobe-header.html">
+<link rel="import" href="../../bower_components/placetobe-footer/placetobe-footer.html">
 <link rel="import" href="../../bower_components/app-route/app-location.html">
-<link rel="import" href="../../bower_components/app-route/app-route.html">
 <link rel="import" href="../../bower_components/app-route/app-route-converter.html">
 <link rel="import" href="../../bower_components/app-metadata/app-metadata.html">
+<link rel="import" href="../../bower_components/placetobe-route/placetobe-route.html">
 <link rel="import" href="../../bower_components/placetobe-hero/placetobe-hero.html">
 <link rel="import" href="../../bower_components/placetobe-illustrations/placetobe-illustrations.html">
 <link rel="import" href="../placetobe-investor-registration-form/placetobe-investor-registration-form.html">
@@ -108,6 +109,23 @@
         margin-top: calc( var(--placetobe-margin) * 8 );
       }
 
+      placetobe-cookie-warning {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 10;
+      }
+
+      placetobe-footer placetobe-investor-registration-form {
+        margin: var(--placetobe-margin) 0;
+      }
+
+      placetobe-footer h2 {
+        @apply(--placetobe-font-heading3);
+        color: white;
+      }
+
     </style>
 
     <template is="dom-if" if="[[!cookiesAccepted]]">
@@ -120,19 +138,19 @@
       route="{{route}}"
     ></app-location>
 
-    <app-route
+    <placetobe-route
       route="{{route}}"
-      pattern="/:page/:subpage"
+      pattern="/:page"
       data="{{routeData}}"
       tail="{{subroute}}"
-    ></app-route>
+    ></placetobe-route>
 
-<!--     <app-route
+    <placetobe-route
       route="{{subroute}}"
       pattern="/:subpage"
       data="{{subrouteData}}"
-    ></app-route>
- -->
+    ></placetobe-route>
+
     <placetobe-header
       collapsed="[[headerCollapsed]]"
       current-page="[[routeData.page]]"
@@ -290,6 +308,17 @@
       </section>
     </template>
 
+    <placetobe-footer>
+      <div>
+        <h2>Meer info over investeren?</h2>
+        <placetobe-investor-registration-form
+          horizontal-layout
+          hide-first-name
+          hide-last-name
+        ></placetobe-investor-registration-form>
+      </div>
+    </placetobe-footer>
+
   </template>
 
   <script>
@@ -369,8 +398,7 @@
       },
 
       observers: [
-        "_setMetaData(route.path)",
-        'observeRoutes(route.*, routeData.*)'
+        "_setMetaData(route.path)"
       ],
 
       ready: function() {
@@ -472,10 +500,6 @@
 
       _computePricingPageActive: function(page) {
         return (page == 'tarieven');
-      },
-
-      observeRoutes: function(routeItem, routeData) {
-        console.log(routeItem.base, routeData.base);
       }
 
     });
