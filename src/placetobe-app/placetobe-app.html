@@ -9,8 +9,10 @@
 <link rel="import" href="../../bower_components/placetobe-route/placetobe-route.html">
 <link rel="import" href="../../bower_components/placetobe-hero/placetobe-hero.html">
 <link rel="import" href="../../bower_components/placetobe-illustrations/placetobe-illustrations.html">
+<link rel="import" href="../../bower_components/placetobe-popup/placetobe-popup.html">
 <link rel="import" href="../placetobe-investor-registration-form/placetobe-investor-registration-form.html">
 <link rel="import" href="../placetobe-pricing/placetobe-pricing.html">
+<link rel="import" href="../placetobe-quickscan/placetobe-investor-quickscan.html">
 
 <dom-module id="placetobe-app">
   <template>
@@ -168,6 +170,7 @@
     </template>
 
     <app-location
+      id="appLocation"
       route="{{route}}"
     ></app-location>
 
@@ -179,23 +182,39 @@
     ></placetobe-route>
 
     <placetobe-route
+      route="{{route}}"
+      pattern="/"
+      active="{{homePageActive}}"
+    ></placetobe-route>
+
+    <placetobe-route
+      route="{{route}}"
+      pattern="/start-project"
+      active="{{entrepreneurLandingPageActive}}"
+    ></placetobe-route>
+
+    <placetobe-route
+      route="{{route}}"
+      pattern="/investeren"
+      tail="{{subroute}}"
+      matches="{{investorLandingPageActive}}"
+    ></placetobe-route>
+
+    <placetobe-route
       route="{{subroute}}"
-      pattern="/:subpage"
-      data="{{subrouteData}}"
+      pattern="/test"
+      active="{{investorQuickscanActive}}"
     ></placetobe-route>
 
     <placetobe-header
       collapsed="[[headerCollapsed]]"
       current-page="[[routeData.page]]"
       home-page-active="{{homePageActive}}"
-      entrepreneur-page-active="{{entrepreneurPageActive}}"
-      invest-page-active="{{investPageActive}}"
-      campaign-page-active="{{campaignPageActive}}"
     ></placetobe-header>
 
     <placetobe-hero
-      car-parked$="[[investPageActive]]"
-      car-gone$="[[entrepreneurPageActive]]"
+      car-parked$="[[investorLandingPageActive]]"
+      car-gone$="[[entrepreneurLandingPageActive]]"
       hidden$="[[!landingPageActive]]"
       >
 
@@ -207,13 +226,13 @@
           <placetobe-button href="/investeren" link><span>Info voor investeerders</span></placetobe-button>
         </span>
         
-        <span hidden$="[[!entrepreneurPageActive]]">
+        <span hidden$="[[!entrepreneurLandingPageActive]]">
           <h2><strong>Geen gebouw neerzetten, maar een plek maken.</strong> Vastgoed ontwikkel je samen met de crowd.</h2>      
           <placetobe-button href="https://docs.google.com/forms/d/e/1FAIpQLSdFZhTSDI4kRKZlLedroXEmMCEAGVB6fUPSYJkdIL9jrQR1yg/viewform" target="_blank"><span>Direct je project starten</span></placetobe-button>
           <placetobe-button href="/tarieven" link><span>Bekijk onze tarieven</span></placetobe-button>
         </span>
         
-        <span hidden$="[[!investPageActive]]">
+        <span hidden$="[[!investorLandingPageActive]]">
           <h2><strong>Crowdfunding in vastgoed.</strong> Iedereen een plek en jij rendement.</h2>      
           <placetobe-button href="/investeren/aanmelden"><span>Meld je aan als investeerder</span></placetobe-button>
           <placetobe-button href="/investeren/test" link><span>Doe de quickscan</span></placetobe-button>
@@ -222,8 +241,8 @@
       </main>
 
       <placetobe-manholdingkey-illustration slot="illustration" hidden$="[[!homePageActive]]"></placetobe-manholdingkey-illustration>
-      <placetobe-manreading-illustration slot="illustration" hidden$="[[!entrepreneurPageActive]]"></placetobe-manreading-illustration>
-      <placetobe-manthinking-illustration slot="illustration" hidden$="[[!investPageActive]]"></placetobe-manthinking-illustration>
+      <placetobe-manreading-illustration slot="illustration" hidden$="[[!entrepreneurLandingPageActive]]"></placetobe-manreading-illustration>
+      <placetobe-manthinking-illustration slot="illustration" hidden$="[[!investorLandingPageActive]]"></placetobe-manthinking-illustration>
       
     </placetobe-hero>
 
@@ -287,7 +306,7 @@
             </main>
           </template>
 
-          <template is="dom-if" if="[[investPageActive]]">
+          <template is="dom-if" if="[[investorLandingPageActive]]">
             <main class="layout-66-33--item-1">
               <h1>Investeren in vastgoed met placetobe</h1>
               <article>
@@ -296,7 +315,7 @@
             </main>
           </template>
 
-          <template is="dom-if" if="[[entrepreneurPageActive]]">
+          <template is="dom-if" if="[[entrepreneurLandingPageActive]]">
             <main class="layout-66-33--item-1">
               <h1>Vastgoed crowdfunden met placetobe</h1>
               <article>
@@ -332,7 +351,7 @@
           <placetobe-card title="Investeren in een project?" id="investeren-in-een-project" class="investor-card">
             <article slot="main">wil je investeren in vastgoed? Ontdek of crowdfunding bij je past</article>
             <placetobe-button
-              href="/investeren/quickscan"
+              href="/investeren/test"
               title="Doe de quickscan"
               slot="footer"
             ><span>Doe de quickscan</span>
@@ -343,7 +362,7 @@
       </template>
 
       <section class="horizontal-layout">
-        <template is="dom-if" if="[[entrepreneurPageActive]]">
+        <template is="dom-if" if="[[entrepreneurLandingPageActive]]">
           <placetobe-card title="Heb jij een placetobe?" class="entrepreneur-card">
             <article slot="main">Meld direct online je project aan.</article>
             <placetobe-button
@@ -355,7 +374,7 @@
             </placetobe-button>
           </placetobe-card>
         </template>
-        <template is="dom-if" if="[[investPageActive]]">
+        <template is="dom-if" if="[[investorLandingPageActive]]">
           <placetobe-card title="Ben jij een crowdfunder?" class="investor-card">
             <article slot="main">Beantwoord vijf vragen en ontdek of investeren bij Placetobe iets voor je is.</article>
             <placetobe-button
@@ -370,6 +389,7 @@
 
     </template>
 
+
     <placetobe-footer>
       <div>
         <h2>Meer info over investeren?</h2>
@@ -380,6 +400,14 @@
         ></placetobe-investor-registration-form>
       </div>
     </placetobe-footer>
+
+      <placetobe-popup
+        with-backdrop
+        opened$="[[investorQuickscanActive]]"
+        on-iron-overlay-closed="_handleCloseInvestorQuickscan"
+        >
+        <placetobe-investor-quickscan></placetobe-investor-quickscan>        
+      </placetobe-popup>
 
   </template>
 
@@ -415,12 +443,12 @@
           value: false
         },
 
-        entrepreneurPageActive: {
+        entrepreneurLandingPageActive: {
           type: Boolean,
           value: false
         },
 
-        investPageActive: {
+        investorLandingPageActive: {
           type: Boolean,
           value: false
         },
@@ -438,7 +466,7 @@
 
         landingPageActive: {
           type: Boolean,
-          computed: '_computeLandingPageActive(homePageActive, investPageActive, entrepreneurPageActive, routeData.*, subrouteData.*)'
+          computed: '_computeLandingPageActive(homePageActive, investorLandingPageActive, entrepreneurLandingPageActive, routeData.*, subrouteData.*)'
         },
 
         pricingPageActive: {
@@ -555,14 +583,23 @@
         return [pageTitle, "Placetobe"].join(" | ");
       },
 
-      _computeLandingPageActive: function(homePageActive, investPageActive, entrepreneurPageActive, routedataitem, subroutedataitem) {
-        var landingPageActive = ((homePageActive || investPageActive || entrepreneurPageActive) && (!subroutedataitem.base.subpage));
+      _computeLandingPageActive: function(homePageActive, investorLandingPageActive, entrepreneurLandingPageActive, routedataitem, subroutedataitem) {
+        var landingPageActive = ((homePageActive || investorLandingPageActive || entrepreneurLandingPageActive) && (!subroutedataitem.base.subpage));
         return landingPageActive;
       },
 
       _computePricingPageActive: function(page) {
         return (page == 'tarieven');
-      }
+      },
+
+      _handleOpenInvestorQuickscan: function(evt) {
+        console.log('this.$.appLocation', this.$.appLocation)
+        this.$.appLocation.path = '/investeren/test';
+      },
+
+      _handleCloseInvestorQuickscan: function(evt) {
+        this.$.appLocation.path = '/investeren';
+      },
 
     });
   </script>

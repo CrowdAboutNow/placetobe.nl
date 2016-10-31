@@ -8,65 +8,67 @@
   <template>
     <style>
       :host {
+        color: var(--placetobe-color-darkblue);
+        @apply(--placetobe-flex-layout--vertical);
+        height: 100%;
+      }
+
+      :host section {
+        @apply(--placetobe-flex-layout--vertical);
+        @apply(--placetobe-cross-align--stretch);
+        @apply(--placetobe-flex-item--1);
+        max-width: var(--placetobe-two-column-width);
+      }
+
+      :host section main {
+        @apply(--placetobe-flex-item--1);
+      }
+
+      :host section footer {
+        @apply(--placetobe-flex-item--none);
       }
 
       :host h3 {
-        @apply(--placetobe-heading4);
-        margin-bottom: 18px;
+        @apply(--placetobe-heading3);
+        margin-bottom: var(--placetobe-margin);
         font-weight: 400;
       }
 
-      @media (max-width: 959px) {
-        :host h3 {
-          @apply(--placetobe-heading4--mobile);
-          margin-bottom: 18px;
-        }
+      :host h3 strong {
+        @apply(--placetobe-heading3);        
       }
 
       :host h6, article  {
-        @apply(--placetobe-body);
-        margin-bottom: 9px;
-      }
-
-      @media (max-width: 959px) {
-        :host h6, article {
-          @apply(--placetobe-body--phone);
-        }        
+        @apply(--placetobe-font-body);
+        margin-bottom: calc( var(--placetobe-margin) / 2 );;
       }
 
       :host iron-selector {
         list-style: none;
         padding: 0;
-        margin-bottom: 36px;
+        margin-bottom: var(--placetobe-margin);
         display: block;
       }
 
       :host iron-selector button {
         @apply(--placetobe-body);
-        margin-bottom: 9px;
-        padding-left: 54px;
+        margin-bottom: calc( var(--placetobe-margin) / 2 );;
+        padding-left: calc( var(--placetobe-margin) * 2 );
         position: relative;
         background-color: transparent;
         display: block;
-        border:0;
+        border: 0;
         outline: none;
         cursor: pointer;
       }
 
-      @media (max-width: 959px) {
-        :host iron-selector button {
-          @apply(--placetobe-body--phone);
-          margin-bottom: 9px;
-        }        
-      }
-
-
       :host iron-selector button:before {
         position: absolute;
-        width: 24px;
-        height: 24px;
+        width: var(--placetobe-margin);
+        height: var(--placetobe-margin);
+        border: 2px solid var(--placetobe-color-darkblue);
         border-radius: 50%;
-        top: 3px;
+        top: 5px;
         left: 0;
         background-color: white;
         content: "";
@@ -74,154 +76,169 @@
 
       @media (max-width: 959px) {
         :host iron-selector button:before {
-          @apply(--placetobe-body--phone);
           top: 3px;
         }        
       }
 
 
       :host iron-selector button:hover:before {
-        background-color: #ddd;
+        background-color: var(--placetobe-color-gray);
       }
 
       :host iron-selector button.iron-selected:before {
-        background-color: black;
+        background-color: var(--placetobe-color-green);
       }
 
-      :host #try-again-button {
-        display: block;
-        --text-color: white;
+      :host placetobe-button[link] {
+        margin-left: var(--placetobe-margin);
       }
-
     </style>
 
-    <template is="dom-if" if="[[!finished]]">
+    <section>
 
-        <h6>[[currentStep]] van [[numberOfQuestions]]</h6>
+      <template is="dom-if" if="[[!finished]]">
+
+        <main>
+          <h6>[[currentStep]] van [[numberOfQuestions]]</h6>        
             
-        <span hidden="[[!_atIndex(0, currentIndex)]]">
-            <h3>Ik wil <strong>rente</strong> verdienen op mijn <strong>geld</strong></h3>
-            <iron-selector selected="{{answers.0}}" attr-for-selected="value">
-                <button value="1">Totaal onbelangrijk</button>
-                <button value="2">Redelijk onbelangrijk</button>
-                <button value="3">Neutraal</button>
-                <button value="4">Redelijk belangrijk</button>
-                <button value="5">Heel belangrijk</button>
-            </iron-selector>
-        </span>
+          <template is="dom-if" if="[[_atIndex(0, currentIndex)]]">
+              <h3>Ik wil <strong>rente</strong> verdienen op mijn <strong>geld</strong></h3>
+              <iron-selector selected="{{answers.0}}" attr-for-selected="value">
+                  <button value="1">Totaal onbelangrijk</button>
+                  <button value="2">Redelijk onbelangrijk</button>
+                  <button value="3">Neutraal</button>
+                  <button value="4">Redelijk belangrijk</button>
+                  <button value="5">Heel belangrijk</button>
+              </iron-selector>
+          </template>
 
-        <span hidden="[[!_atIndex(1, currentIndex)]]">
-            <h3>Ik wil <strong>iedere dag</strong> mijn spaargeld kunnen <strong>opnemen</strong></h3>
-            <iron-selector selected="{{answers.1}}" attr-for-selected="value">
-                <button value="5">Totaal onbelangrijk</button>
-                <button value="4">Redelijk onbelangrijk</button>
-                <button value="3">Neutraal</button>
-                <button value="2">Redelijk belangrijk</button>
-                <button value="1">Heel belangrijk</button>
-            </iron-selector>
-        </span>
+          <template is="dom-if" if="[[_atIndex(1, currentIndex)]]">
+              <h3>Ik wil <strong>iedere dag</strong> mijn spaargeld kunnen <strong>opnemen</strong></h3>
+              <iron-selector selected="{{answers.1}}" attr-for-selected="value">
+                  <button value="5">Totaal onbelangrijk</button>
+                  <button value="4">Redelijk onbelangrijk</button>
+                  <button value="3">Neutraal</button>
+                  <button value="2">Redelijk belangrijk</button>
+                  <button value="1">Heel belangrijk</button>
+              </iron-selector>
+          </template>
 
-        <span hidden="[[!_atIndex(2, currentIndex)]]">
-            <h3>Ik wil <strong>geen enkel risico</strong> lopen dat ik <strong>geld verllies</strong></h3>
-            <iron-selector selected="{{answers.2}}" attr-for-selected="value">
-                <button value="5">Totaal onbelangrijk</button>
-                <button value="4">Redelijk onbelangrijk</button>
-                <button value="3">Neutraal</button>
-                <button value="2">Redelijk belangrijk</button>
-                <button value="1">Heel belangrijk</button>
-            </iron-selector>
-        </span>
+          <template is="dom-if" if="[[_atIndex(2, currentIndex)]]">
+              <h3>Ik wil <strong>geen enkel risico</strong> lopen dat ik <strong>geld verllies</strong></h3>
+              <iron-selector selected="{{answers.2}}" attr-for-selected="value">
+                  <button value="5">Totaal onbelangrijk</button>
+                  <button value="4">Redelijk onbelangrijk</button>
+                  <button value="3">Neutraal</button>
+                  <button value="2">Redelijk belangrijk</button>
+                  <button value="1">Heel belangrijk</button>
+              </iron-selector>
+          </template>
 
-        <span hidden="[[!_atIndex(3, currentIndex)]]">
-            <h3>Ik wil een <strong>hoog rendement</strong> maken</h3>
-            <iron-selector selected="{{answers.3}}" attr-for-selected="value">
-                <button value="1">Totaal onbelangrijk</button>
-                <button value="2">Redelijk onbelangrijk</button>
-                <button value="3">Neutraal</button>
-                <button value="4">Redelijk belangrijk</button>
-                <button value="5">Heel belangrijk</button>
-            </iron-selector>
-        </span>
+          <template is="dom-if" if="[[_atIndex(3, currentIndex)]]">
+              <h3>Ik wil een <strong>hoog rendement</strong> maken</h3>
+              <iron-selector selected="{{answers.3}}" attr-for-selected="value">
+                  <button value="1">Totaal onbelangrijk</button>
+                  <button value="2">Redelijk onbelangrijk</button>
+                  <button value="3">Neutraal</button>
+                  <button value="4">Redelijk belangrijk</button>
+                  <button value="5">Heel belangrijk</button>
+              </iron-selector>
+          </template>
 
-        <span hidden="[[!_atIndex(4, currentIndex)]]">
-            <h3>Ik wil <strong>deelnemen</strong> in de <strong>verhalen van ondernemers</strong></h3>
-            <iron-selector selected="{{answers.4}}" attr-for-selected="value">
-                <button value="1">Totaal onbelangrijk</button>
-                <button value="2">Redelijk onbelangrijk</button>
-                <button value="3">Neutraal</button>
-                <button value="4">Redelijk belangrijk</button>
-                <button value="5">Heel belangrijk</button>
-            </iron-selector>
-        </span>
+          <template is="dom-if" if="[[_atIndex(4, currentIndex)]]">
+              <h3>Ik wil <strong>deelnemen</strong> in de <strong>verhalen van ondernemers</strong></h3>
+              <iron-selector selected="{{answers.4}}" attr-for-selected="value">
+                  <button value="1">Totaal onbelangrijk</button>
+                  <button value="2">Redelijk onbelangrijk</button>
+                  <button value="3">Neutraal</button>
+                  <button value="4">Redelijk belangrijk</button>
+                  <button value="5">Heel belangrijk</button>
+              </iron-selector>
+          </template>
 
-        <placetobe-button
-            title="vorige"
-            on-tap="back"
-            disabled="[[_atIndex(0, currentIndex)]]"
-        ><span>vorige</span></placetobe-button>
+        </main>
 
-        <placetobe-button
-            title="volgende"
-            on-tap="forward"
-            hidden="[[!_atIndex(0, currentIndex)]]"
-            disabled="[[!answers.0]]"
-        ><span>volgende</span></placetobe-button>
+        <footer>
 
-        <placetobe-button
-            title="volgende"
-            on-tap="forward"
-            hidden="[[!_atIndex(1, currentIndex)]]"
-            disabled="[[!answers.1]]"
-        ><span>volgende</span></placetobe-button>
+          <placetobe-button
+              title="vorige"
+              on-tap="back"
+              disabled$="[[_atIndex(0, currentIndex)]]"
+          ><span>vorige</span></placetobe-button>
 
-        <placetobe-button
-            title="volgende"
-            on-tap="forward"
-            hidden="[[!_atIndex(2, currentIndex)]]"
-            disabled="[[!answers.2]]"
-        ><span>volgende</span></placetobe-button>
+          <placetobe-button
+              title="volgende"
+              on-tap="forward"
+              hidden="[[!_atIndex(0, currentIndex)]]"
+              disabled$="[[!answers.0]]"
+          ><span>volgende</span></placetobe-button>
 
-        <placetobe-button
-            title="volgende"
-            on-tap="forward"
-            hidden="[[!_atIndex(3, currentIndex)]]"
-            disabled="[[!answers.3]]"
-        ><span>volgende</span></placetobe-button>
+          <placetobe-button
+              title="volgende"
+              on-tap="forward"
+              hidden="[[!_atIndex(1, currentIndex)]]"
+              disabled$="[[!answers.1]]"
+          ><span>volgende</span></placetobe-button>
 
-        <placetobe-button
-            title="bekijk resultaat"
-            on-tap="forward"
-            hidden="[[!_atIndex(4, currentIndex)]]"
-            disabled="[[!answers.4]]"
-        ><span>bekijk resultaat</span></placetobe-button>
+          <placetobe-button
+              title="volgende"
+              on-tap="forward"
+              hidden="[[!_atIndex(2, currentIndex)]]"
+              disabled$="[[!answers.2]]"
+          ><span>volgende</span></placetobe-button>
 
-    </template>
+          <placetobe-button
+              title="volgende"
+              on-tap="forward"
+              hidden="[[!_atIndex(3, currentIndex)]]"
+              disabled$="[[!answers.3]]"
+          ><span>volgende</span></placetobe-button>
 
-    <template is="dom-if" if="[[finished]]">
+          <placetobe-button
+              title="bekijk resultaat"
+              on-tap="forward"
+              hidden="[[!_atIndex(4, currentIndex)]]"
+              disabled$="[[!answers.4]]"
+          ><span>bekijk resultaat</span></placetobe-button>
 
-        <h6>conclusie</h6>
-        
-        <h3 hidden$="[[!_scoreIsLessThan(score, 10)]]"><strong>Je bent geen crowdfunder.</strong></h3>
-        <h3 hidden$="[[!_scoreIsBetween(score, 9, 18)]]"><strong>Jij bent een potentiële crowdfunder!</strong></h3>
-        <h3 hidden$="[[!_scoreIsGreaterThan(score, 17)]]"><strong>Jij bent een supercrowdfunder!</strong></h3>
-        
-        <article>[[answerText]]</p></article>
+        </footer>
 
-        <placetobe-button
-            hidden$="[[_scoreIsLessThan(score, 10)]]"
-            title="Meld je aan als investeerder"
-            href="/investeren/aanmelden"
-        ><span>Meld je aan als investeerder</span></placetobe-button>
+      </template>
 
-        <placetobe-button
-            id="try-again-button"
-            title="Doe de scan opnieuw"
-            on-tap="reset"
-            link
-        ><span>Doe de scan opnieuw</span></placetobe-button>
+      <template is="dom-if" if="[[finished]]">
 
+        <main>
 
-    </template>
+          <h6>conclusie</h6>
+          
+          <h3 hidden$="[[!_scoreIsLessThan(score, 10)]]">Je bent geen crowdfunder.</h3>
+          <h3 hidden$="[[!_scoreIsBetween(score, 9, 18)]]">Jij bent een potentiële crowdfunder!</h3>
+          <h3 hidden$="[[!_scoreIsGreaterThan(score, 17)]]">Jij bent een supercrowdfunder!</h3>
+          
+          <article>[[answerText]]</p></article>
+
+        </main>
+
+        <footer>
+
+          <placetobe-button
+              hidden$="[[_scoreIsLessThan(score, 10)]]"
+              title="Meld je aan als investeerder"
+              href="/investeren/aanmelden"
+          ><span>Meld je aan als investeerder</span></placetobe-button>
+
+          <placetobe-button
+              id="try-again-button"
+              title="Doe de scan opnieuw"
+              on-tap="reset"
+              link
+          ><span>Doe de scan opnieuw</span></placetobe-button>
+
+        </footer>
+
+      </template>
+
+    </section>
 
   </template>
 

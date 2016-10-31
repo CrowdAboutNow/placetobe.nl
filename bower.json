@@ -16,7 +16,8 @@
     "placetobe-icons": "Placetobe/placetobe-icons",
     "placetobe-hero": "Placetobe/placetobe-hero",
     "placetobe-illustrations": "Placetobe/placetobe-illustrations",
-    "placetobe-footer": "Placetobe/placetobe-footer"
+    "placetobe-footer": "Placetobe/placetobe-footer",
+    "placetobe-popup": "Placetobe/placetobe-popup"
   },
   "devDependencies": {
     "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
