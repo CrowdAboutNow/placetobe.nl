@@ -90,7 +90,8 @@
       }
 
       :host placetobe-button[link] {
-        margin-left: var(--placetobe-margin);
+        margin: var(--placetobe-margin) 0 0 var(--placetobe-margin);
+        display: inline-block;
       }
     </style>
 
@@ -199,7 +200,7 @@
               on-tap="forward"
               hidden="[[!_atIndex(4, currentIndex)]]"
               disabled$="[[!answers.4]]"
-          ><span>bekijk resultaat</span></placetobe-button>
+          ><span>bekijk score</span></placetobe-button>
 
         </footer>
 
