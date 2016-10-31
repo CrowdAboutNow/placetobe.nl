@@ -14,7 +14,15 @@
 
 <dom-module id="placetobe-app">
   <template>
+
     <style>
+
+      :host {
+        --placetobe-color--general: var(--placetobe-color-gray);
+        --placetobe-color--entrepreneurs: var(--placetobe-color-yellow);
+        --placetobe-color--investors: var(--placetobe-color-taupe);
+      }
+
       :host placetobe-header {
         position: fixed;
         top: 0;
@@ -137,6 +145,18 @@
       placetobe-footer h2 {
         @apply(--placetobe-font-heading3);
         color: white;
+      }
+
+      placetobe-card {
+        --placetobe-card-color: var(--placetobe-color--general);
+      }
+
+      placetobe-card.entrepreneur-card {
+        --placetobe-card-color: var(--placetobe-color--entrepreneurs);
+      }
+
+      placetobe-card.investor-card {
+        --placetobe-card-color: var(--placetobe-color--investors);
       }
 
     </style>
@@ -296,29 +316,58 @@
         </placetobe-card>
       </section>
 
-      <section class="horizontal-layout layout-50-50">
+      <template is="dom-if" if="[[homePageActive]]">
+        <section class="horizontal-layout layout-50-50">
 
-        <placetobe-card title="Project starten?" id="project-starten">
-          <article slot="main">Financiering nodig voor een vastgoedproject? Misschien is crowdfunding de manier voor jou.</article>
-          <placetobe-button
-            href="/start-project"
-            title="Meer info"
-            slot="footer"
-          ><span>Meer info</span>
-          </placetobe-button>
-        </placetobe-card>
+          <placetobe-card title="Project starten?" id="project-starten" class="entrepreneur-card">
+            <article slot="main">Financiering nodig voor een vastgoedproject? Misschien is crowdfunding de manier voor jou.</article>
+            <placetobe-button
+              href="/start-project"
+              title="Meer info"
+              slot="footer"
+            ><span>Meer info</span>
+            </placetobe-button>
+          </placetobe-card>
 
-        <placetobe-card title="Investeren in een project?" id="investeren-in-een-project">
-          <article slot="main">wil je investeren in vastgoed? Ontdek of crowdfunding bij je past</article>
-          <placetobe-button
-            href="/investeren/quickscan"
-            title="Doe de quickscan"
-            slot="footer"
-          ><span>Doe de quickscan</span>
-          </placetobe-button>
-        </placetobe-card>
+          <placetobe-card title="Investeren in een project?" id="investeren-in-een-project" class="investor-card">
+            <article slot="main">wil je investeren in vastgoed? Ontdek of crowdfunding bij je past</article>
+            <placetobe-button
+              href="/investeren/quickscan"
+              title="Doe de quickscan"
+              slot="footer"
+            ><span>Doe de quickscan</span>
+            </placetobe-button>
+          </placetobe-card>
 
+        </section>
+      </template>
+
+      <section class="horizontal-layout">
+        <template is="dom-if" if="[[entrepreneurPageActive]]">
+          <placetobe-card title="Heb jij een placetobe?" class="entrepreneur-card">
+            <article slot="main">Meld direct online je project aan.</article>
+            <placetobe-button
+              href="https://docs.google.com/a/lotsofpeople.nl/forms/d/e/1FAIpQLSdFZhTSDI4kRKZlLedroXEmMCEAGVB6fUPSYJkdIL9jrQR1yg/viewform"
+              title="Project aanmelden"
+              target="_blank"
+              slot="footer"
+            ><span>Project aanmelden</span>
+            </placetobe-button>
+          </placetobe-card>
+        </template>
+        <template is="dom-if" if="[[investPageActive]]">
+          <placetobe-card title="Ben jij een crowdfunder?" class="investor-card">
+            <article slot="main">Beantwoord vijf vragen en ontdek of investeren bij Placetobe iets voor je is.</article>
+            <placetobe-button
+              href="/investeren/test"
+              title="Doe de quickscan"
+              slot="footer"
+            ><span>doe de quickscan.</span>
+            </placetobe-button>
+          </placetobe-card>
+        </template>
       </section>
+
     </template>
 
     <placetobe-footer>
