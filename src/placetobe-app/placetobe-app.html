@@ -10,9 +10,9 @@
 <link rel="import" href="../../bower_components/placetobe-hero/placetobe-hero.html">
 <link rel="import" href="../../bower_components/placetobe-illustrations/placetobe-illustrations.html">
 <link rel="import" href="../../bower_components/placetobe-popup/placetobe-popup.html">
+<link rel="import" href="../../bower_components/placetobe-survey/placetobe-investor-quickscan.html">
 <link rel="import" href="../placetobe-investor-registration-form/placetobe-investor-registration-form.html">
 <link rel="import" href="../placetobe-pricing/placetobe-pricing.html">
-<link rel="import" href="../placetobe-quickscan/placetobe-investor-quickscan.html">
 
 <dom-module id="placetobe-app">
   <template>
@@ -266,7 +266,31 @@
 
       </section>
 
-        <placetobe-pricing></placetobe-pricing>
+      <section class="horizontal-layout layout-50-50">
+        
+        <placetobe-card
+          title="Plaatsingsfee"
+        >
+          <article slot="main">
+            <b>1%</b> over eerste <b>€ 100.000,-</b> (minimum <b>€ 500,-</b>)<br>
+            <b>0,1%</b> over meerdere tot <b>€ 1.000.000,-</b><br>
+            <b>0,05%</b> over meerdere boven <b>€ 1.000.000,-</b>
+          </article>
+        </placetobe-card>
+
+        <placetobe-card
+          title="Succesfee"
+        >
+          <article slot="main">
+            <b>3%</b> over eerste <b>€ 100.000,-</b><br>
+            <b>1,9%</b> over meerdere tot <b>€ 1.000.000,-</b><br>
+            <b>1,45%</b> over meerdere boven <b>€ 1.000.000,-</b>
+            <br>
+            beheerkosten <b>0,5%</b> per jaar gedurende de looptijd
+          </article>
+        </placetobe-card>
+
+      </section>
 
       <section class="horizontal-layout">
 
@@ -277,7 +301,7 @@
 
       <section class="horizontal-layout">
         
-        <placetobe-card title="Project starten?">
+        <placetobe-card title="Project starten?" class="entrepreneur-card">
           
           <article slot="main">Financiering nodig voor een vastgoedproject? Misschien is crowdfunding de manier voor jou.</article>
           
