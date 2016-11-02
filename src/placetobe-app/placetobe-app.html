@@ -1,4 +1,5 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/placetobe-styles/placetobe-styles.html">
 <link rel="import" href="../../bower_components/placetobe-cookie-warning/placetobe-cookie-warning.html">
 <link rel="import" href="../../bower_components/placetobe-card/placetobe-card.html">
 <link rel="import" href="../../bower_components/placetobe-header/placetobe-header.html">
@@ -12,6 +13,7 @@
 <link rel="import" href="../../bower_components/placetobe-popup/placetobe-popup.html">
 <link rel="import" href="../../bower_components/placetobe-survey/placetobe-investor-quickscan.html">
 <link rel="import" href="../../bower_components/placetobe-survey/placetobe-entrepreneur-quickscan.html">
+<link rel="import" href="placetobe-entrepreneur-landing-page.html">
 <link rel="import" href="../placetobe-investor-registration-form/placetobe-investor-registration-form.html">
 
 <dom-module id="placetobe-app">
@@ -23,6 +25,8 @@
         --placetobe-color--general: var(--placetobe-color-gray);
         --placetobe-color--entrepreneurs: var(--placetobe-color-yellow);
         --placetobe-color--investors: var(--placetobe-color-taupe);
+        --placetobe-header-tint-active-color: var(--placetobe-color-green);
+        --placetobe-header-active-color: var(--placetobe-color-red);
       }
 
       :host placetobe-header {
@@ -75,6 +79,7 @@
 
         :host .horizontal-layout {
           @apply(--placetobe-flex-layout--horizontal);
+          @apply(--placetobe-flex-align--center);
         }
         
         :host .horizontal-layout > *:not(.layout-66-33--item-1) {
@@ -111,7 +116,8 @@
         padding: auto;
       }
 
-      :host article strong {
+      :host article p:first-child {
+        padding-top: var(--placetobe-margin);
         @apply(--placetobe-font-body-bold);
       }
 
@@ -268,10 +274,18 @@
         class="horizontal-layout"      
         >
         <article>
-        <h2>Wat kost dat nou?</h2>
-        <h1>Tarieven voor crowfdfunden bij Placetobe</h1>
-        
-          <p>We begeleiden het hele proces en geven je advies over campagne voeren en hoe je betrokken investeerders vindt. Ook zorgen we ervoor dat de financiële afhandeling tot in de puntjes geregeld is.</p>
+          <h2>Wat kost dat nou?</h2>
+          <h1>Tarieven voor crowfdfunden bij Placetobe</h1>
+
+          <p>Als ondernemer moet je minimaal de kosten kunnen dragen van:</p>
+          <ul>
+          <li>de renteaflossing</li>
+          <li>rentelasten gedurende de looptijd van de lening</li>
+          <li>deplaatsings-eneventuelesuccesfees</li>
+          </ul>
+          <p>
+          Koop je een pand aan, dan moet je een eerste hypotheek aan kunnen bieden.<br>Creëer je huurwoningen, dan is pandrecht een zekerheid waar je aan moet denken.
+          </p>
         </article>
 
       </section>
@@ -328,7 +342,6 @@
 
     </template>
 
-
     <template is="dom-if" if="[[landingPageActive]]">
 
       <section class="horizontal-layout layout-66-33">
@@ -354,25 +367,17 @@
             </main>
           </template>
 
-          <template is="dom-if" if="[[entrepreneurLandingPageActive]]">
-            <main class="layout-66-33--item-1">
-              <h1>Vastgoed crowdfunden met placetobe</h1>
-              <article>
-                
-                <p>Bij vastgoed hoort altijd financiering, maar voor veel 'kleinere' projecten blijft het bankloket helaas gesloten. Komt jouw project daardoor ook niet van de grond? Crowdfunding biedt nieuwe kansen. We bereiken een grote groep investeerders en gebruikers. Samen realiseren we vastgoed.</p>
 
-                <p>Placetobe is opgericht door een crowdfundpartij en een vastgoedontwikkelaar. Wij willen dat de vastgoedmarkt minder over geld en gebouwen gaat en meer over mensen en hun behoeftes.</p>
-                <p>We begeleiden het hele proces en geven je advies over campagne voeren en hoe je betrokken investeerders vindt. Ook zorgen we ervoor dat de financiële afhandeling tot in de puntjes geregeld is.</p>
-              </article>
-            </main>
-          </template>
-
-        <placetobe-card title="Meer informatie?" id="meer-informatie">
+<!--         <placetobe-card title="Meer informatie?" id="meer-informatie">
           <article slot="main">Schrijf je in voor onze mailinglist en ontvang de brochure.</article>
           <placetobe-investor-registration-form slot="footer"></placetobe-investor-registration-form>
           </placetobe-button>
-        </placetobe-card>
+        </placetobe-card> -->
       </section>
+
+          <template is="dom-if" if="[[entrepreneurLandingPageActive]]">
+            <placetobe-entrepreneur-landing-page></placetobe-entrepreneur-landing-page>
+          </template>
 
       <template is="dom-if" if="[[homePageActive]]">
         <section class="horizontal-layout layout-50-50">
@@ -401,18 +406,6 @@
       </template>
 
       <section class="horizontal-layout">
-        <template is="dom-if" if="[[entrepreneurLandingPageActive]]">
-          <placetobe-card title="Heb jij een placetobe?" class="entrepreneur-card">
-            <article slot="main">Meld direct online je project aan.</article>
-            <placetobe-button
-              href="https://docs.google.com/a/lotsofpeople.nl/forms/d/e/1FAIpQLSdFZhTSDI4kRKZlLedroXEmMCEAGVB6fUPSYJkdIL9jrQR1yg/viewform"
-              title="Project aanmelden"
-              target="_blank"
-              slot="footer"
-            ><span>Project aanmelden</span>
-            </placetobe-button>
-          </placetobe-card>
-        </template>
         <template is="dom-if" if="[[investorLandingPageActive]]">
           <placetobe-card title="Ben jij een crowdfunder?" class="investor-card">
             <article slot="main">Beantwoord vijf vragen en ontdek of investeren bij Placetobe iets voor je is.</article>

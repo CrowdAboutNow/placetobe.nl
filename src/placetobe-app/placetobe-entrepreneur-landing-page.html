@@ -1,0 +1,268 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/placetobe-styles/placetobe-styles.html">
+<link rel="import" href="../../bower_components/placetobe-quote/placetobe-quote.html">
+
+<dom-module id="placetobe-entrepreneur-landing-page">
+  <template>
+
+    <style>
+      :host main {
+        margin-bottom: -10px;
+        color: var(--placetobe-color-darkblue);
+        text-align: center;
+        --placetobe-quote-color: var(--placetobe-color-yellow);
+      }
+
+      :host h1 {
+        @apply --placetobe-font-title;
+        font-size: 53px;
+        margin: calc( (var(--placetobe-margin) * 2) ) 0;
+      }
+
+      :host h3 {
+        @apply --placetobe-font-heading3;
+        padding-bottom: calc( (var(--placetobe-margin) * 2) );
+      }
+
+      :host .intro {
+        max-width: var(--placetobe-two-column-width);
+        margin: 0 auto;
+      }
+
+      :host section {
+        @apply(--placetobe-border-box);
+        @apply(--placetobe-flex-layout--horizontal);
+        @apply(--placetobe-flex-align--space-between);
+        @apply(--placetobe-cross-align--center);
+        max-width: calc( var(--placetobe-layout-width) + (var(--placetobe-margin) * 2) );
+        padding: 0 9px;
+        margin: calc( var(--placetobe-margin) * 4 ) auto;
+      }
+
+      :host section.reversed {
+        @apply(--placetobe-flex-layout--horizontal-reverse);      
+      }
+
+      :host section > * {
+        @apply(--placetobe-border-box);
+        padding: 0 9px;
+      }
+
+      :host section > *:nth-child(1) {
+        @apply(--placetobe-flex-item--2);
+      }
+
+      :host section > *:nth-child(2) {
+        @apply(--placetobe-flex-item--1);
+      }
+
+      :host section article {
+        @apply --placetobe-font-body;
+        text-align: left;
+      }
+
+      :host section h2 {
+        @apply --placetobe-font-heading1;
+        color: var(--placetobe-color-green);
+      }
+
+      :host section article p {
+        margin-bottom: var(--placetobe-margin);
+      }
+
+      :host section article p:first-of-type {
+        @apply(--placetobe-font-body-bold);
+        margin: var(--placetobe-margin) 0;
+      }
+
+      :host section figure {
+        @apply --placetobe-border-box;
+      }
+
+      :host section figure svg {
+        height: 360px;
+      }
+
+      :host section ul {
+        list-style: none;
+        padding: 0;
+      }
+
+      :host section ul li {
+        margin-bottom: var(--placetobe-margin);
+      }
+
+      :host section ul h5 {
+        @apply --placetobe-font-heading4;
+      }
+
+      placetobe-card {}
+    </style>
+
+
+    <main>
+
+      <div class="intro">
+
+        <h1>Jouw project financieren met crowdfunding</h1>
+        <h3>Crowdfunding biedt nieuwe kansen om een grote groep investeerders te bereiken. Wij brengen ontwikkelaars, investeerders en gebruikers bij elkaar en zorgen we voor financiering, rendement én een gewilde plek.</h3>
+
+      </div>
+
+      <section>
+
+        <article>
+          <h2>Starten én herfinancieren</h2>
+          <p>
+          Bij Placetobe kan je een project financieren vanaf €50.000 tot maximaal €1 miljoen.
+          Verschillende ondernemers kunnen vastgoed financieren bij Placetobe.
+          </p><p>
+          Je kunt als ondernemer bijvoorbeeld een crowdfundcampagne beginnen voor de aankoop of renovatie van een bedrijfspand. Denk aan een pand voor horecabedrijf, een yogaruimte of een winkel.
+          Daarnaast kun je als projectontwikkelaar terecht bij Placetobe voor bijvoorbeeld het (mede) financieren van beleggingspanden, woningen, winkels of kantoren. Je kunt de ontwikkeling van nieuw vastgoed laten financieren of een vastgoedproject laten herfinancieren.
+          </p>
+        </article>
+
+        <figure>
+          <svg viewBox="0 0 88 155" version="1.1" xmlns="http://www.w3.org/2000/svg">
+              <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                  <path d="M52.651,100.48 C54.862,86.61 54.289,74.381 52.851,64.585 C77.74,60.916 74.032,47.379 74.032,47.379 C54.338,45.804 52.718,59.329 52.677,63.44 C51.352,54.974 49.425,48.417 48.218,44.328 L57.711,42.645 L53.104,16.662 L40.112,18.966 L60.31,15.384 L36.749,0 L19.915,22.547 L27.121,21.269 L31.728,47.252 L41.283,45.558 C41.351,45.788 41.421,46.025 41.494,46.273 C43.304,52.406 46.402,62.904 47.069,76.601 C46.599,73.505 43.277,58.662 23.094,64.004 C23.094,64.004 21.848,78.021 47.091,77.164 C47.383,83.879 47.08,91.351 45.764,99.443 C43.405,99.209 40.976,99.081 38.489,99.081 C16.665,99.081 10,108.514 10,120.15 C10,131.786 16.665,141.219 38.489,141.219 C60.313,141.219 78.005,131.786 78.005,120.15 C78.005,111.175 67.477,103.517 52.651,100.48" id="Fill-1" fill="#25384C"></path>
+                  <path d="M31.0928826,153.76199 C57.8968826,157.26799 77.7248826,143.95799 86.9638826,116.18899 C87.0418826,115.95199 87.1078826,115.74999 87.1638826,115.58599 C88.4958826,112.80599 87.8598826,109.37499 85.4088826,107.27699 C82.4818826,104.77099 78.0768826,105.11299 75.5688826,108.03999 C74.5868826,109.18599 74.2238826,110.27799 73.7218826,111.78999 C71.4258826,118.68899 68.4228826,124.32999 64.7458826,128.73699 C68.9468826,121.39299 71.5368826,112.44599 72.3648826,102.02499 C72.3848826,101.77599 72.3998826,101.56299 72.4158826,101.39099 C73.0428826,98.3739897 71.6018826,95.1959897 68.7198826,93.7459897 C66.1508826,92.4529897 63.1618826,92.8979897 61.0898826,94.6389897 C60.3858826,95.2299897 59.7878826,95.9699897 59.3488826,96.8429897 C58.6698826,98.1909897 58.5788826,99.3389897 58.4518826,100.92699 C57.9288826,107.51799 56.5928826,113.24399 54.4648826,118.10899 C55.4578826,112.56999 55.2918826,106.52699 53.9018826,100.03399 C53.8678826,99.8729897 53.8358826,99.7289897 53.8098826,99.6029897 C53.6068826,96.6899897 51.5748826,94.1049897 48.5928826,93.3359897 C46.3218826,92.7499897 44.0228826,93.3519897 42.3538826,94.7539897 C41.2808826,95.6559897 40.4678826,96.8889897 40.0908826,98.3489897 C39.6408826,100.08999 39.9258826,101.42099 40.2548826,102.96199 C41.1748826,107.25899 43.3858826,117.62399 35.1968826,126.69999 C35.0118826,126.71499 34.8238826,126.72899 34.6408826,126.74499 C34.5618826,126.75799 34.4848826,126.75799 34.4058826,126.76899 C38.2328826,121.91099 39.5298826,115.69599 38.0128826,108.57199 C37.6898826,105.79099 35.6978826,103.36399 32.8238826,102.62399 C30.5538826,102.03899 28.2558826,102.64099 26.5878826,104.04199 C25.5138826,104.94499 24.7008826,106.17899 24.3238826,107.63999 C23.8958826,109.29899 24.1738826,110.60299 24.3588826,111.46499 C24.8648826,113.82999 25.7458826,117.98699 19.5538826,121.02199 C15.8188826,118.75899 8.03288259,117.38799 4.13288259,119.65399 C-1.12911741,122.48199 -1.78411741,138.27499 4.60888259,143.95999 C10.3978826,149.10699 19.9828826,151.93299 31.0928826,153.76199" id="Fill-1" fill="rgb(250, 240, 141)"></path>
+              </g>
+          </svg>
+        </figure>
+
+      </section>
+
+      <placetobe-quote
+        name="Mark Laagewaard, directeur CrowdAboutNow"
+        image-url="https://crowdaboutnow.nl/assets/components/can-about-page/Mark_avatar.jpg">
+        <blockquote><strong>Crowdfunding kan iedere verouderde branche die ondoorzichtig is maar ook een grote impact heeft op ons leven, helpen open te breken.</strong> Als je de inhoud weer begrijpelijk maakt, dan wordt een sector daar altijd beter van. Crowdfunding doet dat.</blockquote>
+      </placetobe-quote>
+
+      <section class="reversed">
+
+        <article>
+          <h2>Passende financieringsvormen</h2>
+          <p>
+          Placetobe biedt twee soorten leningen. Samen kijken we welke financieringsvorm het beste past bij jouw situatie en de investeerders die je aan wilt spreken.
+          </p>
+          <ul>
+            <li>
+              <h5>1. Annuïtaire lening</h5>
+              Betaal een vast bedrag aan rente en aflossing, per maand of kwartaal. Een goede oplossing wanneer je geen verandering wilt in de betalingen die je doet op de lening en in het begin graag wat minder wilt afbetalen.
+            </li>
+            <li>
+              <h5>2. Lineaire lening</h5>
+              Betaal een vast bedrag aan aflossing en daarnaast de rente over de lening. Een relatief snelle aflossing met de zwaarste lasten aan het begin. Het totaal te betalen bedrag varieert steeds per periode omdat de rente iedere periode lager is.
+            </li>
+          </ul>
+        </article>
+
+        <figure>
+          <svg viewBox="0 0 88 155" version="1.1" xmlns="http://www.w3.org/2000/svg">
+              <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                  <path d="M52.651,100.48 C54.862,86.61 54.289,74.381 52.851,64.585 C77.74,60.916 74.032,47.379 74.032,47.379 C54.338,45.804 52.718,59.329 52.677,63.44 C51.352,54.974 49.425,48.417 48.218,44.328 L57.711,42.645 L53.104,16.662 L40.112,18.966 L60.31,15.384 L36.749,0 L19.915,22.547 L27.121,21.269 L31.728,47.252 L41.283,45.558 C41.351,45.788 41.421,46.025 41.494,46.273 C43.304,52.406 46.402,62.904 47.069,76.601 C46.599,73.505 43.277,58.662 23.094,64.004 C23.094,64.004 21.848,78.021 47.091,77.164 C47.383,83.879 47.08,91.351 45.764,99.443 C43.405,99.209 40.976,99.081 38.489,99.081 C16.665,99.081 10,108.514 10,120.15 C10,131.786 16.665,141.219 38.489,141.219 C60.313,141.219 78.005,131.786 78.005,120.15 C78.005,111.175 67.477,103.517 52.651,100.48" id="Fill-1" fill="#25384C"></path>
+                  <path d="M31.0928826,153.76199 C57.8968826,157.26799 77.7248826,143.95799 86.9638826,116.18899 C87.0418826,115.95199 87.1078826,115.74999 87.1638826,115.58599 C88.4958826,112.80599 87.8598826,109.37499 85.4088826,107.27699 C82.4818826,104.77099 78.0768826,105.11299 75.5688826,108.03999 C74.5868826,109.18599 74.2238826,110.27799 73.7218826,111.78999 C71.4258826,118.68899 68.4228826,124.32999 64.7458826,128.73699 C68.9468826,121.39299 71.5368826,112.44599 72.3648826,102.02499 C72.3848826,101.77599 72.3998826,101.56299 72.4158826,101.39099 C73.0428826,98.3739897 71.6018826,95.1959897 68.7198826,93.7459897 C66.1508826,92.4529897 63.1618826,92.8979897 61.0898826,94.6389897 C60.3858826,95.2299897 59.7878826,95.9699897 59.3488826,96.8429897 C58.6698826,98.1909897 58.5788826,99.3389897 58.4518826,100.92699 C57.9288826,107.51799 56.5928826,113.24399 54.4648826,118.10899 C55.4578826,112.56999 55.2918826,106.52699 53.9018826,100.03399 C53.8678826,99.8729897 53.8358826,99.7289897 53.8098826,99.6029897 C53.6068826,96.6899897 51.5748826,94.1049897 48.5928826,93.3359897 C46.3218826,92.7499897 44.0228826,93.3519897 42.3538826,94.7539897 C41.2808826,95.6559897 40.4678826,96.8889897 40.0908826,98.3489897 C39.6408826,100.08999 39.9258826,101.42099 40.2548826,102.96199 C41.1748826,107.25899 43.3858826,117.62399 35.1968826,126.69999 C35.0118826,126.71499 34.8238826,126.72899 34.6408826,126.74499 C34.5618826,126.75799 34.4848826,126.75799 34.4058826,126.76899 C38.2328826,121.91099 39.5298826,115.69599 38.0128826,108.57199 C37.6898826,105.79099 35.6978826,103.36399 32.8238826,102.62399 C30.5538826,102.03899 28.2558826,102.64099 26.5878826,104.04199 C25.5138826,104.94499 24.7008826,106.17899 24.3238826,107.63999 C23.8958826,109.29899 24.1738826,110.60299 24.3588826,111.46499 C24.8648826,113.82999 25.7458826,117.98699 19.5538826,121.02199 C15.8188826,118.75899 8.03288259,117.38799 4.13288259,119.65399 C-1.12911741,122.48199 -1.78411741,138.27499 4.60888259,143.95999 C10.3978826,149.10699 19.9828826,151.93299 31.0928826,153.76199" id="Fill-1" fill="rgb(250, 240, 141)"></path>
+              </g>
+          </svg>
+        </figure>
+
+      </section>
+
+  <!--         <placetobe-card title="Heb jij een placetobe?" class="entrepreneur-card">
+            <article slot="main">Meld direct online je project aan.</article>
+            <placetobe-button
+              href="https://docs.google.com/a/lotsofpeople.nl/forms/d/e/1FAIpQLSdFZhTSDI4kRKZlLedroXEmMCEAGVB6fUPSYJkdIL9jrQR1yg/viewform"
+              title="Project aanmelden"
+              target="_blank"
+              slot="footer"
+            ><span>Project aanmelden</span>
+            </placetobe-button>
+          </placetobe-card> -->
+
+      <section>
+
+        <article>
+          <h2>Flexibel aflossen in maximaal 10 jaar</h2>
+          <p>
+          Placetobe zorgt ervoor dat de financiële afhandeling tot in de puntjes geregeld is. Je hebt als ondernemer verschillende mogelijkheden om af te lossen.
+          </p>
+          <p>
+          Zo kun je kiezen om af te betalen per maand, kwartaal, half jaar of per jaar. Daarbij heb je de optie om eenmalig extra af te lossen. De momenten waarop aflossing en rente wordt betaald stellen we voor het aangaan van de lening vast, zodat zowel ontwikkelaar als investeerder weten waar ze aan toe zijn.
+          </p><p>De maximale looptijd van een lening bij Placetobe is 10 jaar. De looptijd wordt door de ondernemer in overleg met Placetobe vooraf vastgesteld. Aan het einde moet de lening volledig zijn terugbetaalt. De betaling van rente en aflossing loopt via de stichting derdengelden van Placetobe.
+          </p>
+        </article>
+
+        <figure>
+          <svg viewBox="0 0 88 155" version="1.1" xmlns="http://www.w3.org/2000/svg">
+              <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                  <path d="M52.651,100.48 C54.862,86.61 54.289,74.381 52.851,64.585 C77.74,60.916 74.032,47.379 74.032,47.379 C54.338,45.804 52.718,59.329 52.677,63.44 C51.352,54.974 49.425,48.417 48.218,44.328 L57.711,42.645 L53.104,16.662 L40.112,18.966 L60.31,15.384 L36.749,0 L19.915,22.547 L27.121,21.269 L31.728,47.252 L41.283,45.558 C41.351,45.788 41.421,46.025 41.494,46.273 C43.304,52.406 46.402,62.904 47.069,76.601 C46.599,73.505 43.277,58.662 23.094,64.004 C23.094,64.004 21.848,78.021 47.091,77.164 C47.383,83.879 47.08,91.351 45.764,99.443 C43.405,99.209 40.976,99.081 38.489,99.081 C16.665,99.081 10,108.514 10,120.15 C10,131.786 16.665,141.219 38.489,141.219 C60.313,141.219 78.005,131.786 78.005,120.15 C78.005,111.175 67.477,103.517 52.651,100.48" id="Fill-1" fill="#25384C"></path>
+                  <path d="M31.0928826,153.76199 C57.8968826,157.26799 77.7248826,143.95799 86.9638826,116.18899 C87.0418826,115.95199 87.1078826,115.74999 87.1638826,115.58599 C88.4958826,112.80599 87.8598826,109.37499 85.4088826,107.27699 C82.4818826,104.77099 78.0768826,105.11299 75.5688826,108.03999 C74.5868826,109.18599 74.2238826,110.27799 73.7218826,111.78999 C71.4258826,118.68899 68.4228826,124.32999 64.7458826,128.73699 C68.9468826,121.39299 71.5368826,112.44599 72.3648826,102.02499 C72.3848826,101.77599 72.3998826,101.56299 72.4158826,101.39099 C73.0428826,98.3739897 71.6018826,95.1959897 68.7198826,93.7459897 C66.1508826,92.4529897 63.1618826,92.8979897 61.0898826,94.6389897 C60.3858826,95.2299897 59.7878826,95.9699897 59.3488826,96.8429897 C58.6698826,98.1909897 58.5788826,99.3389897 58.4518826,100.92699 C57.9288826,107.51799 56.5928826,113.24399 54.4648826,118.10899 C55.4578826,112.56999 55.2918826,106.52699 53.9018826,100.03399 C53.8678826,99.8729897 53.8358826,99.7289897 53.8098826,99.6029897 C53.6068826,96.6899897 51.5748826,94.1049897 48.5928826,93.3359897 C46.3218826,92.7499897 44.0228826,93.3519897 42.3538826,94.7539897 C41.2808826,95.6559897 40.4678826,96.8889897 40.0908826,98.3489897 C39.6408826,100.08999 39.9258826,101.42099 40.2548826,102.96199 C41.1748826,107.25899 43.3858826,117.62399 35.1968826,126.69999 C35.0118826,126.71499 34.8238826,126.72899 34.6408826,126.74499 C34.5618826,126.75799 34.4848826,126.75799 34.4058826,126.76899 C38.2328826,121.91099 39.5298826,115.69599 38.0128826,108.57199 C37.6898826,105.79099 35.6978826,103.36399 32.8238826,102.62399 C30.5538826,102.03899 28.2558826,102.64099 26.5878826,104.04199 C25.5138826,104.94499 24.7008826,106.17899 24.3238826,107.63999 C23.8958826,109.29899 24.1738826,110.60299 24.3588826,111.46499 C24.8648826,113.82999 25.7458826,117.98699 19.5538826,121.02199 C15.8188826,118.75899 8.03288259,117.38799 4.13288259,119.65399 C-1.12911741,122.48199 -1.78411741,138.27499 4.60888259,143.95999 C10.3978826,149.10699 19.9828826,151.93299 31.0928826,153.76199" id="Fill-1" fill="rgb(250, 240, 141)"></path>
+              </g>
+          </svg>
+        </figure>
+
+      </section>
+
+      <section class="reversed">
+
+        <article>
+          <h2>Bereik je netwerk, vind outsiders</h2>
+          <p>Via Placetobe kun je investeerders bereiken en enthousiasmeren voor jouw project. Wij houden hierbij de richtlijn aan: 30% van de investeerders komt uit je eigen netwerk, 70% kan van buiten komen.
+          </p>
+          <p>
+          Placetobe geeft je advies over campagne voeren en hoe je betrokken investeerders vindt. We helpen je een aantrekkelijke pagina voor je project in te richten op ons platform. Ook helpen we je aandacht voor je campagne te krijgen bij je netwerk. Placetobe voert verder ook zelf campagne om aandacht te krijgen van investeerders die belangstelling kunnen hebben voor vastgoedprojecten.
+          </p>
+        </article>
+
+        <figure>
+          <svg viewBox="0 0 88 155" version="1.1" xmlns="http://www.w3.org/2000/svg">
+              <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                  <path d="M52.651,100.48 C54.862,86.61 54.289,74.381 52.851,64.585 C77.74,60.916 74.032,47.379 74.032,47.379 C54.338,45.804 52.718,59.329 52.677,63.44 C51.352,54.974 49.425,48.417 48.218,44.328 L57.711,42.645 L53.104,16.662 L40.112,18.966 L60.31,15.384 L36.749,0 L19.915,22.547 L27.121,21.269 L31.728,47.252 L41.283,45.558 C41.351,45.788 41.421,46.025 41.494,46.273 C43.304,52.406 46.402,62.904 47.069,76.601 C46.599,73.505 43.277,58.662 23.094,64.004 C23.094,64.004 21.848,78.021 47.091,77.164 C47.383,83.879 47.08,91.351 45.764,99.443 C43.405,99.209 40.976,99.081 38.489,99.081 C16.665,99.081 10,108.514 10,120.15 C10,131.786 16.665,141.219 38.489,141.219 C60.313,141.219 78.005,131.786 78.005,120.15 C78.005,111.175 67.477,103.517 52.651,100.48" id="Fill-1" fill="#25384C"></path>
+                  <path d="M31.0928826,153.76199 C57.8968826,157.26799 77.7248826,143.95799 86.9638826,116.18899 C87.0418826,115.95199 87.1078826,115.74999 87.1638826,115.58599 C88.4958826,112.80599 87.8598826,109.37499 85.4088826,107.27699 C82.4818826,104.77099 78.0768826,105.11299 75.5688826,108.03999 C74.5868826,109.18599 74.2238826,110.27799 73.7218826,111.78999 C71.4258826,118.68899 68.4228826,124.32999 64.7458826,128.73699 C68.9468826,121.39299 71.5368826,112.44599 72.3648826,102.02499 C72.3848826,101.77599 72.3998826,101.56299 72.4158826,101.39099 C73.0428826,98.3739897 71.6018826,95.1959897 68.7198826,93.7459897 C66.1508826,92.4529897 63.1618826,92.8979897 61.0898826,94.6389897 C60.3858826,95.2299897 59.7878826,95.9699897 59.3488826,96.8429897 C58.6698826,98.1909897 58.5788826,99.3389897 58.4518826,100.92699 C57.9288826,107.51799 56.5928826,113.24399 54.4648826,118.10899 C55.4578826,112.56999 55.2918826,106.52699 53.9018826,100.03399 C53.8678826,99.8729897 53.8358826,99.7289897 53.8098826,99.6029897 C53.6068826,96.6899897 51.5748826,94.1049897 48.5928826,93.3359897 C46.3218826,92.7499897 44.0228826,93.3519897 42.3538826,94.7539897 C41.2808826,95.6559897 40.4678826,96.8889897 40.0908826,98.3489897 C39.6408826,100.08999 39.9258826,101.42099 40.2548826,102.96199 C41.1748826,107.25899 43.3858826,117.62399 35.1968826,126.69999 C35.0118826,126.71499 34.8238826,126.72899 34.6408826,126.74499 C34.5618826,126.75799 34.4848826,126.75799 34.4058826,126.76899 C38.2328826,121.91099 39.5298826,115.69599 38.0128826,108.57199 C37.6898826,105.79099 35.6978826,103.36399 32.8238826,102.62399 C30.5538826,102.03899 28.2558826,102.64099 26.5878826,104.04199 C25.5138826,104.94499 24.7008826,106.17899 24.3238826,107.63999 C23.8958826,109.29899 24.1738826,110.60299 24.3588826,111.46499 C24.8648826,113.82999 25.7458826,117.98699 19.5538826,121.02199 C15.8188826,118.75899 8.03288259,117.38799 4.13288259,119.65399 C-1.12911741,122.48199 -1.78411741,138.27499 4.60888259,143.95999 C10.3978826,149.10699 19.9828826,151.93299 31.0928826,153.76199" id="Fill-1" fill="rgb(250, 240, 141)"></path>
+              </g>
+          </svg>
+        </figure>
+
+      </section>
+
+
+      <placetobe-quote
+        name="Maarten Spil, algemeen directeur Socius"
+        image-url="http://www.deadvocatenwijzer.nl/sites/default/files/styles/170x190/public/profile_picture/Spil,P5B1,P5D.jpg,qitok=pmC8-rXG.pagespeed.ce.ISJBkM6Q2M.jpg">
+          <blockquote>Ik denk dat de vastgoedmarkt beter wordt van crowdfunding. <strong>Het wordt weer mogelijk kleinere projecten of projecten waar echt behoefte aan is, te realiseren.</strong> De ontwikkelaar die bij klassieke financierder tegen een muur oploopt, maakt hier kansen.</blockquote>
+</placetobe-quote>
+
+      <section>
+
+        <article>
+          <h2>Zekerheden waar nodig</h2>
+          <p>Om meer zekerheid te scheppen dat beleggers hun geld terugkrijgen, werkt Placetobe met het aanbieden van zekerheden wanneer dat mogelijk is.
+          </p>
+          <p>Als je project gaat over een pandaankoop en er geen eerste hypotheek aan de bank wordt gegeven, dan moet je een eerste hypotheek aan kunnen bieden. Als je huurwoningen creëert met je project, dan is pandrecht op de huurinkomsten bijvoorbeeld een zekerheid.
+          </p>
+          <p>
+          Niet bij ieder project kunnen goede zekerheden worden gevestigd, denk aan de situatie dat een pand wordt aangekocht met een eerste hypotheek van de bank en er nog een aanvullende financiering nodig is. Een lening is dan nog steeds mogelijk via Placetobe maar vanwege het hogere risico moet je wel rekening houden met een hogere rente om beleggers te overtuigen.
+          </p>
+        </article>
+
+        <figure>
+          <svg viewBox="0 0 88 155" version="1.1" xmlns="http://www.w3.org/2000/svg">
+              <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                  <path d="M52.651,100.48 C54.862,86.61 54.289,74.381 52.851,64.585 C77.74,60.916 74.032,47.379 74.032,47.379 C54.338,45.804 52.718,59.329 52.677,63.44 C51.352,54.974 49.425,48.417 48.218,44.328 L57.711,42.645 L53.104,16.662 L40.112,18.966 L60.31,15.384 L36.749,0 L19.915,22.547 L27.121,21.269 L31.728,47.252 L41.283,45.558 C41.351,45.788 41.421,46.025 41.494,46.273 C43.304,52.406 46.402,62.904 47.069,76.601 C46.599,73.505 43.277,58.662 23.094,64.004 C23.094,64.004 21.848,78.021 47.091,77.164 C47.383,83.879 47.08,91.351 45.764,99.443 C43.405,99.209 40.976,99.081 38.489,99.081 C16.665,99.081 10,108.514 10,120.15 C10,131.786 16.665,141.219 38.489,141.219 C60.313,141.219 78.005,131.786 78.005,120.15 C78.005,111.175 67.477,103.517 52.651,100.48" id="Fill-1" fill="#25384C"></path>
+                  <path d="M31.0928826,153.76199 C57.8968826,157.26799 77.7248826,143.95799 86.9638826,116.18899 C87.0418826,115.95199 87.1078826,115.74999 87.1638826,115.58599 C88.4958826,112.80599 87.8598826,109.37499 85.4088826,107.27699 C82.4818826,104.77099 78.0768826,105.11299 75.5688826,108.03999 C74.5868826,109.18599 74.2238826,110.27799 73.7218826,111.78999 C71.4258826,118.68899 68.4228826,124.32999 64.7458826,128.73699 C68.9468826,121.39299 71.5368826,112.44599 72.3648826,102.02499 C72.3848826,101.77599 72.3998826,101.56299 72.4158826,101.39099 C73.0428826,98.3739897 71.6018826,95.1959897 68.7198826,93.7459897 C66.1508826,92.4529897 63.1618826,92.8979897 61.0898826,94.6389897 C60.3858826,95.2299897 59.7878826,95.9699897 59.3488826,96.8429897 C58.6698826,98.1909897 58.5788826,99.3389897 58.4518826,100.92699 C57.9288826,107.51799 56.5928826,113.24399 54.4648826,118.10899 C55.4578826,112.56999 55.2918826,106.52699 53.9018826,100.03399 C53.8678826,99.8729897 53.8358826,99.7289897 53.8098826,99.6029897 C53.6068826,96.6899897 51.5748826,94.1049897 48.5928826,93.3359897 C46.3218826,92.7499897 44.0228826,93.3519897 42.3538826,94.7539897 C41.2808826,95.6559897 40.4678826,96.8889897 40.0908826,98.3489897 C39.6408826,100.08999 39.9258826,101.42099 40.2548826,102.96199 C41.1748826,107.25899 43.3858826,117.62399 35.1968826,126.69999 C35.0118826,126.71499 34.8238826,126.72899 34.6408826,126.74499 C34.5618826,126.75799 34.4848826,126.75799 34.4058826,126.76899 C38.2328826,121.91099 39.5298826,115.69599 38.0128826,108.57199 C37.6898826,105.79099 35.6978826,103.36399 32.8238826,102.62399 C30.5538826,102.03899 28.2558826,102.64099 26.5878826,104.04199 C25.5138826,104.94499 24.7008826,106.17899 24.3238826,107.63999 C23.8958826,109.29899 24.1738826,110.60299 24.3588826,111.46499 C24.8648826,113.82999 25.7458826,117.98699 19.5538826,121.02199 C15.8188826,118.75899 8.03288259,117.38799 4.13288259,119.65399 C-1.12911741,122.48199 -1.78411741,138.27499 4.60888259,143.95999 C10.3978826,149.10699 19.9828826,151.93299 31.0928826,153.76199" id="Fill-1" fill="rgb(250, 240, 141)"></path>
+              </g>
+          </svg>
+        </figure>
+
+      </section>
+    </main>
+
+
+  </template>
+  <script>
+    Polymer({
+      is: 'placetobe-entrepreneur-landing-page'
+    })
+  </script>
+</dom-module>
