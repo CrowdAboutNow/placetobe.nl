@@ -13,8 +13,15 @@
 <dom-module id="placetobe-entrepreneur-landing-page">
   <template>
 
-    <style include="placetobe-landing-page-styles"></style>
-
+    <style include="placetobe-landing-page-styles">
+      :host {
+        --placetobe-quote-color: var(--placetobe-color-yellow);
+        --placetobe-button-color: var(--placetobe-color-yellow);        
+        --placetobe-button-tint-color: var(--placetobe-color-darkblue);      
+        --placetobe-button-hover-color: var(--placetobe-color-darkblue);        
+        --placetobe-button-tint-hover-color: var(--placetobe-color-yellow);      
+      }
+    </style>
 
     <main>
 
@@ -143,7 +150,6 @@
 
       </section>
 
-
       <section>
 
         <placetobe-card title="Meer informatie?" class="card">
@@ -160,7 +166,6 @@
         </placetobe-card>
 
       </section>
-
 
     </main>
 

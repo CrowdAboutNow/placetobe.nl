@@ -2,21 +2,26 @@
 <link rel="import" href="../../bower_components/placetobe-styles/placetobe-styles.html">
 <link rel="import" href="../../bower_components/placetobe-quote/placetobe-quote.html">
 <link rel="import" href="../../bower_components/placetobe-mailinglist-subscribe-form/placetobe-mailinglist-subscribe-form.html">
-<link rel="import" href="../../bower_components/placetobe-illustrations/placetobe-womanandplant-illustration.html">
-<link rel="import" href="../../bower_components/placetobe-illustrations/placetobe-womanandplant-illustration.html">
-<link rel="import" href="../../bower_components/placetobe-illustrations/placetobe-manandwomangreeting-illustration.html">
-<link rel="import" href="../../bower_components/placetobe-illustrations/placetobe-womanholdingclock-illustration.html">
-<link rel="import" href="../../bower_components/placetobe-illustrations/placetobe-womennetworking-illustration.html">
-<link rel="import" href="../../bower_components/placetobe-illustrations/placetobe-womanwithsuitcase-illustration.html">
+<link rel="import" href="../../bower_components/placetobe-illustrations/placetobe-manandcalculator-illustration.html">
+<link rel="import" href="../../bower_components/placetobe-illustrations/placetobe-manandumbrella-illustration.html">
+<link rel="import" href="../../bower_components/placetobe-illustrations/placetobe-manholdingmoneybox-illustration.html">
+<link rel="import" href="../../bower_components/placetobe-illustrations/placetobe-manshowingmoneybox-illustration.html">
+<link rel="import" href="../../bower_components/placetobe-illustrations/placetobe-manandclock-illustration.html">
 <link rel="import" href="placetobe-landing-page-styles.html">
 
 <dom-module id="placetobe-investor-landing-page">
   <template>
 
     <style include="placetobe-landing-page-styles">
-      
+      :host {
+        --placetobe-quote-color: var(--placetobe-color-taupe);
+        --placetobe-card-color: var(--placetobe-color-taupe);
+        --placetobe-button-color: var(--placetobe-color-taupe);        
+        --placetobe-button-tint-color: var(--placetobe-color-darkblue);      
+        --placetobe-button-hover-color: var(--placetobe-color-darkblue);        
+        --placetobe-button-tint-hover-color: var(--placetobe-color-taupe);      
+      }
     </style>
-
 
     <main>
 
@@ -37,16 +42,24 @@
           </p><p>Ook stellen we voorwaarden waaraan het project en de ondernemer moeten voldoen. Zo moet de ondernemer kunnen laten zien dat er genoeg kasstroom is om de rente en aflossing te betalen. Ook moet hij zekerheden geven waar dat mogelijk is, zoals een hypotheek. Op die manier zul je nooit een project met onnodige risico’s aantreffen op ons platform.</p><p>Het geldverkeer gaat niet via Placetobe maar via een stichting derdengelden, zodat investeerdersgeld niet vermengd raakt met het geld van Placetobe zelf.
           </p>
           <p>
+          Twijfel je of crowdfunding iets voor jou is? Beantwoord 5 vragen en we geven je direct advies.
+          </p>
+          <p>
+          <placetobe-button href="/investeren/test"><span>Start de quickscan</span></placetobe-button>
           </p>
         </article>
 
         <figure>
-          <placetobe-womanandplant-illustration></placetobe-womanandplant-illustration>
+          <placetobe-manandcalculator-illustration></placetobe-manandcalculator-illustration>
         </figure>
 
       </section>
 
-
+      <placetobe-quote
+        name="Mark Laagewaard, directeur CrowdAboutNow"
+        image-url="https://crowdaboutnow.nl/assets/components/can-about-page/Mark_avatar.jpg">
+        <blockquote><strong>Crowdfunding zorgt dat mensen meer betrokken worden bij vastgoed. Iets wat eerst ver van mijn bed show was, daar kun ze ineens wat mee.</strong> Als investeerder ontdek je waarom er zoveel geld nodig is, en leer je hoe de finnanciering werkt. Het effect is dat je ontdekt dat je met jouw bijdrage iets kunt veranderen en ergens invloed op kan uitoefenen.</blockquote>
+      </placetobe-quote>
 
       <section class="reversed">
 
@@ -67,7 +80,7 @@
         </article>
 
         <figure>
-          <placetobe-womanandplant-illustration></placetobe-womanandplant-illustration>
+          <placetobe-manandclock-illustration></placetobe-womanandplant-illustration>
         </figure>
 
       </section>
@@ -83,10 +96,17 @@
         </article>
 
         <figure>
-          <placetobe-womanandplant-illustration></placetobe-womanandplant-illustration>
+          <placetobe-manandumbrella-illustration></placetobe-manandumbrella-illustration>
         </figure>
 
       </section>
+
+      <placetobe-quote
+        name="Marcel de Vries, CCO Lots of People"
+        image-url="https://media.licdn.com/mpr/mpr/shrinknp_400_400/p/3/005/07b/013/3cdd26d.jpg">
+        <blockquote>Met Placetobe willen we niet alleen laten zien dat crowdfunden
+een leuk rendement oplevert, maar vooral ook andere waarde creëert. Denk aan zorgboerderijen, ziekenhuizen, sportplekken, starters-, studenten of ouderenwoningen.<strong>Dat is niet meer in stenen investeren, maar in mensen.</strong></blockquote>
+      </placetobe-quote>
 
       <section class="reversed">
 
@@ -97,8 +117,25 @@
         </article>
 
         <figure>
-          <placetobe-womanandplant-illustration></placetobe-womanandplant-illustration>
+          <placetobe-manshowingmoneybox-illustration></placetobe-manshowingmoneybox-illustration>
         </figure>
+
+      </section>
+
+      <section>
+
+        <placetobe-card title="Meer informatie?" class="card">
+          <article slot="main">Ben je geïnteresseerd in het investeren in projecten? Vul hieronder dan je email adres in, dan nemen houden we je op de hoogte van komende projecten. Ook kun je direct onze brochure downloaden, zodat je alle informatie over investeren nog eens rustig na kunt lezen.
+          </article>
+
+          <placetobe-mailinglist-subscribe-form
+            api-endpoint="[[apiEndpoint]]"
+            user-role="investors"
+            slot="footer"
+            button-label="Download de brochure"
+          ></placetobe-mailinglist-subscribe-form>
+
+        </placetobe-card>
 
       </section>
 

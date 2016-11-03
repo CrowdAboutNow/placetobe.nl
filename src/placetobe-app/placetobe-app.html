@@ -15,6 +15,8 @@
 <link rel="import" href="../../bower_components/placetobe-survey/placetobe-entrepreneur-quickscan.html">
 <link rel="import" href="placetobe-entrepreneur-landing-page.html">
 <link rel="import" href="placetobe-investor-landing-page.html">
+<link rel="import" href="placetobe-home-landing-page.html">
+<link rel="import" href="placetobe-pricing-page.html">
 <link rel="import" href="../../bower_components/placetobe-mailinglist-subscribe-form/placetobe-mailinglist-subscribe-form.html">
 
 <dom-module id="placetobe-app">
@@ -227,6 +229,9 @@
       collapsed="[[headerCollapsed]]"
       current-page="[[routeData.page]]"
       home-page-active="{{homePageActive}}"
+      entrepreneur-page-active="{{entrepreneurLandingPageActive}}"
+      invest-page-active="{{investorLandingPageActive}}"
+      pricing-page-active="{{pricingPageActive}}"
     ></placetobe-header>
 
     <placetobe-hero
@@ -252,9 +257,11 @@
         </span>
         
         <span hidden$="[[!investorLandingPageActive]]">
-          <h2><strong>Crowdfunding in vastgoed.</strong> Iedereen een plek en jij rendement.</h2>      
-          <placetobe-button href="/investeren/aanmelden"><span>Meld je aan als investeerder</span></placetobe-button>
-          <placetobe-button href="/investeren/test" link><span>Doe de quickscan</span></placetobe-button>
+          <h2><strong>Crowdfunding in vastgoed.</strong><br>Iedereen een plek en jij rendement.</h2>      
+          <placetobe-mailinglist-subscribe-form
+            api-endpoint="[[apiEndpoint]]"
+            user-role="investors"
+          ></placetobe-mailinglist-subscribe-form> 
         </span>
         
       </main>
@@ -265,104 +272,12 @@
       
     </placetobe-hero>
 
-    <template is="dom-if" if="[[pricingPageActive]]">
-
-      <section
-        id="pricing"
-        class="horizontal-layout"      
-        >
-        <article>
-          <h2>Wat kost dat nou?</h2>
-          <h1>Tarieven voor crowfdfunden bij Placetobe</h1>
-
-          <p>Als ondernemer moet je minimaal de kosten kunnen dragen van:</p>
-          <ul>
-          <li>de renteaflossing</li>
-          <li>rentelasten gedurende de looptijd van de lening</li>
-          <li>deplaatsings-eneventuelesuccesfees</li>
-          </ul>
-          <p>
-          Koop je een pand aan, dan moet je een eerste hypotheek aan kunnen bieden.<br>Creëer je huurwoningen, dan is pandrecht een zekerheid waar je aan moet denken.
-          </p>
-        </article>
-
-      </section>
-
-      <section class="horizontal-layout layout-50-50">
-        
-        <placetobe-card
-          title="Plaatsingsfee"
-        >
-          <article slot="main">
-            <b>1%</b> over eerste <b>€ 100.000,-</b> (minimum <b>€ 500,-</b>)<br>
-            <b>0,1%</b> over meerdere tot <b>€ 1.000.000,-</b><br>
-            <b>0,05%</b> over meerdere boven <b>€ 1.000.000,-</b>
-          </article>
-        </placetobe-card>
-
-        <placetobe-card
-          title="Succesfee"
-        >
-          <article slot="main">
-            <b>3%</b> over eerste <b>€ 100.000,-</b><br>
-            <b>1,9%</b> over meerdere tot <b>€ 1.000.000,-</b><br>
-            <b>1,45%</b> over meerdere boven <b>€ 1.000.000,-</b>
-            <br>
-            beheerkosten <b>0,5%</b> per jaar gedurende de looptijd
-          </article>
-        </placetobe-card>
-
-      </section>
-
-      <section class="horizontal-layout">
-
-        <article>
-          <p>Bij vastgoed hoort altijd financiering, maar voor veel 'kleinere' projecten blijft het bankloket helaas gesloten. Komt jouw project daardoor ook niet van de grond? Crowdfunding biedt nieuwe kansen. We bereiken een grote groep investeerders en gebruikers. Samen realiseren we vastgoed.</p>
-        </article>
-      </section>
-
-      <section class="horizontal-layout">
-        
-        <placetobe-card title="Project starten?" class="entrepreneur-card">
-          
-          <article slot="main">Financiering nodig voor een vastgoedproject? Misschien is crowdfunding de manier voor jou.</article>
-          
-          <placetobe-button
-            href="/start-project"
-            title="Meer info"
-            slot="footer"
-          ><span>Meer info</span>
-          </placetobe-button>
-
-        </placetobe-card>
-
-      </section>
-
-    </template>
 
     <template is="dom-if" if="[[landingPageActive]]">
 
-      <section class="horizontal-layout layout-66-33">
-
-          <template is="dom-if" if="[[homePageActive]]">
-            <main class="layout-66-33--item-1">
-              <h1>Nieuwe kansen voor de vastgoedmarkt</h1>
-              <article>
-                <p><strong>Wij vinden dat de vastgoedmarkt anders kan. Makkelijker, eerlijker, en vooral: beter voor elkaar. Het is toch gek dat de bank met haar leningen zoveel invloed heeft op hoe we wonen, werken, leven? Laten we liever samen beslissen waar behoefte aan is, en wat het verdient om financiering te krijgen.</strong>
-                </p><p>
-                Met Placetobe brengen we ontwikkelaars, investeerders en gebruikers bij elkaar en zorgen we voor financiering, rendement én een gewilde plek. Een win-win-win voor iedereen.
-                </p>
-              </article>
-            </main>
-          </template>
-
-
-<!--         <placetobe-card title="Meer informatie?" id="meer-informatie">
-          <article slot="main">Schrijf je in voor onze mailinglist en ontvang de brochure.</article>
-          <placetobe-investor-registration-form slot="footer"></placetobe-investor-registration-form>
-          </placetobe-button>
-        </placetobe-card> -->
-      </section>
+      <template is="dom-if" if="[[homePageActive]]">
+        <placetobe-home-landing-page></placetobe-home-landing-page>
+      </template>
 
       <template is="dom-if" if="[[entrepreneurLandingPageActive]]">
         <placetobe-entrepreneur-landing-page></placetobe-entrepreneur-landing-page>
@@ -372,34 +287,12 @@
         <placetobe-investor-landing-page></placetobe-investor-landing-page>
       </template>
 
-      <template is="dom-if" if="[[homePageActive]]">
-        <section class="horizontal-layout layout-50-50">
-
-          <placetobe-card title="Project starten?" id="project-starten" class="entrepreneur-card">
-            <article slot="main">Financiering nodig voor een vastgoedproject? Misschien is crowdfunding de manier voor jou.</article>
-            <placetobe-button
-              href="/start-project"
-              title="Meer info"
-              slot="footer"
-            ><span>Meer info</span>
-            </placetobe-button>
-          </placetobe-card>
-
-          <placetobe-card title="Investeren in een project?" id="investeren-in-een-project" class="investor-card">
-            <article slot="main">wil je investeren in vastgoed? Ontdek of crowdfunding bij je past</article>
-            <placetobe-button
-              href="/investeren/test"
-              title="Doe de quickscan"
-              slot="footer"
-            ><span>Doe de quickscan</span>
-            </placetobe-button>
-          </placetobe-card>
-
-        </section>
-      </template>
-
     </template>
 
+
+    <template is="dom-if" if="[[pricingPageActive]]">
+      <placetobe-pricing-page></placetobe-pricing-page>
+    </template>
 
     <placetobe-footer></placetobe-footer>
 

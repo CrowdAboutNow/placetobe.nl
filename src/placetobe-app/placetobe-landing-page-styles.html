@@ -6,11 +6,15 @@
   <template>
 
     <style is="custom-style">
+
+      :host placetobe-card {
+        --placetobe-button-color: var(--placetobe-color-darkblue);        
+        --placetobe-button-tint-color: white;
+      }
+
       :host main {
-        margin-bottom: -10px;
         color: var(--placetobe-color-darkblue);
         text-align: center;
-        --placetobe-quote-color: var(--placetobe-color-yellow);
       }
 
       :host h1 {
@@ -56,6 +60,10 @@
         @apply(--placetobe-flex-item--2);
       }
 
+      :host section.fifty-fifty > *:nth-child(1) {
+        @apply(--placetobe-flex-item--1);        
+      }
+
       :host section > *:nth-child(2) {
         @apply(--placetobe-flex-item--1);
       }
@@ -96,7 +104,7 @@
         margin-bottom: var(--placetobe-margin);
       }
 
-      :host section ul h5 {
+      :host section h5, :host section ul h5 {
         @apply --placetobe-font-heading4;
       }
 
