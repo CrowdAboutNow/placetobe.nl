@@ -1,0 +1,111 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/placetobe-styles/placetobe-styles.html">
+
+
+<dom-module id="placetobe-landing-page-styles">
+  <template>
+
+    <style is="custom-style">
+      :host main {
+        margin-bottom: -10px;
+        color: var(--placetobe-color-darkblue);
+        text-align: center;
+        --placetobe-quote-color: var(--placetobe-color-yellow);
+      }
+
+      :host h1 {
+        @apply --placetobe-font-title;
+        font-size: 53px;
+        margin: calc( (var(--placetobe-margin) * 3) ) 0;
+      }
+
+      :host h3 {
+        @apply --placetobe-font-heading3;
+        padding-bottom: calc( (var(--placetobe-margin) * 2) );
+      }
+
+      :host .intro {
+        max-width: var(--placetobe-two-column-width);
+        margin: 0 auto;
+        padding: 0 9px;
+      }
+
+      :host section {
+        @apply(--placetobe-border-box);
+        @apply(--placetobe-flex-layout--horizontal);
+        @apply(--placetobe-flex-align--space-between);
+        @apply(--placetobe-cross-align--center);
+        flex-wrap: wrap;
+        max-width: calc( var(--placetobe-layout-width) + (var(--placetobe-margin) * 2) );
+        padding: 0 9px;
+        margin: calc( var(--placetobe-margin) * 4 ) auto;
+        position: relative;
+      }
+
+      :host section.reversed {
+        @apply(--placetobe-flex-layout--horizontal-reverse);      
+      }
+
+      :host section > * {
+        @apply(--placetobe-border-box);
+        padding: 0 9px;
+        min-width: var(--placetobe-column-width);
+      }
+
+      :host section > *:nth-child(1) {
+        @apply(--placetobe-flex-item--2);
+      }
+
+      :host section > *:nth-child(2) {
+        @apply(--placetobe-flex-item--1);
+      }
+
+      :host section article {
+        @apply --placetobe-font-body;
+        text-align: left;
+      }
+
+      :host section h2 {
+        @apply --placetobe-font-heading1;
+        color: var(--placetobe-color-darkblue);
+      }
+
+      :host section article p {
+        margin-bottom: var(--placetobe-margin);
+      }
+
+      :host section article p:first-of-type {
+        @apply(--placetobe-font-body-bold);
+        margin: var(--placetobe-margin) 0;
+      }
+
+      :host section figure {
+        @apply --placetobe-border-box;
+      }
+
+      :host section figure svg {
+        height: 360px;
+      }
+
+      :host section ul {
+        list-style: none;
+        padding: 0;
+      }
+
+      :host section ul li {
+        margin-bottom: var(--placetobe-margin);
+      }
+
+      :host section ul h5 {
+        @apply --placetobe-font-heading4;
+      }
+
+    </style>
+
+  </template>
+  <script>
+    Polymer({
+      is: 'placetobe-landing-page-styles'
+    })
+  </script>
+</dom-module>

@@ -14,7 +14,8 @@
 <link rel="import" href="../../bower_components/placetobe-survey/placetobe-investor-quickscan.html">
 <link rel="import" href="../../bower_components/placetobe-survey/placetobe-entrepreneur-quickscan.html">
 <link rel="import" href="placetobe-entrepreneur-landing-page.html">
-<link rel="import" href="../placetobe-investor-registration-form/placetobe-investor-registration-form.html">
+<link rel="import" href="placetobe-investor-landing-page.html">
+<link rel="import" href="../../bower_components/placetobe-mailinglist-subscribe-form/placetobe-mailinglist-subscribe-form.html">
 
 <dom-module id="placetobe-app">
   <template>
@@ -25,9 +26,9 @@
         --placetobe-color--general: var(--placetobe-color-gray);
         --placetobe-color--entrepreneurs: var(--placetobe-color-yellow);
         --placetobe-color--investors: var(--placetobe-color-taupe);
-        --placetobe-header-tint-active-color: var(--placetobe-color-green);
+/*        --placetobe-header-tint-active-color: var(--placetobe-color-green);
         --placetobe-header-active-color: var(--placetobe-color-red);
-      }
+*/      }
 
       :host placetobe-header {
         position: fixed;
@@ -132,11 +133,6 @@
 
       :host h2 {
         @apply(--placetobe-font-heading1-regular);
-      }
-
-      :host section {
-        margin-top: calc(var(--placetobe-margin)*1.25);
-        margin-bottom: calc(var(--placetobe-margin)*1.25);
       }
 
       :host #pricing {
@@ -248,9 +244,11 @@
         </span>
         
         <span hidden$="[[!entrepreneurLandingPageActive]]">
-          <h2><strong>Geen gebouw neerzetten, maar een plek maken.</strong> Vastgoed ontwikkel je samen met de crowd.</h2>      
-          <placetobe-button href="https://docs.google.com/forms/d/e/1FAIpQLSdFZhTSDI4kRKZlLedroXEmMCEAGVB6fUPSYJkdIL9jrQR1yg/viewform" target="_blank"><span>Direct je project starten</span></placetobe-button>
-          <placetobe-button href="/start-project/test" link><span>Doe de quickscan</span></placetobe-button>
+          <h2><strong>Geen gebouw neerzetten, maar een plek maken.</strong> Vastgoed ontwikkel je samen met de crowd.</h2>
+          <placetobe-mailinglist-subscribe-form
+            api-endpoint="[[apiEndpoint]]"
+            user-role="entrepreneurs"
+          ></placetobe-mailinglist-subscribe-form> 
         </span>
         
         <span hidden$="[[!investorLandingPageActive]]">
@@ -358,15 +356,6 @@
             </main>
           </template>
 
-          <template is="dom-if" if="[[investorLandingPageActive]]">
-            <main class="layout-66-33--item-1">
-              <h1>Investeren in vastgoed met placetobe</h1>
-              <article>
-                <p><strong>Zie je je spaarkapitaal bij de bank meer krimpen dan groeien, maar is beleggen in aandelen net een stap te ver? Investeren in vastgoed via crowdfunding is een veilige en gebruiksvriendelijke manier van beleggen. Niet alleen ontvang je meer rendement, je helpt vastgoedprojecten realiseren die jou aanspreken. Crowdfunden is waarde creëren voor jezelf en de omgeving. </strong><p>Placetobe is voor de spaarder die meer rendement wil en de investeerder die bijzondere beleggingsprojecten zoekt. We zijn ervaren in crowdfunding en vastgoed en weten projecten op hun haalbaarheid en succes te toetsen.</p>
-              </article>
-            </main>
-          </template>
-
 
 <!--         <placetobe-card title="Meer informatie?" id="meer-informatie">
           <article slot="main">Schrijf je in voor onze mailinglist en ontvang de brochure.</article>
@@ -375,9 +364,13 @@
         </placetobe-card> -->
       </section>
 
-          <template is="dom-if" if="[[entrepreneurLandingPageActive]]">
-            <placetobe-entrepreneur-landing-page></placetobe-entrepreneur-landing-page>
-          </template>
+      <template is="dom-if" if="[[entrepreneurLandingPageActive]]">
+        <placetobe-entrepreneur-landing-page></placetobe-entrepreneur-landing-page>
+      </template>
+
+      <template is="dom-if" if="[[investorLandingPageActive]]">
+        <placetobe-investor-landing-page></placetobe-investor-landing-page>
+      </template>
 
       <template is="dom-if" if="[[homePageActive]]">
         <section class="horizontal-layout layout-50-50">
@@ -405,33 +398,10 @@
         </section>
       </template>
 
-      <section class="horizontal-layout">
-        <template is="dom-if" if="[[investorLandingPageActive]]">
-          <placetobe-card title="Ben jij een crowdfunder?" class="investor-card">
-            <article slot="main">Beantwoord vijf vragen en ontdek of investeren bij Placetobe iets voor je is.</article>
-            <placetobe-button
-              href="/investeren/test"
-              title="Doe de quickscan"
-              slot="footer"
-            ><span>doe de quickscan.</span>
-            </placetobe-button>
-          </placetobe-card>
-        </template>
-      </section>
-
     </template>
 
 
-    <placetobe-footer>
-      <div>
-        <h2>Meer info over investeren?</h2>
-        <placetobe-investor-registration-form
-          horizontal-layout
-          hide-first-name
-          hide-last-name
-        ></placetobe-investor-registration-form>
-      </div>
-    </placetobe-footer>
+    <placetobe-footer></placetobe-footer>
 
       <placetobe-popup
         with-backdrop
@@ -516,6 +486,11 @@
         pricingPageActive: {
           type: Boolean,
           computed: '_computePricingPageActive(routeData.page)'
+        },
+
+        apiEndpoint: {
+          type: String,
+          value: 'http://canapi.local'
         },
 
         cookiesAccepted: {

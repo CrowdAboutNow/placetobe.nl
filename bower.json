@@ -20,7 +20,8 @@
     "placetobe-popup": "Placetobe/placetobe-popup",
     "placetobe-survey": "Placetobe/placetobe-survey",
     "placetobe-navigation-bar": "Placetobe/placetobe-navigation-bar",
-    "placetobe-quote": "Placetobe/placetobe-quote"
+    "placetobe-quote": "Placetobe/placetobe-quote",
+    "placetobe-mailinglist-subscribe-form": "Placetobe/placetobe-mailinglist-subscribe-form"
   },
   "devDependencies": {
     "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
