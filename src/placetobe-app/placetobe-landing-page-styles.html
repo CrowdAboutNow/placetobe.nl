@@ -19,7 +19,6 @@
 
       :host h1 {
         @apply --placetobe-font-title;
-        font-size: 53px;
         margin: calc( (var(--placetobe-margin) * 3) ) 0;
       }
 
@@ -29,14 +28,14 @@
       }
 
       :host .intro {
-        max-width: var(--placetobe-two-column-width);
+        max-width: calc( var(--placetobe-layout-width) + (var(--placetobe-margin) * 2) );
         margin: 0 auto;
         padding: 0 9px;
       }
 
       :host section {
         @apply(--placetobe-border-box);
-        @apply(--placetobe-flex-layout--horizontal);
+        @apply(--placetobe-flex-layout--vertical);
         @apply(--placetobe-flex-align--space-between);
         @apply(--placetobe-cross-align--center);
         flex-wrap: wrap;
@@ -46,14 +45,20 @@
         position: relative;
       }
 
-      :host section.reversed {
-        @apply(--placetobe-flex-layout--horizontal-reverse);      
-      }
-
       :host section > * {
         @apply(--placetobe-border-box);
         padding: 0 9px;
         min-width: var(--placetobe-column-width);
+        max-width: 100%;
+      }
+
+      @media(min-width: 601px) {
+        :host section {
+          @apply(--placetobe-flex-layout--horizontal);      
+        }
+        :host section.reversed {
+          @apply(--placetobe-flex-layout--horizontal-reverse);      
+        }
       }
 
       :host section > *:nth-child(1) {
@@ -61,7 +66,7 @@
       }
 
       :host section.fifty-fifty > *:nth-child(1) {
-        @apply(--placetobe-flex-item--1);        
+        @apply(--placetobe-flex-item--1);
       }
 
       :host section > *:nth-child(2) {
