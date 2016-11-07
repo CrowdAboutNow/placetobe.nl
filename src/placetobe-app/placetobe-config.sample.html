@@ -1,19 +1,19 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 
-  <script>
-    Polymer({
-      is: 'placetobe-config',
+<script>
+  Polymer({
+    is: 'placetobe-config',
 
-      properties: {
+    properties: {
 
-        apiEndpoint: {
-          type: String,
-          value: "https://api.placetobe.nl/",
-          notify: true
-        }
-
+      apiEndpoint: {
+        type: String,
+        value: "https://api.placetobe.nl",
+        readOnly: true,
+        notify: true
       }
 
-    })
-  </script>
-</dom-module>
+    }
+
+  })
+</script>
