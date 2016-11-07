@@ -331,8 +331,13 @@
         on-iron-overlay-closed="_handleCloseInvestorQuickscan"
         >
         <placetobe-investor-quickscan>
-<!--           <placetobe-investor-registration-form slot="action"></placetobe-investor-registration-form>
- -->        </placetobe-investor-quickscan>        
+          <placetobe-mailinglist-subscribe-form
+            api-endpoint="[[apiEndpoint]]"
+            user-role="investors"
+            button-label="Stuur de brochure voor investeerders"
+            slot="action"
+          ></placetobe-mailinglist-subscribe-form>
+        </placetobe-investor-quickscan>        
       </placetobe-popup>
 
       <placetobe-popup
@@ -341,8 +346,13 @@
         on-iron-overlay-closed="_handleCloseEntrepreneurQuickscan"
         >
         <placetobe-entrepreneur-quickscan>
-<!--           <placetobe-investor-registration-form slot="action"></placetobe-investor-registration-form>
- -->        </placetobe-entrepreneur-quickscan>        
+          <placetobe-mailinglist-subscribe-form
+            api-endpoint="[[apiEndpoint]]"
+            user-role="entrepreneurs"
+            button-label="Stuur de brochure voor ondernemers"
+            slot="action"
+          ></placetobe-mailinglist-subscribe-form>
+        </placetobe-entrepreneur-quickscan>        
       </placetobe-popup>
 
   </template>
