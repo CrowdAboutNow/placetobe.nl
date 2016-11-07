@@ -1,3 +1,4 @@
+<link rel="import" href="placetobe-config.html">
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/placetobe-styles/placetobe-styles.html">
 <link rel="import" href="../../bower_components/placetobe-cookie-warning/placetobe-cookie-warning.html">
@@ -53,13 +54,20 @@
 
       #hero-wrapper {
         overflow: hidden;
-        max-height: 60vh;
-        transition: 0.6s max-height;
+        height: 0;
+        min-height: calc( var(--placetobe-margin) * 26 );
+        transition: 0.6s min-height;
         transform: translate3d(0,0,0);
       }
 
+      @media(min-width: 601px) {
+        :host #hero-wrapper {
+          min-height: 60vh;
+        }
+      }
+
       #hero-wrapper[hidden] {
-        max-height: 0;
+        min-height: 0;
         display: block;
       }
 
@@ -184,6 +192,10 @@
 
     </style>
 
+    <placetobe-config
+      api-endpoint="{{apiEndpoint}}"
+    ></placetobe-config>
+
     <template is="dom-if" if="[[!cookiesAccepted]]">
       <placetobe-cookie-warning
         on-cookies-accepted="_handleCookiesAccepted"
@@ -193,6 +205,7 @@
     <app-location
       id="appLocation"
       route="{{route}}"
+      path="{{locationPath}}"
     ></app-location>
 
     <placetobe-route
@@ -234,6 +247,7 @@
     ></placetobe-route>
 
     <placetobe-header
+      location-path="{{locationPath}}"
       collapsed="[[headerCollapsed]]"
       current-page="[[routeData.page]]"
       home-page-active="{{homePageActive}}"
@@ -252,7 +266,7 @@
 
           <span hidden$="[[!homePageActive]]">
             <h2>Iedereen heeft een plek nodig. <strong>Een plek om te wonen</strong>, werken, ondernemen, relaxen... Een plek om te zijn.</h2>      
-            <placetobe-button href="/start-project"><span>Hoe start ik een project</span></placetobe-button>
+            <placetobe-button href="/start-project"><span>Hoe start ik een project?</span></placetobe-button>
             <placetobe-button href="/investeren" link><span>Info voor investeerders</span></placetobe-button>
           </span>
           
@@ -392,7 +406,7 @@
 
         apiEndpoint: {
           type: String,
-          value: 'http://canapi.local'
+          value: null
         },
 
         cookiesAccepted: {

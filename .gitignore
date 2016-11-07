@@ -1,6 +1,7 @@
 .DS_Store
 node_modules
 bower_components
+placetobe-config.html
 /build/*/*
 !/build/bundled/sitemap.xml
 /firebase-debug.log
