@@ -8,7 +8,7 @@ install:
 after_success:
     - bower install
     - polymer build
-    - firebase deploy --token $FIREBASE_STAGING_TOKEN
+    - firebase deploy --project placetobe-staging --token $FIREBASE_STAGING_TOKEN
 branches:
   only:
   - refactor/elements
