@@ -268,14 +268,15 @@
             <h2>Iedereen heeft een plek nodig. <strong>Een plek om te wonen</strong>, werken, ondernemen, relaxen... Een plek om te zijn.</h2>      
             <placetobe-button href="/start-project"><span>Hoe start ik een project?</span></placetobe-button>
             <placetobe-button href="/investeren" link><span>Info voor investeerders</span></placetobe-button>
-          </span>
+          </span>f
           
           <span hidden$="[[!entrepreneurLandingPageActive]]">
             <h2><strong>Geen gebouw neerzetten, maar een plek maken.</strong> Vastgoed ontwikkel je samen met de crowd.</h2>
             <placetobe-mailinglist-subscribe-form
               api-endpoint="[[apiEndpoint]]"
               user-role="entrepreneurs"
-            ></placetobe-mailinglist-subscribe-form> 
+              button-label="Email mij de brochure"
+            ></placetobe-mailinglist-subscribe-form>
           </span>
           
           <span hidden$="[[!investorLandingPageActive]]">
@@ -283,6 +284,7 @@
             <placetobe-mailinglist-subscribe-form
               api-endpoint="[[apiEndpoint]]"
               user-role="investors"
+              button-label="Email mij de brochure"
             ></placetobe-mailinglist-subscribe-form> 
           </span>
           
@@ -453,13 +455,6 @@
       attached: function() {
         Polymer.AppMetadata.requestAvailability();
         this._setMetaData();
-      },
-
-      downloadBrochure: function() {
-        var downloadElement = document.createElement('a');
-        downloadElement.setAttribute('download', true);
-        downloadElement.href = 'https://firebasestorage.googleapis.com/v0/b/placetobe-nl.appspot.com/o/Placetobe_Factsheet_versie_6.pdf?alt=media&token=c43f38ea-9413-4640-8a0f-edf62b641e5a';
-        downloadElement.click();
       },
 
       routeChanged: function(newRoute, oldRoute) {
