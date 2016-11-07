@@ -45,38 +45,49 @@
       :host section {
         @apply(--placetobe-border-box);
         @apply(--placetobe-flex-layout--vertical);
-        @apply(--placetobe-flex-align--space-around);
+        @apply(--placetobe-flex-align--space-between);
         @apply(--placetobe-cross-align--center);
         flex-wrap: wrap;
         max-width: calc( var(--placetobe-layout-width) + (var(--placetobe-margin) * 2) );
         padding: 0 var(--placetobe-margin);
         margin: calc( var(--placetobe-margin) * 3 ) auto;
         position: relative;
-/*        border: 1px solid red;
-*/      }
-
-      :host section > * {
-        @apply --placetobe-border-box;
-        min-width: var(--placetobe-column-width);
-        max-width: 100%;
-/*        border: 1px solid blue;
-*/      }
+      }
 
       @media(min-width: 601px) {
         :host section {
-          @apply(--placetobe-flex-layout--horizontal);      
+          @apply(--placetobe-flex-layout--horizontal); 
         }
         :host section.reversed {
           @apply(--placetobe-flex-layout--horizontal-reverse);      
         }
       }
 
+      :host section > * {
+        @apply --placetobe-border-box;
+        min-width: var(--placetobe-column-width);
+        max-width: 100%;
+      }
+
+      @media(min-width: 601px) {
+        :host section.fifty-fifty > * {
+          max-width: calc( 50% - (var(--placetobe-margin) / 3 * 2) );
+        }
+      }
+
       :host section > *:nth-child(1) {
         @apply(--placetobe-flex-item--2);
+        margin-bottom: var(--placetobe-margin);
       }
 
       :host section.fifty-fifty > *:nth-child(1) {
         @apply(--placetobe-flex-item--1);
+      }
+
+      @media(min-width: 601px) {
+        :host section.fifty-fifty > *:nth-child(1) {
+          margin-bottom: 0;
+        }
       }
 
       :host section > *:nth-child(2) {
@@ -111,8 +122,9 @@
         margin: 0;
       }
 
-      :host section figure svg {
+      :host section figure ::host-context(svg) {
         height: 360px;
+        max-height: 25vh;
       }
 
       :host section ul {
