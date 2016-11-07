@@ -464,6 +464,7 @@
       },
 
       routeChanged: function(newRoute, oldRoute) {
+        window.scrollTo(0,0)
         var routeExists = (newRoute || {path:""}).path.match(/^(\/(start-project|investeren|tarieven|campagnes)(|\/test|\/aanmelden)|(\/|))$/g);
         if(!routeExists) history.replaceState({}, "Placetobe", "/");
         if(!(newRoute && oldRoute)) return;
