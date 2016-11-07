@@ -3,5 +3,19 @@
   "short_name": "placetobe.nl",
   "description": "Organisational website for Place to Be Crowdfunding",
   "start_url": "/",
-  "display": "standalone"
+  "display": "standalone",
+  "theme_color": "#60d1d6",
+  "background_color": "#60d1d6",
+  "icons": [
+    {
+      "src": "images/manifest/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "images/manifest/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
 }
