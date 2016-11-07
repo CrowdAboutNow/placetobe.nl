@@ -13,7 +13,7 @@
 <link rel="import" href="../../bower_components/placetobe-illustrations/placetobe-illustrations.html">
 <link rel="import" href="../../bower_components/placetobe-popup/placetobe-popup.html" async>
 <link rel="import" href="../../bower_components/placetobe-survey/placetobe-investor-quickscan.html" async>
-<link rel="import" href="../../bower_components/placetobe-survey/placetobe-entrepreneur-quickscan.html" async>
+<link rel="import" href="../../bower_components/placetobe-survey/placetobe-entrepreneur-quickscan.html">
 <link rel="import" href="placetobe-entrepreneur-landing-page.html">
 <link rel="import" href="placetobe-investor-landing-page.html">
 <link rel="import" href="placetobe-home-landing-page.html">
@@ -479,7 +479,6 @@
       },
 
       _handleRouteChanged: function(newPath, oldPath) {
-        window.scrollTo(0,0)
         this.fire('app-metadata', {
           title: 'This is the page title',
           description: 'This is the page description',
