@@ -4,4 +4,5 @@ bower_components
 placetobe-config.html
 /build/*/*
 !/build/bundled/sitemap.xml
+!/build/unbundled/sitemap.xml
 /firebase-debug.log
