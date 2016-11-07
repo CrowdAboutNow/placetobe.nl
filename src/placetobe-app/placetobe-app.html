@@ -303,11 +303,15 @@
       </template>
 
       <template is="dom-if" if="[[entrepreneurLandingPageActive]]">
-        <placetobe-entrepreneur-landing-page></placetobe-entrepreneur-landing-page>
+        <placetobe-entrepreneur-landing-page
+          api-endpoint="[[apiEndpoint]]"
+        ></placetobe-entrepreneur-landing-page>
       </template>
 
       <template is="dom-if" if="[[investorLandingPageActive]]">
-        <placetobe-investor-landing-page></placetobe-investor-landing-page>
+        <placetobe-investor-landing-page
+          api-endpoint="[[apiEndpoint]]"
+        ></placetobe-investor-landing-page>
       </template>
 
     </template>
@@ -419,6 +423,16 @@
           value: 0,
           readOnly: true
         },
+
+        entrepreneurQuickscanActive: {
+          type: Boolean,
+          value: false
+        },
+
+        investorQuickscanActive: {
+          type: Boolean,
+          value: false
+        }
 
       },
 

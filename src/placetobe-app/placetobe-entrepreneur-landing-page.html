@@ -173,7 +173,15 @@
   </template>
   <script>
     Polymer({
-      is: 'placetobe-entrepreneur-landing-page'
+      is: 'placetobe-entrepreneur-landing-page',
+
+      properties: {
+        apiEndpoint: {
+          type: String,
+          value: null
+        }
+      }
+
     })
   </script>
 </dom-module>

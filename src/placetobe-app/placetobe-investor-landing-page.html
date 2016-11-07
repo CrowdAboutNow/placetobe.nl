@@ -144,7 +144,15 @@ een leuk rendement oplevert, maar vooral ook andere waarde creëert. Denk aan z
   </template>
   <script>
     Polymer({
-      is: 'placetobe-investor-landing-page'
+      is: 'placetobe-investor-landing-page',
+
+      properties: {
+        apiEndpoint: {
+          type: String,
+          value: null
+        }
+      }
+
     })
   </script>
 </dom-module>
