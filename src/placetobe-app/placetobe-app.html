@@ -12,13 +12,9 @@
 <link rel="import" href="../../bower_components/placetobe-hero/placetobe-hero.html" async>
 <link rel="import" href="../../bower_components/placetobe-illustrations/placetobe-illustrations.html">
 <link rel="import" href="../../bower_components/placetobe-popup/placetobe-popup.html" async>
+<link rel="import" href="../../bower_components/placetobe-mailinglist-subscribe-form/placetobe-mailinglist-subscribe-form.html" async>
 <link rel="import" href="../../bower_components/placetobe-survey/placetobe-investor-quickscan.html" async>
 <link rel="import" href="../../bower_components/placetobe-survey/placetobe-entrepreneur-quickscan.html">
-<link rel="import" href="placetobe-entrepreneur-landing-page.html">
-<link rel="import" href="placetobe-investor-landing-page.html">
-<link rel="import" href="placetobe-home-landing-page.html">
-<link rel="import" href="placetobe-pricing-page.html">
-<link rel="import" href="../../bower_components/placetobe-mailinglist-subscribe-form/placetobe-mailinglist-subscribe-form.html" async>
 
 <dom-module id="placetobe-app">
   <template>
@@ -321,35 +317,35 @@
 
     <placetobe-footer></placetobe-footer>
 
-      <placetobe-popup
-        with-backdrop
-        opened$="[[investorQuickscanActive]]"
-        on-iron-overlay-closed="_handleCloseInvestorQuickscan"
-        >
-        <placetobe-investor-quickscan>
-          <placetobe-mailinglist-subscribe-form
-            api-endpoint="[[apiEndpoint]]"
-            user-role="investors"
-            button-label="Email brochure"
-            slot="action"
-          ></placetobe-mailinglist-subscribe-form>
-        </placetobe-investor-quickscan>        
-      </placetobe-popup>
+        <placetobe-popup
+          with-backdrop
+          opened$="[[investorQuickscanActive]]"
+          on-iron-overlay-closed="_handleCloseInvestorQuickscan"
+          >
+          <placetobe-investor-quickscan>
+            <placetobe-mailinglist-subscribe-form
+              api-endpoint="[[apiEndpoint]]"
+              user-role="investors"
+              button-label="Email brochure"
+              slot="action"
+            ></placetobe-mailinglist-subscribe-form>
+          </placetobe-investor-quickscan>        
+        </placetobe-popup>
 
-      <placetobe-popup
-        with-backdrop
-        opened$="[[entrepreneurQuickscanActive]]"
-        on-iron-overlay-closed="_handleCloseEntrepreneurQuickscan"
-        >
-        <placetobe-entrepreneur-quickscan>
-          <placetobe-mailinglist-subscribe-form
-            api-endpoint="[[apiEndpoint]]"
-            user-role="entrepreneurs"
-            button-label="Email brochure"
-            slot="action"
-          ></placetobe-mailinglist-subscribe-form>
-        </placetobe-entrepreneur-quickscan>        
-      </placetobe-popup>
+        <placetobe-popup
+          with-backdrop
+          opened$="[[entrepreneurQuickscanActive]]"
+          on-iron-overlay-closed="_handleCloseEntrepreneurQuickscan"
+          >
+          <placetobe-entrepreneur-quickscan>
+            <placetobe-mailinglist-subscribe-form
+              api-endpoint="[[apiEndpoint]]"
+              user-role="entrepreneurs"
+              button-label="Email brochure"
+              slot="action"
+            ></placetobe-mailinglist-subscribe-form>
+          </placetobe-entrepreneur-quickscan>        
+        </placetobe-popup>
 
   </template>
 
@@ -386,17 +382,20 @@
 
         homePageActive: {
           type: Boolean,
-          value: false
+          value: false,
+          observer: '_homePageActiveChanged'
         },
 
         entrepreneurLandingPageActive: {
           type: Boolean,
-          value: false
+          value: false,
+          observer: '_entrepreneurLandingPageActiveChanged'
         },
 
         investorLandingPageActive: {
           type: Boolean,
-          value: false
+          value: false,
+          observer: '_investorLandingPageActiveChanged'
         },
 
         campaignPageActive: {
@@ -417,7 +416,8 @@
 
         pricingPageActive: {
           type: Boolean,
-          computed: '_computePricingPageActive(routeData.page)'
+          computed: '_computePricingPageActive(routeData.page)',
+          observer: '_pricingPageActiveChanged'
         },
 
         apiEndpoint: {
@@ -560,6 +560,42 @@
 
       _handleCloseEntrepreneurQuickscan: function(evt) {
         this.$.appLocation.path = '/start-project';        
+      },
+
+      _homePageActiveChanged: function(homePageActive) {
+        this._loadElement(homePageActive, 'placetobe-home-landing-page.html', function() {
+          this._loadLandingPages();
+        })
+      },
+
+      _entrepreneurLandingPageActiveChanged: function(entrepreneurLandingPageActive) {
+        this._loadElement(entrepreneurLandingPageActive, 'placetobe-entrepreneur-landing-page.html', function() {
+          this._loadLandingPages();
+        })
+      },
+
+      _investorLandingPageActiveChanged: function(investorLandingPageActive) {
+        this._loadElement(investorLandingPageActive, 'placetobe-investor-landing-page.html', function() {
+          this._loadLandingPages();
+        })
+      },
+
+      _pricingPageActiveChanged: function(pricingPageActive) {
+        this._loadElement(pricingPageActive, 'placetobe-pricing-page.html', function() {
+          this._loadLandingPages();
+        })
+      },
+
+      _loadElement(doLoad, url, callback) {
+        if(!doLoad) return;
+        this.importHref(this.resolveUrl(url), callback || function() {});
+      },
+
+      _loadLandingPages: function() {
+        this._loadElement(true, 'placetobe-home-landing-page.html');
+        this._loadElement(true, 'placetobe-investor-landing-page.html');
+        this._loadElement(true, 'placetobe-entrepreneur-landing-page.html');
+        this._loadElement(true, 'placetobe-pricing-page.html');
       }
 
     });
