@@ -1,4 +1,4 @@
-<link rel="import" href="../../bower_components/polymer/polymer.html">
+  <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/placetobe-styles/placetobe-styles.html">
 
 
@@ -13,9 +13,9 @@
       }
 
       :host main {
+        @apply(--placetobe-border-box);
         display: block;
         color: var(--placetobe-color-darkblue);
-        text-align: center;
       }
 
       :host h1 {
@@ -33,27 +33,34 @@
         width: var(--placetobe-two-column-width);
         max-width: 100%;
         margin: 0 auto;
-        padding: 0 9px;
+        padding: 0 var(--placetobe-margin);
+      }
+
+      @media(min-width: 601px) {
+        :host .intro {
+          text-align: center;
+        }
       }
 
       :host section {
         @apply(--placetobe-border-box);
         @apply(--placetobe-flex-layout--vertical);
-        @apply(--placetobe-flex-align--space-between);
+        @apply(--placetobe-flex-align--space-around);
         @apply(--placetobe-cross-align--center);
         flex-wrap: wrap;
         max-width: calc( var(--placetobe-layout-width) + (var(--placetobe-margin) * 2) );
-        padding: 0 9px;
-        margin: calc( var(--placetobe-margin) * 4 ) auto;
+        padding: 0 var(--placetobe-margin);
+        margin: calc( var(--placetobe-margin) * 3 ) auto;
         position: relative;
-      }
+/*        border: 1px solid red;
+*/      }
 
       :host section > * {
-        @apply(--placetobe-border-box);
-        padding: 0 9px;
+        @apply --placetobe-border-box;
         min-width: var(--placetobe-column-width);
         max-width: 100%;
-      }
+/*        border: 1px solid blue;
+*/      }
 
       @media(min-width: 601px) {
         :host section {
@@ -80,6 +87,7 @@
         display: block;
         @apply --placetobe-font-body;
         text-align: left;
+        min-width: 0;
       }
 
       :host section h2 {
@@ -97,8 +105,10 @@
       }
 
       :host section figure {
-        display: block;
         @apply --placetobe-border-box;
+        display: block;
+        padding: calc(var(--placetobe-margin) * 2);
+        margin: 0;
       }
 
       :host section figure svg {
