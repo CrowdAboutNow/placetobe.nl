@@ -1,0 +1,86 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/placetobe-styles/placetobe-styles.html">
+<link rel="import" href="placetobe-landing-page-styles.html">
+<link rel="import" href="../../bower_components/placetobe-illustrations/placetobe-manshowingmoneybox-illustration.html">
+<link rel="import" href="../../bower_components/placetobe-button/placetobe-button.html">
+
+<dom-module id="placetobe-pricing-page">
+  <template>
+
+    <style include="placetobe-landing-page-styles">
+      :host {
+        --placetobe-quote-color: var(--placetobe-color-green);
+        --placetobe-button-color: var(--placetobe-color-green);
+      }
+
+      :host h1 {
+        margin-top: calc( var(--placetobe-margin) * 8 );
+      }
+
+      placetobe-card {
+        --placetobe-card-color: var(--placetobe-color-gray);
+      }
+
+    </style>
+
+
+    <main>
+
+      <div class="intro">
+
+        <h1>Tarieven voor ondernemers</h1>
+        <h3>Ondernemers betalen een vergoeding aan Placetobe voor advies, begeleiding en het gebruik van het crowdfundingplatform.</h3>
+          <placetobe-button href="/start-project"><span>meer info over ondernemen</span></placetobe-button>
+      </div>
+
+      <section>
+
+        <article>
+
+          <p>Als ondernemer moet je minimaal de kosten kunnen dragen van de aflossing, rentelasten gedurende de looptijd van de lening en de plaatsings -en eventuele succesfee.</p>
+          <p>Koop je een pand aan, dan moet je een eerste hypotheek aan kunnen bieden.<br>Creëer je huurwoningen, dan is pandrecht een zekerheid waar je aan moet denken.
+          </p>
+
+        <placetobe-card
+          title="Plaatsingsfee"
+        >
+          <article slot="main">
+            <b>1%</b> over eerste <b>€ 100.000,-</b> (minimum <b>€ 500,-</b>)<br>
+            <b>0,1%</b> over meerdere tot <b>€ 1.000.000,-</b><br>
+            <b>0,05%</b> over meerdere boven <b>€ 1.000.000,-</b>
+          </article>
+        </placetobe-card>
+
+        <br>
+
+        <placetobe-card
+          title="Succesfee"
+        >
+          <article slot="main">
+            <b>3%</b> over eerste <b>€ 100.000,-</b><br>
+            <b>1,9%</b> over meerdere tot <b>€ 1.000.000,-</b><br>
+            <b>1,45%</b> over meerdere boven <b>€ 1.000.000,-</b>
+            <br><br>
+            beheerkosten <b>0,5%</b> per jaar gedurende de looptijd
+          </article>
+        </placetobe-card>
+
+
+        </article>
+
+        <figure>
+          <placetobe-manshowingmoneybox-illustration></placetobe-manshowingmoneybox-illustration>
+        </figure>
+
+      </section>
+
+    </main>
+
+
+  </template>
+  <script>
+    Polymer({
+      is: 'placetobe-pricing-page'
+    })
+  </script>
+</dom-module>

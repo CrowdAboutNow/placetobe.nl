@@ -1,211 +1,196 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="placetobe-config.html">
 <link rel="import" href="../../bower_components/app-route/app-location.html">
-<link rel="import" href="../../bower_components/app-route/app-route.html">
-<link rel="import" href="../../bower_components/app-route/app-route-converter.html">
-<link rel="import" href="../../bower_components/app-metadata/app-metadata.html">
-<link rel="import" href="../placetobe-header/placetobe-header.html">
-<link rel="import" href="../placetobe-hero/placetobe-hero.html">
-<link rel="import" href="../placetobe-styles/placetobe-styles.html">
-<link rel="import" href="../placetobe-button/placetobe-button.html">
-<link rel="import" href="../placetobe-pricing/placetobe-pricing.html">
-<link rel="import" href="../placetobe-action-block/placetobe-action-block.html">
-<link rel="import" href="../placetobe-menu/placetobe-menu.html">
-<link rel="import" href="../placetobe-investor-registration-form/placetobe-investor-registration-form.html">
-<link rel="import" href="../placetobe-cookie-warning/placetobe-cookie-warning.html">
+<link rel="import" href="../../bower_components/app-metadata/app-metadata.html" async>
+<link rel="import" href="../../bower_components/placetobe-styles/placetobe-styles.html">
+<link rel="import" href="../../bower_components/placetobe-behaviors/placetobe-styles-behavior.html">
+<link rel="import" href="../../bower_components/placetobe-cookie-warning/placetobe-cookie-warning.html" async>
+<link rel="import" href="../../bower_components/placetobe-card/placetobe-card.html" async>
+<link rel="import" href="../../bower_components/placetobe-header/placetobe-header.html">
+<link rel="import" href="../../bower_components/placetobe-footer/placetobe-footer.html" async>
+<link rel="import" href="../../bower_components/placetobe-route/placetobe-route.html">
+<link rel="import" href="../../bower_components/placetobe-hero/placetobe-hero.html" async>
+<link rel="import" href="../../bower_components/placetobe-illustrations/placetobe-illustrations.html">
+<link rel="import" href="../../bower_components/placetobe-popup/placetobe-popup.html" async>
+<link rel="import" href="../../bower_components/placetobe-mailinglist-subscribe-form/placetobe-mailinglist-subscribe-form.html" async>
+<link rel="import" href="../../bower_components/placetobe-survey/placetobe-investor-quickscan.html" async>
+<link rel="import" href="../../bower_components/placetobe-survey/placetobe-entrepreneur-quickscan.html">
+<link rel="import" href="../../bower_components/google-analytics-tracker/google-analytics-tracker.html">
 
 <dom-module id="placetobe-app">
   <template>
+
     <style>
+
       :host {
-        display: block;
-        margin: 0;
+        --placetobe-color--general: var(--placetobe-color-gray);
+        --placetobe-color--entrepreneurs: var(--placetobe-color-yellow);
+        --placetobe-color--investors: var(--placetobe-color-taupe);
       }
 
-      :host placetobe-hero {
-        margin-bottom: 0;
-      }
-
-      :host .intro {
-        margin: 36px auto;
-        max-width: var(--placetobe-layout-width);
-        max-height: 9999px;
-        padding: 0 36px;
-        display: flex;  
-      }
-
-        :host .intro > * {
-          flex: 1;
-        }
-
-        @media (max-width: 1044px) {
-          :host .intro {
-            display: block;
-          }
-          :host .intro > *, :host .intro > article {
-            flex: none;
-            padding-right: 0;
-          }
-        }
-
-        :host .intro > article {
-          flex: 2;
-          padding-right: 18px;
-        }
-
-        :host .intro aside {
-          margin-top: -28px;
-          z-index: 4;
-        }
-
-      @media (max-width: 1044px) {
-        :host .intro {
-          padding: 0 18px;  
-          margin: 36px auto 18px auto;
-        }
-      }
-
-      @media (max-width: 1044px) {
-        :host .intro {
-          max-width: 100%;
-        }
-      }
-
-      :host .intro h1 {
-        @apply(--placetobe-heading1);
-        margin-bottom: 24px;
-      }
-
-      :host .intro h2 {
-        @apply(--placetobe-heading2);
-        margin-bottom: 24px;
-      }
-
-      @media (max-width: 1044px) {
-
-        :host .intro h1 {
-          @apply(--placetobe-heading1--mobile);
-          margin-bottom: 18px;
-        }    
-
-        :host .intro h2 {
-          @apply(--placetobe-heading2--mobile);
-          margin-bottom: 18px;
-        }        
-      }
-
-      :host .intro article {
-        @apply(--placetobe-body);
-      }
-
-      :host .intro article strong {
-        @apply(--placetobe-body-bold);
-      }
-
-      @media (max-width: 959px) {
-        :host .intro article {
-          @apply(--placetobe-body--phone);
-        }        
-      }
-
-      :host #calls:not([hidden]) {
-        @apply(--placetobe-two-column-layout);
-      }
-
-      @media (max-width: 1044px) {
-        :host #calls:not([hidden]) {
-          @apply(--placetobe-two-column-layout--phone);
-        }
-      }
-
-      :host #calls > * {
-        @apply(--placetobe-two-column-item);
-          margin-bottom: 36px;
-          flex: none;
-      }
-
-      @media (max-width: 1044px) {
-        :host #calls > * {
-          max-width: 100%;
-          margin-bottom: 18px;
-        }
-      }
-
-      :host placetobe-pricing[hidden] {
-        display: none;
-      }
-
-      :host #call-to-entrepreneur {
-      }
-
-      :host #call-to-investor {
-        background-color: var(--placetobe-taupe);
-      }
-
-      @media (max-width: 959px) {
-
-        :host placetobe-menu {
-          position: fixed;
-          top: 0;
-          bottom:0;
-          z-index: 5;
-        }
-
-        :host[menu-hidden] placetobe-menu {
-          display: none;
-        }
-      }
-
-      :host .large-action-block:not([hidden]) {
-        display: block;
-        max-width: var(--placetobe-layout-width);
-        margin: 36px auto;
-      }
-
-      @media (max-width: 1044px) {
-        :host .large-action-block:not([hidden]) {
-/*          margin: 36px 18px;
-*/        }
-      }
-
-      :host placetobe-menu placetobe-investor-registration-form {
-        --submit-button-color: var(--placetobe-taupe);
-        position: relative;
-        z-index: 1;
-        margin-bottom: 36px;
-      }
-
-      :host placetobe-menu placetobe-investor-registration-form h3 {
-        @apply(--placetobe-heading3);
-        width: var(--placetobe-column-width);
-        color: white;
-        margin: 0 auto 18px auto;
-      }
-
-      :host #pricing {
-        padding-top: 108px;
-      }
-
-      :host #pricing h1, :host #pricing h2 {
-        margin: 0;
-      }
-
-      :host #pricing h1 {
-        margin-bottom: 36px;
-      }
-
-      :host #pricing h2 {
-        font-weight: 400;
-      }
-
-      :host placetobe-cookie-warning {
-        display: block;
-        width: 100%;
+      :host placetobe-header {
         position: fixed;
-        bottom:0;
+        top: 0;
+        left: 0;
+        right: 0;
         z-index: 9;
       }
 
+      :host placetobe-hero {
+        height: 0;
+        min-height: calc( var(--placetobe-margin) * 26 );
+      }
+
+      @media(min-width: 601px) {
+        :host placetobe-hero {
+          min-height: 60vh;
+        }
+      }
+
+      #hero-wrapper {
+        overflow: hidden;
+        height: 0;
+        min-height: calc( var(--placetobe-margin) * 26 );
+        transition: 0.6s min-height;
+        transform: translate3d(0,0,0);
+      }
+
+      @media(min-width: 601px) {
+        :host #hero-wrapper {
+          min-height: 60vh;
+        }
+      }
+
+      #hero-wrapper[hidden] {
+        min-height: 0;
+        display: block;
+      }
+
+      :host placetobe-hero[car-parked] {
+        --placetobe-hero-color: var(--placetobe-color-taupe);
+      }
+
+      :host placetobe-hero[car-gone] {
+        --placetobe-hero-color: var(--placetobe-color-yellow);
+      }
+
+      :host .horizontal-layout {
+        @apply(--placetobe-border-box);
+        @apply(--placetobe-flex-layout--vertical);
+        @apply(--placetobe-flex-align--space-between);
+        @apply(--placetobe-cross-align--baseline);
+        max-width: calc( var(--placetobe-layout-width) + (var(--placetobe-margin) * 2) );
+        padding: 0 calc(var(--placetobe-margin));
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      :host .horizontal-layout > * {
+        width: 100%;
+      }
+
+      @media (min-width: 601px) {
+
+        :host .horizontal-layout {
+          @apply(--placetobe-flex-layout--horizontal);
+          @apply(--placetobe-flex-align--center);
+        }
+        
+        :host .horizontal-layout > *:not(.layout-66-33--item-1) {
+          @apply(--placetobe-flex-item--1);
+        }
+
+        :host .horizontal-layout.layout-50-50 > *:nth-child(1) {
+          padding-right: 12px;
+        }        
+
+        :host .horizontal-layout.layout-50-50 > *:nth-child(2) {
+          padding-left: 12px;
+        }        
+
+/*        :host .horizontal-layout.layout-50-50 * >:nth-child(1) {
+          padding: 0 6px;
+        }        
+*/
+        :host .layout-66-33--item-1 {
+          @apply(--placetobe-flex-item--2);
+          max-width: calc(66.66666% - 12px);
+          padding-right: 18px;
+        }
+
+        :host .layout-66-33--item-2 > *:nth-child(2) {
+          @apply(--placetobe-flex-item--1);
+          max-width: calc(33.333333% - 12px);
+        }
+
+      }
+
+      :host article {
+        @apply(--placetobe-font-body);
+        padding: auto;
+      }
+
+      :host article p:first-child {
+        padding-top: var(--placetobe-margin);
+        @apply(--placetobe-font-body-bold);
+      }
+
+      :host main {
+        font-size: 0;
+        margin-bottom: -10px;
+      }
+
+      :host h1 {
+        @apply(--placetobe-font-heading1);
+      }
+
+      :host h2 {
+        @apply(--placetobe-font-heading1-regular);
+      }
+
+      :host #pricing {
+        margin-top: calc( var(--placetobe-margin) * 8 );
+      }
+
+      placetobe-cookie-warning {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 10;
+      }
+
+      placetobe-footer h2 {
+        @apply(--placetobe-font-heading3);
+        color: white;
+      }
+
+      placetobe-card {
+        --placetobe-card-color: var(--placetobe-color--general);
+      }
+
+      placetobe-card.entrepreneur-card {
+        --placetobe-card-color: var(--placetobe-color--entrepreneurs);
+      }
+
+      placetobe-card.investor-card {
+        --placetobe-card-color: var(--placetobe-color--investors);
+      }
+
+      placetobe-hero placetobe-button:not([link]) {
+        --placetobe-button-color: white;
+      }
+
     </style>
+
+    <placetobe-config
+      api-endpoint="{{apiEndpoint}}"
+      analytics-tracking-id="{{analyticsTrackingId}}"
+    ></placetobe-config>
+
+    <google-analytics-tracker
+      tracking-id="[[analyticsTrackingId]]"
+    ></google-analytics-tracker>
 
     <template is="dom-if" if="[[!cookiesAccepted]]">
       <placetobe-cookie-warning
@@ -214,235 +199,180 @@
     </template>
 
     <app-location
+      id="appLocation"
       route="{{route}}"
+      path="{{locationPath}}"
     ></app-location>
 
-    <app-route
+    <placetobe-route
+      route="{{route}}"
+      pattern="/:page"
+      data="{{routeData}}"
+    ></placetobe-route>
+
+    <placetobe-route
       route="{{route}}"
       pattern="/"
-      data="{{routeData}}"
       active="{{homePageActive}}"
-    ></app-route>
+    ></placetobe-route>
 
-    <app-route
-      route="{{route}}"
-      pattern="/investeren"
-      data="{{routeData}}"
-      active="{{investPageActive}}"
-      tail="{{investSubroute}}"
-    ></app-route>
-
-    <app-route
+    <placetobe-route
       route="{{route}}"
       pattern="/start-project"
-      data="{{routeData}}"
-      active="{{entrepreneurPageActive}}"
+      matches="{{entrepreneurLandingPageActive}}"
       tail="{{entrepreneurSubroute}}"
-    ></app-route>
+    ></placetobe-route>
 
-    <app-route
-      route="{{route}}"
-      pattern="/tarieven"
-      data="{{routeData}}"
-      active="{{pricingPageActive}}"
-    ></app-route>
-
-    <app-route
+    <placetobe-route
       route="{{entrepreneurSubroute}}"
       pattern="/test"
-      data="{{entrepreneurSubrouteData}}"
-      active="{{entrepreneurTestPageActive}}"
-    ></app-route>
+      active="{{entrepreneurQuickscanActive}}"
+    ></placetobe-route>
 
-    <app-route
-      route="{{investSubroute}}"
+    <placetobe-route
+      route="{{route}}"
+      pattern="/investeren"
+      tail="{{subroute}}"
+      matches="{{investorLandingPageActive}}"
+    ></placetobe-route>
+
+    <placetobe-route
+      route="{{subroute}}"
       pattern="/test"
-      data="{{investSubrouteData}}"
-      active="{{investQuickscanPageActive}}"
-    ></app-route>
-
-    <app-route
-      route="{{investSubroute}}"
-      pattern="/aanmelden"
-      data="{{investSubrouteData}}"
-      active="{{investRegisterPageActive}}"
-    ></app-route>
+      active="{{investorQuickscanActive}}"
+    ></placetobe-route>
 
     <placetobe-header
-      menu-hidden="{{menuHidden}}"
-      scrolled="{{headerScrolled}}"
-      home-page-active="[[homePageActive]]"
-      invest-page-active="[[investPageActive]]"
-      entrepreneur-page-active="[[entrepreneurPageActive]]"
+      location-path="{{locationPath}}"
+      collapsed="[[headerCollapsed]]"
+      current-page="[[routeData.page]]"
+      home-page-active="{{homePageActive}}"
+      entrepreneur-page-active="{{entrepreneurLandingPageActive}}"
+      invest-page-active="{{investorLandingPageActive}}"
     ></placetobe-header>
 
-    <template is="dom-if" if="[[!pricingPageActive]]">
+    <div id="hero-wrapper" hidden$="[[!landingPageActive]]">
       <placetobe-hero
-        home-page-active="[[homePageActive]]"
-        invest-page-active="[[investPageActive]]"
-        entrepreneur-page-active="[[entrepreneurPageActive]]"
-        entrepreneur-test-page-active="[[entrepreneurTestPageActive]]"
-        invest-quickscan-page-active="[[investQuickscanPageActive]]"
-        invest-register-page-active="[[investRegisterPageActive]]"
-      ></placetobe-hero>
+        car-parked$="[[investorLandingPageActive]]"
+        car-gone$="[[entrepreneurLandingPageActive]]"
+        >
+
+        <main slot="main">
+
+          <span hidden$="[[!homePageActive]]">
+            <h2>Iedereen heeft een plek nodig. <strong>Een plek om te wonen</strong>, werken, ondernemen, relaxen... Een plek om te zijn.</h2>      
+            <placetobe-button
+              href="/start-project"
+              on-tap="_handleTapStartProjectButton"
+              ><span>Hoe start ik een project?</span></placetobe-button>
+            <placetobe-button
+              href="/investeren"
+              on-tap="_handleTapInvestorInfoButton"
+               link><span>Info voor investeerders</span></placetobe-button>
+          </span>f
+          
+          <span hidden$="[[!entrepreneurLandingPageActive]]">
+            <h2><strong>Geen gebouw neerzetten, maar een plek maken.</strong> Vastgoed ontwikkel je samen met de crowd.</h2>
+            <placetobe-mailinglist-subscribe-form
+              api-endpoint="[[apiEndpoint]]"
+              user-role="entrepreneurs"
+              button-label="Email mij de brochure"
+              on-subscribing="_handleEntrepreneursBrochureRequesting"
+              on-subscribed="_handleEntrepreneursBrochureRequested"
+              on-subscribe-error="_handleEntrepreneursBrochureRequestError"
+            ></placetobe-mailinglist-subscribe-form>
+          </span>
+          
+          <span hidden$="[[!investorLandingPageActive]]">
+            <h2><strong>Crowdfunding in vastgoed.</strong><br>Iedereen een plek en jij rendement.</h2>      
+            <placetobe-mailinglist-subscribe-form
+              api-endpoint="[[apiEndpoint]]"
+              user-role="investors"
+              button-label="Email mij de brochure"
+              on-subscribing="_handleInvestorsBrochureRequesting"
+              on-subscribed="_handleInvestorsBrochureRequested"
+              on-subscribe-error="_handleInvestorsBrochureRequestError"
+            ></placetobe-mailinglist-subscribe-form> 
+          </span>
+          
+        </main>
+
+        <placetobe-manholdingkey-illustration slot="illustration" hidden$="[[!homePageActive]]"></placetobe-manholdingkey-illustration>
+        <placetobe-manreading-illustration slot="illustration" hidden$="[[!entrepreneurLandingPageActive]]"></placetobe-manreading-illustration>
+        <placetobe-manthinking-illustration slot="illustration" hidden$="[[!investorLandingPageActive]]"></placetobe-manthinking-illustration>
+        
+      </placetobe-hero>
+    </div>
+
+
+    <template is="dom-if" if="[[landingPageActive]]">
+
+      <template is="dom-if" if="[[homePageActive]]">
+        <placetobe-home-landing-page></placetobe-home-landing-page>
+      </template>
+
+      <template is="dom-if" if="[[entrepreneurLandingPageActive]]">
+        <placetobe-entrepreneur-landing-page
+          api-endpoint="[[apiEndpoint]]"
+        ></placetobe-entrepreneur-landing-page>
+      </template>
+
+      <template is="dom-if" if="[[investorLandingPageActive]]">
+        <placetobe-investor-landing-page
+          api-endpoint="[[apiEndpoint]]"
+        ></placetobe-investor-landing-page>
+      </template>
+
     </template>
+
 
     <template is="dom-if" if="[[pricingPageActive]]">
-
-      <section
-        id="pricing"
-        class="intro"
-        >
-        <article>
-        <h2>Wat kost dat nou?</h2>
-        <h1>Tarieven voor crowfdfunden bij Placetobe</h1>
-        
-          <p>We begeleiden het hele proces en geven je advies over campagne voeren en hoe je betrokken investeerders vindt. Ook zorgen we ervoor dat de financiële afhandeling tot in de puntjes geregeld is.</p>
-        </article>
-
-      </section>
-
-        <placetobe-pricing></placetobe-pricing>
-
-      <section class="intro">
-
-        <article>
-          <p>Bij vastgoed hoort altijd financiering, maar voor veel 'kleinere' projecten blijft het bankloket helaas gesloten. Komt jouw project daardoor ook niet van de grond? Crowdfunding biedt nieuwe kansen. We bereiken een grote groep investeerders en gebruikers. Samen realiseren we vastgoed.</p>
-        </article>
-      </section>
-
-      <placetobe-action-block
-        class="large-action-block"
-        title="Project starten?"
-        action-label="Meer info"
-        action-url="/start-project"
-        target="entrepreneurs"
-      >Financiering nodig voor een vastgoedproject? Misschien is crowdfunding de manier voor jou.
-      </placetobe-action-block>
-
+      <placetobe-pricing-page></placetobe-pricing-page>
     </template>
 
-    <section class="intro">
+    <placetobe-footer></placetobe-footer>
 
-      <!-- / -->
-      <template is="dom-if" if="[[homePageActive]]">
-        <article>
-        <h1>Nieuwe kansen voor de vastgoedmarkt</h1>
-        <p>
-        <strong>Wij vinden dat de vastgoedmarkt anders kan. Makkelijker, eerlijker, en vooral: beter voor elkaar. Het is toch gek dat de bank met haar leningen zoveel invloed heeft op hoe we wonen, werken, leven? Laten we liever samen beslissen waar behoefte aan is, en wat het verdient om financiering te krijgen.</strong>
-        <p>Met Placetobe brengen we ontwikkelaars, investeerders en gebruikers bij elkaar en zorgen we voor financiering, rendement én een gewilde plek. Een win-win-win voor iedereen.
-        </article>
-      </template>
+        <placetobe-popup
+          with-backdrop
+          opened$="[[investorQuickscanActive]]"
+          on-iron-overlay-closed="_handleCloseInvestorQuickscan"
+          >
+          <placetobe-investor-quickscan
+            on-question-answered="_handleInvestorQuickscanQuestionAnswered"
+            on-finished="_handleInvestorQuickscanFinished"
+          >
+            <placetobe-mailinglist-subscribe-form
+              api-endpoint="[[apiEndpoint]]"
+              user-role="investors"
+              button-label="Email brochure"
+              on-subscribing="_handleInvestorsBrochureRequestingViaQuickscan"
+              on-subscribed="_handleInvestorsBrochureRequestedViaQuickscan"
+              on-subscribe-error="_handleInvestorsBrochureRequestErrorViaQuickscan"
+              slot="action"
+            ></placetobe-mailinglist-subscribe-form>
+          </placetobe-investor-quickscan>        
+        </placetobe-popup>
 
-      <!-- /investeren -->
-      <template is="dom-if" if="[[investPageActive]]">
-        <article>
-        <h1>Investeren in vastgoed met placetobe</h1>
-        <strong>Zie je je spaarkapitaal bij de bank meer krimpen dan groeien, maar is beleggen in aandelen net een stap te ver? Investeren in vastgoed via crowdfunding is een veilige en gebruiksvriendelijke manier van beleggen. Niet alleen ontvang je meer rendement, je helpt vastgoedprojecten realiseren die jou aanspreken. Crowdfunden is waarde creëren voor jezelf en de omgeving.  </strong>
-        <p>Placetobe is voor de spaarder die meer rendement wil en de investeerder die bijzondere beleggingsprojecten zoekt. We zijn ervaren in crowdfunding en vastgoed en weten projecten op hun haalbaarheid en succes te toetsen. 
-        </p>
-        </article>
-      </template>
-
-      <!-- /start-project -->
-      <template is="dom-if" if="[[entrepreneurPageActive]]">
-        <article>
-        <h1>Vastgoed crowdfunden met placetobe</h1>
-        <strong>Bij vastgoed hoort altijd financiering, maar voor veel 'kleinere' projecten blijft het bankloket helaas gesloten. Komt jouw project daardoor ook niet van de grond? Crowdfunding biedt nieuwe kansen. We bereiken een grote groep investeerders en gebruikers. Samen realiseren we vastgoed.</strong>
-        <p>Placetobe is opgericht door een crowdfundpartij en een vastgoedontwikkelaar. Wij willen dat de vastgoedmarkt minder over geld en gebouwen gaat en meer over mensen en hun behoeftes.<p>We begeleiden het hele proces en geven je advies over campagne voeren en hoe je betrokken investeerders vindt. Ook zorgen we ervoor dat de financiële afhandeling tot in de puntjes geregeld is.
-        </p>
-        </article>
-      </template>
-
-      <aside hidden$="[[pricingPageActive]]">
-
-        <placetobe-action-block
-          class="large-action-block"
-          title="Meer informatie?"
-        >
-          Schrijf je in voor onze mailinglist en ontvang de brochure.
-
-          <placetobe-investor-registration-form
-            button-label="Download brochure"
-            on-register="downloadBrochure"
-          ></placetobe-investor-registration-form>
-
-        </placetobe-action-block>
-
-      </aside>
-
-    </section>
-
-    <template is="dom-if" if="[[!investSubPageActive]]">
-
-      <placetobe-action-block
-        class="large-action-block"
-        title="Ben jij een crowdfunder?"
-        action-label="doe de quickscan"
-        action-url="/investeren/test"
-        target="investors"
-        hidden$="[[!investPageActive]]"
-      >Beantwoord vijf vragen en ontdek of investeren bij Placetobe iets voor je is.
-      </placetobe-action-block>
-
-    </template>
-
-    <template is="dom-if" if="[[!entrepreneurTestPageActive]]">
-
-      <placetobe-action-block
-        class="large-action-block"
-        title="Heb jij een placetobe?"
-        action-label="Project aanmelden"
-        action-url="https://docs.google.com/forms/d/e/1FAIpQLSdFZhTSDI4kRKZlLedroXEmMCEAGVB6fUPSYJkdIL9jrQR1yg/viewform"
-        target="entrepreneurs"
-        hidden$="[[!entrepreneurPageActive]]"
-        external-action
-      >Meld direct online je project aan.
-      </placetobe-action-block>
-
-      <section
-        id="calls"
-        hidden$="[[!homePageActive]]"
-        >
-
-        <placetobe-action-block
-          title="Project starten?"
-          action-label="Meer info"
-          action-url="/start-project"
-          target="entrepreneurs"
-        >Financiering nodig voor een vastgoedproject? Misschien is crowdfunding de manier voor jou.
-        </placetobe-action-block>
-
-        <placetobe-action-block
-          title="Investeren in een project?"
-          action-label="Doe de quickscan"
-          action-url="/investeren/test"
-          target="investors"
-        >Wil je investeren in vastgoed? Ontdek of crowdfunding bij je past.
-        </placetobe-action-block>
-
-      </section>
-
-    </template>
-
-    <placetobe-menu
-      for-home-page$="[[homePageActive]]"
-      for-invest-page$="[[entrepreneurPageActive]]"
-      for-entrepreneur-page$="[[investPageActive]]"
-      on-link-tap="hideMenu"
-      scrolled="[[headerScrolled]]"
-    >
-
-    <placetobe-investor-registration-form
-      hide-first-name
-      hide-last-name
-      horizontal-layout
-    >
-      <h3>Alles weten over onze nieuwe projecten?</h3>
-    </placetobe-investor-registration-form>
-
-
-    </placetobe-menu>
+        <placetobe-popup
+          with-backdrop
+          opened$="[[entrepreneurQuickscanActive]]"
+          on-iron-overlay-closed="_handleCloseEntrepreneurQuickscan"
+          >
+          <placetobe-entrepreneur-quickscan
+            on-question-answered="_handleEntrepreneurQuickscanQuestionAnswered"
+            on-finished="_handleEntrepreneurQuickscanFinished"
+          >
+            <placetobe-mailinglist-subscribe-form
+              api-endpoint="[[apiEndpoint]]"
+              user-role="entrepreneurs"
+              button-label="Email brochure"
+              on-subscribing="_handleEntrepreneursBrochureRequestingViaQuickscan"
+              on-subscribed="_handleEntrepreneursBrochureRequestedViaQuickscan"
+              on-subscribe-error="_handleEntrepreneursBrochureRequestErrorViaQuickscan"
+              slot="action"
+            ></placetobe-mailinglist-subscribe-form>
+          </placetobe-entrepreneur-quickscan>        
+        </placetobe-popup>
 
   </template>
 
@@ -452,38 +382,106 @@
       is: 'placetobe-app',
 
       properties: {
+
+        apiEndpoint: {
+          type: String
+        },
+
         route: {
           type: Object,
           observer: "routeChanged"
         },
-        routeData: Object,
-        entrepreneurSubroute: Object,
-        entrepreneurSubrouteData: Object,
-        investSubroute: Object,
-        investSubrouteData: Object,
-        homePageActive: Boolean,
-        investPageActive: Boolean,
-        entrepreneurPageActive: Boolean,
-        entrepreneurTestPageActive: Boolean,
-        investQuickscanPageActive: Boolean,
-        investRegisterPageActive: Boolean,
-        investSubPageActive: {
-          type: Boolean,
-          computed: "_computeInvestSubPageActive(investQuickscanPageActive, investRegisterPageActive)"
+
+        routeData: {
+          type: Object,
+          value: {}
         },
-        menuHidden: {
-          type: Boolean,
-          value: true,
-          reflectToAttribute: true
+
+        subroute: {
+          type: Object,
+          value: {}
         },
-        headerScrolled: {
+
+        subrouteData: {
+          type: Object,
+          value: {}
+        },
+
+        homePageActive: {
           type: Boolean,
+          value: false,
+          observer: '_homePageActiveChanged'
+        },
+
+        entrepreneurLandingPageActive: {
+          type: Boolean,
+          value: false,
+          observer: '_entrepreneurLandingPageActiveChanged'
+        },
+
+        investorLandingPageActive: {
+          type: Boolean,
+          value: false,
+          observer: '_investorLandingPageActiveChanged'
+        },
+
+        campaignPageActive: {
+          type: Boolean,
+          value: false
+        },
+
+        headerCollapsed: {
+          type: Boolean,
+          computed: "_computeHeaderCollapsed(scrollY)",
           reflectToAttribute: true          
         },
+
+        landingPageActive: {
+          type: Boolean,
+          computed: '_computeLandingPageActive(homePageActive, investorLandingPageActive, entrepreneurLandingPageActive, routeData.*, subrouteData.*)'
+        },
+
+        pricingPageActive: {
+          type: Boolean,
+          computed: '_computePricingPageActive(routeData.page)',
+          observer: '_pricingPageActiveChanged'
+        },
+
+        apiEndpoint: {
+          type: String,
+          value: null
+        },
+
         cookiesAccepted: {
           type: Boolean,
           value: false
+        },
+
+        scrollY: {
+          type: String,
+          value: 0,
+          readOnly: true
+        },
+
+        entrepreneurQuickscanActive: {
+          type: Boolean,
+          value: false
+        },
+
+        investorQuickscanActive: {
+          type: Boolean,
+          value: false
+        },
+
+        analyticsTrackingCode: {
+          type: Boolean
+        },
+
+        locationPath: {
+          type: String,
+          observer: '_sendAnalyticsPage'
         }
+
       },
 
       observers: [
@@ -493,6 +491,7 @@
       ready: function() {
         this.routeChanged();
         this.cookiesAccepted = window.localStorage.getItem('placetobe-cookies-accepted');
+        window.addEventListener('scroll', this._handleScroll.bind(this));
       },
 
       attached: function() {
@@ -500,42 +499,28 @@
         this._setMetaData();
       },
 
-      downloadBrochure: function() {
-        var downloadElement = document.createElement('a');
-        downloadElement.setAttribute('download', true);
-        downloadElement.href = 'https://firebasestorage.googleapis.com/v0/b/placetobe-nl.appspot.com/o/Placetobe_Factsheet_versie_6.pdf?alt=media&token=c43f38ea-9413-4640-8a0f-edf62b641e5a';
-        downloadElement.click();
-      },
-
-      _computeInvestSubPageActive: function(investQuickscanPageActive, investRegisterPageActive) {
-        return (investQuickscanPageActive === true || investRegisterPageActive === true)
-      },
-
       routeChanged: function(newRoute, oldRoute) {
-        var routeExists = (newRoute || {path:""}).path.match(/^(\/(start-project|investeren|tarieven)(|\/test|\/aanmelden)|(\/|))$/g);
+        window.scrollTo(0,0)
+        var routeExists = (newRoute || {path:""}).path.match(/^(\/(start-project|investeren|tarieven|campagnes)(|\/test|\/aanmelden)|(\/|))$/g);
         if(!routeExists) history.replaceState({}, "Placetobe", "/");
         if(!(newRoute && oldRoute)) return;
         if(newRoute.path !== oldRoute.path) this._handleRouteChanged(newRoute.path, oldRoute.path);
       },
 
+      _handleScroll: function() {
+        this._setScrollY(window.scrollY || document.documentElement.scrollTop);
+      },
+
+      _computeHeaderCollapsed: function(scrollY) {
+        return (scrollY > 54)
+      },
+
       _handleRouteChanged: function(newPath, oldPath) {
-        window.scrollTo(0,0)
         this.fire('app-metadata', {
           title: 'This is the page title',
           description: 'This is the page description',
           keywords: 'these,are,keywords'
         });
-      },
-
-      showMenu: function() {
-        this.menuHidden = false;
-      },
-
-      hideMenu: function() {
-        var self = this;
-        window.setTimeout(function() {
-          self.menuHidden = true;
-        }, 50)
       },
 
       _handleCookiesAccepted: function() {
@@ -586,6 +571,161 @@
 
       _parseDocumentTitle: function(pageTitle) {
         return [pageTitle, "Placetobe"].join(" | ");
+      },
+
+      _computeLandingPageActive: function(homePageActive, investorLandingPageActive, entrepreneurLandingPageActive, routedataitem, subroutedataitem) {
+        var landingPageActive = ((homePageActive || investorLandingPageActive || entrepreneurLandingPageActive) && (!subroutedataitem.base.subpage));
+        return landingPageActive;
+      },
+
+      _computePricingPageActive: function(page) {
+        return (page == 'tarieven');
+      },
+
+      _handleOpenInvestorQuickscan: function(evt) {
+        this.$.appLocation.path = '/investeren/test';
+      },
+
+      _handleCloseInvestorQuickscan: function(evt) {
+        this.$.appLocation.path = '/investeren';
+      },
+
+      _handleOpenEntrepreneurQuickscan: function(evt) {
+        this.$.appLocation.path = '/start-project/test';
+      },
+
+      _handleCloseEntrepreneurQuickscan: function(evt) {
+        this.$.appLocation.path = '/start-project';        
+      },
+
+      _homePageActiveChanged: function(homePageActive) {
+        this._loadElement(homePageActive, 'placetobe-home-landing-page.html', function() {
+          this._loadLandingPages();
+        })
+      },
+
+      _entrepreneurLandingPageActiveChanged: function(entrepreneurLandingPageActive) {
+        this._loadElement(entrepreneurLandingPageActive, 'placetobe-entrepreneur-landing-page.html', function() {
+          this._loadLandingPages();
+        })
+      },
+
+      _investorLandingPageActiveChanged: function(investorLandingPageActive) {
+        this._loadElement(investorLandingPageActive, 'placetobe-investor-landing-page.html', function() {
+          this._loadLandingPages();
+        })
+      },
+
+      _pricingPageActiveChanged: function(pricingPageActive) {
+        this._loadElement(pricingPageActive, 'placetobe-pricing-page.html', function() {
+          this._loadLandingPages();
+        })
+      },
+
+      _loadElement(doLoad, url, callback) {
+        if(!doLoad) return;
+        this.importHref(this.resolveUrl(url), callback || function() {});
+      },
+
+      _loadLandingPages: function() {
+        this._loadElement(true, 'placetobe-home-landing-page.html');
+        this._loadElement(true, 'placetobe-investor-landing-page.html');
+        this._loadElement(true, 'placetobe-entrepreneur-landing-page.html');
+        this._loadElement(true, 'placetobe-pricing-page.html');
+      },
+
+      _sendAnalyticsPage: function(locationPath) {
+        this.fire('iron-signal', {
+          name: 'send-page',
+          data: {
+            path: locationPath
+          }
+        });
+      },
+
+      //source, action, category, value
+      _sendAnalyticsEvent: function(source, action, category, value) {
+        this.fire('iron-signal', {
+          name: 'send-event',
+          data: {
+            category: category,
+            action: action,
+            label: source,
+            value: value || null
+          }
+        });
+      },
+
+      _handleEntrepreneursBrochureRequesting: function() {
+        this._sendAnalyticsEvent('hero', 'requesting', 'entrepreneurs-brochure')
+      },
+
+      _handleEntrepreneursBrochureRequested: function() {
+        this._sendAnalyticsEvent('hero', 'requested', 'entrepreneurs-brochure')
+      },
+
+      _handleEntrepreneursBrochureRequestError: function() {
+        this._sendAnalyticsEvent('hero', 'request-error', 'entrepreneurs-brochure')
+      },
+
+      _handleEntrepreneursBrochureRequestingViaQuickscan: function() {
+        this._sendAnalyticsEvent('entrepreneurs-quickscan', 'requesting', 'entrepreneurs-brochure')
+      },
+
+      _handleEntrepreneursBrochureRequestedViaQuickscan: function() {
+        this._sendAnalyticsEvent('entrepreneurs-quickscan', 'requested', 'entrepreneurs-brochure')
+      },
+
+      _handleEntrepreneursBrochureRequestErrorViaQuickscan: function() {
+        this._sendAnalyticsEvent('entrepreneurs-quickscan', 'request-error', 'entrepreneurs-brochure')
+      },
+
+      _handleInvestorsBrochureRequesting: function() {
+        this._sendAnalyticsEvent('hero', 'requesting', 'investors-brochure')
+      },
+
+      _handleInvestorsBrochureRequested: function() {
+        this._sendAnalyticsEvent('hero', 'requested', 'investors-brochure')
+      },
+
+      _handleInvestorsBrochureRequestError: function() {
+        this._sendAnalyticsEvent('hero', 'request-error', 'investors-brochure')
+      },
+
+      _handleInvestorsBrochureRequestingViaQuickscan: function() {
+        this._sendAnalyticsEvent('investors-quickscan', 'requesting', 'investors-brochure')
+      },
+
+      _handleInvestorsBrochureRequestedViaQuickscan: function() {
+        this._sendAnalyticsEvent('investors-quickscan', 'requested', 'investors-brochure')
+      },
+
+      _handleInvestorsBrochureRequestErrorViaQuickscan: function() {
+        this._sendAnalyticsEvent('investors-quickscan', 'request-error', 'investors-brochure')
+      },
+
+      _handleTapStartProjectButton: function() {
+        this._sendAnalyticsEvent('hero', 'tap', 'start-project-button')
+      },
+
+      _handleTapInvestorInfoButton: function() {
+        this._sendAnalyticsEvent('hero', 'tap', 'investor-info-button')
+      },
+
+      _handleInvestorQuickscanQuestionAnswered: function(evt) {
+        this._sendAnalyticsEvent('investors-quickscan', 'question ' + evt.detail.question, 'investors-quickscan', evt.detail.score)
+      },
+
+      _handleInvestorQuickscanFinished: function(evt) {
+        this._sendAnalyticsEvent('investors-quickscan', 'finished', 'investors-quickscan', evt.detail.totalScore)
+      },
+
+      _handleEntrepreneurQuickscanQuestionAnswered: function(evt) {
+        this._sendAnalyticsEvent('entrepreneurs-quickscan', 'question ' + evt.detail.question, 'entrepreneurs-quickscan', evt.detail.score)
+      },
+
+      _handleEntrepreneurQuickscanFinished: function(evt) {
+        this._sendAnalyticsEvent('entrepreneurs-quickscan', 'finished', 'entrepreneurs-quickscan', evt.detail.totalScore)
       }
 
     });

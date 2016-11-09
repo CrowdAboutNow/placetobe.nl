@@ -1,0 +1,222 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/placetobe-styles/placetobe-styles.html">
+<link rel="import" href="../../bower_components/placetobe-quote/placetobe-quote.html">
+<link rel="import" href="../../bower_components/placetobe-mailinglist-subscribe-form/placetobe-mailinglist-subscribe-form.html">
+<link rel="import" href="../../bower_components/placetobe-illustrations/placetobe-womanandplant-illustration.html">
+<link rel="import" href="../../bower_components/placetobe-illustrations/placetobe-womanandplant-illustration.html">
+<link rel="import" href="../../bower_components/placetobe-illustrations/placetobe-manandwomangreeting-illustration.html">
+<link rel="import" href="../../bower_components/placetobe-illustrations/placetobe-womanholdingclock-illustration.html">
+<link rel="import" href="../../bower_components/placetobe-illustrations/placetobe-womennetworking-illustration.html">
+<link rel="import" href="../../bower_components/placetobe-illustrations/placetobe-womanwithsuitcase-illustration.html">
+<link rel="import" href="placetobe-landing-page-styles.html">
+
+<dom-module id="placetobe-entrepreneur-landing-page">
+  <template>
+
+    <style include="placetobe-landing-page-styles">
+      :host {
+        --placetobe-quote-color: var(--placetobe-color-yellow);
+        --placetobe-button-color: var(--placetobe-color-yellow);        
+        --placetobe-button-tint-color: var(--placetobe-color-darkblue);      
+        --placetobe-button-hover-color: var(--placetobe-color-darkblue);        
+        --placetobe-button-tint-hover-color: var(--placetobe-color-yellow);      
+      }
+    </style>
+
+    <main>
+
+      <div class="intro">
+
+        <h1>Jouw project financieren met crowdfunding</h1>
+        <h3>Crowdfunding biedt nieuwe kansen om een grote groep investeerders te bereiken. Wij brengen ontwikkelaars, investeerders en gebruikers bij elkaar en zorgen we voor financiering, rendement én een gewilde plek.</h3>
+          <placetobe-button
+            href="/start-project/test"
+            on-tap="_handleTapStartQuickscanButton"
+          ><span>Start de quickscan</span></placetobe-button>
+      </div>
+
+      <section>
+
+        <article>
+          <h2>Starten én herfinancieren</h2>
+          <p>
+          Bij Placetobe kan je een project financieren vanaf €50.000 tot maximaal €2,5 miljoen.
+          Verschillende ondernemers kunnen vastgoed financieren bij Placetobe.
+          </p><p>
+          Je kunt als ondernemer bijvoorbeeld een crowdfundcampagne beginnen voor de aankoop of renovatie van een bedrijfspand. Denk aan een pand voor horecabedrijf, een yogaruimte of een winkel.
+          Daarnaast kun je als projectontwikkelaar terecht bij Placetobe voor bijvoorbeeld het (mede) financieren van beleggingspanden, woningen, winkels of kantoren. Je kunt de ontwikkeling van nieuw vastgoed laten financieren of een vastgoedproject laten herfinancieren.
+          </p>
+        </article>
+
+        <figure>
+          <placetobe-womanandplant-illustration></placetobe-womanandplant-illustration>
+        </figure>
+
+      </section>
+
+      <placetobe-quote
+        name="Mark Laagewaard, directeur CrowdAboutNow"
+        image-url="https://firebasestorage.googleapis.com/v0/b/placetobe-nl.appspot.com/o/avatar-mark.jpg?alt=media&token=c871b17b-aa02-494a-9fbd-8a5447143bc6">
+        <blockquote><strong>Crowdfunding kan iedere verouderde branche die ondoorzichtig is maar ook een grote impact heeft op ons leven, helpen open te breken.</strong> Als je de inhoud weer begrijpelijk maakt, dan wordt een sector daar altijd beter van. Crowdfunding doet dat.</blockquote>
+      </placetobe-quote>
+
+      <section class="reversed">
+
+        <article>
+          <h2>Passende financieringsvormen</h2>
+          <p>
+          Placetobe biedt twee soorten leningen. Samen kijken we welke financieringsvorm het beste past bij jouw situatie en de investeerders die je aan wilt spreken.
+          </p>
+          <ul>
+            <li>
+              <h5>1. Annuïtaire lening</h5>
+              Betaal een vast bedrag aan rente en aflossing, per jaar. Een goede oplossing wanneer je geen verandering wilt in de betalingen die je doet op de lening en in het begin graag wat minder wilt afbetalen.
+            </li>
+            <li>
+              <h5>2. Lineaire lening</h5>
+              Betaal een vast bedrag aan aflossing en daarnaast de rente over de lening. Een relatief snelle aflossing met de zwaarste lasten aan het begin. Het totaal te betalen bedrag varieert steeds per periode omdat de rente iedere periode lager is.
+            </li>
+          </ul>
+          <placetobe-button
+            href="/tarieven"
+            on-tap="_handleTapShowPricingButton"
+          ><span>Bekijk onze tarieven</span></placetobe-button>
+        </article>
+
+        <figure>
+          <placetobe-manandwomangreeting-illustration></placetobe-manandwomangreeting-illustration>
+        </figure>
+
+      </section>
+
+      <section>
+
+        <article>
+          <h2>Flexibel aflossen in maximaal 10 jaar</h2>
+          <p>
+          Placetobe zorgt ervoor dat de financiële afhandeling tot in de puntjes geregeld is. Je hebt als ondernemer verschillende mogelijkheden om af te lossen.
+          </p>
+          <p>
+          Zo kun je kiezen om af te betalen per jaar. De momenten waarop aflossing en rente wordt betaald stellen we voor het aangaan van de lening vast, zodat zowel ontwikkelaar als investeerder weten waar ze aan toe zijn.
+          </p><p>De maximale looptijd van een lening bij Placetobe is 10 jaar. De looptijd wordt door de ondernemer in overleg met Placetobe vooraf vastgesteld. Aan het einde moet de lening volledig zijn terugbetaald. De betaling van rente en aflossing loopt via de stichting derdengelden van Placetobe.
+          </p>
+        </article>
+
+        <figure>
+          <placetobe-womanholdingclock-illustration></placetobe-womanholdingclock-illustration>
+        </figure>
+
+      </section>
+
+      <placetobe-quote
+        name="Maarten Spil, algemeen directeur Socius"
+        image-url="https://firebasestorage.googleapis.com/v0/b/placetobe-nl.appspot.com/o/avatar-maarten.jpg?alt=media&token=31ab9810-c117-45c6-aa76-fe6f077feab4">
+          <blockquote>Ik denk dat de vastgoedmarkt beter wordt van crowdfunding. <strong>Het wordt weer mogelijk kleinere projecten of projecten waar echt behoefte aan is, te realiseren.</strong> De ontwikkelaar die bij klassieke financiering tegen een muur oploopt, maakt hier kansen.</blockquote>
+      </placetobe-quote>
+
+      <section class="reversed">
+
+        <article>
+          <h2>Bereik je netwerk, vind outsiders</h2>
+          <p>Via Placetobe kun je investeerders bereiken en enthousiasmeren voor jouw project. Wij houden hierbij een richtlijn aan: 30% van de investeerders komt uit je eigen netwerk, 70% kan van buiten komen.
+          </p>
+          <p>
+          Placetobe geeft je advies over campagne voeren en hoe je betrokken investeerders vindt. We helpen je een aantrekkelijke pagina voor je project in te richten op ons platform. Ook helpen we je aandacht voor je campagne te krijgen bij je netwerk. Placetobe voert verder ook zelf campagne om aandacht te krijgen van investeerders die belangstelling kunnen hebben voor vastgoedprojecten.
+          </p>
+        </article>
+
+        <figure>
+          <placetobe-womennetworking-illustration></placetobe-womennetworking-illustration>
+        </figure>
+
+      </section>
+
+      <section>
+
+        <article>
+          <h2>Zekerheden waar nodig</h2>
+          <p>Om meer zekerheid te scheppen dat beleggers hun geld terugkrijgen, werkt Placetobe met het aanbieden van zekerheden wanneer dat mogelijk is.
+          </p>
+          <p>Als je project gaat over een pandaankoop en er geen eerste hypotheek aan de bank wordt gegeven, dan moet je een eerste hypotheek aan kunnen bieden. Als je huurwoningen creëert met je project, dan is pandrecht op de huurinkomsten bijvoorbeeld een zekerheid.
+          </p>
+          <p>
+          Niet bij ieder project kunnen goede zekerheden worden gevestigd, denk aan de situatie dat een pand wordt aangekocht met een eerste hypotheek van de bank en er nog een aanvullende financiering nodig is. Een lening is dan nog steeds mogelijk via Placetobe maar vanwege het hogere risico moet je wel rekening houden met een hogere rente om beleggers te overtuigen.
+          </p>
+        </article>
+
+        <figure>
+          <placetobe-womanwithsuitcase-illustration></placetobe-womanwithsuitcase-illustration>
+        </figure>
+
+      </section>
+
+      <section>
+
+        <placetobe-card title="Meer informatie?" class="card">
+          <article slot="main">Ben je geïnteresseerd in het crowdfunden van een project? Vul hieronder dan je email adres in, dan sturen wij je de brochure op. Hierin lees je alle informatie over het starten van een project nog eens rustig terug.
+          </article>
+
+          <placetobe-mailinglist-subscribe-form
+            api-endpoint="[[apiEndpoint]]"
+            user-role="entrepreneurs"
+            slot="footer"
+            button-label="Stuur mij de brochure"
+            on-subscribing="_handleBrochureRequesting"
+            on-subscribed="_handleBrochureRequested"
+            on-subscribe-error="_handleBrochureRequestError"
+          ></placetobe-mailinglist-subscribe-form>
+
+        </placetobe-card>
+
+      </section>
+
+    </main>
+
+
+  </template>
+  <script>
+    Polymer({
+      is: 'placetobe-entrepreneur-landing-page',
+
+      properties: {
+        apiEndpoint: {
+          type: String,
+          value: null
+        }
+      },
+
+      //source, action, category, value
+      _sendAnalyticsEvent: function(action, category) {
+        this.fire('iron-signal', {
+          name: 'send-event',
+          data: {
+            category: category,
+            action: action,
+            label: 'entrepreneurs-landing-page'
+          }
+        });
+      },
+
+      _handleBrochureRequesting: function() {
+        this._sendAnalyticsEvent('requesting', 'entrepreneurs-brochure')
+      },
+
+      _handleBrochureRequested: function() {
+        this._sendAnalyticsEvent('requested', 'entrepreneurs-brochure')
+      },
+
+      _handleBrochureRequestError: function() {
+        this._sendAnalyticsEvent('request-error', 'entrepreneurs-brochure')
+      },
+
+      _handleTapStartQuickscanButton: function() {
+        this._sendAnalyticsEvent('start', 'entrepreneurs-quickscan')        
+      },
+
+      _handleTapShowPricingButton: function() {
+        this._sendAnalyticsEvent('tap-pricing-button', 'pricing')        
+      }
+
+    })
+  </script>
+</dom-module>

@@ -1,0 +1,115 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/placetobe-styles/placetobe-styles.html">
+<link rel="import" href="../../bower_components/placetobe-quote/placetobe-quote.html">
+<link rel="import" href="../../bower_components/placetobe-mailinglist-subscribe-form/placetobe-mailinglist-subscribe-form.html">
+<link rel="import" href="../../bower_components/placetobe-illustrations/placetobe-peopletalking-illustration.html">
+<link rel="import" href="placetobe-landing-page-styles.html">
+
+<dom-module id="placetobe-home-landing-page">
+  <template>
+
+    <style include="placetobe-landing-page-styles">
+      :host {
+        --placetobe-button-color: var(--placetobe-color-darkblue);
+        --placetobe-button-tint-color: white;
+      }
+
+      placetobe-card.entrepreneur-card {
+        --placetobe-card-color: var(--placetobe-color--entrepreneurs);
+      }
+
+      placetobe-card.investor-card {
+        --placetobe-card-color: var(--placetobe-color--investors);
+      }
+
+      placetobe-hero placetobe-button:not([link]) {
+        --placetobe-button-color: white;
+      }
+
+    </style>
+
+
+    <main>
+
+      <div class="intro">
+
+        <h1>Nieuwe kansen voor de vastgoedmarkt</h1>
+        <h3>Met Placetobe brengen we ontwikkelaars, investeerders en gebruikers bij elkaar en zorgen we voor financiering, rendement én een gewilde plek. Een win-win-win voor iedereen.</h3>
+
+      </div>
+
+      <section>
+
+        <article>
+          <h2>Beter voor elkaar</h2>
+          <p>
+          Wij vinden dat de vastgoedmarkt anders kan. Makkelijker, eerlijker, en vooral: beter voor elkaar. Het is toch gek dat de bank met haar leningen zoveel invloed heeft op hoe we wonen, werken, leven? Laten we liever samen beslissen waar behoefte aan is, en wat het verdient om financiering te krijgen.
+          </p>
+          <p>
+          Placetobe is een crowdfundplatform exclusief voor vastgoedprojecten. Voor veel ‘kleinere’ projecten is het moeilijk om financiering te krijgen van de bank. Veel bijzondere plannen voor o.a. werkruimtes, restaurants, winkels, koop- en huurwoningen komen daardoor niet van de grond.
+          </p><p>
+          Ondertussen wordt ons spaargeld steeds minder waard. De inflatie stijgt sneller dan de lage rente kan goedmaken. Sterker nog, binnenkort zullen we waarschijnlijk moeten betalen om ons spaargeld bij een bank te zetten. Investeren in vastgoed via crowdfunding is een goed alternatief. Het is een gebruiksvriendelijke manier van beleggen. Je ontvangt meer rendement op je geld en je kunt vastgoedprojecten helpen realiseren die jou aanspreken.
+          </p>
+        </article>
+
+        <figure>
+          <placetobe-peopletalking-illustration></placetobe-peopletalking-illustration>
+        </figure>
+
+      </section>
+
+      <section class="fifty-fifty">
+        <placetobe-card title="Project starten?" id="project-starten" class="entrepreneur-card">
+          <article slot="main">Financiering nodig voor een vastgoedproject? Misschien is crowdfunding de manier voor jou.</article>
+          <placetobe-button
+            href="/start-project"
+            title="Meer info"
+            slot="footer"
+            on-tap="_handleTapStartProjectButton"
+          ><span>Info voor ondernemers</span>
+          </placetobe-button>
+        </placetobe-card>
+
+        <placetobe-card title="Investeren in een project?" id="investeren-in-een-project" class="investor-card">
+          <article slot="main">Wil je investeren in vastgoed? Lees hoe dat in zijn werk gaat.</article>
+          <placetobe-button
+            href="/investeren"
+            title="Info voor investeerders"
+            slot="footer"
+            on-tap="_handleTapInvestorInfoButton"
+          ><span>Info voor investeerders</span>
+          </placetobe-button>
+        </placetobe-card>
+      </section>
+
+    </main>
+
+
+  </template>
+  <script>
+    Polymer({
+      is: 'placetobe-home-landing-page',
+
+      //source, action, category, value
+      _sendAnalyticsEvent: function(action, category) {
+        this.fire('iron-signal', {
+          name: 'send-event',
+          data: {
+            category: category || null,
+            action: action,
+            label: 'home-landing-page'
+          }
+        });
+      },
+
+      _handleTapStartProjectButton: function() {
+        this._sendAnalyticsEvent('tap-start-project-button')
+      },
+
+      _handleTapInvestorInfoButton: function() {
+        this._sendAnalyticsEvent('tap-investor-info-button')
+      }
+
+    })
+  </script>
+</dom-module>
