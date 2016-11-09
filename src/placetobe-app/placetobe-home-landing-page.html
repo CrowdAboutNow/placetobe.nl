@@ -90,23 +90,24 @@
     Polymer({
       is: 'placetobe-home-landing-page',
 
-      _sendAnalyticsEvent: function(action, label) {
+      //source, action, category, value
+      _sendAnalyticsEvent: function(action, category) {
         this.fire('iron-signal', {
           name: 'send-event',
           data: {
-            category: 'home',
+            category: category || null,
             action: action,
-            label: label
+            label: 'home-landing-page'
           }
         });
       },
 
       _handleTapStartProjectButton: function() {
-        this._sendAnalyticsEvent('tap', 'start-project-button')
+        this._sendAnalyticsEvent('tap-start-project-button')
       },
 
       _handleTapInvestorInfoButton: function() {
-        this._sendAnalyticsEvent('tap', 'investor-info-button')
+        this._sendAnalyticsEvent('tap-investor-info-button')
       }
 
     })

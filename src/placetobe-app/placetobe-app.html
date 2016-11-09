@@ -190,6 +190,7 @@
 
     <google-analytics-tracker
       tracking-id="[[analyticsTrackingId]]"
+      debug-mode
     ></google-analytics-tracker>
 
     <template is="dom-if" if="[[!cookiesAccepted]]">
@@ -337,11 +338,17 @@
           opened$="[[investorQuickscanActive]]"
           on-iron-overlay-closed="_handleCloseInvestorQuickscan"
           >
-          <placetobe-investor-quickscan>
+          <placetobe-investor-quickscan
+            on-question-answered="_handleInvestorQuickscanQuestionAnswered"
+            on-finished="_handleInvestorQuickscanFinished"
+          >
             <placetobe-mailinglist-subscribe-form
               api-endpoint="[[apiEndpoint]]"
               user-role="investors"
               button-label="Email brochure"
+              on-subscribing="_handleInvestorsBrochureRequestingViaQuickscan"
+              on-subscribed="_handleInvestorsBrochureRequestedViaQuickscan"
+              on-subscribe-error="_handleInvestorsBrochureRequestErrorViaQuickscan"
               slot="action"
             ></placetobe-mailinglist-subscribe-form>
           </placetobe-investor-quickscan>        
@@ -352,11 +359,17 @@
           opened$="[[entrepreneurQuickscanActive]]"
           on-iron-overlay-closed="_handleCloseEntrepreneurQuickscan"
           >
-          <placetobe-entrepreneur-quickscan>
+          <placetobe-entrepreneur-quickscan
+            on-question-answered="_handleEntrepreneurQuickscanQuestionAnswered"
+            on-finished="_handleEntrepreneurQuickscanFinished"
+          >
             <placetobe-mailinglist-subscribe-form
               api-endpoint="[[apiEndpoint]]"
               user-role="entrepreneurs"
               button-label="Email brochure"
+              on-subscribing="_handleEntrepreneursBrochureRequestingViaQuickscan"
+              on-subscribed="_handleEntrepreneursBrochureRequestedViaQuickscan"
+              on-subscribe-error="_handleEntrepreneursBrochureRequestErrorViaQuickscan"
               slot="action"
             ></placetobe-mailinglist-subscribe-form>
           </placetobe-entrepreneur-quickscan>        
@@ -617,39 +630,65 @@
         this._loadElement(true, 'placetobe-pricing-page.html');
       },
 
-      _sendAnalyticsEvent: function(category, action, label) {
+      //source, action, category, value
+      _sendAnalyticsEvent: function(source, action, category, value) {
         this.fire('iron-signal', {
           name: 'send-event',
           data: {
             category: category,
             action: action,
-            label: label
+            label: source,
+            value: value || null
           }
         });
       },
 
       _handleEntrepreneursBrochureRequesting: function() {
-        this._sendAnalyticsEvent('hero', 'requesting', 'brochure')
+        this._sendAnalyticsEvent('hero', 'requesting', 'entrepreneurs-brochure')
       },
 
       _handleEntrepreneursBrochureRequested: function() {
-        this._sendAnalyticsEvent('hero', 'requested', 'brochure')
+        this._sendAnalyticsEvent('hero', 'requested', 'entrepreneurs-brochure')
       },
 
       _handleEntrepreneursBrochureRequestError: function() {
-        this._sendAnalyticsEvent('hero', 'request-error', 'brochure')
+        this._sendAnalyticsEvent('hero', 'request-error', 'entrepreneurs-brochure')
+      },
+
+      _handleEntrepreneursBrochureRequestingViaQuickscan: function() {
+        this._sendAnalyticsEvent('entrepreneurs-quickscan', 'requesting', 'entrepreneurs-brochure')
+      },
+
+      _handleEntrepreneursBrochureRequestedViaQuickscan: function() {
+        this._sendAnalyticsEvent('entrepreneurs-quickscan', 'requested', 'entrepreneurs-brochure')
+      },
+
+      _handleEntrepreneursBrochureRequestErrorViaQuickscan: function() {
+        this._sendAnalyticsEvent('entrepreneurs-quickscan', 'request-error', 'entrepreneurs-brochure')
       },
 
       _handleInvestorsBrochureRequesting: function() {
-        this._sendAnalyticsEvent('hero', 'requesting', 'brochure')
+        this._sendAnalyticsEvent('hero', 'requesting', 'investors-brochure')
       },
 
       _handleInvestorsBrochureRequested: function() {
-        this._sendAnalyticsEvent('hero', 'requested', 'brochure')
+        this._sendAnalyticsEvent('hero', 'requested', 'investors-brochure')
       },
 
       _handleInvestorsBrochureRequestError: function() {
-        this._sendAnalyticsEvent('hero', 'request-error', 'brochure')
+        this._sendAnalyticsEvent('hero', 'request-error', 'investors-brochure')
+      },
+
+      _handleInvestorsBrochureRequestingViaQuickscan: function() {
+        this._sendAnalyticsEvent('investors-quickscan', 'requesting', 'investors-brochure')
+      },
+
+      _handleInvestorsBrochureRequestedViaQuickscan: function() {
+        this._sendAnalyticsEvent('investors-quickscan', 'requested', 'investors-brochure')
+      },
+
+      _handleInvestorsBrochureRequestErrorViaQuickscan: function() {
+        this._sendAnalyticsEvent('investors-quickscan', 'request-error', 'investors-brochure')
       },
 
       _handleTapStartProjectButton: function() {
@@ -658,6 +697,22 @@
 
       _handleTapInvestorInfoButton: function() {
         this._sendAnalyticsEvent('hero', 'tap', 'investor-info-button')
+      },
+
+      _handleInvestorQuickscanQuestionAnswered: function(evt) {
+        this._sendAnalyticsEvent('investors-quickscan', 'question ' + evt.detail.question, 'investors-quickscan', evt.detail.score)
+      },
+
+      _handleInvestorQuickscanFinished: function(evt) {
+        this._sendAnalyticsEvent('investors-quickscan', 'finished', 'investors-quickscan', evt.detail.totalScore)
+      },
+
+      _handleEntrepreneurQuickscanQuestionAnswered: function(evt) {
+        this._sendAnalyticsEvent('entrepreneurs-quickscan', 'question ' + evt.detail.question, 'entrepreneurs-quickscan', evt.detail.score)
+      },
+
+      _handleEntrepreneurQuickscanFinished: function(evt) {
+        this._sendAnalyticsEvent('entrepreneurs-quickscan', 'finished', 'entrepreneurs-quickscan', evt.detail.totalScore)
       }
 
     });

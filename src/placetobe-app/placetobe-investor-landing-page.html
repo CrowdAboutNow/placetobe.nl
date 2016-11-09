@@ -155,32 +155,32 @@
         }
       },
 
-      _sendAnalyticsEvent: function(action, label) {
+      //source, action, category, value
+      _sendAnalyticsEvent: function(action, category) {
         this.fire('iron-signal', {
           name: 'send-event',
           data: {
-            category: 'investors',
+            category: category,
             action: action,
-            label: label
+            label: 'investors-landing-page'
           }
         });
       },
 
       _handleBrochureRequesting: function() {
-        this._sendAnalyticsEvent('requesting', 'brochure')
+        this._sendAnalyticsEvent('requesting', 'investors-brochure')
       },
 
       _handleBrochureRequested: function() {
-        this._sendAnalyticsEvent('requested', 'brochure')
+        this._sendAnalyticsEvent('requested', 'investors-brochure')
       },
 
       _handleBrochureRequestError: function() {
-        this._sendAnalyticsEvent('request-error', 'brochure')
+        this._sendAnalyticsEvent('request-error', 'investors-brochure')
       },
 
       _handleTapStartQuickscanButton: function() {
-        this._sendAnalyticsEvent('start', 'quickscan')        
-        this._sendAnalyticsEvent('tap', 'quickscan-button')        
+        this._sendAnalyticsEvent('start', 'investors-quickscan')        
       }
 
     })

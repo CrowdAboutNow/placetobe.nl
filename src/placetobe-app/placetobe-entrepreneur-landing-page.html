@@ -185,36 +185,36 @@
         }
       },
 
-      _sendAnalyticsEvent: function(action, label) {
+      //source, action, category, value
+      _sendAnalyticsEvent: function(action, category) {
         this.fire('iron-signal', {
           name: 'send-event',
           data: {
-            category: 'entrepreneurs',
+            category: category,
             action: action,
-            label: label
+            label: 'entrepreneurs-landing-page'
           }
         });
       },
 
       _handleBrochureRequesting: function() {
-        this._sendAnalyticsEvent('requesting', 'brochure')
+        this._sendAnalyticsEvent('requesting', 'entrepreneurs-brochure')
       },
 
       _handleBrochureRequested: function() {
-        this._sendAnalyticsEvent('requested', 'brochure')
+        this._sendAnalyticsEvent('requested', 'entrepreneurs-brochure')
       },
 
       _handleBrochureRequestError: function() {
-        this._sendAnalyticsEvent('request-error', 'brochure')
+        this._sendAnalyticsEvent('request-error', 'entrepreneurs-brochure')
       },
 
       _handleTapStartQuickscanButton: function() {
-        this._sendAnalyticsEvent('start', 'quickscan')        
-        this._sendAnalyticsEvent('tap', 'quickscan-button')        
+        this._sendAnalyticsEvent('start', 'entrepreneurs-quickscan')        
       },
 
       _handleTapShowPricingButton: function() {
-        this._sendAnalyticsEvent('tap', 'pricing-button')        
+        this._sendAnalyticsEvent('tap-pricing-button', 'pricing')        
       }
 
     })
