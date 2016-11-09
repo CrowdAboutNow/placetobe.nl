@@ -15,6 +15,7 @@
 <link rel="import" href="../../bower_components/placetobe-mailinglist-subscribe-form/placetobe-mailinglist-subscribe-form.html" async>
 <link rel="import" href="../../bower_components/placetobe-survey/placetobe-investor-quickscan.html" async>
 <link rel="import" href="../../bower_components/placetobe-survey/placetobe-entrepreneur-quickscan.html">
+<link rel="import" href="../../bower_components/google-analytics-tracker/google-analytics-tracker.html">
 
 <dom-module id="placetobe-app">
   <template>
@@ -25,9 +26,7 @@
         --placetobe-color--general: var(--placetobe-color-gray);
         --placetobe-color--entrepreneurs: var(--placetobe-color-yellow);
         --placetobe-color--investors: var(--placetobe-color-taupe);
-/*        --placetobe-header-tint-active-color: var(--placetobe-color-green);
-        --placetobe-header-active-color: var(--placetobe-color-red);
-*/      }
+      }
 
       :host placetobe-header {
         position: fixed;
@@ -186,7 +185,12 @@
 
     <placetobe-config
       api-endpoint="{{apiEndpoint}}"
+      analytics-tracking-id="{{analyticsTrackingId}}"
     ></placetobe-config>
+
+    <google-analytics-tracker
+      tracking-id="[[analyticsTrackingId]]"
+    ></google-analytics-tracker>
 
     <template is="dom-if" if="[[!cookiesAccepted]]">
       <placetobe-cookie-warning
@@ -257,8 +261,14 @@
 
           <span hidden$="[[!homePageActive]]">
             <h2>Iedereen heeft een plek nodig. <strong>Een plek om te wonen</strong>, werken, ondernemen, relaxen... Een plek om te zijn.</h2>      
-            <placetobe-button href="/start-project"><span>Hoe start ik een project?</span></placetobe-button>
-            <placetobe-button href="/investeren" link><span>Info voor investeerders</span></placetobe-button>
+            <placetobe-button
+              href="/start-project"
+              on-tap="_handleTapStartProjectButton"
+              ><span>Hoe start ik een project?</span></placetobe-button>
+            <placetobe-button
+              href="/investeren"
+              on-tap="_handleTapInvestorInfoButton"
+               link><span>Info voor investeerders</span></placetobe-button>
           </span>f
           
           <span hidden$="[[!entrepreneurLandingPageActive]]">
@@ -267,6 +277,9 @@
               api-endpoint="[[apiEndpoint]]"
               user-role="entrepreneurs"
               button-label="Email mij de brochure"
+              on-subscribing="_handleEntrepreneursBrochureRequesting"
+              on-subscribed="_handleEntrepreneursBrochureRequested"
+              on-subscribe-error="_handleEntrepreneursBrochureRequestError"
             ></placetobe-mailinglist-subscribe-form>
           </span>
           
@@ -276,6 +289,9 @@
               api-endpoint="[[apiEndpoint]]"
               user-role="investors"
               button-label="Email mij de brochure"
+              on-subscribing="_handleInvestorsBrochureRequesting"
+              on-subscribed="_handleInvestorsBrochureRequested"
+              on-subscribe-error="_handleInvestorsBrochureRequestError"
             ></placetobe-mailinglist-subscribe-form> 
           </span>
           
@@ -443,6 +459,10 @@
         investorQuickscanActive: {
           type: Boolean,
           value: false
+        },
+
+        analyticsTrackingCode: {
+          type: Boolean
         }
 
       },
@@ -595,6 +615,49 @@
         this._loadElement(true, 'placetobe-investor-landing-page.html');
         this._loadElement(true, 'placetobe-entrepreneur-landing-page.html');
         this._loadElement(true, 'placetobe-pricing-page.html');
+      },
+
+      _sendAnalyticsEvent: function(category, action, label) {
+        this.fire('iron-signal', {
+          name: 'send-event',
+          data: {
+            category: category,
+            action: action,
+            label: label
+          }
+        });
+      },
+
+      _handleEntrepreneursBrochureRequesting: function() {
+        this._sendAnalyticsEvent('hero', 'requesting', 'brochure')
+      },
+
+      _handleEntrepreneursBrochureRequested: function() {
+        this._sendAnalyticsEvent('hero', 'requested', 'brochure')
+      },
+
+      _handleEntrepreneursBrochureRequestError: function() {
+        this._sendAnalyticsEvent('hero', 'request-error', 'brochure')
+      },
+
+      _handleInvestorsBrochureRequesting: function() {
+        this._sendAnalyticsEvent('hero', 'requesting', 'brochure')
+      },
+
+      _handleInvestorsBrochureRequested: function() {
+        this._sendAnalyticsEvent('hero', 'requested', 'brochure')
+      },
+
+      _handleInvestorsBrochureRequestError: function() {
+        this._sendAnalyticsEvent('hero', 'request-error', 'brochure')
+      },
+
+      _handleTapStartProjectButton: function() {
+        this._sendAnalyticsEvent('hero', 'tap', 'start-project-button')
+      },
+
+      _handleTapInvestorInfoButton: function() {
+        this._sendAnalyticsEvent('hero', 'tap', 'investor-info-button')
       }
 
     });

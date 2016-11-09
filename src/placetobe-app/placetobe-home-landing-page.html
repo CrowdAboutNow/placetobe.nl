@@ -65,6 +65,7 @@
             href="/start-project"
             title="Meer info"
             slot="footer"
+            on-tap="_handleTapStartProjectButton"
           ><span>Info voor ondernemers</span>
           </placetobe-button>
         </placetobe-card>
@@ -75,6 +76,7 @@
             href="/investeren"
             title="Info voor investeerders"
             slot="footer"
+            on-tap="_handleTapInvestorInfoButton"
           ><span>Info voor investeerders</span>
           </placetobe-button>
         </placetobe-card>
@@ -86,7 +88,27 @@
   </template>
   <script>
     Polymer({
-      is: 'placetobe-home-landing-page'
+      is: 'placetobe-home-landing-page',
+
+      _sendAnalyticsEvent: function(action, label) {
+        this.fire('iron-signal', {
+          name: 'send-event',
+          data: {
+            category: 'home',
+            action: action,
+            label: label
+          }
+        });
+      },
+
+      _handleTapStartProjectButton: function() {
+        this._sendAnalyticsEvent('tap', 'start-project-button')
+      },
+
+      _handleTapInvestorInfoButton: function() {
+        this._sendAnalyticsEvent('tap', 'investor-info-button')
+      }
+
     })
   </script>
 </dom-module>

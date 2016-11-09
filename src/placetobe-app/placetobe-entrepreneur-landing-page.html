@@ -29,7 +29,10 @@
 
         <h1>Jouw project financieren met crowdfunding</h1>
         <h3>Crowdfunding biedt nieuwe kansen om een grote groep investeerders te bereiken. Wij brengen ontwikkelaars, investeerders en gebruikers bij elkaar en zorgen we voor financiering, rendement én een gewilde plek.</h3>
-          <placetobe-button href="/start-project/test"><span>Start de quickscan</span></placetobe-button>
+          <placetobe-button
+            href="/start-project/test"
+            on-tap="_handleTapStartQuickscanButton"
+          ><span>Start de quickscan</span></placetobe-button>
       </div>
 
       <section>
@@ -74,7 +77,10 @@
               Betaal een vast bedrag aan aflossing en daarnaast de rente over de lening. Een relatief snelle aflossing met de zwaarste lasten aan het begin. Het totaal te betalen bedrag varieert steeds per periode omdat de rente iedere periode lager is.
             </li>
           </ul>
-          <placetobe-button href="/tarieven"><span>Bekijk onze tarieven</span></placetobe-button>
+          <placetobe-button
+            href="/tarieven"
+            on-tap="_handleTapShowPricingButton"
+          ><span>Bekijk onze tarieven</span></placetobe-button>
         </article>
 
         <figure>
@@ -155,6 +161,9 @@
             user-role="entrepreneurs"
             slot="footer"
             button-label="Stuur mij de brochure"
+            on-subscribing="_handleBrochureRequesting"
+            on-subscribed="_handleBrochureRequested"
+            on-subscribe-error="_handleBrochureRequestError"
           ></placetobe-mailinglist-subscribe-form>
 
         </placetobe-card>
@@ -174,6 +183,38 @@
           type: String,
           value: null
         }
+      },
+
+      _sendAnalyticsEvent: function(action, label) {
+        this.fire('iron-signal', {
+          name: 'send-event',
+          data: {
+            category: 'entrepreneurs',
+            action: action,
+            label: label
+          }
+        });
+      },
+
+      _handleBrochureRequesting: function() {
+        this._sendAnalyticsEvent('requesting', 'brochure')
+      },
+
+      _handleBrochureRequested: function() {
+        this._sendAnalyticsEvent('requested', 'brochure')
+      },
+
+      _handleBrochureRequestError: function() {
+        this._sendAnalyticsEvent('request-error', 'brochure')
+      },
+
+      _handleTapStartQuickscanButton: function() {
+        this._sendAnalyticsEvent('start', 'quickscan')        
+        this._sendAnalyticsEvent('tap', 'quickscan-button')        
+      },
+
+      _handleTapShowPricingButton: function() {
+        this._sendAnalyticsEvent('tap', 'pricing-button')        
       }
 
     })

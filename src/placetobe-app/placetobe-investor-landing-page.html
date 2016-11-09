@@ -29,7 +29,10 @@
 
         <h1>Investeren in vastgoed met crowdfunding</h1>
         <h3>Investeren in vastgoed bij Placetobe is een gebruiksvriendelijke manier van beleggen. Je ontvangt meer rendement op je geld dan op je spaarrekening, én je kunt bijzondere vastgoedprojecten helpen te realiseren die voor banken te klein zijn om te financieren.</h3>
-          <placetobe-button href="/investeren/test"><span>Start de quickscan</span></placetobe-button>
+          <placetobe-button
+            href="/investeren/test"
+            on-tap="_handleTapStartQuickscanButton"
+            ><span>Start de quickscan</span></placetobe-button>
       </div>
 
       <section>
@@ -130,6 +133,9 @@ een leuk rendement oplevert, maar vooral ook andere waarde creëert. Denk aan z
             user-role="investors"
             slot="footer"
             button-label="Download de brochure"
+            on-subscribing="_handleBrochureRequesting"
+            on-subscribed="_handleBrochureRequested"
+            on-subscribe-error="_handleBrochureRequestError"
           ></placetobe-mailinglist-subscribe-form>
 
         </placetobe-card>
@@ -148,6 +154,34 @@ een leuk rendement oplevert, maar vooral ook andere waarde creëert. Denk aan z
           type: String,
           value: null
         }
+      },
+
+      _sendAnalyticsEvent: function(action, label) {
+        this.fire('iron-signal', {
+          name: 'send-event',
+          data: {
+            category: 'investors',
+            action: action,
+            label: label
+          }
+        });
+      },
+
+      _handleBrochureRequesting: function() {
+        this._sendAnalyticsEvent('requesting', 'brochure')
+      },
+
+      _handleBrochureRequested: function() {
+        this._sendAnalyticsEvent('requested', 'brochure')
+      },
+
+      _handleBrochureRequestError: function() {
+        this._sendAnalyticsEvent('request-error', 'brochure')
+      },
+
+      _handleTapStartQuickscanButton: function() {
+        this._sendAnalyticsEvent('start', 'quickscan')        
+        this._sendAnalyticsEvent('tap', 'quickscan-button')        
       }
 
     })
