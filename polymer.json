@@ -12,6 +12,7 @@
   	"manifest.json",
   	"bower_components/webcomponentsjs/webcomponents-lite.min.js",
   	"sitemap.xml",
-    "images/*/**"
+    "images/*/**",
+    "images/favicon.ico"
   ]
 }
