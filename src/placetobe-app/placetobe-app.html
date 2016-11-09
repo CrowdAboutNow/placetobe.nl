@@ -475,6 +475,11 @@
 
         analyticsTrackingCode: {
           type: Boolean
+        },
+
+        locationPath: {
+          type: String,
+          observer: '_sendAnalyticsPage'
         }
 
       },
@@ -627,6 +632,15 @@
         this._loadElement(true, 'placetobe-investor-landing-page.html');
         this._loadElement(true, 'placetobe-entrepreneur-landing-page.html');
         this._loadElement(true, 'placetobe-pricing-page.html');
+      },
+
+      _sendAnalyticsPage: function(locationPath) {
+        this.fire('iron-signal', {
+          name: 'send-page',
+          data: {
+            path: locationPath
+          }
+        });
       },
 
       //source, action, category, value
