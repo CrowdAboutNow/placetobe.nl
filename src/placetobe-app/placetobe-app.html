@@ -491,7 +491,7 @@
       ready: function() {
         this.routeChanged();
         this.cookiesAccepted = window.localStorage.getItem('placetobe-cookies-accepted');
-        window.addEventListener('scroll', this._handleScroll.bind(this));
+        window.addEventListener('scroll', this._handleScroll.bind(this), this._clientSupportsPassiveEvents() ? { passive: true } : false);
       },
 
       attached: function() {
@@ -505,6 +505,22 @@
         if(!routeExists) history.replaceState({}, "Placetobe", "/");
         if(!(newRoute && oldRoute)) return;
         if(newRoute.path !== oldRoute.path) this._handleRouteChanged(newRoute.path, oldRoute.path);
+      },
+
+      _clientSupportsPassiveEvents: function() {
+        var supportsPassive = false;
+        try {
+          var opts = Object.defineProperty({}, 'passive', {
+            get: function() {
+              supportsPassive = true;
+            }
+          });
+          window.addEventListener("test", null, opts);
+        }
+        catch (e) {}
+        finally {
+          return supportsPassive;
+        }
       },
 
       _handleScroll: function() {
