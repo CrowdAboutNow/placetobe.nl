@@ -35,6 +35,10 @@
     <meta name="msapplication-TileColor" content="#0A323C">
     <meta name="msapplication-tap-highlight" content="no">
 
+    <style type="text/css">
+    #loader,#loader svg{display:block;top:50%;left:50%}#loader{text-align:center;transform:translate(-50%,-50%);position:fixed;z-index:999}#loader svg{margin:18px auto;width:128px;height:128px;z-index:9}#loader svg .loading-ball{stroke-width:0;cx:64px;cy:64px;animation-duration:1.365s;animation-iteration-count:infinite;animation-direction:reverse;animation-timing-function:ease-in-out;webkit-transform:translate3d(0,0,0)}#loader svg .loading-ball.one{fill:#ff9d9d;r:12px;animation-name:animateOne}#loader svg .loading-ball.two{fill:#60d1d6;r:32px;animation-name:animateTwo;animation-delay:125ms}#loader svg .loading-ball.three{fill:#faf08d;r:32px;animation-name:animateThree;animation-delay:.25s}#loader svg .loading-ball.four{fill:#ff9d9d;r:32px;animation-name:animateFour;animation-delay:375ms}@-moz-keyframes animateOne{0%,100%{r:12px}50%{r:0}}@-webkit-keyframes animateOne{0%,100%{r:12px}50%{r:0}}@-o-keyframes animateOne{0%,100%{r:12px}50%{r:0}}@keyframes animateOne{0%,100%{r:12px}50%{r:0}}@-moz-keyframes animateTwo{0%,100%{r:32px}45%,65%{r:0}}@-webkit-keyframes animateTwo{0%,100%{r:32px}45%,65%{r:0}}@-o-keyframes animateTwo{0%,100%{r:32px}45%,65%{r:0}}@keyframes animateTwo{0%,100%{r:32px}45%,65%{r:0}}@-moz-keyframes animateThree{0%,100%{r:48px}45%,65%{r:0}}@-webkit-keyframes animateThree{0%,100%{r:48px}45%,65%{r:0}}@-o-keyframes animateThree{0%,100%{r:48px}45%,65%{r:0}}@keyframes animateThree{0%,100%{r:48px}45%,65%{r:0}}@-moz-keyframes animateFour{0%,100%{r:64px}45%,65%{r:0}}@-webkit-keyframes animateFour{0%,100%{r:64px}45%,65%{r:0}}@-o-keyframes animateFour{0%,100%{r:64px}45%,65%{r:0}}@keyframes animateFour{0%,100%{r:64px}45%,65%{r:0}}@-moz-keyframes animateOneSmall{0%,100%{r:3px}50%{r:0}}@-webkit-keyframes animateOneSmall{0%,100%{r:3px}50%{r:0}}@-o-keyframes animateOneSmall{0%,100%{r:3px}50%{r:0}}@keyframes animateOneSmall{0%,100%{r:3px}50%{r:0}}@-moz-keyframes animateTwoSmall{0%,100%{r:8px}45%,65%{r:0}}@-webkit-keyframes animateTwoSmall{0%,100%{r:8px}45%,65%{r:0}}@-o-keyframes animateTwoSmall{0%,100%{r:8px}45%,65%{r:0}}@keyframes animateTwoSmall{0%,100%{r:8px}45%,65%{r:0}}@-moz-keyframes animateThreeSmall{0%,100%{r:12px}45%,65%{r:0}}@-webkit-keyframes animateThreeSmall{0%,100%{r:12px}45%,65%{r:0}}@-o-keyframes animateThreeSmall{0%,100%{r:12px}45%,65%{r:0}}@keyframes animateThreeSmall{0%,100%{r:12px}45%,65%{r:0}}@-moz-keyframes animateFourSmall{0%,100%{r:16px}45%,65%{r:0}}@-webkit-keyframes animateFourSmall{0%,100%{r:16px}45%,65%{r:0}}@-o-keyframes animateFourSmall{0%,100%{r:16px}45%,65%{r:0}}@keyframes animateFourSmall{0%,100%{r:16px}45%,65%{r:0}}#loader span {text-align:center;font-family: sans-serif;}
+</style>
+
     <script>
       // Setup Polymer options
       window.Polymer = {
@@ -108,7 +112,17 @@
     </head>
   <body>
 
-    <placetobe-app></placetobe-app>
+    <placetobe-app>
+      <div id="loader">
+        <svg>
+          <circle class="loading-ball four"></circle>
+          <circle class="loading-ball three"></circle>
+          <circle class="loading-ball two"></circle>
+          <circle class="loading-ball one"></circle>
+        </svg>
+        <span>even geduld a.u.b...</span>
+      </div>
+    </placetobe-app>
 
     <script type="application/ld+json">
     {
