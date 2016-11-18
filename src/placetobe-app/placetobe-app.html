@@ -640,7 +640,7 @@
 
       _loadElement(doLoad, url, callback) {
         if(!doLoad) return;
-        this.importHref(this.resolveUrl(url), callback || function() {});
+        this.importHref(this.resolveUrl(url), callback || function() {}, null, true);
       },
 
       _loadLandingPages: function() {
