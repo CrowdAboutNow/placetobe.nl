@@ -1,0 +1,195 @@
+<!doctype html>
+
+<html>
+  <head>
+    <title>{{title}} | Placetobe</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+    <meta name="google-site-verification" content="GnZnnA-wmGrZ25Nd3QgbyyPocMxzvPrCJ8EbdMh-jPs" />
+    <link rel="icon" href="/images/favicon.ico">
+
+    <!-- See https://goo.gl/OOhYW5 -->
+    <link rel="manifest" href="/manifest.json">
+
+    <!-- See https://goo.gl/qRE0vM -->
+    <meta name="theme-color" content="#0A323C">
+
+    <!-- Add to homescreen for Chrome on Android. Fallback for manifest.json -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="Placetobe">
+
+    <!-- Add to homescreen for Safari on iOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Placetobe">
+
+    <!-- Homescreen icons -->
+    <link rel="apple-touch-icon" href="/images/manifest/icon-48x48.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/images/manifest/icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="96x96" href="/images/manifest/icon-96x96.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/images/manifest/icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="192x192" href="/images/manifest/icon-192x192.png">
+
+    <!-- Tile icon for Windows 8 (144x144 + tile color) -->
+    <meta name="msapplication-TileImage" content="/images/manifest/icon-144x144.png">
+    <meta name="msapplication-TileColor" content="#0A323C">
+    <meta name="msapplication-tap-highlight" content="no">
+
+    <!-- meta description -->
+    <meta name="description" content="{{description}}">
+
+    <style type="text/css">
+    #loader,#loader svg{display:block;top:50%;left:50%}#loader{text-align:center;transform:translate(-50%,-50%);position:fixed;z-index:999}#loader svg{margin:18px auto;width:128px;height:128px;z-index:9}#loader svg .loading-ball{stroke-width:0;cx:64px;cy:64px;animation-duration:1.365s;animation-iteration-count:infinite;animation-direction:reverse;animation-timing-function:ease-in-out;webkit-transform:translate3d(0,0,0)}#loader svg .loading-ball.one{fill:#ff9d9d;r:12px;animation-name:animateOne}#loader svg .loading-ball.two{fill:#60d1d6;r:32px;animation-name:animateTwo;animation-delay:125ms}#loader svg .loading-ball.three{fill:#faf08d;r:32px;animation-name:animateThree;animation-delay:.25s}#loader svg .loading-ball.four{fill:#ff9d9d;r:32px;animation-name:animateFour;animation-delay:375ms}@-moz-keyframes animateOne{0%,100%{r:12px}50%{r:0}}@-webkit-keyframes animateOne{0%,100%{r:12px}50%{r:0}}@-o-keyframes animateOne{0%,100%{r:12px}50%{r:0}}@keyframes animateOne{0%,100%{r:12px}50%{r:0}}@-moz-keyframes animateTwo{0%,100%{r:32px}45%,65%{r:0}}@-webkit-keyframes animateTwo{0%,100%{r:32px}45%,65%{r:0}}@-o-keyframes animateTwo{0%,100%{r:32px}45%,65%{r:0}}@keyframes animateTwo{0%,100%{r:32px}45%,65%{r:0}}@-moz-keyframes animateThree{0%,100%{r:48px}45%,65%{r:0}}@-webkit-keyframes animateThree{0%,100%{r:48px}45%,65%{r:0}}@-o-keyframes animateThree{0%,100%{r:48px}45%,65%{r:0}}@keyframes animateThree{0%,100%{r:48px}45%,65%{r:0}}@-moz-keyframes animateFour{0%,100%{r:64px}45%,65%{r:0}}@-webkit-keyframes animateFour{0%,100%{r:64px}45%,65%{r:0}}@-o-keyframes animateFour{0%,100%{r:64px}45%,65%{r:0}}@keyframes animateFour{0%,100%{r:64px}45%,65%{r:0}}@-moz-keyframes animateOneSmall{0%,100%{r:3px}50%{r:0}}@-webkit-keyframes animateOneSmall{0%,100%{r:3px}50%{r:0}}@-o-keyframes animateOneSmall{0%,100%{r:3px}50%{r:0}}@keyframes animateOneSmall{0%,100%{r:3px}50%{r:0}}@-moz-keyframes animateTwoSmall{0%,100%{r:8px}45%,65%{r:0}}@-webkit-keyframes animateTwoSmall{0%,100%{r:8px}45%,65%{r:0}}@-o-keyframes animateTwoSmall{0%,100%{r:8px}45%,65%{r:0}}@keyframes animateTwoSmall{0%,100%{r:8px}45%,65%{r:0}}@-moz-keyframes animateThreeSmall{0%,100%{r:12px}45%,65%{r:0}}@-webkit-keyframes animateThreeSmall{0%,100%{r:12px}45%,65%{r:0}}@-o-keyframes animateThreeSmall{0%,100%{r:12px}45%,65%{r:0}}@keyframes animateThreeSmall{0%,100%{r:12px}45%,65%{r:0}}@-moz-keyframes animateFourSmall{0%,100%{r:16px}45%,65%{r:0}}@-webkit-keyframes animateFourSmall{0%,100%{r:16px}45%,65%{r:0}}@-o-keyframes animateFourSmall{0%,100%{r:16px}45%,65%{r:0}}@keyframes animateFourSmall{0%,100%{r:16px}45%,65%{r:0}}#loader span {text-align:center;font-family: sans-serif;}
+</style>
+
+    <script>
+      // Setup Polymer options
+      window.Polymer = {
+        useNativeCSSProperties: true,
+        lazyRegister: true,
+        dom: 'shadow'
+      };
+
+      // Load webcomponentsjs polyfill if browser does not support native Web Components
+      (function() {
+        'use strict';
+
+        var onload = function() {
+          // For native Imports, manually fire WebComponentsReady so user code
+          // can use the same code path for native and polyfill'd imports.
+          if (!window.HTMLImports) {
+            document.dispatchEvent(
+              new CustomEvent('WebComponentsReady', {bubbles: true})
+            );
+          }
+        };
+
+        var webComponentsSupported = (
+          'registerElement' in document
+          && 'import' in document.createElement('link')
+          && 'content' in document.createElement('template')
+        );
+
+        if (!webComponentsSupported) {
+          var script = document.createElement('script');
+          script.src = '/bower_components/webcomponentsjs/webcomponents-lite.min.js';
+          script.onload = onload;
+          document.head.appendChild(script);
+        } else {
+          onload();
+        }
+      })();
+
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+          navigator.serviceWorker.register('/service-worker.js');
+        });
+      }
+
+    </script>
+
+    <link rel="import" href="/src/placetobe-app/placetobe-app.html" async>
+    
+    <style type="text/css">
+      html, body {
+        margin: 0;
+      }
+    </style>
+
+    <script>
+      //facebook pixel
+      !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+      n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+      n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+      t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+      document,'script','https://connect.facebook.net/en_US/fbevents.js');
+
+      fbq('init', '1229478170447130');
+      fbq('track', "PageView");
+    </script>
+
+    <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=1229478170447130&ev=PageView&noscript=1"
+    /></noscript>
+
+    </head>
+  <body>
+
+    <placetobe-app>
+      <div id="loader">
+        <svg>
+          <circle class="loading-ball four"></circle>
+          <circle class="loading-ball three"></circle>
+          <circle class="loading-ball two"></circle>
+          <circle class="loading-ball one"></circle>
+        </svg>
+        <span>even geduld a.u.b...</span>
+      </div>
+    </placetobe-app>
+
+    <script type="application/ld+json">
+    {
+      "@context": "http://schema.org",
+      "@type": "WebSite",
+      "name": "Placetobe",
+      "alternateName": "Placetobe vastgoed crowdfunding",
+      "url": "https://placetobe.nl"
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "http://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "item": {
+            "@id": "https://placetobe.nl/",
+            "name": "Home"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "item": {
+            "@id": "https://placetobe.nl/start-project",
+            "name": "Start een project"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "item": {
+            "@id": "https://placetobe.nl/start-project/test",
+            "name": "Quickscan ondernemers"
+          }
+        },        {
+          "@type": "ListItem",
+          "position": 4,
+          "item": {
+            "@id": "https://placetobe.nl/tarieven",
+            "name": "Tarieven voor ondernemers"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 5,
+          "item": {
+            "@id": "https://placetobe.nl/investeren",
+            "name": "Investeer"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 6,
+          "item": {
+            "@id": "https://placetobe.nl/investeren/test",
+            "name": "Quickscan investeerders"
+          }
+        }
+      ]
+    }
+    </script>
+  </body>
+</html>

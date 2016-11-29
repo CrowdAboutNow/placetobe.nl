@@ -9,7 +9,8 @@
     "src/placetobe-app/placetobe-pricing-page.html"
   ],
   "includeDependencies": [
-  	"manifest.json",
+    "index.hbs",
+    "manifest.json",
   	"bower_components/webcomponentsjs/webcomponents-lite.min.js",
   	"sitemap.xml",
     "images/*/**",
