@@ -5,8 +5,8 @@
       "description": "Dé plek voor het crowdfunden van vastgoed in Nederland."
     },
     "/start-project": {
-      "title": "",
-      "description": ""
+      "title": "Start een project",
+      "description": "Wij helpen je de crowdfunders te vinden voor jouw vastgoedproject."
     },
     "start-project/test": {
       "title": "Quickscan Ondernemers",
@@ -18,7 +18,7 @@
     },
     "investeren/test": {
       "title": "Quickscan Investeerders",
-      "description": "Beantwoord vijf vragen en kom erachter of crowdfunden iets voor jou is"
+      "description": "Beantwoord vijf vragen en kom erachter of crowdfunden iets voor jou is."
     },
     "tarieven": {
       "title": "Tarieven",
