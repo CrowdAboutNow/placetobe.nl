@@ -335,7 +335,7 @@
         <placetobe-popup
           with-backdrop
           opened$="[[investorQuickscanActive]]"
-          on-iron-overlay-closed="_handleCloseInvestorQuickscan"
+          on-popup-closed="_handleCloseInvestorQuickscan"
           >
           <placetobe-investor-quickscan
             on-question-answered="_handleInvestorQuickscanQuestionAnswered"
@@ -356,7 +356,7 @@
         <placetobe-popup
           with-backdrop
           opened$="[[entrepreneurQuickscanActive]]"
-          on-iron-overlay-closed="_handleCloseEntrepreneurQuickscan"
+          on-popup-closed="_handleCloseEntrepreneurQuickscan"
           >
           <placetobe-entrepreneur-quickscan
             on-question-answered="_handleEntrepreneurQuickscanQuestionAnswered"
