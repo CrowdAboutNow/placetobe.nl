@@ -12,11 +12,10 @@ var template = handlebars.compile(index);
 app.get('*', (req, res) => {
 
   var data = metadata.routes[req.url];
-  
+
   if(!data) return res.sendStatus(404);
   var html = template(data);
-  res.send(html);    
-
+  res.send(html);
 })
 
-app.listen(8001);
+app.listen(8080);
