@@ -1,5 +1,4 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
-<link rel="import" href="placetobe-config.html">
 <link rel="import" href="../../bower_components/app-route/app-location.html">
 <link rel="import" href="../../bower_components/app-metadata/app-metadata.html" async>
 <link rel="import" href="../../bower_components/placetobe-styles/placetobe-styles.html">
@@ -182,11 +181,6 @@
       }
 
     </style>
-
-    <placetobe-config
-      api-endpoint="{{apiEndpoint}}"
-      analytics-tracking-id="{{analyticsTrackingId}}"
-    ></placetobe-config>
 
     <google-analytics-tracker
       tracking-id="[[analyticsTrackingId]]"
@@ -385,6 +379,10 @@
 
         apiEndpoint: {
           type: String
+        },
+
+        analyticsTrackingId: {
+
         },
 
         route: {
