@@ -23,7 +23,7 @@ app.get('/campagnes/:slug', (req, res) => {
       "title": data.projectNaam,
       "description": data.introductieTekst,
       "imageUrl": data.coverURL,
-      "pageUrl": "https://placetobe.nl/campagnes/" + data.id
+      "pageUrl": "https://development.placetobe.nl/campagnes/" + data.id
     }
     var html = template(data);
     res.send(html);
@@ -36,7 +36,7 @@ Static Pages
 app.get('*', (req, res) => {
   var data = metadata.routes[req.url];
   if(!data) return res.sendStatus(404);
-  data.pageUrl = "https://placetobe.nl" + req.url
+  data.pageUrl = "https://development.placetobe.nl" + req.url
   var html = template(data);
   res.send(html);
 })
