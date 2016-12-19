@@ -23,6 +23,10 @@
     "tarieven": {
       "title": "Tarieven",
       "description": "Ondernemers betalen een vergoeding aan Placetobe voor advies, begeleiding en het gebruik van het crowdfundingplatform."
+    },
+    "campagnes": {
+      "title": "Campagnes",
+      "description": "Dé plek voor het crowdfunden van vastgoed in Nederland."
     }
   }
 }
