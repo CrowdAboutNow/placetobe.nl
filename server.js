@@ -17,10 +17,10 @@ app.get('/campagnes/:slug', (req, res, next) => {
   needle.get('https://api.crowdaboutnow.nl/campaigns/' + req.params.slug, {rejectUnauthorized: false}, function(error, response, data) {
     if(!data) return next();
     var data = {
-      "title": data.projectNaam,
-      "description": data.introductieTekst,
-      "imageUrl": data.coverURL,
-      "pageUrl": "https://development.placetobe.nl/campagnes/" + data.id
+      'title': data.projectNaam,
+      'description': data.introductieTekst,
+      'imageUrl': data.coverURL,
+      'pageUrl': req.protocol + '://' + req.headers.host + '/campagnes/' + data.id
     }
     var html = template(data);
     res.send(html);
@@ -33,7 +33,7 @@ Static Pages
 app.get('*', (req, res) => {
   var data = metadata.routes[req.url];
   if(!data) return res.sendStatus(404);
-  data.pageUrl = "https://development.placetobe.nl" + req.url
+  data.pageUrl = req.protocol + '://' + req.headers.host + req.url
   var html = template(data);
   res.send(html);
 })
