@@ -27,6 +27,14 @@
     "/campagnes": {
       "title": "Campagnes",
       "description": "Dé plek voor het crowdfunden van vastgoed in Nederland."
+    },
+    "/klachtenprocedure": {
+      "title": "Klachtenprocedure",
+      "description": "Laatst gewijzigd 23 december 2016"
+    },
+    "/algemene-voorwaarden": {
+      "title": "Algemene voorwaarden",
+      "description": "Laatst gewijzigd 23 december 2016"
     }
   }
 }
