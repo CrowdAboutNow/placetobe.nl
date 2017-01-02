@@ -1,0 +1,32 @@
+{
+  "routes": {
+    "/": {
+      "title": "Vastgoed Crowdfunding",
+      "description": "Dé plek voor het crowdfunden van vastgoed in Nederland."
+    },
+    "/start-project": {
+      "title": "Start een project",
+      "description": "Wij helpen je de crowdfunders te vinden voor jouw vastgoedproject."
+    },
+    "/start-project/test": {
+      "title": "Quickscan Ondernemers",
+      "description": "Beantwoord vijf vragen en kom erachter of crowdfunden iets voor jou is"
+    },
+    "/investeren": {
+      "title": "Investeren in vastgoed",
+      "description": "Wij helpen je de crowdfunders te vinden voor jouw vastgoedproject."
+    },
+    "/investeren/test": {
+      "title": "Quickscan Investeerders",
+      "description": "Beantwoord vijf vragen en kom erachter of crowdfunden iets voor jou is."
+    },
+    "/tarieven": {
+      "title": "Tarieven",
+      "description": "Ondernemers betalen een vergoeding aan Placetobe voor advies, begeleiding en het gebruik van het crowdfundingplatform."
+    },
+    "/campagnes": {
+      "title": "Campagnes",
+      "description": "Dé plek voor het crowdfunden van vastgoed in Nederland."
+    }
+  }
+}

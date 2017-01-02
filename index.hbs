@@ -2,7 +2,7 @@
 
 <html>
   <head>
-    <title>Placetobe | vastgoed crowdfunding</title>
+    <title>{{title}} | Placetobe</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
     <meta name="google-site-verification" content="vDOZocDtfEODqoG-h5fKnwx295VUlAIr3oi2AHao7hc" />
@@ -16,7 +16,7 @@
 
     <!-- Add to homescreen for Chrome on Android. Fallback for manifest.json -->
     <meta name="mobile-web-app-capable" content="yes">
-    <meta name="application-name" content="My App">
+    <meta name="application-name" content="Placetobe">
 
     <!-- Add to homescreen for Safari on iOS -->
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -34,6 +34,22 @@
     <meta name="msapplication-TileImage" content="/images/manifest/icon-144x144.png">
     <meta name="msapplication-TileColor" content="#0A323C">
     <meta name="msapplication-tap-highlight" content="no">
+
+    <!-- meta description -->
+    <meta name="description" content="{{description}}">
+
+    <!-- facebook / open graph -->
+    <meta property="og:title" content="{{title}} | Placetobe">
+    <meta property="og:description" content="{{description}}">
+    <meta property="og:image" content="{{imageUrl}}">
+    <meta property="og:url" content="{{pageUrl}}">
+
+    <!-- twitter -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@placetobenl">
+    <meta name="twitter:title" content="{{title}} | Placetobe">
+    <meta name="twitter:description" content="{{description}}">
+    <meta name="twitter:image" content="{{imageUrl}}">
 
     <script>
       // Setup Polymer options
@@ -108,7 +124,10 @@
     </head>
   <body>
 
-    <placetobe-app></placetobe-app>
+    <placetobe-app
+      analytics-tracking-id="UA-86279932-1"
+      api-endpoint="https://crowdaboutnow.nl/api/"
+    ></placetobe-app>
 
     <script type="application/ld+json">
     {
@@ -171,6 +190,23 @@
             "name": "Quickscan investeerders"
           }
         }
+      ]
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "http://schema.org",
+      "@type": "Organization",
+      "url": "https://placetobe.nl",
+      "logo": "https://placetobe.nl/images/manifest/icon-192x192.png"
+      "contactPoint": [{
+        "@type": "ContactPoint",
+        "telephone": "+31 (0)30 696 65 23",
+        "contactType": "customer service"
+      }],
+      "sameAs": [
+        "https://www.facebook.com/placetobe.investereninvastgoed",
+        "https://twitter.com/placetobenl"
       ]
     }
     </script>

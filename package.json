@@ -1,0 +1,28 @@
+{
+  "name": "placetobe.nl",
+  "version": "1.0.0",
+  "description": "Placetobe NL",
+  "main": "server.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Placetobe/placetobe.nl.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Placetobe/placetobe.nl/issues"
+  },
+  "homepage": "https://github.com/Placetobe/placetobe.nl#readme",
+  "dependencies": {
+    "async": "^2.1.4",
+    "express": "^4.14.0",
+    "handlebars": "^4.0.6",
+    "request-json": "^0.6.1"
+  }
+}

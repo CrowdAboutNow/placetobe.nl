@@ -1,5 +1,5 @@
 {
-  "entrypoint": "index.html",
+  "entrypoint": "src/placetobe-app/placetobe-app.html",
   "shell": "src/placetobe-app/placetobe-app.html",
   "fragments": [
     "src/placetobe-app/placetobe-app.html",
@@ -9,7 +9,11 @@
     "src/placetobe-app/placetobe-pricing-page.html"
   ],
   "includeDependencies": [
-  	"manifest.json",
+    "server.js",
+    "node_modules/*/**",
+    "metadata.json",
+    "index.hbs",
+    "manifest.json",
   	"bower_components/webcomponentsjs/webcomponents-lite.min.js",
   	"sitemap.xml",
     "images/*/**",

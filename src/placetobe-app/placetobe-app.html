@@ -1,5 +1,4 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
-<link rel="import" href="placetobe-config.html">
 <link rel="import" href="../../bower_components/app-route/app-location.html">
 <link rel="import" href="../../bower_components/app-metadata/app-metadata.html" async>
 <link rel="import" href="../../bower_components/placetobe-styles/placetobe-styles.html">
@@ -12,7 +11,8 @@
 <link rel="import" href="../../bower_components/placetobe-hero/placetobe-hero.html" async>
 <link rel="import" href="../../bower_components/placetobe-illustrations/placetobe-illustrations.html">
 <link rel="import" href="../../bower_components/placetobe-popup/placetobe-popup.html" async>
-<link rel="import" href="../../bower_components/placetobe-mailinglist-subscribe-form/placetobe-mailinglist-subscribe-form.html" async>
+<link rel="import" href="../../bower_components/placetobe-campaign-page/placetobe-campaign-page.html" async>
+<link rel="import" href="../../bower_components/placetobe-mailinglist-subscribe-form/placetobe-mailinglist-subscribe-form.html">
 <link rel="import" href="../../bower_components/placetobe-survey/placetobe-investor-quickscan.html" async>
 <link rel="import" href="../../bower_components/placetobe-survey/placetobe-entrepreneur-quickscan.html">
 <link rel="import" href="../../bower_components/google-analytics-tracker/google-analytics-tracker.html">
@@ -181,12 +181,11 @@
         --placetobe-button-color: white;
       }
 
-    </style>
+      :host placetobe-campaign-page {
+        padding-top: 100px;
+      }
 
-    <placetobe-config
-      api-endpoint="{{apiEndpoint}}"
-      analytics-tracking-id="{{analyticsTrackingId}}"
-    ></placetobe-config>
+    </style>
 
     <google-analytics-tracker
       tracking-id="[[analyticsTrackingId]]"
@@ -240,6 +239,13 @@
       route="{{subroute}}"
       pattern="/test"
       active="{{investorQuickscanActive}}"
+    ></placetobe-route>
+
+    <placetobe-route
+      route="{{route}}"
+      pattern="/campagnes/:campaignId"
+      data="{{routeData}}"
+      active="{{campaignPageActive}}"
     ></placetobe-route>
 
     <placetobe-header
@@ -330,6 +336,13 @@
       <placetobe-pricing-page></placetobe-pricing-page>
     </template>
 
+    <template is="dom-if" if="[[campaignPageActive]]">
+      <placetobe-campaign-page
+        api-endpoint="[[apiEndpoint]]"
+        campaign-id="[[routeData.campaignId]]"
+      ></placetobe-campaign-page>
+    </template>
+
     <placetobe-footer></placetobe-footer>
 
         <placetobe-popup
@@ -385,6 +398,10 @@
 
         apiEndpoint: {
           type: String
+        },
+
+        analyticsTrackingId: {
+
         },
 
         route: {
@@ -480,6 +497,10 @@
         locationPath: {
           type: String,
           observer: '_sendAnalyticsPage'
+        },
+
+        campaignId: {
+          type: String
         }
 
       },
@@ -501,10 +522,10 @@
 
       routeChanged: function(newRoute, oldRoute) {
         window.scrollTo(0,0)
-        var routeExists = (newRoute || {path:""}).path.match(/^(\/(start-project|investeren|tarieven|campagnes)(|\/test|\/aanmelden)|(\/|))$/g);
+        var routeExists = (newRoute || {path:""}).path.match(/^(\/(campagnes|start-project|investeren|tarieven|campagnes\/.*?)(|\/test|\/aanmelden)|(\/|))$/g);
         if(!routeExists) history.replaceState({}, "Placetobe", "/");
         if(!(newRoute && oldRoute)) return;
-        if(newRoute.path !== oldRoute.path) this._handleRouteChanged(newRoute.path, oldRoute.path);
+        if(newRoute.path !== oldRoute.path) this._setMetaData(newRoute.path, oldRoute.path);
       },
 
       _clientSupportsPassiveEvents: function() {
@@ -535,7 +556,6 @@
         this.fire('app-metadata', {
           title: 'This is the page title',
           description: 'This is the page description',
-          keywords: 'these,are,keywords'
         });
       },
 
@@ -548,38 +568,32 @@
         switch(this.route.path) {
           default:
             this.fire('app-metadata', {
-              title: this._parseDocumentTitle('Vastgoed crowdfunding'),
-              description: 'Dé plek voor het crowdfunden van vastgoed in Nederland.'
+              title: this._parseDocumentTitle('Vastgoed crowdfunding')
             });
             break;
           case "/investeren":
             this.fire('app-metadata', {
-              title: this._parseDocumentTitle('Investeren in vastgoed'),
-              description: 'De betrouwbaarste vorm van beleggen. Gebruiksvriendelijk. Veilig. Samen.'
+              title: this._parseDocumentTitle('Investeren in vastgoed')
             });
             break;
           case "/investeren/test":
             this.fire('app-metadata', {
-              title: this._parseDocumentTitle('Quickscan investeerders'),
-              description: 'Beantwoord 5 vragen en vind uit of jij een vastgoed crowdfunder bent.'
+              title: this._parseDocumentTitle('Quickscan investeerders')
             });
             break;
           case "/investeren/aanmelden":
             this.fire('app-metadata', {
-              title: this._parseDocumentTitle('Aanmelden als investeerder'),
-              description: 'Dé plek voor het crowdfunden van vastgoed in Nederland.'
+              title: this._parseDocumentTitle('Aanmelden als investeerder')
             });
             break;
           case "/start-project":
             this.fire('app-metadata', {
-              title: this._parseDocumentTitle('Start een project'),
-              description: 'Wij helpen je de crowdfunders te vinden voor jouw vastgoedproject.'
+              title: this._parseDocumentTitle('Start een project')
             });
             break;
           case "/tarieven":
             this.fire('app-metadata', {
-              title: this._parseDocumentTitle('Tarieven'),
-              description: 'We begeleiden het hele proces en geven je advies over campagne voeren en hoe je betrokken investeerders vindt.'
+              title: this._parseDocumentTitle('Tarieven')
             });
             break;
         }
@@ -611,7 +625,7 @@
       },
 
       _handleCloseEntrepreneurQuickscan: function(evt) {
-        this.$.appLocation.path = '/start-project';        
+        //this.$.appLocation.path = '/start-project';        
       },
 
       _homePageActiveChanged: function(homePageActive) {
