@@ -229,6 +229,12 @@
 
     <placetobe-route
       route="{{route}}"
+      pattern="/algemene-voorwaarden"
+      active="{{termsofusePageActive}}"
+    ></placetobe-route>
+
+    <placetobe-route
+      route="{{route}}"
       pattern="/start-project"
       matches="{{entrepreneurLandingPageActive}}"
       tail="{{entrepreneurSubroute}}"
@@ -350,6 +356,10 @@
 
     <template is="dom-if" if="[[complaintsPageActive]]">
       <placetobe-complaints-page></placetobe-complaints-page>
+    </template>
+
+    <template is="dom-if" if="[[termsofusePageActive]]">
+      <placetobe-termsofuse-page></placetobe-termsofuse-page>
     </template>
 
     <template is="dom-if" if="[[campaignPageActive]]">
@@ -484,6 +494,11 @@
           observer: '_complaintsPageActiveChanged'          
         },
 
+        termsofusePageActive: {
+          type: Boolean,
+          observer: '_termsofusePageActiveChanged'          
+        },
+
         apiEndpoint: {
           type: String,
           value: null
@@ -542,7 +557,7 @@
 
       routeChanged: function(newRoute, oldRoute) {
         window.scrollTo(0,0)
-        var routeExists = (newRoute || {path:""}).path.match(/^(\/(campagnes|start-project|investeren|tarieven|klachtenprocedure|campagnes\/.*?)(|\/test|\/aanmelden)|(\/|))$/g);
+        var routeExists = (newRoute || {path:""}).path.match(/^(\/(campagnes|start-project|investeren|tarieven|klachtenprocedure|algemene\-voorwaarden|campagnes\/.*?)(|\/test|\/aanmelden)|(\/|))$/g);
         if(!routeExists) history.replaceState({}, "Placetobe", "/");
         if(!(newRoute && oldRoute)) return;
         if(newRoute.path !== oldRoute.path) this._setMetaData(newRoute.path, oldRoute.path);
@@ -679,6 +694,12 @@
 
       _complaintsPageActiveChanged: function(complaintsPageActive) {
         this._loadElement(complaintsPageActive, 'placetobe-complaints-page.html', function() {
+          this._loadLandingPages();
+        })
+      },
+
+      _termsofusePageActiveChanged: function(termsofusePageActive) {
+        this._loadElement(termsofusePageActive, 'placetobe-termsofuse-page.html', function() {
           this._loadLandingPages();
         })
       },
