@@ -3,22 +3,19 @@ var express = require('express'),
   fs = require('fs'),
   handlebars = require('handlebars'),
   async = require('async'),
-  request = require('request-json'),
-  client = request.createClient('https://crowdaboutnow.nl/'),
+  needle = require('needle'),
   metadata = require('./metadata.json');
 
 app.use(express.static(__dirname));
 var index = fs.readFileSync('index.hbs').toString();
 var template = handlebars.compile(index);
 
-
 /*
 Campaign Page
 */
-app.get('/campagnes/:slug', (req, res) => {
-  console.log('req', req.params.slug)
-  client.get('api/campaigns/' + req.params.slug, function(error, response, data) {
-    if(!data) return res.sendStatus(404);
+app.get('/campagnes/:slug', (req, res, next) => {
+  needle.get('https://api.crowdaboutnow.nl/campaigns/' + req.params.slug, {rejectUnauthorized: false}, function(error, response, data) {
+    if(!data) return next();
     var data = {
       "title": data.projectNaam,
       "description": data.introductieTekst,
