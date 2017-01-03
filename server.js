@@ -6,7 +6,7 @@ var express = require('express'),
   needle = require('needle'),
   metadata = require('./metadata.json');
 
-app.use(express.static(__dirname));
+app.use(express.static("./"));
 var index = fs.readFileSync('index.hbs').toString();
 var template = handlebars.compile(index);
 
