@@ -3,12 +3,12 @@
   "shell": "src/placetobe-app/placetobe-app.html",
   "fragments": [
     "src/placetobe-app/placetobe-app.html",
-    "src/placetobe-app/placetobe-home-landing-page.html",
-    "src/placetobe-app/placetobe-entrepreneur-landing-page.html",
-    "src/placetobe-app/placetobe-investor-landing-page.html",
-    "src/placetobe-app/placetobe-pricing-page.html",
-    "src/placetobe-app/placetobe-complaints-page.html",
-    "src/placetobe-app/placetobe-termsofuse-page.html"
+    "src/placetobe-app/placetobe-home-page.html",
+    "src/placetobe-app/placetobe-start-project-page.html",
+    "src/placetobe-app/placetobe-investeren-page.html",
+    "src/placetobe-app/placetobe-tarieven-page.html",
+    "src/placetobe-app/placetobe-klachtenprocedure-page.html",
+    "src/placetobe-app/placetobe-algemene-voorwaarden-page.html"
   ],
   "includeDependencies": [
     "server.js",
