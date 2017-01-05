@@ -77,6 +77,30 @@
   async
 >
 
+<link
+  rel="import"
+  href="../../bower_components/placetobe-popup/placetobe-popup.html"
+  async
+>
+
+<link
+  rel="import"
+  href="../../bower_components/placetobe-mailinglist-subscribe-form/placetobe-mailinglist-subscribe-form.html"
+  async
+>
+
+<link
+  rel="import"
+  href="../../bower_components/placetobe-survey/placetobe-investor-quickscan.html"
+  async
+>
+
+<link
+  rel="import"
+  href="../../bower_components/placetobe-survey/placetobe-entrepreneur-quickscan.html"
+  async
+>
+
 <dom-module id="placetobe-app">
   <template>
 
@@ -148,6 +172,13 @@
       route="{{route}}"
       pattern="/:page"
       data="{{routeData}}"
+      tail="{{subRoute}}"
+    ></placetobe-route>
+
+    <placetobe-route
+      route="{{subRoute}}"
+      pattern="/:page"
+      data="{{subRouteData}}"
     ></placetobe-route>
 
     <placetobe-header
@@ -238,6 +269,48 @@
 
     <placetobe-footer></placetobe-footer>
 
+    <placetobe-popup
+      with-backdrop
+      opened$="[[investorQuickscanActive]]"
+      on-popup-closed="_handleCloseInvestorQuickscan"
+      >
+      <placetobe-investor-quickscan
+        on-question-answered="_handleInvestorQuickscanQuestionAnswered"
+        on-finished="_handleInvestorQuickscanFinished"
+      >
+        <placetobe-mailinglist-subscribe-form
+          api-endpoint="[[apiEndpoint]]"
+          user-role="investors"
+          button-label="Email brochure"
+          on-subscribing="_handleInvestorsBrochureRequestingViaQuickscan"
+          on-subscribed="_handleInvestorsBrochureRequestedViaQuickscan"
+          on-subscribe-error="_handleInvestorsBrochureRequestErrorViaQuickscan"
+          slot="action"
+        ></placetobe-mailinglist-subscribe-form>
+      </placetobe-investor-quickscan>        
+    </placetobe-popup>
+
+    <placetobe-popup
+      with-backdrop
+      opened$="[[entrepreneurQuickscanActive]]"
+      on-popup-closed="_handleCloseEntrepreneurQuickscan"
+      >
+      <placetobe-entrepreneur-quickscan
+        on-question-answered="_handleEntrepreneurQuickscanQuestionAnswered"
+        on-finished="_handleEntrepreneurQuickscanFinished"
+      >
+        <placetobe-mailinglist-subscribe-form
+          api-endpoint="[[apiEndpoint]]"
+          user-role="entrepreneurs"
+          button-label="Email brochure"
+          on-subscribing="_handleEntrepreneursBrochureRequestingViaQuickscan"
+          on-subscribed="_handleEntrepreneursBrochureRequestedViaQuickscan"
+          on-subscribe-error="_handleEntrepreneursBrochureRequestErrorViaQuickscan"
+          slot="action"
+        ></placetobe-mailinglist-subscribe-form>
+      </placetobe-entrepreneur-quickscan>        
+    </placetobe-popup>
+
   </template>
 
   <script>
@@ -272,6 +345,15 @@
           value: {}
         },
 
+        subRoute: {
+          type: Object
+        },
+
+        subRouteData: {
+          type: Object,
+          value: {}
+        },
+
         page: {
           type: String,
           value: null,
@@ -300,9 +382,14 @@
           reflectToAttribute: true          
         },
 
+        entrepreneurQuickscanActive: {
+          type: Boolean,
+          computed: '_computeEntrepreneurQuickscanActive(routeData.page, subRouteData.page)'
+        },
+
         investorQuickscanActive: {
           type: Boolean,
-          value: false
+          computed: '_computeInvestorQuickscanActive(routeData.page, subRouteData.page)'
         },
 
         landingPageActive: {
@@ -373,6 +460,14 @@
         return (scrollY > 54)
       },
 
+      _computeEntrepreneurQuickscanActive: function(page, subPage) {
+        return (page == 'start-project' && subPage == 'test')
+      },
+
+      _computeInvestorQuickscanActive: function(page, subPage) {
+        return (page == 'investeren' && subPage == 'test')
+      },
+
       _clientSupportsPassiveEvents: function() {
         var supportsPassive = false;
         try {
@@ -390,7 +485,6 @@
       },
 
       _setMetaData: function() {
-        console.log('this.locationPath', this.locationPath)
         switch(this.locationPath) {
           default:
             this.fire('app-metadata', {
@@ -434,6 +528,22 @@
         return [pageTitle, "Placetobe"].join(" | ");
       },
 
+      _handleOpenInvestorQuickscan: function(evt) {
+        this.locationPath = '/investeren/test';
+      },
+
+      _handleCloseInvestorQuickscan: function(evt) {
+        this.locationPath = '/investeren';
+      },
+
+      _handleOpenEntrepreneurQuickscan: function(evt) {
+        this.locationPath = '/start-project/test';
+      },
+
+      _handleCloseEntrepreneurQuickscan: function(evt) {
+        this.locationPath = '/start-project';        
+      },
+
       _sendAnalyticsPage: function() {
         this.fire('iron-signal', {
           name: 'send-page',
@@ -454,8 +564,79 @@
             value: value || null
           }
         });
-      }
+      },
 
+      _handleEntrepreneursBrochureRequesting: function() {
+        this._sendAnalyticsEvent('hero', 'requesting', 'entrepreneurs-brochure')
+      },
+
+      _handleEntrepreneursBrochureRequested: function() {
+        this._sendAnalyticsEvent('hero', 'requested', 'entrepreneurs-brochure')
+      },
+
+      _handleEntrepreneursBrochureRequestError: function() {
+        this._sendAnalyticsEvent('hero', 'request-error', 'entrepreneurs-brochure')
+      },
+
+      _handleEntrepreneursBrochureRequestingViaQuickscan: function() {
+        this._sendAnalyticsEvent('entrepreneurs-quickscan', 'requesting', 'entrepreneurs-brochure')
+      },
+
+      _handleEntrepreneursBrochureRequestedViaQuickscan: function() {
+        this._sendAnalyticsEvent('entrepreneurs-quickscan', 'requested', 'entrepreneurs-brochure')
+      },
+
+      _handleEntrepreneursBrochureRequestErrorViaQuickscan: function() {
+        this._sendAnalyticsEvent('entrepreneurs-quickscan', 'request-error', 'entrepreneurs-brochure')
+      },
+
+      _handleInvestorsBrochureRequesting: function() {
+        this._sendAnalyticsEvent('hero', 'requesting', 'investors-brochure')
+      },
+
+      _handleInvestorsBrochureRequested: function() {
+        this._sendAnalyticsEvent('hero', 'requested', 'investors-brochure')
+      },
+
+      _handleInvestorsBrochureRequestError: function() {
+        this._sendAnalyticsEvent('hero', 'request-error', 'investors-brochure')
+      },
+
+      _handleInvestorsBrochureRequestingViaQuickscan: function() {
+        this._sendAnalyticsEvent('investors-quickscan', 'requesting', 'investors-brochure')
+      },
+
+      _handleInvestorsBrochureRequestedViaQuickscan: function() {
+        this._sendAnalyticsEvent('investors-quickscan', 'requested', 'investors-brochure')
+      },
+
+      _handleInvestorsBrochureRequestErrorViaQuickscan: function() {
+        this._sendAnalyticsEvent('investors-quickscan', 'request-error', 'investors-brochure')
+      },
+
+      _handleTapStartProjectButton: function() {
+        this._sendAnalyticsEvent('hero', 'tap', 'start-project-button')
+      },
+
+      _handleTapInvestorInfoButton: function() {
+        this._sendAnalyticsEvent('hero', 'tap', 'investor-info-button')
+      },
+
+      _handleInvestorQuickscanQuestionAnswered: function(evt) {
+        this._sendAnalyticsEvent('investors-quickscan', 'question ' + evt.detail.question, 'investors-quickscan', evt.detail.score)
+      },
+
+      _handleInvestorQuickscanFinished: function(evt) {
+        this._sendAnalyticsEvent('investors-quickscan', 'finished', 'investors-quickscan', evt.detail.totalScore)
+      },
+
+      _handleEntrepreneurQuickscanQuestionAnswered: function(evt) {
+        this._sendAnalyticsEvent('entrepreneurs-quickscan', 'question ' + evt.detail.question, 'entrepreneurs-quickscan', evt.detail.score)
+      },
+
+      _handleEntrepreneurQuickscanFinished: function(evt) {
+        this._sendAnalyticsEvent('entrepreneurs-quickscan', 'finished', 'entrepreneurs-quickscan', evt.detail.totalScore)
+      }
     });
   </script>
 </dom-module>
