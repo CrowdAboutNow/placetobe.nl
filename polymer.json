@@ -10,15 +10,18 @@
     "src/placetobe-app/placetobe-klachtenprocedure-page.html",
     "src/placetobe-app/placetobe-algemene-voorwaarden-page.html"
   ],
-  "includeDependencies": [
-    "server.js",
-    "node_modules/*/**",
-    "metadata.json",
+  "sourceGlobs": [
+    "src/**/*",
+    "images/**/*",
+    "bower.json",
     "index.hbs",
+    "metadata.json",
+    "package.json",
+    "server.js",
+    "sitemap.xml"
+  ],
+  "includeDependencies": [
     "manifest.json",
-  	"bower_components/webcomponentsjs/webcomponents-lite.min.js",
-  	"sitemap.xml",
-    "images/*/**",
-    "images/favicon.ico"
+  	"bower_components/webcomponentsjs/webcomponents-lite.min.js"
   ]
 }
