@@ -23,7 +23,8 @@
     "placetobe-quote": "Placetobe/placetobe-quote",
     "placetobe-campaign-page": "Placetobe/placetobe-campaign-page",
     "placetobe-mailinglist-subscribe-form": "Placetobe/placetobe-mailinglist-subscribe-form",
-    "google-analytics-tracker": "lotsofpeople/google-analytics-tracker"
+    "google-analytics-tracker": "lotsofpeople/google-analytics-tracker",
+    "iron-pages": "polymerelements/iron-pages#^1.0.0"
   },
   "devDependencies": {
     "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
