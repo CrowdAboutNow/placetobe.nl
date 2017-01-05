@@ -15,6 +15,17 @@
 
 <link
   rel="import"
+  href="../../bower_components/app-metadata/app-metadata.html"
+  async
+>
+
+<link
+  rel="import"
+  href="../../bower_components/google-analytics-tracker/google-analytics-tracker.html"
+>
+
+<link
+  rel="import"
   href="../../bower_components/placetobe-styles/placetobe-styles.html"
 >
 
@@ -106,7 +117,15 @@
       }
     </style>
 
-    <app-location route="{{route}}"></app-location>
+    <google-analytics-tracker
+      tracking-id="[[analyticsTrackingId]]"
+    ></google-analytics-tracker>
+
+    <app-location
+      route="{{route}}"
+      path="{{locationPath}}"
+    ></app-location>
+
     <placetobe-route
       route="{{route}}"
       pattern="/:page"
@@ -255,10 +274,6 @@
           value: false
         },
 
-        analyticsTrackingCode: {
-          type: Boolean
-        },
-
         landingPageActive: {
           type: Boolean,
           computed: '_computeLandingPageActive(page)'
@@ -286,6 +301,7 @@
       },
 
       attached: function() {
+        Polymer.AppMetadata.requestAvailability();
       },
 
       _computeLandingPageActive: function(page) {
@@ -301,12 +317,16 @@
       },
 
       _pageChanged: function(page, oldPage) {
-        window.scrollTo(0,0)
         if(!page) page = 'home';
         var pageUrl = 'placetobe-' + page + '-page.html';
         this.importHref(
           this.resolveUrl(pageUrl),
-          function() {}, null, true);
+          function() {
+            window.scrollTo(0,0);
+            this._sendAnalyticsPage();
+            this._setMetaData();
+          }, null, true
+        );
       },
 
       _handleScroll: function() {
@@ -332,6 +352,73 @@
           return supportsPassive;
         }
       },
+
+      _setMetaData: function() {
+        console.log('this.locationPath', this.locationPath)
+        switch(this.locationPath) {
+          default:
+            this.fire('app-metadata', {
+              title: this._parseDocumentTitle('Vastgoed crowdfunding')
+            });
+            break;
+          case "/investeren":
+            this.fire('app-metadata', {
+              title: this._parseDocumentTitle('Investeren in vastgoed')
+            });
+            break;
+          case "/investeren/test":
+            this.fire('app-metadata', {
+              title: this._parseDocumentTitle('Quickscan investeerders')
+            });
+            break;
+          case "/investeren/aanmelden":
+            this.fire('app-metadata', {
+              title: this._parseDocumentTitle('Aanmelden als investeerder')
+            });
+            break;
+          case "/start-project":
+            this.fire('app-metadata', {
+              title: this._parseDocumentTitle('Start een project')
+            });
+            break;
+          case "/tarieven":
+            this.fire('app-metadata', {
+              title: this._parseDocumentTitle('Tarieven')
+            });
+            break;
+          case "/klachtenprocedure":
+            this.fire('app-metadata', {
+              title: this._parseDocumentTitle('klachtenprocedure')
+            });
+            break;
+        }
+      },
+
+      _parseDocumentTitle: function(pageTitle) {
+        return [pageTitle, "Placetobe"].join(" | ");
+      },
+
+      _sendAnalyticsPage: function() {
+        this.fire('iron-signal', {
+          name: 'send-page',
+          data: {
+            path: this.locationPath
+          }
+        });
+      },
+
+      //source, action, category, value
+      _sendAnalyticsEvent: function(source, action, category, value) {
+        this.fire('iron-signal', {
+          name: 'send-event',
+          data: {
+            category: category,
+            action: action,
+            label: source,
+            value: value || null
+          }
+        });
+      }
 
     });
   </script>
