@@ -13,7 +13,7 @@ var template = handlebars.compile(index);
 /*
 Campaign Page
 */
-app.get('/campagnes/:slug', (req, res, next) => {
+app.get('/campagnes/:slug', function(req, res, next) {
   needle.get('https://api.crowdaboutnow.nl/campaigns/' + req.params.slug, {rejectUnauthorized: false}, function(error, response, data) {
     if(!data) return next();
     var data = {
@@ -30,7 +30,7 @@ app.get('/campagnes/:slug', (req, res, next) => {
 /*
 Static Pages
 */
-app.get('*', (req, res) => {
+app.get('*', function(req, res) {
   var data = metadata.routes[req.url];
   if(!data) return res.sendStatus(404);
   data.pageUrl = req.protocol + '://' + req.headers.host + req.url
