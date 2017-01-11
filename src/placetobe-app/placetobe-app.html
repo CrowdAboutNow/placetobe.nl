@@ -104,6 +104,12 @@
   async
 >
 
+<link
+  rel="import"
+  href="../../bower_components/placetobe-cookie-warning/placetobe-cookie-warning.html"
+  async
+>
+
 <dom-module id="placetobe-app">
   <template>
 
@@ -159,6 +165,14 @@
 
       placetobe-hero[car-gone] {
         --placetobe-hero-color: var(--placetobe-color-yellow);
+      }
+
+      placetobe-cookie-warning {
+        position: fixed;
+        z-index: 8;
+        bottom: 0;
+        left: 0;
+        right: 0;
       }
     </style>
 
@@ -313,6 +327,8 @@
         ></placetobe-mailinglist-subscribe-form>
       </placetobe-entrepreneur-quickscan>        
     </placetobe-popup>
+
+    <placetobe-cookie-warning></placetobe-cookie-warning>
 
   </template>
 
