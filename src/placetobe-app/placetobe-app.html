@@ -328,7 +328,11 @@
       </placetobe-entrepreneur-quickscan>        
     </placetobe-popup>
 
-    <placetobe-cookie-warning></placetobe-cookie-warning>
+    <template is="dom-if" if="[[!cookiesAccepted]]">
+      <placetobe-cookie-warning
+        on-cookies-accepted="_handleCookiesAccepted"
+      ></placetobe-cookie-warning>
+    </template>
 
   </template>
 
@@ -655,7 +659,13 @@
 
       _handleEntrepreneurQuickscanFinished: function(evt) {
         this._sendAnalyticsEvent('entrepreneurs-quickscan', 'finished', 'entrepreneurs-quickscan', evt.detail.totalScore)
-      }
+      },
+
+      _handleCookiesAccepted: function() {
+        window.localStorage.setItem('placetobe-cookies-accepted', true);
+        this.cookiesAccepted = window.localStorage.getItem('placetobe-cookies-accepted');
+      },
+
     });
   </script>
 </dom-module>
