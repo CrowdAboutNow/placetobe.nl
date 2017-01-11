@@ -31,9 +31,10 @@ app.get('/campagnes/:slug', function(req, res, next) {
 Static Pages
 */
 app.get('*', function(req, res) {
-  var data = metadata.routes[req.url];
+  var urlPath = req.url.replace(/\?.*?$/, '');
+  var data = metadata.routes[urlPath];
   if(!data) return res.sendStatus(404);
-  data.pageUrl = req.protocol + '://' + req.headers.host + req.url
+  data.pageUrl = req.protocol + '://' + req.headers.host + urlPath;
   var html = template(data);
   res.send(html);
 })
