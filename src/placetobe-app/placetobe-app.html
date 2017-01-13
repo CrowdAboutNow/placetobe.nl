@@ -288,7 +288,7 @@
 
     <placetobe-popup
       with-backdrop
-      opened$="[[investorQuickscanActive]]"
+      opened="[[investorQuickscanActive]]"
       on-popup-closed="_handleCloseInvestorQuickscan"
       >
       <placetobe-investor-quickscan
@@ -309,7 +309,7 @@
 
     <placetobe-popup
       with-backdrop
-      opened$="[[entrepreneurQuickscanActive]]"
+      opened="[[entrepreneurQuickscanActive]]"
       on-popup-closed="_handleCloseEntrepreneurQuickscan"
       >
       <placetobe-entrepreneur-quickscan
@@ -407,12 +407,12 @@
 
         entrepreneurQuickscanActive: {
           type: Boolean,
-          computed: '_computeEntrepreneurQuickscanActive(routeData.page, subRouteData.page)'
+          computed: '_computeEntrepreneurQuickscanActive(routeData.*, subRouteData.*)'
         },
 
         investorQuickscanActive: {
           type: Boolean,
-          computed: '_computeInvestorQuickscanActive(routeData.page, subRouteData.page)'
+          computed: '_computeInvestorQuickscanActive(routeData.*, subRouteData.*)'
         },
 
         landingPageActive: {
@@ -483,12 +483,12 @@
         return (scrollY > 54)
       },
 
-      _computeEntrepreneurQuickscanActive: function(page, subPage) {
-        return (page == 'start-project' && subPage == 'test')
+      _computeEntrepreneurQuickscanActive: function(routeChange, subRouteChange) {
+        return (routeChange.base.page == 'start-project' && subRouteChange.base.page == 'test')
       },
 
-      _computeInvestorQuickscanActive: function(page, subPage) {
-        return (page == 'investeren' && subPage == 'test')
+      _computeInvestorQuickscanActive: function(routeChange, subRouteChange) {
+        return (routeChange.base.page == 'investeren' && subRouteChange.base.page == 'test')
       },
 
       _clientSupportsPassiveEvents: function() {
