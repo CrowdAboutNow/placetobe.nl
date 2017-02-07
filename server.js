@@ -4,7 +4,8 @@ var express = require('express'),
   handlebars = require('handlebars'),
   async = require('async'),
   needle = require('needle'),
-  metadata = require('./metadata.json');
+  metadata = require('./metadata.json'),
+  portNumber = 8080;
 
 app.use(express.static("./"));
 var index = fs.readFileSync('index.hbs').toString();
@@ -13,30 +14,32 @@ var template = handlebars.compile(index);
 /*
 Campaign Page
 */
-app.get('/campagnes/:slug', function(req, res, next) {
-  needle.get('https://api.crowdaboutnow.nl/campaigns/' + req.params.slug, {rejectUnauthorized: false}, function(error, response, data) {
-    if(!data) return next();
+app.get('/campagnes/:slug', function(request, response, next) {
+  needle.get('https://api.crowdaboutnow.nl/campaigns/' + request.params.slug, {rejectUnauthorized: false}, function(error, res, data) {
+    if(error || !data) return next();
     var data = {
       'title': data.projectNaam,
       'description': data.introductieTekst,
       'imageUrl': data.coverURL,
-      'pageUrl': req.protocol + '://' + req.headers.host + '/campagnes/' + data.id
+      'pageUrl': request.protocol + '://' + request.headers.host + '/campagnes/' + data.id
     }
     var html = template(data);
-    res.send(html);
+    response.send(html);
   })
 })
 
 /*
 Static Pages
 */
-app.get('*', function(req, res) {
-  var urlPath = req.url.replace(/\?.*?$/, '');
+app.get('*', function(request, response) {
+  var urlPath = request.url.replace(/\?.*?$/, '');
   var data = metadata.routes[urlPath];
-  if(!data) return res.sendStatus(404);
-  data.pageUrl = req.protocol + '://' + req.headers.host + urlPath;
+  if(!data) return response.sendStatus(404);
+  data.pageUrl = request.protocol + '://' + request.headers.host + urlPath;
   var html = template(data);
-  res.send(html);
+  response.send(html);
 })
 
-app.listen(8080);
+app.listen(portNumber, function() {
+  console.info('Server started on port ' + portNumber);
+});
