@@ -1,0 +1,78 @@
+<!--
+Page that informs an investor that the investment failed for a specific reason. 
+
+Example:
+
+    <placetobe-investment-failed
+    failure-reason="{{subRouteData.status}}"    
+    ></placetobe-investment-failed>
+-->
+
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="placetobe-landing-page-styles.html">
+
+<dom-module id="placetobe-investment-failed">
+  <template>
+    <style include="placetobe-landing-page-styles">
+      :host {
+        display: block;
+      }
+
+      :host h1 {
+        margin-top: calc( var(--placetobe-margin) * 8 );
+      }
+    </style>
+
+    <div class="intro">
+
+      <!--Message to be displayed when investent was rejected by financial dealer (Rejected: The transaction has been reject by the (third) payment provider) -->
+      <template is="dom-if" if="{{_sameString(failureReason, 'reject')}}">
+        <h1>Investering is niet geaccepteerd</h1>
+        <h3>
+            Er is iets misgegaan bij de betalingsdienstaanbieder. Het bedrag is niet van jouw rekening afgeschreven. Probeer het later nog eens.
+            Neem contact met ons op als het fout blijft gaan.
+        </h3>
+      </template>
+
+      <!--Message to be displayed when investent was cancelled (Cancelled by user: The transaction has been cancelled by the consumer.)-->
+      <template is="dom-if" if="{{_sameString(failureReason, 'cancel')}}">
+        <h1>Investering is geannuleerd</h1>
+        <h3>
+            Je hebt de investering geannuleerd. Als je alsnog wilt investeren in deze campagne kan je een nieuwe investering beginnen op de campagnepagina.
+        </h3>
+      </template>
+
+      <!--Message to be displayed when investent resulted in a failure (Failed: The transaction has failed.) -->
+      <!--Note that Buckaroo uses failure where we use error-->
+      <template is="dom-if" if="{{_sameString(failureReason, 'error')}}">
+        <h1>Investering is mislukt</h1>
+        <h3>
+            Er is iets misgegaan tijdens het investeren. Het bedrag is niet van jouw rekening afgeschreven. Probeer het later nog eens.
+            Neem contact met ons op als het fout blijft gaan.            
+        </h3>
+      </template>
+    </div>  
+    
+  </template>
+  <script>
+    Polymer({
+      is: 'placetobe-investment-failed',
+      properties: {
+        /**
+        * String that indicates the reason why the investment failed. Opions: reject, cancel, failure
+        */
+        failureReason : {
+          type: String
+        }
+      },
+      /**
+      * compare whether Strings are similar
+      */
+      _sameString: function (firstString, secondString) {
+        if (firstString != null && secondString != null ) {
+            return  firstString === secondString
+        }
+      },
+    });
+  </script>
+</dom-module>
