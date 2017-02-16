@@ -282,6 +282,7 @@
       <placetobe-tarieven-page name="tarieven"></placetobe-tarieven-page>
       <placetobe-klachtenprocedure-page name="klachtenprocedure"></placetobe-klachtenprocedure-page>
       <placetobe-algemene-voorwaarden-page name="algemene-voorwaarden"></placetobe-algemene-voorwaarden-page>
+      <placetobe-campagnes-page api-endpoint="{{apiEndpoint}}" campaign-route="[[subRoute]]" name="campagnes"></placetobe-campagnes-page>
     </iron-pages>
 
     <placetobe-footer></placetobe-footer>
@@ -434,7 +435,6 @@
           type: Boolean,
           computed: '_computePageIsActive(\'start-project\', page)'
         }
-
       },
 
       observers: [
