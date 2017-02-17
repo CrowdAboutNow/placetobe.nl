@@ -53,12 +53,12 @@ Example:
     </template>
     
     <!-- If post invest was unsuccesful (route: /campagnes/:campaignId/reject)  -->
-    <template is="dom-if" if="{{_investmentFailed)}}">
+    <template is="dom-if" if="{{_sameString(subRouteData.status, 'reject', 'cancel', 'error')}}">
       <placetobe-investment-failed-notice failure-reason="{{subRouteData.status}}"></placetobe-investment-failed-notice>
     </template>
 
     <!-- If post invest was succesful (route: /campagnes/:campaignId/success)  -->
-    <template is="dom-if" if="{{_investmentSuccessfull)}}">
+    <template is="dom-if" if="{{_sameString(subRouteData.status, 'success')}}">
       <h1>Investering succesvol</h1>     
     </template>
     
@@ -74,48 +74,36 @@ Example:
         campaignRoute : {
           type: Object
         },
-        
         /**
         * location to milestones on Firebase
         */
         apiEndpoint: {
           type: String
         },
-        
         /**
         * Remaining route information of 'end' of url, from /campagnes/:campaignId/:status
         * subRouteData.status provides string in :status
         */
         subRouteData: {
           type: Object
-        },
-
-        /*
-        * Whether the route had a :status /campagnes/:campaignId/:status equal to success
-        */
-        investmentSuccessfull: {
-          type: Boolean,
-          value: false,
-          computed: '_statusIsOneOf(subRouteData.status, ["success"])'
-        },
-
-        /*
-        * Whether the route had a :status /campagnes/:campaignId/:status equal to reject, cancel or error
-        */
-        _investmentFailed: {
-          type: Boolean,
-          value: false,
-          computed: '_statusIsOneOf(subRouteData.status, ["reject", "cancel", "error"])'
-        },
         }
       },
       /**
-      * Returns whether argument status is similar to one of the strings in Array statusArray
+      * compare whether the first input argument (string) is the same as any of the other input arguments
       */
-      _statusIsOneOf: function(status, statusArray) {
-        var statusExists = statusArray.indexOf(status) !== -1;
-        return statusExists;
-      }
+      _sameString: function (firstString, secondString) {
+        if (firstString != null && secondString != null ) {
+          var args = Array.prototype.slice.call(arguments)
+          var string = args[0]
+          var args = args.slice(1)
+          console.log(firstString, args)
+
+          if (args.indexOf(string) >= 0) {
+            return true
+          }
+          return false
+        }
+      },
     });
   </script>
 </dom-module>
