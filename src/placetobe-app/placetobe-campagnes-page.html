@@ -1,0 +1,103 @@
+<!--
+A routing element for all campaign(s) related pages.
+
+Example:
+
+    <placetobe-campagnes-page
+    campaign-route="{{subRoute}}"
+    ></placetobe-campagnes-page>
+-->
+
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/placetobe-route/placetobe-route.html">
+<link rel="import" href="../../bower_components/placetobe-campaign-page/placetobe-campaign-page.html">
+<link rel="import" href="placetobe-landing-page-styles.html">
+<link rel="import" href="placetobe-investment-failed-notice.html">
+
+
+<dom-module id="placetobe-campagnes-page">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+
+      :host h1 {
+        margin-top: calc( var(--placetobe-margin) * 8 );
+      }
+
+      [hidden] {
+        display: none;
+      }
+    </style>
+
+    <!-- obtaines campaign(s) route from parent and exposes information about campaign(s) (for example campaignId).-->
+    <placetobe-route
+      route="{{campaignRoute}}"
+      pattern="/:campaignId"
+      data="{{routeData}}"
+      tail="{{subRoute}}"
+    ></placetobe-route>
+
+    <!-- Gathers campaign(s) specific information for remaining route, for example post invest status -->
+    <placetobe-route
+      route="{{subRoute}}"
+      pattern="/investeren/:status"
+      data="{{subRouteData}}"
+    ></placetobe-route>
+
+    <!-- If routeData indicates that the page is about one campaign and if there is no subRouteData (for example post invest)-->
+    <!--TODO: if route is only /campagnes this will also try to load a single campaing. Can be computed [[!!routeData.campaignId && !subRouteData.status]]-->
+    <template is="dom-if" if="{{!subRouteData.status}}">
+      <placetobe-campaign-page api-endpoint="[[apiEndpoint]]" campaign-id="{{routeData.campaignId}}"></placetobe-campaign-page>
+    </template>
+    
+    <!-- If post invest was unsuccesful (route: /campagnes/:campaignId/reject)  -->
+    <template is="dom-if" if="[[_computeInvestmentUnsuccessfull(subRouteData.status)]]">
+      <placetobe-investment-failed-notice failure-reason="{{subRouteData.status}}"></placetobe-investment-failed-notice>
+    </template>
+
+    <!-- If post invest was succesful (route: /campagnes/:campaignId/success)  -->
+    <template is="dom-if" if="[[_computeInvestmentSuccessfull(subRouteData.status)]]">
+      <h1>Investering succesvol</h1>     
+    </template>
+    
+  </template>
+  <script>
+    Polymer({
+      is: 'placetobe-campagnes-page',
+      properties: {
+        /**
+        * Remaining route information of url that starts with /campagnes/:campaignId
+        * campaignRoute.campaignId provides string is :campaignId
+        */
+        campaignRoute : {
+          type: Object
+        },
+        /**
+        * location to milestones on Firebase
+        */
+        apiEndpoint: {
+          type: String
+        },
+        /**
+        * Remaining route information of 'end' of url, from /campagnes/:campaignId/investeren/:status
+        * subRouteData.status provides string in :status
+        */
+        subRouteData: {
+          type: Object
+        }
+      },
+
+      _computeInvestmentUnsuccessfull: function(investmentStatus) {
+        return (investmentStatus && ['reject', 'error', 'cancel'].indexOf(investmentStatus) !== -1);
+      },
+      
+      _computeInvestmentSuccessfull: function(investmentStatus) {
+        return (investmentStatus && investmentStatus == 'success');
+      }
+      
+
+    });
+  </script>
+</dom-module>
