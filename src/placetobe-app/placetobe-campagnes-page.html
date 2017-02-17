@@ -49,7 +49,7 @@ Example:
 
     <!-- If routeData indicates that the page is about one campaign and if there is no subRouteData (for example post invest)-->
     <template is="dom-if" if="{{!subRouteData.status}}">
-      <placetobe-campaign-page api-endpoint="{{apiEndpoint}}" campaign-id="{{routeData.campaignId}}"></placetobe-campaign-page>
+      <placetobe-campaign-page api-endpoint="[[apiEndpoint]]" campaign-id="{{routeData.campaignId}}"></placetobe-campaign-page>
     </template>
     
     <!-- If post invest was unsuccesful (route: /campagnes/:campaignId/reject)  -->
