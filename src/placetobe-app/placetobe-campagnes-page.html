@@ -88,22 +88,6 @@ Example:
           type: Object
         }
       },
-      /**
-      * compare whether the first input argument (string) is the same as any of the other input arguments
-      */
-      _sameString: function (firstString, secondString) {
-        if (firstString != null && secondString != null ) {
-          var args = Array.prototype.slice.call(arguments)
-          var string = args[0]
-          var args = args.slice(1)
-          console.log(firstString, args)
-
-          if (args.indexOf(string) >= 0) {
-            return true
-          }
-          return false
-        }
-      },
 
       _computeInvestmentUnsuccessfull: function(investmentStatus) {
         return (investmentStatus && ['reject', 'error', 'cancel'].indexOf(investmentStatus) !== -1);
