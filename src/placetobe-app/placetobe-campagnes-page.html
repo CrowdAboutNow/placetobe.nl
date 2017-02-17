@@ -12,7 +12,7 @@ Example:
 <link rel="import" href="../../bower_components/placetobe-route/placetobe-route.html">
 <link rel="import" href="../../bower_components/placetobe-campaign-page/placetobe-campaign-page.html">
 <link rel="import" href="placetobe-landing-page-styles.html">
-<link rel="import" href="placetobe-investment-failed.html">
+<link rel="import" href="placetobe-investment-failed-notice.html">
 
 
 <dom-module id="placetobe-campagnes-page">
@@ -54,7 +54,7 @@ Example:
     
     <!-- If post invest was unsuccesful (route: /campagnes/:campaignId/reject)  -->
     <template is="dom-if" if="{{_sameString(subRouteData.status, 'reject', 'cancel', 'error')}}">
-      <placetobe-investment-failed failure-reason="{{subRouteData.status}}"></placetobe-investment-failed>
+      <placetobe-investment-failed-notice failure-reason="{{subRouteData.status}}"></placetobe-investment-failed-notice>
     </template>
 
     <!-- If post invest was succesful (route: /campagnes/:campaignId/success)  -->

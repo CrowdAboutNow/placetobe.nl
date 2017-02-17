@@ -3,15 +3,15 @@ Page that informs an investor that the investment failed for a specific reason.
 
 Example:
 
-    <placetobe-investment-failed
+    <placetobe-investment-failed-notice
     failure-reason="{{subRouteData.status}}"    
-    ></placetobe-investment-failed>
+    ></placetobe-investment-failed-notice>
 -->
 
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="placetobe-landing-page-styles.html">
 
-<dom-module id="placetobe-investment-failed">
+<dom-module id="placetobe-investment-failed-notice">
   <template>
     <style include="placetobe-landing-page-styles">
       :host {
@@ -56,7 +56,7 @@ Example:
   </template>
   <script>
     Polymer({
-      is: 'placetobe-investment-failed',
+      is: 'placetobe-investment-failed-notice',
       properties: {
         /**
         * String that indicates the reason why the investment failed. Opions: reject, cancel, failure
