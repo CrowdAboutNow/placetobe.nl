@@ -13,6 +13,7 @@ Example:
 <link rel="import" href="../../bower_components/placetobe-campaign-page/placetobe-campaign-page.html">
 <link rel="import" href="placetobe-landing-page-styles.html">
 <link rel="import" href="placetobe-investment-failed-notice.html">
+<link rel="import" href="placetobe-investment-complete-page.html">
 
 
 <dom-module id="placetobe-campagnes-page">
@@ -59,7 +60,7 @@ Example:
 
     <!-- If post invest was succesful (route: /campagnes/:campaignId/success)  -->
     <template is="dom-if" if="[[_computeInvestmentSuccessfull(subRouteData.status)]]">
-      <h1>Investering succesvol</h1>     
+      <placetobe-investment-complete-page></placetobe-investment-complete-page>
     </template>
     
   </template>

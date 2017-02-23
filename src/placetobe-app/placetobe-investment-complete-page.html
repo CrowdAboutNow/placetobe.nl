@@ -1,0 +1,47 @@
+<!--
+Page that informs an investor that the investment was successful. 
+
+Example:
+
+    <placetobe-investment-complete-page
+    ></placetobe-investment-complete-page>
+-->
+
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="placetobe-landing-page-styles.html">
+<link rel="import" href="../../bower_components/placetobe-button/placetobe-button.html">
+
+<dom-module id="placetobe-investment-complete-page">
+  <template>
+    <style include="placetobe-landing-page-styles">
+      :host {
+        display: block;
+      }
+
+      :host h1 {
+        margin-top: calc( var(--placetobe-margin) * 8 );
+      }
+    </style>
+
+    <div class="intro">
+
+        <h1>Investering geslaagd!</h1>
+        <h3>
+          Hartelijk dank voor je investering. Je kunt je contract nu downloaden in je persoonlijke dashboard. Hier vind je een overzicht van al je investeringen en je contact- en betalingsinformatie.
+        </h3>
+          <placetobe-button
+            href="https://crowdaboutnow.nl/investeerder/dashboard"
+            target="_blank"
+          ><span>naar mijn dashboard</span></placetobe-button>
+          <p><br></p>
+
+    </div>  
+    
+  </template>
+  <script>
+    Polymer({
+      is: 'placetobe-investment-complete-page',
+      properties: {},
+    });
+  </script>
+</dom-module>
