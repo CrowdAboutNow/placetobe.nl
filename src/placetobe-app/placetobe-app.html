@@ -293,7 +293,7 @@
       <placetobe-tarieven-page name="tarieven"></placetobe-tarieven-page>
       <placetobe-klachtenprocedure-page name="klachtenprocedure"></placetobe-klachtenprocedure-page>
       <placetobe-algemene-voorwaarden-page name="algemene-voorwaarden"></placetobe-algemene-voorwaarden-page>
-      <placetobe-campagnes-page api-endpoint="[[apiEndpoint]]" campaign-route="[[subRoute]]" name="campagnes"></placetobe-campagnes-page>
+      <placetobe-campagnes-page api-endpoint="[[apiEndpoint]]" campaign-route="[[subRoute]]" name="campagnes" user="[[user]]" invoice-number="[[invoiceNumber]]"></placetobe-campagnes-page>
     </iron-pages>
 
     <placetobe-footer></placetobe-footer>
@@ -387,6 +387,12 @@
         subRouteData: {
           type: Object,
           value: {}
+        },
+        /* 
+        * Number of invoice of succesful investment propogated via POST request body (server.js -> index.hbs -> placetobe-app)
+        */
+        invoiceNumber: {
+          type: String
         },
 
         page: {
