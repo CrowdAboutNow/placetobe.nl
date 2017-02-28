@@ -60,9 +60,9 @@ Example:
 
     <!-- If post invest was succesful (route: /campagnes/:campaignId/success)  -->
     <template is="dom-if" if="[[_computeInvestmentSuccessfull(subRouteData.status)]]">
-      <placetobe-investment-complete-page></placetobe-investment-complete-page>
+      <placetobe-investment-complete-page campaign-id="[[routeData.campaignId]]" api-endpoint="[[apiEndpoint]]" user="[[user]]" invoice-number="[[invoiceNumber]]"></placetobe-investment-complete-page>
     </template>
-    
+
   </template>
   <script>
     Polymer({
@@ -87,6 +87,16 @@ Example:
         */
         subRouteData: {
           type: Object
+        },
+        /* 
+        * Number of invoice of succesful investment propogated via POST request body (server.js -> index.hbs -> placetobe-app)
+        */
+        invoiceNumber: {
+          type: String
+        },
+        user: {
+          type: Object,
+          value: {}
         }
       },
 
@@ -97,8 +107,6 @@ Example:
       _computeInvestmentSuccessfull: function(investmentStatus) {
         return (investmentStatus && investmentStatus == 'success');
       }
-      
-
     });
   </script>
 </dom-module>

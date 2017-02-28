@@ -110,6 +110,12 @@
   async
 >
 
+<link
+  rel="import"
+  href="../../bower_components/app-storage/app-localstorage/app-localstorage-document.html"
+  async
+>
+
 <dom-module id="placetobe-app">
   <template>
 
@@ -179,6 +185,11 @@
     <google-analytics-tracker
       tracking-id="[[analyticsTrackingId]]"
     ></google-analytics-tracker>
+
+    <app-localstorage-document
+      key="user-status"
+      data="{{user}}"
+    ></app-localstorage-document>
 
     <app-location
       route="{{route}}"
@@ -282,7 +293,7 @@
       <placetobe-tarieven-page name="tarieven"></placetobe-tarieven-page>
       <placetobe-klachtenprocedure-page name="klachtenprocedure"></placetobe-klachtenprocedure-page>
       <placetobe-algemene-voorwaarden-page name="algemene-voorwaarden"></placetobe-algemene-voorwaarden-page>
-      <placetobe-campagnes-page api-endpoint="[[apiEndpoint]]" campaign-route="[[subRoute]]" name="campagnes"></placetobe-campagnes-page>
+      <placetobe-campagnes-page api-endpoint="[[apiEndpoint]]" campaign-route="[[subRoute]]" name="campagnes" user="[[user]]" invoice-number="[[invoiceNumber]]"></placetobe-campagnes-page>
     </iron-pages>
 
     <placetobe-footer></placetobe-footer>
@@ -377,6 +388,12 @@
           type: Object,
           value: {}
         },
+        /* 
+        * Number of invoice of succesful investment propogated via POST request body (server.js -> index.hbs -> placetobe-app)
+        */
+        invoiceNumber: {
+          type: String
+        },
 
         page: {
           type: String,
@@ -434,7 +451,15 @@
         entrepreneurLandingPageActive: {
           type: Boolean,
           computed: '_computePageIsActive(\'start-project\', page)'
-        }
+        },
+        /*
+        * Information on authentication status of site visitor. 
+        * Is also obtained from localstorage.
+        */ 
+        user: {
+          type: Object,
+          value: {}
+        } 
       },
 
       observers: [
@@ -473,8 +498,8 @@
             this._setMetaData();
           }, null, true
         );
-      },
-
+      },     
+      
       _handleScroll: function() {
         this._setScrollY(window.scrollY || document.documentElement.scrollTop);
       },
@@ -664,8 +689,7 @@
       _handleCookiesAccepted: function() {
         window.localStorage.setItem('placetobe-cookies-accepted', true);
         this.cookiesAccepted = window.localStorage.getItem('placetobe-cookies-accepted');
-      },
-
+      }
     });
   </script>
 </dom-module>
