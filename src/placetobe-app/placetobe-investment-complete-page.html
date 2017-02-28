@@ -10,6 +10,7 @@ Example:
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="placetobe-landing-page-styles.html">
 <link rel="import" href="../../bower_components/placetobe-button/placetobe-button.html">
+<link rel="import" href="../../bower_components/placetobe-create-testimonial-card/placetobe-create-testimonial-card.html">
 
 <dom-module id="placetobe-investment-complete-page">
   <template>
@@ -21,27 +22,61 @@ Example:
       :host h1 {
         margin-top: calc( var(--placetobe-margin) * 8 );
       }
+      placetobe-create-testimonial-card {
+        margin-bottom: 32px;
+      }
     </style>
 
     <div class="intro">
 
-        <h1>Investering geslaagd!</h1>
-        <h3>
-          Hartelijk dank voor je investering. Je kunt je contract nu downloaden in je persoonlijke dashboard. Hier vind je een overzicht van al je investeringen en je contact- en betalingsinformatie.
-        </h3>
-          <placetobe-button
-            href="https://crowdaboutnow.nl/investeerder/dashboard"
-            target="_blank"
-          ><span>naar mijn dashboard</span></placetobe-button>
-          <p><br></p>
+      <h1>Investering geslaagd!</h1>
+      <h3>
+        Hartelijk dank voor je investering. Je kunt je contract nu downloaden in je persoonlijke dashboard. Hier vind je een overzicht van al je investeringen en je contact- en betalingsinformatie.
+      </h3>
+        <placetobe-button
+          href="https://crowdaboutnow.nl/investeerder/dashboard"
+          target="_blank"
+        ><span>naar mijn dashboard</span></placetobe-button>
+        <p><br></p>
 
+      <placetobe-create-testimonial-card
+        invoice-number="[[invoiceNumber]]"
+        button-title="Stuur bericht"
+        card-title="Stuur de ondernemer een bericht"
+        max-rows="6"
+        message-label=""
+        placeholder=""
+        campaign-id="[[campaignId]]"
+        investor-id="[[user.userId]]"
+        relation-to-entrepeneur="[[relationToEntrepeneur]]"
+        api-endpoint="[[apiEndpoint]]"
+        access-token="[[user.accessToken]]"
+      ></placetobe-create-testimonial-card>
     </div>  
     
   </template>
   <script>
     Polymer({
       is: 'placetobe-investment-complete-page',
-      properties: {},
+      properties: {
+        /*
+        * User status (e.g. signedIn, userId, accessToken) obtained from localstorage.
+        */
+        user: {
+          type: Object,
+          value: {}
+        },
+        /*
+        * Most recent investment status (e.g. invoicenumber) obtained from localstorage.
+        */
+        invoiceNumber: {
+          type: String
+        },
+
+        apiEndpoint: {
+          type: String
+        }         
+      }
     });
   </script>
 </dom-module>
