@@ -36,10 +36,11 @@ Static Pages
 */
 app.get('*', renderIndex);
 
-app.post('*', function(req, res, next) {
+app.post('/campagnes/:slug/investeren/:status', function(req, res, next) {
     if(!req.body) return next();
     var data = {
-      'pageUrl': req.protocol + '://' + req.headers.host + '/campagnes/' + req.params.slug
+      'pageUrl': req.protocol + '://' + req.headers.host + '/campagnes/' + req.params.slug + '/investeren/' + req.params.status,
+      'invoiceNumber': req.body.BRQ_INVOICENUMBER || null
     }
     var html = template(data);
     res.send(html);
