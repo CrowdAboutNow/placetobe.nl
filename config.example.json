@@ -1,0 +1,5 @@
+{
+	"apiEndpoint": "http://canapi.local",
+	"port": 8080,
+	"googleAnalyticsId": ""
+}

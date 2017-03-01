@@ -5,6 +5,7 @@ var express = require('express'),
   handlebars = require('handlebars'),
   async = require('async'),
   needle = require('needle'),
+  config = require('./config.json'),
   metadata = require('./metadata.json');
 
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -26,7 +27,7 @@ app.get('/campagnes/:slug', function(req, res, next) {
       'imageUrl': data.coverURL,
       'pageUrl': req.protocol + '://' + req.headers.host + '/campagnes/' + data.id
     }
-    var html = template(data);
+    var html = template(Object.assign({}, data, config));
     res.send(html);
   })
 })
@@ -42,7 +43,7 @@ app.post('/campagnes/:slug/investeren/:status', function(req, res, next) {
       'pageUrl': req.protocol + '://' + req.headers.host + '/campagnes/' + req.params.slug + '/investeren/' + req.params.status,
       'invoiceNumber': req.body.BRQ_INVOICENUMBER || null
     }
-    var html = template(data);
+    var html = template(Object.assign({}, data, config));
     res.send(html);
 });
 
@@ -53,8 +54,10 @@ function renderIndex(req, res) {
   var data = metadata.routes[urlPath];
   if(!data) return res.sendStatus(404);
   data.pageUrl = req.protocol + '://' + req.headers.host + urlPath;
-  var html = template(data);
+  var html = template(Object.assign({}, data, config));
   res.send(html);
 }
 
-app.listen(8080);
+app.listen(config.port, function() {
+  console.info('placetobe started on port ' + config.port);
+});
