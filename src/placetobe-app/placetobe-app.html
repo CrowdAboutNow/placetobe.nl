@@ -116,6 +116,14 @@
   async
 >
 
+>
+
+<link
+  rel="import"
+  href="../../bower_components/iron-signals/iron-signals.html"
+  async
+>
+
 <dom-module id="placetobe-app">
   <template>
 
@@ -186,9 +194,14 @@
       tracking-id="[[analyticsTrackingId]]"
     ></google-analytics-tracker>
 
+    <iron-signals
+      on-iron-signal-caas-access-token="_setAccessToken"
+      on-iron-signal-request-caas-access-token="_handleRequestAccessToken"
+    ></iron-signals>
+
     <app-localstorage-document
-      key="user-status"
-      data="{{user}}"
+      key="userData"
+      data="{{userData}}"
     ></app-localstorage-document>
 
     <app-location
@@ -263,7 +276,6 @@
               on-subscribe-error="_handleInvestorsBrochureRequestError"
             ></placetobe-mailinglist-subscribe-form> 
           </span>
-
 
         </main>
 
@@ -456,14 +468,15 @@
         * Information on authentication status of site visitor. 
         * Is also obtained from localstorage.
         */ 
-        user: {
+        userData: {
           type: Object,
-          value: {}
+          value: {},
         } 
       },
 
       observers: [
-        '_routePageChanged(routeData.page)'
+        '_routePageChanged(routeData.page)',
+        '_broadcastAccessToken(userData.accessToken)'
       ],
 
       ready: function() {
@@ -689,7 +702,23 @@
       _handleCookiesAccepted: function() {
         window.localStorage.setItem('placetobe-cookies-accepted', true);
         this.cookiesAccepted = window.localStorage.getItem('placetobe-cookies-accepted');
+      },
+
+      _setAccessToken: function(evt, data) {
+        //console.log('_setAccessToken!', data.accessToken)
+        this.set('userData.accessToken', data.accessToken);
+      },
+
+      _broadcastAccessToken(accessToken) {
+        this.fire('iron-signal', {name: 'caas-access-token', data: { accessToken: accessToken || null }});
+        //console.log('_broadcastAccessToken', accessToken);
+      },
+
+      _handleRequestAccessToken(accessToken) {
+        console.log('_handleRequestAccessToken');
+        this.fire('iron-signal', {name: 'caas-access-token', data: { accessToken: this.userData.accessToken }});
       }
+
     });
   </script>
 </dom-module>
