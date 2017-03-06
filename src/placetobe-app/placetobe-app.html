@@ -705,17 +705,14 @@
       },
 
       _setAccessToken: function(evt, data) {
-        //console.log('_setAccessToken!', data.accessToken)
         this.set('userData.accessToken', data.accessToken);
       },
 
       _broadcastAccessToken(accessToken) {
         this.fire('iron-signal', {name: 'caas-access-token', data: { accessToken: accessToken || null }});
-        //console.log('_broadcastAccessToken', accessToken);
       },
 
       _handleRequestAccessToken(accessToken) {
-        console.log('_handleRequestAccessToken');
         this.fire('iron-signal', {name: 'caas-access-token', data: { accessToken: this.userData.accessToken }});
       }
 
