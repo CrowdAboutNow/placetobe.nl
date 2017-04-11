@@ -1,0 +1,52 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/placetobe-styles/placetobe-styles.html">
+<link rel="import" href="../../bower_components/placetobe-investor-dashboard/placetobe-investor-dashboard.html">
+<link rel="import" href="placetobe-landing-page-styles.html">
+
+<link rel="import" href="../../bower_components/placetobe-signin-card/placetobe-signin-card.html">
+<dom-module id="placetobe-dashboard-page">
+  <template>
+
+    <style include="placetobe-landing-page-styles">
+      main {
+        margin-top: calc( var(--placetobe-margin) * 8 );
+      }
+    </style>
+
+    <main>
+
+      <div class="intro">
+        <placetobe-signin-card
+          hidden$="[[signedIn]]"
+          id="signInCard"
+          username="[[username]]"
+          password="[[password]]"
+          api-endpoint="[[apiEndpoint]]"
+          signed-in="{{signedIn}}"
+          access-token="{{accessToken}}"
+          user-role="investor"
+        ></placetobe-signin-card>    
+      </div>
+
+      <template is="dom-if" if="[[signedIn]]">
+          <section>
+            <placetobe-investor-dashboard></placetobe-investor-dashboard>
+          </section>
+      </template>
+      
+    </main> 
+
+  </template>
+  <script>
+    Polymer({
+      is: 'placetobe-dashboard-page',
+
+      properties: {
+        apiEndpoint: {
+          type: String,
+          value: null
+        }
+      }
+    })
+  </script>
+</dom-module>
