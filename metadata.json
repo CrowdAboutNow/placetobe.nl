@@ -12,6 +12,10 @@
       "title": "Quickscan Ondernemers",
       "description": "Beantwoord vijf vragen en kom erachter of crowdfunden iets voor jou is"
     },
+    "/dashboard": {
+      "title": "Dashboard",
+      "description": "Bezoek het dashboard om inzicht te krijgen in jouw account"
+    },    
     "/investeren": {
       "title": "Investeren in vastgoed",
       "description": "Wij helpen je de crowdfunders te vinden voor jouw vastgoedproject."
