@@ -22,11 +22,12 @@
     "placetobe-survey": "Placetobe/placetobe-survey",
     "placetobe-navigation-bar": "Placetobe/placetobe-navigation-bar",
     "placetobe-quote": "Placetobe/placetobe-quote",
-    "placetobe-campaign-page": "Placetobe/placetobe-campaign-page",
     "placetobe-investor-dashboard": "Placetobe/placetobe-investor-dashboard",
     "placetobe-mailinglist-subscribe-form": "Placetobe/placetobe-mailinglist-subscribe-form",
+    "placetobe-create-testimonial-card": "Placetobe/placetobe-create-testimonial-card",
     "google-analytics-tracker": "lotsofpeople/google-analytics-tracker",
-    "iron-pages": "polymerelements/iron-pages#^1.0.0"
+    "iron-pages": "polymerelements/iron-pages#^1.0.0",
+    "app-storage": "^0.9.8"
   },
   "devDependencies": {
     "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",

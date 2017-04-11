@@ -13,6 +13,7 @@ Example:
 <link rel="import" href="../../bower_components/placetobe-campaign-page/placetobe-campaign-page.html">
 <link rel="import" href="placetobe-landing-page-styles.html">
 <link rel="import" href="placetobe-investment-failed-notice.html">
+<link rel="import" href="placetobe-investment-complete-page.html">
 
 
 <dom-module id="placetobe-campagnes-page">
@@ -28,6 +29,10 @@ Example:
 
       [hidden] {
         display: none;
+      }
+
+      :host placetobe-campaign-page {
+        margin-top: calc( var(--placetobe-margin) * 8 );
       }
     </style>
 
@@ -49,7 +54,7 @@ Example:
     <!-- If routeData indicates that the page is about one campaign and if there is no subRouteData (for example post invest)-->
     <!--TODO: if route is only /campagnes this will also try to load a single campaing. Can be computed [[!!routeData.campaignId && !subRouteData.status]]-->
     <template is="dom-if" if="{{!subRouteData.status}}">
-      <placetobe-campaign-page api-endpoint="[[apiEndpoint]]" campaign-id="{{routeData.campaignId}}"></placetobe-campaign-page>
+      <placetobe-campaign-page route="[[campaignRoute]]" api-endpoint="[[apiEndpoint]]" campaign-id="{{routeData.campaignId}}"></placetobe-campaign-page>
     </template>
     
     <!-- If post invest was unsuccesful (route: /campagnes/:campaignId/reject)  -->
@@ -59,9 +64,9 @@ Example:
 
     <!-- If post invest was succesful (route: /campagnes/:campaignId/success)  -->
     <template is="dom-if" if="[[_computeInvestmentSuccessfull(subRouteData.status)]]">
-      <h1>Investering succesvol</h1>     
+      <placetobe-investment-complete-page campaign-id="[[routeData.campaignId]]" api-endpoint="[[apiEndpoint]]" user="[[user]]" invoice-number="[[invoiceNumber]]"></placetobe-investment-complete-page>
     </template>
-    
+
   </template>
   <script>
     Polymer({
@@ -86,6 +91,16 @@ Example:
         */
         subRouteData: {
           type: Object
+        },
+        /* 
+        * Number of invoice of succesful investment propogated via POST request body (server.js -> index.hbs -> placetobe-app)
+        */
+        invoiceNumber: {
+          type: String
+        },
+        user: {
+          type: Object,
+          value: {}
         }
       },
 
@@ -96,8 +111,6 @@ Example:
       _computeInvestmentSuccessfull: function(investmentStatus) {
         return (investmentStatus && investmentStatus == 'success');
       }
-      
-
     });
   </script>
 </dom-module>
