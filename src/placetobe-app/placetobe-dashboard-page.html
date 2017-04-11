@@ -1,39 +1,20 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/placetobe-styles/placetobe-styles.html">
 <link rel="import" href="../../bower_components/placetobe-investor-dashboard/placetobe-investor-dashboard.html">
-<link rel="import" href="placetobe-landing-page-styles.html">
 
-<link rel="import" href="../../bower_components/placetobe-signin-card/placetobe-signin-card.html">
 <dom-module id="placetobe-dashboard-page">
   <template>
 
-    <style include="placetobe-landing-page-styles">
+    <style>
       main {
         margin-top: calc( var(--placetobe-margin) * 8 );
       }
     </style>
 
     <main>
-
-      <div class="intro">
-        <placetobe-signin-card
-          hidden$="[[signedIn]]"
-          id="signInCard"
-          username="[[username]]"
-          password="[[password]]"
-          api-endpoint="[[apiEndpoint]]"
-          signed-in="{{signedIn}}"
-          access-token="{{accessToken}}"
-          user-role="investor"
-        ></placetobe-signin-card>    
-      </div>
-
-      <template is="dom-if" if="[[signedIn]]">
-          <section>
-            <placetobe-investor-dashboard></placetobe-investor-dashboard>
-          </section>
+      <template is="dom-if" if="[[roleIsInvestor]]">
+        <placetobe-investor-dashboard api-endpoint="[[apiEndpoint]]"></placetobe-investor-dashboard>      
       </template>
-      
     </main> 
 
   </template>
@@ -45,8 +26,20 @@
         apiEndpoint: {
           type: String,
           value: null
+        },
+        routeData: {
+          type: Object
+        },
+        roleIsInvestor: {
+          type: Boolean,
+          value: false,
+          computed: '_checkRoleIsInvestor(routeData.page)'
         }
+      },
+      _checkRoleIsInvestor: function (role) {
+        console.log(role)
+        return role === 'investor';
       }
-    })
+    });
   </script>
 </dom-module>
