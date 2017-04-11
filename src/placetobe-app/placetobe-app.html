@@ -283,6 +283,7 @@
       <placetobe-klachtenprocedure-page name="klachtenprocedure"></placetobe-klachtenprocedure-page>
       <placetobe-algemene-voorwaarden-page name="algemene-voorwaarden"></placetobe-algemene-voorwaarden-page>
       <placetobe-campagnes-page api-endpoint="[[apiEndpoint]]" campaign-route="[[subRoute]]" name="campagnes"></placetobe-campagnes-page>
+      <placetobe-dashboard-page api-endpoint="[[apiEndpoint]]" name="dashboard"></placetobe-dashboard-page>      
     </iron-pages>
 
     <placetobe-footer></placetobe-footer>
@@ -514,6 +515,11 @@
               title: this._parseDocumentTitle('Vastgoed crowdfunding')
             });
             break;
+          case "/dashboard":
+            this.fire('app-metadata', {
+              title: this._parseDocumentTitle('Dashboard')
+            });
+            break;            
           case "/investeren":
             this.fire('app-metadata', {
               title: this._parseDocumentTitle('Investeren in vastgoed')
