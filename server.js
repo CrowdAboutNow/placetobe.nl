@@ -33,6 +33,20 @@ app.get('/campagnes/:slug', function(req, res, next) {
 })
 
 /*
+Dashboard Page
+*/
+app.get('/dashboard/:userRole', function(req, res, next) {
+  var roleInDutch = computeRoleInDutch(req.params.userRole)
+  var data = {
+    'title': 'Dashboard ' + roleInDutch,
+    'description': 'Dashboard van ' + roleInDutch,
+    'pageUrl': req.protocol + '://' + req.headers.host + '/dashboard/' + req.params.userRole
+  }
+  var html = template(Object.assign({}, data, config));
+  res.send(html);
+})
+
+/*
 Static Pages
 */
 app.get('*', renderIndex);
@@ -56,6 +70,19 @@ function renderIndex(req, res) {
   data.pageUrl = req.protocol + '://' + req.headers.host + urlPath;
   var html = template(Object.assign({}, data, config));
   res.send(html);
+}
+
+function computeRoleInDutch (role) {
+  var roleInDutch = '';
+  switch(role) {
+    case 'investor':
+      roleInDutch = 'inversteerder';
+      break;
+    case 'entrepreneur':
+      roleInDutch = 'ondernemer';
+      break;
+  }
+  return roleInDutch
 }
 
 app.listen(config.port, function() {
