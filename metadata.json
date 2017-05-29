@@ -35,6 +35,10 @@
     "/algemene-voorwaarden": {
       "title": "Algemene voorwaarden",
       "description": "Laatst gewijzigd 23 december 2016"
+    },
+    "/forgotpassword/validate": {
+      "title": "Wachtwoord bevestigen",
+      "description": ""
     }
   }
 }
