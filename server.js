@@ -33,6 +33,18 @@ app.get('/campagnes/:slug', function(req, res, next) {
 })
 
 /*
+Forgot password Page
+*/
+app.get('/forgotpassword/validate/:token/:email', function(req, res, next) {
+    var data = {
+      'pageUrl': req.protocol + '://' + req.headers.host + '/forgotpassword/validate/' + req.params.token + '/' + req.params.email,
+    }
+    var html = template(Object.assign({}, data, config));
+    res.send(html);
+})
+
+
+/*
 Static Pages
 */
 app.get('*', renderIndex);
