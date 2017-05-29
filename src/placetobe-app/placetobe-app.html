@@ -127,6 +127,12 @@
         --placetobe-color--investors: var(--placetobe-color-taupe);
       }
 
+      :host main {
+        @apply --placetobe-flex-layout--vertical;
+        @apply --placetobe-flex-layout;
+        min-height: 100vh;
+      }
+
       :host placetobe-header {
         position: fixed;
         top: 0;
@@ -180,6 +186,11 @@
         left: 0;
         right: 0;
       }
+
+      iron-pages {
+        @apply --placetobe-flex-item--1;
+      }
+
     </style>
 
     <google-analytics-tracker
@@ -208,96 +219,99 @@
       pattern="/:page"
       data="{{subRouteData}}"
     ></placetobe-route>
+    
+    <main>
 
-    <placetobe-header
-      location-path="{{locationPath}}"
-      collapsed="[[headerCollapsed]]"
-      current-page="[[page]]"
-      home-page-active="{{homePageActive}}"
-      entrepreneur-page-active="{{entrepreneurLandingPageActive}}"
-      invest-page-active="{{investorLandingPageActive}}"
-    ></placetobe-header>
+      <placetobe-header
+        location-path="{{locationPath}}"
+        collapsed="[[headerCollapsed]]"
+        current-page="[[page]]"
+        home-page-active="{{homePageActive}}"
+        entrepreneur-page-active="{{entrepreneurLandingPageActive}}"
+        invest-page-active="{{investorLandingPageActive}}"
+      ></placetobe-header>
 
-    <div id="hero-wrapper" hidden$="[[!landingPageActive]]">
-      
-      <placetobe-hero
-        car-parked$="[[investorLandingPageActive]]"
-        car-gone$="[[entrepreneurLandingPageActive]]"
-        >
+      <div id="hero-wrapper" hidden$="[[!landingPageActive]]">
+        
+        <placetobe-hero
+          car-parked$="[[investorLandingPageActive]]"
+          car-gone$="[[entrepreneurLandingPageActive]]"
+          >
 
-        <main slot="main">
+          <main slot="main">
 
-            
-          <span hidden$="[[!homePageActive]]">
-            <h2>Iedereen heeft een plek nodig. <strong>Een plek om te wonen</strong>, werken, ondernemen, relaxen... Een plek om te zijn.</h2>      
-            <placetobe-button
-              href="/start-project"
-              on-tap="_handleTapStartProjectButton"
-              ><span>Hoe start ik een project?</span></placetobe-button>
-            <placetobe-button
-              href="/investeren"
-              on-tap="_handleTapInvestorInfoButton"
-               link><span>Info voor investeerders</span></placetobe-button>
-          </span>
+              
+            <span hidden$="[[!homePageActive]]">
+              <h2>Iedereen heeft een plek nodig. <strong>Een plek om te wonen</strong>, werken, ondernemen, relaxen... Een plek om te zijn.</h2>      
+              <placetobe-button
+                href="/start-project"
+                on-tap="_handleTapStartProjectButton"
+                ><span>Hoe start ik een project?</span></placetobe-button>
+              <placetobe-button
+                href="/investeren"
+                on-tap="_handleTapInvestorInfoButton"
+                link><span>Info voor investeerders</span></placetobe-button>
+            </span>
 
-          <span hidden$="[[!entrepreneurLandingPageActive]]">
-            <h2><strong>Geen gebouw neerzetten, maar een plek maken.</strong> Vastgoed ontwikkel je samen met de crowd.</h2>
-            <placetobe-mailinglist-subscribe-form
-              api-endpoint="[[apiEndpoint]]"
-              user-role="entrepreneurs"
-              button-label="Email mij de brochure"
-              on-subscribing="_handleEntrepreneursBrochureRequesting"
-              on-subscribed="_handleEntrepreneursBrochureRequested"
-              on-subscribe-error="_handleEntrepreneursBrochureRequestError"
-            ></placetobe-mailinglist-subscribe-form>
-          </span>
+            <span hidden$="[[!entrepreneurLandingPageActive]]">
+              <h2><strong>Geen gebouw neerzetten, maar een plek maken.</strong> Vastgoed ontwikkel je samen met de crowd.</h2>
+              <placetobe-mailinglist-subscribe-form
+                api-endpoint="[[apiEndpoint]]"
+                user-role="entrepreneurs"
+                button-label="Email mij de brochure"
+                on-subscribing="_handleEntrepreneursBrochureRequesting"
+                on-subscribed="_handleEntrepreneursBrochureRequested"
+                on-subscribe-error="_handleEntrepreneursBrochureRequestError"
+              ></placetobe-mailinglist-subscribe-form>
+            </span>
 
-          <span hidden$="[[!investorLandingPageActive]]">
-            <h2><strong>Crowdfunding in vastgoed.</strong><br>Iedereen een plek en jij rendement.</h2>      
-            <placetobe-mailinglist-subscribe-form
-              api-endpoint="[[apiEndpoint]]"
-              user-role="investors"
-              button-label="Email mij de brochure"
-              on-subscribing="_handleInvestorsBrochureRequesting"
-              on-subscribed="_handleInvestorsBrochureRequested"
-              on-subscribe-error="_handleInvestorsBrochureRequestError"
-            ></placetobe-mailinglist-subscribe-form> 
-          </span>
+            <span hidden$="[[!investorLandingPageActive]]">
+              <h2><strong>Crowdfunding in vastgoed.</strong><br>Iedereen een plek en jij rendement.</h2>      
+              <placetobe-mailinglist-subscribe-form
+                api-endpoint="[[apiEndpoint]]"
+                user-role="investors"
+                button-label="Email mij de brochure"
+                on-subscribing="_handleInvestorsBrochureRequesting"
+                on-subscribed="_handleInvestorsBrochureRequested"
+                on-subscribe-error="_handleInvestorsBrochureRequestError"
+              ></placetobe-mailinglist-subscribe-form> 
+            </span>
 
 
-        </main>
+          </main>
 
-        <placetobe-manholdingkey-illustration
-          slot="illustration"
-          hidden$="[[!homePageActive]]"
-        ></placetobe-manholdingkey-illustration>
+          <placetobe-manholdingkey-illustration
+            slot="illustration"
+            hidden$="[[!homePageActive]]"
+          ></placetobe-manholdingkey-illustration>
 
-        <placetobe-manreading-illustration
-          slot="illustration"
-          hidden$="[[!entrepreneurLandingPageActive]]"
-        ></placetobe-manreading-illustration>
+          <placetobe-manreading-illustration
+            slot="illustration"
+            hidden$="[[!entrepreneurLandingPageActive]]"
+          ></placetobe-manreading-illustration>
 
-        <placetobe-manthinking-illustration
-          slot="illustration"
-          hidden$="[[!investorLandingPageActive]]"
-        ></placetobe-manthinking-illustration>
+          <placetobe-manthinking-illustration
+            slot="illustration"
+            hidden$="[[!investorLandingPageActive]]"
+          ></placetobe-manthinking-illustration>
 
-      </placetobe-hero>
+        </placetobe-hero>
 
-    </div>
+      </div>
 
-    <iron-pages selected="[[page]]" attr-for-selected="name" selected-attribute="visible">
-      <placetobe-home-page name="home"></placetobe-home-page>
-      <placetobe-investeren-page name="investeren"></placetobe-investeren-page>
-      <placetobe-start-project-page name="start-project"></placetobe-start-project-page>
-      <placetobe-tarieven-page name="tarieven"></placetobe-tarieven-page>
-      <placetobe-klachtenprocedure-page name="klachtenprocedure"></placetobe-klachtenprocedure-page>
-      <placetobe-forgotpassword-page name="forgotpassword"></placetobe-forgotpassword-page>
-      <placetobe-algemene-voorwaarden-page name="algemene-voorwaarden"></placetobe-algemene-voorwaarden-page>
-      <placetobe-campagnes-page api-endpoint="[[apiEndpoint]]" campaign-route="[[subRoute]]" name="campagnes" user="[[user]]" invoice-number="[[invoiceNumber]]"></placetobe-campagnes-page>
-    </iron-pages>
+      <iron-pages selected="[[page]]" attr-for-selected="name" selected-attribute="visible">
+        <placetobe-home-page name="home"></placetobe-home-page>
+        <placetobe-investeren-page name="investeren"></placetobe-investeren-page>
+        <placetobe-start-project-page name="start-project"></placetobe-start-project-page>
+        <placetobe-tarieven-page name="tarieven"></placetobe-tarieven-page>
+        <placetobe-klachtenprocedure-page name="klachtenprocedure"></placetobe-klachtenprocedure-page>
+        <placetobe-forgotpassword-page validation-route="[[subRoute]]" name="forgotpassword"></placetobe-forgotpassword-page>
+        <placetobe-algemene-voorwaarden-page name="algemene-voorwaarden"></placetobe-algemene-voorwaarden-page>
+        <placetobe-campagnes-page api-endpoint="[[apiEndpoint]]" campaign-route="[[subRoute]]" name="campagnes" user="[[user]]" invoice-number="[[invoiceNumber]]"></placetobe-campagnes-page>
+      </iron-pages>
 
-    <placetobe-footer></placetobe-footer>
+      <placetobe-footer></placetobe-footer>
+    </main>
 
     <placetobe-popup
       with-backdrop
