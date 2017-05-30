@@ -137,24 +137,24 @@
 
       :host placetobe-hero {
         height: 0;
-        min-height: calc( var(--placetobe-margin) * 26 );
+        min-height: 80vh;
       }
 
-      @media(min-width: 601px) {
+      @media(min-width: 1441px) {
         :host placetobe-hero {
-          min-height: 52vh;
+          min-height: 60vh;
         }
       }
 
       #hero-wrapper {
         overflow: hidden;
         height: 0;
-        min-height: calc( var(--placetobe-margin) * 26 );
+        min-height: 80vh;
         transition: 0.6s min-height;
         transform: translate3d(0,0,0);
       }
 
-      @media(min-width: 601px) {
+      @media(min-width: 1441px) {
         :host #hero-wrapper {
           min-height: 60vh;
         }
