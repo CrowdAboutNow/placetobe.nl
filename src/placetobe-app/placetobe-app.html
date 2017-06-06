@@ -114,6 +114,13 @@
   async
 >
 
+>
+
+<link
+  rel="import"
+  href="../../bower_components/iron-signals/iron-signals.html"
+>
+
 <dom-module id="placetobe-app">
   <template>
 
@@ -176,9 +183,14 @@
       tracking-id="[[analyticsTrackingId]]"
     ></google-analytics-tracker>
 
+    <iron-signals
+      on-iron-signal-caas-access-token="_setAccessToken"
+      on-iron-signal-request-caas-access-token="_handleRequestAccessToken"
+    ></iron-signals>
+
     <app-localstorage-document
-      key="user-status"
-      data="{{user}}"
+      key="user-data"
+      data="{{userData}}"
     ></app-localstorage-document>
 
     <app-location
@@ -252,7 +264,6 @@
             ></placetobe-mailinglist-subscribe-form> 
           </span>
 
-
         </main>
 
         <placetobe-impact-illustration
@@ -281,7 +292,7 @@
       <placetobe-tarieven-page name="tarieven"></placetobe-tarieven-page>
       <placetobe-klachtenprocedure-page name="klachtenprocedure"></placetobe-klachtenprocedure-page>
       <placetobe-algemene-voorwaarden-page name="algemene-voorwaarden"></placetobe-algemene-voorwaarden-page>
-      <placetobe-campagnes-page api-endpoint="[[apiEndpoint]]" campaign-route="[[subRoute]]" name="campagnes" user="[[user]]" invoice-number="[[invoiceNumber]]"></placetobe-campagnes-page>
+      <placetobe-campagnes-page api-endpoint="[[apiEndpoint]]" campaign-route="[[subRoute]]" name="campagnes" invoice-number="[[invoiceNumber]]"></placetobe-campagnes-page>
     </iron-pages>
 
     <placetobe-footer></placetobe-footer>
@@ -444,14 +455,15 @@
         * Information on authentication status of site visitor. 
         * Is also obtained from localstorage.
         */ 
-        user: {
+        userData: {
           type: Object,
           value: {}
         } 
       },
 
       observers: [
-        '_routePageChanged(routeData.page)'
+        '_routePageChanged(routeData.page)',
+        '_broadcastAccessToken(userData.accessToken)'
       ],
 
       ready: function() {
@@ -677,7 +689,20 @@
       _handleCookiesAccepted: function() {
         window.localStorage.setItem('placetobe-cookies-accepted', true);
         this.cookiesAccepted = window.localStorage.getItem('placetobe-cookies-accepted');
+      },
+
+      _setAccessToken: function(evt, data) {
+        this.set('userData.accessToken', data.accessToken);
+      },
+
+      _broadcastAccessToken(accessToken) {
+        this.fire('iron-signal', {name: 'caas-access-token', data: { accessToken: accessToken || null }});
+      },
+
+      _handleRequestAccessToken(accessToken) {
+        this.fire('iron-signal', {name: 'caas-access-token', data: { accessToken: this.userData.accessToken }});
       }
+
     });
   </script>
 </dom-module>
