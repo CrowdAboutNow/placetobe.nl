@@ -1,0 +1,44 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/placetobe-styles/placetobe-styles.html">
+<link rel="import" href="../../bower_components/placetobe-investor-dashboard/placetobe-investor-dashboard.html">
+
+<dom-module id="placetobe-dashboard-page">
+  <template>
+
+    <style>
+      main {
+        margin-top: calc( var(--placetobe-margin) * 8 );
+      }
+    </style>
+
+    <main>
+      <template is="dom-if" if="[[roleIsInvestor]]">
+        <placetobe-investor-dashboard api-endpoint="[[apiEndpoint]]"></placetobe-investor-dashboard>      
+      </template>
+    </main> 
+
+  </template>
+  <script>
+    Polymer({
+      is: 'placetobe-dashboard-page',
+
+      properties: {
+        apiEndpoint: {
+          type: String,
+          value: null
+        },
+        routeData: {
+          type: Object
+        },
+        roleIsInvestor: {
+          type: Boolean,
+          value: false,
+          computed: '_checkRoleIsInvestor(routeData.page)'
+        }
+      },
+      _checkRoleIsInvestor: function (role) {
+        return role === 'investor';
+      }
+    });
+  </script>
+</dom-module>

@@ -292,6 +292,7 @@
       <placetobe-tarieven-page name="tarieven"></placetobe-tarieven-page>
       <placetobe-klachtenprocedure-page name="klachtenprocedure"></placetobe-klachtenprocedure-page>
       <placetobe-algemene-voorwaarden-page name="algemene-voorwaarden"></placetobe-algemene-voorwaarden-page>
+      <placetobe-dashboard-page api-endpoint="[[apiEndpoint]]" route-data="[[subRouteData]]" name="dashboard"></placetobe-dashboard-page>            
       <placetobe-campagnes-page api-endpoint="[[apiEndpoint]]" campaign-route="[[subRoute]]" name="campagnes" invoice-number="[[invoiceNumber]]"></placetobe-campagnes-page>
     </iron-pages>
 
@@ -554,6 +555,11 @@
               title: this._parseDocumentTitle('Aanmelden als investeerder')
             });
             break;
+          case "/dashboard/investor":
+            this.fire('app-metadata', {
+              title: this._parseDocumentTitle('Dashboard voor investeerders')
+            });
+            break; 
           case "/start-project":
             this.fire('app-metadata', {
               title: this._parseDocumentTitle('Start een project')
