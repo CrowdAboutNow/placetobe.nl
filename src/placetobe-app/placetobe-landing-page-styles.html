@@ -19,8 +19,15 @@
       }
 
       :host h1 {
-        @apply --placetobe-font-title;
-        margin: 0 0 calc( (var(--placetobe-margin) * 2) ) 0;
+        @apply --placetobe-font-heading1;
+        margin: var(--placetobe-margin) 0;
+      }
+
+      @media(min-width: 601px) {
+        :host h1 {
+          @apply --placetobe-font-title;
+          margin: calc( (var(--placetobe-margin) * 2) ) 0;
+        }        
       }
 
       :host h3 {

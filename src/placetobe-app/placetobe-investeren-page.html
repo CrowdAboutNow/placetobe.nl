@@ -30,10 +30,16 @@
 
         <h1>Investeren in vastgoed met een goed verhaal</h1>
         <h3>Je geld doet meer wanneer je het belegt via crowdfunding. Door te investeren via Placetobe, kun je vastgoed helpen realiseren waar daadwerkelijk behoefte aan is, nu en in de toekomst. Een mooie plek maken, dat is wat jouw geld kan doen.</h3>
-          <placetobe-button
-            href="/investeren/test"
-            on-tap="_handleTapStartQuickscanButton"
-            ><span>Start de quickscan</span></placetobe-button>
+
+        <placetobe-mailinglist-subscribe-form
+          api-endpoint="[[apiEndpoint]]"
+          user-role="investors"
+          button-label="Email mij de brochure"
+          on-subscribing="_handleInvestorsBrochureRequesting"
+          on-subscribed="_handleInvestorsBrochureRequested"
+          on-subscribe-error="_handleInvestorsBrochureRequestError"
+        ></placetobe-mailinglist-subscribe-form>
+
       </div>
 
       <section>
@@ -177,10 +183,17 @@
         this._sendAnalyticsEvent('request-error', 'investors-brochure')
       },
 
-      _handleTapStartQuickscanButton: function() {
-        this._sendAnalyticsEvent('start', 'investors-quickscan')        
-      }
+      _handleInvestorsBrochureRequesting: function() {
+        this._sendAnalyticsEvent('intro', 'requesting', 'investors-brochure')
+      },
 
+      _handleInvestorsBrochureRequested: function() {
+        this._sendAnalyticsEvent('intro', 'requested', 'investors-brochure')
+      },
+
+      _handleInvestorsBrochureRequestError: function() {
+        this._sendAnalyticsEvent('intro', 'request-error', 'investors-brochure')
+      },
     })
   </script>
 </dom-module>

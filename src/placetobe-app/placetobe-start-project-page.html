@@ -31,10 +31,16 @@
 
         <h1>Vastgoed ontwikkelen samen met de crowd</h1>
         <h3>Placetobe financiert de ontwikkeling van nieuw vastgoed en de herfinanciering van bestaand vastgoed. We maken alternatieve financiering mogelijk als aanvulling op, of ter vervanging van een bancaire lening, in de vorm van Crowdfunding. Dit biedt kansen om een grote groep investeerders te bereiken en direct een breder draagvlak voor je project te realiseren.</h3>
-          <placetobe-button
-            href="/start-project/test"
-            on-tap="_handleTapStartQuickscanButton"
-          ><span>Start de quickscan</span></placetobe-button>
+
+        <placetobe-mailinglist-subscribe-form
+          api-endpoint="[[apiEndpoint]]"
+          user-role="entrepreneurs"
+          button-label="Email mij de brochure"
+          on-subscribing="_handleEntrepreneursBrochureRequesting"
+          on-subscribed="_handleEntrepreneursBrochureRequested"
+          on-subscribe-error="_handleEntrepreneursBrochureRequestError"
+        ></placetobe-mailinglist-subscribe-form>
+
       </div>
 
       <section>
@@ -223,13 +229,21 @@
         this._sendAnalyticsEvent('request-error', 'entrepreneurs-brochure')
       },
 
-      _handleTapStartQuickscanButton: function() {
-        this._sendAnalyticsEvent('start', 'entrepreneurs-quickscan')        
-      },
-
       _handleTapShowPricingButton: function() {
         this._sendAnalyticsEvent('tap-pricing-button', 'pricing')        
-      }
+      },
+
+      _handleEntrepreneursBrochureRequesting: function() {
+        this._sendAnalyticsEvent('intro', 'requesting', 'entrepreneurs-brochure')
+      },
+
+      _handleEntrepreneursBrochureRequested: function() {
+        this._sendAnalyticsEvent('intro', 'requested', 'entrepreneurs-brochure')
+      },
+
+      _handleEntrepreneursBrochureRequestError: function() {
+        this._sendAnalyticsEvent('intro', 'request-error', 'entrepreneurs-brochure')
+      },
 
     })
   </script>
