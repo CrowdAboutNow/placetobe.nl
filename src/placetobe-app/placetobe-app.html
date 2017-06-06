@@ -64,34 +64,32 @@
 
 <link
   rel="import"
-  href="../../bower_components/placetobe-illustrations/placetobe-manholdingkey-illustration.html"
+  href="../../bower_components/placetobe-illustrations/placetobe-future-illustration.html"
   async
 >
 
 <link
   rel="import"
-  href="../../bower_components/placetobe-illustrations/placetobe-manreading-illustration.html"
+  href="../../bower_components/placetobe-illustrations/placetobe-impact-illustration.html"
   async
 >
 
 <link
   rel="import"
-  href="../../bower_components/placetobe-illustrations/placetobe-manthinking-illustration.html"
+  href="../../bower_components/placetobe-illustrations/placetobe-support-illustration.html"
   async
 >
 
 <link
   rel="import"
   href="../../bower_components/placetobe-popup/placetobe-popup.html"
-  async
 >
 
-<link
+ <link
   rel="import"
   href="../../bower_components/placetobe-mailinglist-subscribe-form/placetobe-mailinglist-subscribe-form.html"
-  async
 >
-
+ 
 <link
   rel="import"
   href="../../bower_components/placetobe-survey/placetobe-investor-quickscan.html"
@@ -145,10 +143,10 @@
 
       :host placetobe-hero {
         height: 0;
-        min-height: calc( var(--placetobe-margin) * 26 );
+        min-height: 80vh;
       }
 
-      @media(min-width: 601px) {
+      @media(min-width: 1441px) {
         :host placetobe-hero {
           min-height: 60vh;
         }
@@ -157,12 +155,12 @@
       #hero-wrapper {
         overflow: hidden;
         height: 0;
-        min-height: calc( var(--placetobe-margin) * 26 );
+        min-height: 80vh;
         transition: 0.6s min-height;
         transform: translate3d(0,0,0);
       }
 
-      @media(min-width: 601px) {
+      @media(min-width: 1441px) {
         :host #hero-wrapper {
           min-height: 60vh;
         }
@@ -171,14 +169,6 @@
       #hero-wrapper[hidden] {
         min-height: 0;
         display: block;
-      }
-
-      placetobe-hero[car-parked] {
-        --placetobe-hero-color: var(--placetobe-color-taupe);
-      }
-
-      placetobe-hero[car-gone] {
-        --placetobe-hero-color: var(--placetobe-color-yellow);
       }
 
       placetobe-cookie-warning {
@@ -234,15 +224,13 @@
     <div id="hero-wrapper" hidden$="[[!landingPageActive]]">
       
       <placetobe-hero
-        car-parked$="[[investorLandingPageActive]]"
-        car-gone$="[[entrepreneurLandingPageActive]]"
         >
 
         <main slot="main">
 
             
           <span hidden$="[[!homePageActive]]">
-            <h2>Iedereen heeft een plek nodig. <strong>Een plek om te wonen</strong>, werken, ondernemen, relaxen... Een plek om te zijn.</h2>      
+            <h2><strong>Positieve impact</strong> met vastgoed?</h2>      
             <placetobe-button
               href="/start-project"
               on-tap="_handleTapStartProjectButton"
@@ -254,7 +242,7 @@
           </span>
 
           <span hidden$="[[!entrepreneurLandingPageActive]]">
-            <h2><strong>Geen gebouw neerzetten, maar een plek maken.</strong> Vastgoed ontwikkel je samen met de crowd.</h2>
+            <h2><strong>Financiering</strong> én draagvlak?</h2>
             <placetobe-mailinglist-subscribe-form
               api-endpoint="[[apiEndpoint]]"
               user-role="entrepreneurs"
@@ -266,7 +254,7 @@
           </span>
 
           <span hidden$="[[!investorLandingPageActive]]">
-            <h2><strong>Crowdfunding in vastgoed.</strong><br>Iedereen een plek en jij rendement.</h2>      
+            <h2><strong>Bouwen</strong> aan de toekomst?</h2>      
             <placetobe-mailinglist-subscribe-form
               api-endpoint="[[apiEndpoint]]"
               user-role="investors"
@@ -279,20 +267,20 @@
 
         </main>
 
-        <placetobe-manholdingkey-illustration
+        <placetobe-impact-illustration
           slot="illustration"
           hidden$="[[!homePageActive]]"
-        ></placetobe-manholdingkey-illustration>
+        ></placetobe-impact-illustration>
 
-        <placetobe-manreading-illustration
+        <placetobe-future-illustration
           slot="illustration"
           hidden$="[[!entrepreneurLandingPageActive]]"
-        ></placetobe-manreading-illustration>
+        ></placetobe-future-illustration>
 
-        <placetobe-manthinking-illustration
+        <placetobe-support-illustration
           slot="illustration"
           hidden$="[[!investorLandingPageActive]]"
-        ></placetobe-manthinking-illustration>
+        ></placetobe-support-illustration>
 
       </placetobe-hero>
 

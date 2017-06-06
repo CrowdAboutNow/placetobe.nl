@@ -84,7 +84,7 @@
 
         if (!webComponentsSupported) {
           var script = document.createElement('script');
-          script.src = '/bower_components/webcomponentsjs/webcomponents-lite.min.js';
+          script.src = '/bower_components/webcomponentsjs/webcomponents-lite.js';
           script.onload = onload;
           document.head.appendChild(script);
         } else {
@@ -105,6 +105,7 @@
     <style type="text/css">
       html, body {
         margin: 0;
+        -webkit-overflow-scrolling : touch !important;
       }
     </style>
 
@@ -116,7 +117,7 @@
       t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
       document,'script','https://connect.facebook.net/en_US/fbevents.js');
 
-      fbq('init', '1229478170447130');
+      fbq('init', '{{facebookPixelId}}');
       fbq('track', "PageView");
     </script>
 
@@ -129,7 +130,7 @@
       (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
       m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
       })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-      ga('create', 'UA-86279932-1', 'auto');
+      ga('create', '{{googleAnalyticsId}}', 'auto');
       ga('send', 'pageview');
     </script>
 
