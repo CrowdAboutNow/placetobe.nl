@@ -64,34 +64,32 @@
 
 <link
   rel="import"
-  href="../../bower_components/placetobe-illustrations/placetobe-manholdingkey-illustration.html"
+  href="../../bower_components/placetobe-illustrations/placetobe-future-illustration.html"
   async
 >
 
 <link
   rel="import"
-  href="../../bower_components/placetobe-illustrations/placetobe-manreading-illustration.html"
+  href="../../bower_components/placetobe-illustrations/placetobe-impact-illustration.html"
   async
 >
 
 <link
   rel="import"
-  href="../../bower_components/placetobe-illustrations/placetobe-manthinking-illustration.html"
+  href="../../bower_components/placetobe-illustrations/placetobe-support-illustration.html"
   async
 >
 
 <link
   rel="import"
   href="../../bower_components/placetobe-popup/placetobe-popup.html"
-  async
 >
 
-<link
+ <link
   rel="import"
   href="../../bower_components/placetobe-mailinglist-subscribe-form/placetobe-mailinglist-subscribe-form.html"
-  async
 >
-
+ 
 <link
   rel="import"
   href="../../bower_components/placetobe-survey/placetobe-investor-quickscan.html"
@@ -116,6 +114,13 @@
   async
 >
 
+>
+
+<link
+  rel="import"
+  href="../../bower_components/iron-signals/iron-signals.html"
+>
+
 <dom-module id="placetobe-app">
   <template>
 
@@ -125,12 +130,6 @@
         --placetobe-color--general: var(--placetobe-color-gray);
         --placetobe-color--entrepreneurs: var(--placetobe-color-yellow);
         --placetobe-color--investors: var(--placetobe-color-taupe);
-      }
-
-      :host main {
-        height: 100vh;
-        @apply --placetobe-flex-layout--vertical;
-        @apply --placetobe-flex-align--space-between;        
       }
 
       :host placetobe-header {
@@ -143,10 +142,10 @@
 
       :host placetobe-hero {
         height: 0;
-        min-height: calc( var(--placetobe-margin) * 26 );
+        min-height: 80vh;
       }
 
-      @media(min-width: 601px) {
+      @media(min-width: 1441px) {
         :host placetobe-hero {
           min-height: 60vh;
         }
@@ -155,12 +154,12 @@
       #hero-wrapper {
         overflow: hidden;
         height: 0;
-        min-height: calc( var(--placetobe-margin) * 26 );
+        min-height: 80vh;
         transition: 0.6s min-height;
         transform: translate3d(0,0,0);
       }
 
-      @media(min-width: 601px) {
+      @media(min-width: 1441px) {
         :host #hero-wrapper {
           min-height: 60vh;
         }
@@ -169,14 +168,6 @@
       #hero-wrapper[hidden] {
         min-height: 0;
         display: block;
-      }
-
-      placetobe-hero[car-parked] {
-        --placetobe-hero-color: var(--placetobe-color-taupe);
-      }
-
-      placetobe-hero[car-gone] {
-        --placetobe-hero-color: var(--placetobe-color-yellow);
       }
 
       placetobe-cookie-warning {
@@ -192,9 +183,14 @@
       tracking-id="[[analyticsTrackingId]]"
     ></google-analytics-tracker>
 
+    <iron-signals
+      on-iron-signal-caas-access-token="_setAccessToken"
+      on-iron-signal-request-caas-access-token="_handleRequestAccessToken"
+    ></iron-signals>
+
     <app-localstorage-document
-      key="user-status"
-      data="{{user}}"
+      key="user-data"
+      data="{{userData}}"
     ></app-localstorage-document>
 
     <app-location
@@ -215,97 +211,91 @@
       data="{{subRouteData}}"
     ></placetobe-route>
 
-    <main>
-      <placetobe-header
-        location-path="{{locationPath}}"
-        collapsed="[[headerCollapsed]]"
-        current-page="[[page]]"
-        home-page-active="{{homePageActive}}"
-        entrepreneur-page-active="{{entrepreneurLandingPageActive}}"
-        invest-page-active="{{investorLandingPageActive}}"
-      ></placetobe-header>
+    <placetobe-header
+      location-path="{{locationPath}}"
+      collapsed="[[headerCollapsed]]"
+      current-page="[[page]]"
+      home-page-active="{{homePageActive}}"
+      entrepreneur-page-active="{{entrepreneurLandingPageActive}}"
+      invest-page-active="{{investorLandingPageActive}}"
+    ></placetobe-header>
 
-      <div id="hero-wrapper" hidden$="[[!landingPageActive]]">
-        
-        <placetobe-hero
-          car-parked$="[[investorLandingPageActive]]"
-          car-gone$="[[entrepreneurLandingPageActive]]"
-          >
+    <div id="hero-wrapper" hidden$="[[!landingPageActive]]">
+      
+      <placetobe-hero
+        >
 
-          <main slot="main">
+        <main slot="main">
 
-              
-            <span hidden$="[[!homePageActive]]">
-              <h2>Iedereen heeft een plek nodig. <strong>Een plek om te wonen</strong>, werken, ondernemen, relaxen... Een plek om te zijn.</h2>      
-              <placetobe-button
-                href="/start-project"
-                on-tap="_handleTapStartProjectButton"
-                ><span>Hoe start ik een project?</span></placetobe-button>
-              <placetobe-button
-                href="/investeren"
-                on-tap="_handleTapInvestorInfoButton"
-                link><span>Info voor investeerders</span></placetobe-button>
-            </span>
+            
+          <span hidden$="[[!homePageActive]]">
+            <h2><strong>Positieve impact</strong> met vastgoed?</h2>      
+            <placetobe-button
+              href="/start-project"
+              on-tap="_handleTapStartProjectButton"
+              ><span>Hoe start ik een project?</span></placetobe-button>
+            <placetobe-button
+              href="/investeren"
+              on-tap="_handleTapInvestorInfoButton"
+               link><span>Info voor investeerders</span></placetobe-button>
+          </span>
 
-            <span hidden$="[[!entrepreneurLandingPageActive]]">
-              <h2><strong>Geen gebouw neerzetten, maar een plek maken.</strong> Vastgoed ontwikkel je samen met de crowd.</h2>
-              <placetobe-mailinglist-subscribe-form
-                api-endpoint="[[apiEndpoint]]"
-                user-role="entrepreneurs"
-                button-label="Email mij de brochure"
-                on-subscribing="_handleEntrepreneursBrochureRequesting"
-                on-subscribed="_handleEntrepreneursBrochureRequested"
-                on-subscribe-error="_handleEntrepreneursBrochureRequestError"
-              ></placetobe-mailinglist-subscribe-form>
-            </span>
+          <span hidden$="[[!entrepreneurLandingPageActive]]">
+            <h2><strong>Financiering</strong> én draagvlak?</h2>
+            <placetobe-mailinglist-subscribe-form
+              api-endpoint="[[apiEndpoint]]"
+              user-role="entrepreneurs"
+              button-label="Email mij de brochure"
+              on-subscribing="_handleEntrepreneursBrochureRequesting"
+              on-subscribed="_handleEntrepreneursBrochureRequested"
+              on-subscribe-error="_handleEntrepreneursBrochureRequestError"
+            ></placetobe-mailinglist-subscribe-form>
+          </span>
 
-            <span hidden$="[[!investorLandingPageActive]]">
-              <h2><strong>Crowdfunding in vastgoed.</strong><br>Iedereen een plek en jij rendement.</h2>      
-              <placetobe-mailinglist-subscribe-form
-                api-endpoint="[[apiEndpoint]]"
-                user-role="investors"
-                button-label="Email mij de brochure"
-                on-subscribing="_handleInvestorsBrochureRequesting"
-                on-subscribed="_handleInvestorsBrochureRequested"
-                on-subscribe-error="_handleInvestorsBrochureRequestError"
-              ></placetobe-mailinglist-subscribe-form> 
-            </span>
+          <span hidden$="[[!investorLandingPageActive]]">
+            <h2><strong>Bouwen</strong> aan de toekomst?</h2>      
+            <placetobe-mailinglist-subscribe-form
+              api-endpoint="[[apiEndpoint]]"
+              user-role="investors"
+              button-label="Email mij de brochure"
+              on-subscribing="_handleInvestorsBrochureRequesting"
+              on-subscribed="_handleInvestorsBrochureRequested"
+              on-subscribe-error="_handleInvestorsBrochureRequestError"
+            ></placetobe-mailinglist-subscribe-form> 
+          </span>
 
+        </main>
 
-          </main>
+        <placetobe-impact-illustration
+          slot="illustration"
+          hidden$="[[!homePageActive]]"
+        ></placetobe-impact-illustration>
 
-          <placetobe-manholdingkey-illustration
-            slot="illustration"
-            hidden$="[[!homePageActive]]"
-          ></placetobe-manholdingkey-illustration>
+        <placetobe-future-illustration
+          slot="illustration"
+          hidden$="[[!entrepreneurLandingPageActive]]"
+        ></placetobe-future-illustration>
 
-          <placetobe-manreading-illustration
-            slot="illustration"
-            hidden$="[[!entrepreneurLandingPageActive]]"
-          ></placetobe-manreading-illustration>
+        <placetobe-support-illustration
+          slot="illustration"
+          hidden$="[[!investorLandingPageActive]]"
+        ></placetobe-support-illustration>
 
-          <placetobe-manthinking-illustration
-            slot="illustration"
-            hidden$="[[!investorLandingPageActive]]"
-          ></placetobe-manthinking-illustration>
+      </placetobe-hero>
 
-        </placetobe-hero>
+    </div>
 
-      </div>
+    <iron-pages selected="[[page]]" attr-for-selected="name" selected-attribute="visible">
+      <placetobe-home-page name="home"></placetobe-home-page>
+      <placetobe-investeren-page name="investeren"></placetobe-investeren-page>
+      <placetobe-start-project-page name="start-project"></placetobe-start-project-page>
+      <placetobe-tarieven-page name="tarieven"></placetobe-tarieven-page>
+      <placetobe-klachtenprocedure-page name="klachtenprocedure"></placetobe-klachtenprocedure-page>
+      <placetobe-algemene-voorwaarden-page name="algemene-voorwaarden"></placetobe-algemene-voorwaarden-page>
+      <placetobe-campagnes-page api-endpoint="[[apiEndpoint]]" campaign-route="[[subRoute]]" name="campagnes" invoice-number="[[invoiceNumber]]"></placetobe-campagnes-page>
+    </iron-pages>
 
-      <iron-pages selected="[[page]]" attr-for-selected="name" selected-attribute="visible">
-        <placetobe-home-page name="home"></placetobe-home-page>
-        <placetobe-investeren-page name="investeren"></placetobe-investeren-page>
-        <placetobe-start-project-page name="start-project"></placetobe-start-project-page>
-        <placetobe-tarieven-page name="tarieven"></placetobe-tarieven-page>
-        <placetobe-klachtenprocedure-page name="klachtenprocedure"></placetobe-klachtenprocedure-page>
-        <placetobe-algemene-voorwaarden-page name="algemene-voorwaarden"></placetobe-algemene-voorwaarden-page>
-        <placetobe-campagnes-page api-endpoint="[[apiEndpoint]]" campaign-route="[[subRoute]]" name="campagnes" user="[[user]]" invoice-number="[[invoiceNumber]]"></placetobe-campagnes-page>
-        <placetobe-dashboard-page api-endpoint="[[apiEndpoint]]" route-data="[[subRouteData]]" name="dashboard"></placetobe-dashboard-page>      
-      </iron-pages>
-
-      <placetobe-footer></placetobe-footer>
-    </main>
+    <placetobe-footer></placetobe-footer>
 
     <placetobe-popup
       with-backdrop
@@ -465,14 +455,15 @@
         * Information on authentication status of site visitor. 
         * Is also obtained from localstorage.
         */ 
-        user: {
+        userData: {
           type: Object,
           value: {}
         } 
       },
 
       observers: [
-        '_routePageChanged(routeData.page)'
+        '_routePageChanged(routeData.page)',
+        '_broadcastAccessToken(userData.accessToken)'
       ],
 
       ready: function() {
@@ -548,11 +539,6 @@
               title: this._parseDocumentTitle('Vastgoed crowdfunding')
             });
             break;
-          case "/dashboard/investor":
-            this.fire('app-metadata', {
-              title: this._parseDocumentTitle('Dashboard voor investeerders')
-            });
-            break;            
           case "/investeren":
             this.fire('app-metadata', {
               title: this._parseDocumentTitle('Investeren in vastgoed')
@@ -703,7 +689,20 @@
       _handleCookiesAccepted: function() {
         window.localStorage.setItem('placetobe-cookies-accepted', true);
         this.cookiesAccepted = window.localStorage.getItem('placetobe-cookies-accepted');
+      },
+
+      _setAccessToken: function(evt, data) {
+        this.set('userData.accessToken', data.accessToken);
+      },
+
+      _broadcastAccessToken(accessToken) {
+        this.fire('iron-signal', {name: 'caas-access-token', data: { accessToken: accessToken || null }});
+      },
+
+      _handleRequestAccessToken(accessToken) {
+        this.fire('iron-signal', {name: 'caas-access-token', data: { accessToken: this.userData.accessToken }});
       }
+
     });
   </script>
 </dom-module>

@@ -42,9 +42,7 @@ Example:
       <placetobe-create-testimonial-card
         invoice-number="[[invoiceNumber]]"
         campaign-id="[[campaignId]]"
-        investor-id="[[user.userId]]"
         api-endpoint="[[apiEndpoint]]"
-        access-token="[[user.accessToken]]"
       ></placetobe-create-testimonial-card>
     </div>  
     
@@ -53,13 +51,6 @@ Example:
     Polymer({
       is: 'placetobe-investment-complete-page',
       properties: {
-        /*
-        * User status (e.g. signedIn, userId, accessToken) obtained from localstorage.
-        */
-        user: {
-          type: Object,
-          value: {}
-        },
         /*
         * Most recent investment status (e.g. invoicenumber) obtained from localstorage.
         */
