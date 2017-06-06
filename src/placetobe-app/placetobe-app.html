@@ -134,7 +134,7 @@
 
       @media(min-width: 601px) {
         :host placetobe-hero {
-          min-height: 63vh;
+          min-height: 70vh;
         }
       }
 
@@ -148,21 +148,13 @@
 
       @media(min-width: 601px) {
         :host #hero-wrapper {
-          min-height: 63vh;
+          min-height: 70vh;
         }
       }
 
       #hero-wrapper[hidden] {
         min-height: 0;
         display: block;
-      }
-
-      placetobe-hero[car-parked] {
-        --placetobe-hero-color: var(--placetobe-color-taupe);
-      }
-
-      placetobe-hero[car-gone] {
-        --placetobe-hero-color: var(--placetobe-color-yellow);
       }
 
       placetobe-cookie-warning {
@@ -216,7 +208,6 @@
         >
 
         <main slot="main">
-
             
           <span hidden$="[[!homePageActive]]">
             <h2><strong>Positieve impact</strong> met vastgoed?</h2>      
@@ -249,20 +240,23 @@
 
         </main>
 
-        <placetobe-impact-illustration
+        <img
+          src$="[[resolveUrl('svg/IMPACT_FIN.svg')]]"
           slot="illustration"
           hidden$="[[!homePageActive]]"
-        ></placetobe-impact-illustration>
+        >
 
-        <placetobe-future-illustration
+        <img
+          src$="[[resolveUrl('svg/TOEKOMST_FIN.svg')]]"
           slot="illustration"
           hidden$="[[!entrepreneurLandingPageActive]]"
-        ></placetobe-future-illustration>
+        >
 
-        <placetobe-support-illustration
+        <img
+          src$="[[resolveUrl('svg/DRAAGKRACHT_FIN.svg')]]"
           slot="illustration"
           hidden$="[[!investorLandingPageActive]]"
-        ></placetobe-support-illustration>
+        >
 
       </placetobe-hero>
 
