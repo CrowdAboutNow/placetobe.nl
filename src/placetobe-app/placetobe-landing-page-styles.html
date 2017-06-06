@@ -19,15 +19,15 @@
       }
 
       :host h1 {
-        @apply --placetobe-font-title;
+        @apply --placetobe-font-heading1;
         margin: var(--placetobe-margin) 0;
       }
 
       @media(min-width: 601px) {
         :host h1 {
           @apply --placetobe-font-title;
-          margin: calc(var(--placetobe-margin) * 2) 0;
-        }
+          margin: calc( (var(--placetobe-margin) * 2) ) 0;
+        }        
       }
 
       :host h3 {
@@ -127,8 +127,14 @@
         display: block;
         padding: calc(var(--placetobe-margin) * 2);
         margin: 0;
-        height: 600px;
-        max-height: 60vh;
+      }
+
+      :host section figure.left {
+        padding-left: 0;
+      }
+
+      :host section figure.right {
+        padding-right: 0;
       }
 
       :host section ul {
