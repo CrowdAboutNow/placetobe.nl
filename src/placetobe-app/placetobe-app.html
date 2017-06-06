@@ -134,7 +134,7 @@
 
       @media(min-width: 601px) {
         :host placetobe-hero {
-          min-height: 85vh;
+          min-height: 100%;
         }
       }
 
@@ -148,7 +148,7 @@
 
       @media(min-width: 601px) {
         :host #hero-wrapper {
-          min-height: 85vh;
+          min-height: 75vh;
         }
       }
 
@@ -210,7 +210,7 @@
         <main slot="main">
             
           <span hidden$="[[!homePageActive]]">
-            <h2><strong>Positieve impact</strong> met vastgoed?</h2>      
+            <h2><strong>Positieve impact</strong><br>met vastgoed?</h2>      
             <placetobe-button
               href="/start-project"
               on-tap="_handleTapStartProjectButton"
@@ -222,7 +222,7 @@
           </span>
 
           <span hidden$="[[!entrepreneurLandingPageActive]]">
-            <h2><strong>Financiering</strong> én draagvlak?</h2>
+            <h2><strong>Financiering</strong><br> én draagvlak?</h2>
             <placetobe-button
               href="/start-project/test"
               on-tap="_handleTapStartEntrepreneursQuickscanButton"
@@ -230,7 +230,7 @@
           </span>
 
           <span hidden$="[[!investorLandingPageActive]]">
-            <h2><strong>Bouwen</strong> aan de toekomst?</h2>
+            <h2><strong>Bouwen</strong> aan<br> de toekomst?</h2>
             <placetobe-button
               href="/investeren/test"
               on-tap="_handleTapStartInvestorsQuickscanButton"
