@@ -85,21 +85,19 @@
   href="../../bower_components/placetobe-popup/placetobe-popup.html"
 >
 
- <link
+<link
   rel="import"
   href="../../bower_components/placetobe-mailinglist-subscribe-form/placetobe-mailinglist-subscribe-form.html"
 >
- 
+
 <link
   rel="import"
   href="../../bower_components/placetobe-survey/placetobe-investor-quickscan.html"
-  async
 >
 
 <link
   rel="import"
   href="../../bower_components/placetobe-survey/placetobe-entrepreneur-quickscan.html"
-  async
 >
 
 <link
@@ -142,26 +140,26 @@
 
       :host placetobe-hero {
         height: 0;
-        min-height: 80vh;
+        min-height: calc( var(--placetobe-margin) * 26 );
       }
 
-      @media(min-width: 1441px) {
+      @media(min-width: 601px) {
         :host placetobe-hero {
-          min-height: 60vh;
+          min-height: 100%;
         }
       }
 
       #hero-wrapper {
         overflow: hidden;
         height: 0;
-        min-height: 80vh;
+        min-height: calc( var(--placetobe-margin) * 26 );
         transition: 0.6s min-height;
         transform: translate3d(0,0,0);
       }
 
-      @media(min-width: 1441px) {
+      @media(min-width: 601px) {
         :host #hero-wrapper {
-          min-height: 60vh;
+          min-height: 75vh;
         }
       }
 
@@ -226,10 +224,9 @@
         >
 
         <main slot="main">
-
             
           <span hidden$="[[!homePageActive]]">
-            <h2><strong>Positieve impact</strong> met vastgoed?</h2>      
+            <h2><strong>Positieve impact</strong><br>met vastgoed?</h2>      
             <placetobe-button
               href="/start-project"
               on-tap="_handleTapStartProjectButton"
@@ -241,45 +238,40 @@
           </span>
 
           <span hidden$="[[!entrepreneurLandingPageActive]]">
-            <h2><strong>Financiering</strong> én draagvlak?</h2>
-            <placetobe-mailinglist-subscribe-form
-              api-endpoint="[[apiEndpoint]]"
-              user-role="entrepreneurs"
-              button-label="Email mij de brochure"
-              on-subscribing="_handleEntrepreneursBrochureRequesting"
-              on-subscribed="_handleEntrepreneursBrochureRequested"
-              on-subscribe-error="_handleEntrepreneursBrochureRequestError"
-            ></placetobe-mailinglist-subscribe-form>
+            <h2><strong>Financiering</strong><br> én draagvlak?</h2>
+            <placetobe-button
+              href="/start-project/test"
+              on-tap="_handleTapStartEntrepreneursQuickscanButton"
+            ><span>Start de quickscan</span></placetobe-button>
           </span>
 
           <span hidden$="[[!investorLandingPageActive]]">
-            <h2><strong>Bouwen</strong> aan de toekomst?</h2>      
-            <placetobe-mailinglist-subscribe-form
-              api-endpoint="[[apiEndpoint]]"
-              user-role="investors"
-              button-label="Email mij de brochure"
-              on-subscribing="_handleInvestorsBrochureRequesting"
-              on-subscribed="_handleInvestorsBrochureRequested"
-              on-subscribe-error="_handleInvestorsBrochureRequestError"
-            ></placetobe-mailinglist-subscribe-form> 
+            <h2><strong>Bouwen</strong> aan<br> de toekomst?</h2>
+            <placetobe-button
+              href="/investeren/test"
+              on-tap="_handleTapStartInvestorsQuickscanButton"
+            ><span>Start de quickscan</span></placetobe-button>
           </span>
 
         </main>
 
-        <placetobe-impact-illustration
+        <img
+          src$="[[resolveUrl('svg/IMPACT_FIN.svg')]]"
           slot="illustration"
           hidden$="[[!homePageActive]]"
-        ></placetobe-impact-illustration>
+        >
 
-        <placetobe-future-illustration
+        <img
+          src$="[[resolveUrl('svg/TOEKOMST_FIN.svg')]]"
           slot="illustration"
           hidden$="[[!entrepreneurLandingPageActive]]"
-        ></placetobe-future-illustration>
+        >
 
-        <placetobe-support-illustration
+        <img
+          src$="[[resolveUrl('svg/DRAAGKRACHT_FIN.svg')]]"
           slot="illustration"
           hidden$="[[!investorLandingPageActive]]"
-        ></placetobe-support-illustration>
+        >
 
       </placetobe-hero>
 
@@ -614,16 +606,12 @@
         });
       },
 
-      _handleEntrepreneursBrochureRequesting: function() {
-        this._sendAnalyticsEvent('hero', 'requesting', 'entrepreneurs-brochure')
+      _handleTapStartInvestorsQuickscanButton: function() {
+        this._sendAnalyticsEvent('start', 'investors-quickscan')        
       },
 
-      _handleEntrepreneursBrochureRequested: function() {
-        this._sendAnalyticsEvent('hero', 'requested', 'entrepreneurs-brochure')
-      },
-
-      _handleEntrepreneursBrochureRequestError: function() {
-        this._sendAnalyticsEvent('hero', 'request-error', 'entrepreneurs-brochure')
+      _handleTapStartEntrepreneursQuickscanButton: function() {
+        this._sendAnalyticsEvent('start', 'entrepreneurs-quickscan')        
       },
 
       _handleEntrepreneursBrochureRequestingViaQuickscan: function() {
@@ -636,18 +624,6 @@
 
       _handleEntrepreneursBrochureRequestErrorViaQuickscan: function() {
         this._sendAnalyticsEvent('entrepreneurs-quickscan', 'request-error', 'entrepreneurs-brochure')
-      },
-
-      _handleInvestorsBrochureRequesting: function() {
-        this._sendAnalyticsEvent('hero', 'requesting', 'investors-brochure')
-      },
-
-      _handleInvestorsBrochureRequested: function() {
-        this._sendAnalyticsEvent('hero', 'requested', 'investors-brochure')
-      },
-
-      _handleInvestorsBrochureRequestError: function() {
-        this._sendAnalyticsEvent('hero', 'request-error', 'investors-brochure')
       },
 
       _handleInvestorsBrochureRequestingViaQuickscan: function() {
