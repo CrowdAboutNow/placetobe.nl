@@ -20,12 +20,14 @@
 
       :host h1 {
         @apply --placetobe-font-heading1;
+        font-weight: normal;
         margin: var(--placetobe-margin) 0;
       }
 
       @media(min-width: 601px) {
         :host h1 {
           @apply --placetobe-font-title;
+          font-weight: normal;
           margin: calc( (var(--placetobe-margin) * 2) ) 0;
         }        
       }
@@ -125,16 +127,18 @@
       :host section figure {
         @apply --placetobe-border-box;
         display: block;
-        padding: calc(var(--placetobe-margin) * 2);
+        padding: var(--placetobe-margin) calc(var(--placetobe-margin) * 3);
         margin: 0;
       }
 
-      :host section figure.left {
-        padding-left: 0;
-      }
+      @media(min-width: 601px) {
+        :host section figure.left {
+          padding-left: 0;
+        }
 
-      :host section figure.right {
-        padding-right: 0;
+        :host section figure.right {
+          padding-right: 0;
+        }
       }
 
       :host section ul {
@@ -148,6 +152,10 @@
 
       :host section h5, :host section ul h5 {
         @apply --placetobe-font-heading4;
+      }
+
+      :host a {
+        color: var(--placetobe-color-red);
       }
 
     </style>
