@@ -10,7 +10,7 @@
     "src/placetobe-app/placetobe-klachtenprocedure-page.html",
     "src/placetobe-app/placetobe-algemene-voorwaarden-page.html"
   ],
-  "sourceGlobs": [
+  "sources": [
     "src/**/*",
     "images/**/*",
     "bower.json",
@@ -20,8 +20,13 @@
     "server.js",
     "sitemap.xml"
   ],
-  "includeDependencies": [
+  "extraDependencies": [
     "manifest.json",
-  	"bower_components/webcomponentsjs/webcomponents-lite.js"
-  ]
+    "bower_components/webcomponentsjs/webcomponents-lite.js"
+  ],
+  "lint": {
+    "rules": [
+      "polymer-1"
+    ]
+  }
 }
