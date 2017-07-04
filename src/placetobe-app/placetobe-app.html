@@ -671,11 +671,11 @@
         this.set('userData.accessToken', data.accessToken);
       },
 
-      _broadcastAccessToken(accessToken) {
+      _broadcastAccessToken: function (accessToken) {
         this.fire('iron-signal', {name: 'caas-access-token', data: { accessToken: accessToken || null }});
       },
 
-      _handleRequestAccessToken(accessToken) {
+      _handleRequestAccessToken: function (accessToken) {
         this.fire('iron-signal', {name: 'caas-access-token', data: { accessToken: this.userData.accessToken }});
       }
 
