@@ -288,7 +288,9 @@
       opened="[[investorQuickscanActive]]"
       on-popup-closed="_handleCloseInvestorQuickscan"
       >
+      <template is="dom-if" if="[[investorQuickscanActive]]" restamp="true">
         <iframe src="https://bambuu.typeform.com/to/OT9wyK" frameborder="0"></iframe>
+      </template>      
     </placetobe-popup>
 
     <placetobe-popup
@@ -296,7 +298,9 @@
       opened="[[entrepreneurQuickscanActive]]"
       on-popup-closed="_handleCloseEntrepreneurQuickscan"
       >
+      <template is="dom-if" if="[[entrepreneurQuickscanActive]]" restamp="true">
         <iframe src="https://bambuu.typeform.com/to/WPA4fO" frameborder="0"></iframe>
+      </template>
     </placetobe-popup>
 
     <template is="dom-if" if="[[!cookiesAccepted]]">
