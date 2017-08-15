@@ -92,16 +92,6 @@
 
 <link
   rel="import"
-  href="../../bower_components/placetobe-survey/placetobe-investor-quickscan.html"
->
-
-<link
-  rel="import"
-  href="../../bower_components/placetobe-survey/placetobe-entrepreneur-quickscan.html"
->
-
-<link
-  rel="import"
   href="../../bower_components/placetobe-cookie-warning/placetobe-cookie-warning.html"
   async
 >
@@ -174,6 +164,10 @@
         bottom: 0;
         left: 0;
         right: 0;
+      }
+      iframe {
+        width: 100%;
+        height: 100%;
       }
     </style>
 
@@ -294,20 +288,9 @@
       opened="[[investorQuickscanActive]]"
       on-popup-closed="_handleCloseInvestorQuickscan"
       >
-      <placetobe-investor-quickscan
-        on-question-answered="_handleInvestorQuickscanQuestionAnswered"
-        on-finished="_handleInvestorQuickscanFinished"
-      >
-        <placetobe-mailinglist-subscribe-form
-          api-endpoint="[[apiEndpoint]]"
-          user-role="investors"
-          button-label="Email brochure"
-          on-subscribing="_handleInvestorsBrochureRequestingViaQuickscan"
-          on-subscribed="_handleInvestorsBrochureRequestedViaQuickscan"
-          on-subscribe-error="_handleInvestorsBrochureRequestErrorViaQuickscan"
-          slot="action"
-        ></placetobe-mailinglist-subscribe-form>
-      </placetobe-investor-quickscan>        
+      <template is="dom-if" if="[[investorQuickscanActive]]" restamp="true">
+        <iframe src="https://bambuu.typeform.com/to/OT9wyK" frameborder="0"></iframe>
+      </template>      
     </placetobe-popup>
 
     <placetobe-popup
@@ -315,20 +298,9 @@
       opened="[[entrepreneurQuickscanActive]]"
       on-popup-closed="_handleCloseEntrepreneurQuickscan"
       >
-      <placetobe-entrepreneur-quickscan
-        on-question-answered="_handleEntrepreneurQuickscanQuestionAnswered"
-        on-finished="_handleEntrepreneurQuickscanFinished"
-      >
-        <placetobe-mailinglist-subscribe-form
-          api-endpoint="[[apiEndpoint]]"
-          user-role="entrepreneurs"
-          button-label="Email brochure"
-          on-subscribing="_handleEntrepreneursBrochureRequestingViaQuickscan"
-          on-subscribed="_handleEntrepreneursBrochureRequestedViaQuickscan"
-          on-subscribe-error="_handleEntrepreneursBrochureRequestErrorViaQuickscan"
-          slot="action"
-        ></placetobe-mailinglist-subscribe-form>
-      </placetobe-entrepreneur-quickscan>        
+      <template is="dom-if" if="[[entrepreneurQuickscanActive]]" restamp="true">
+        <iframe src="https://bambuu.typeform.com/to/WPA4fO" frameborder="0"></iframe>
+      </template>
     </placetobe-popup>
 
     <template is="dom-if" if="[[!cookiesAccepted]]">
