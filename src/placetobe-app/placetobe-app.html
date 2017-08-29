@@ -273,8 +273,14 @@
 
     <iron-pages selected="[[page]]" attr-for-selected="name" selected-attribute="visible">
       <placetobe-home-page name="home"></placetobe-home-page>
-      <placetobe-investeren-page name="investeren"></placetobe-investeren-page>
-      <placetobe-start-project-page name="start-project"></placetobe-start-project-page>
+      <placetobe-investeren-page
+        name="investeren"
+        api-endpoint="[[apiEndpoint]]"
+      ></placetobe-investeren-page>
+      <placetobe-start-project-page
+        name="start-project"
+        api-endpoint="[[apiEndpoint]]"
+      ></placetobe-start-project-page>
       <placetobe-tarieven-page name="tarieven"></placetobe-tarieven-page>
       <placetobe-klachtenprocedure-page name="klachtenprocedure"></placetobe-klachtenprocedure-page>
       <placetobe-algemene-voorwaarden-page name="algemene-voorwaarden"></placetobe-algemene-voorwaarden-page>
