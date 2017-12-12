@@ -2,10 +2,11 @@
 
 Organisational website for Place to Be Crowdfunding
 
-## Development - run locally
+## Install
 
-1. Clone this repository.
-* In terminal, move to folder of repository, `npm install`
-* `node server.js`
-* In browser: http://localhost:8080/
+$ bower i
+$ npm i
+$ cp config.example.json config.json
+and edit accordingly
 
+$ node server
