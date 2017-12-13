@@ -1,61 +1,59 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
-<!-- <link rel="import" href="../../bower_components/placetobe-styles/placetobe-styles.html">
-<link rel="import" href="../../bower_components/placetobe-mailinglist-subscribe-form/placetobe-mailinglist-subscribe-form.html">
-<link rel="import" href="../../bower_components/placetobe-illustrations/placetobe-peopletalking-illustration.html">
-<link rel="import" href="../../bower_components/placetobe-card/placetobe-card.html"> -->
+<link rel="import" href="../iron-ajax/iron-ajax.html">
 <link rel="import" href="placetobe-landing-page-styles.html">
 
 <dom-module id="placetobe-campagnes-overview-page">
   <template>
 
     <style include="placetobe-landing-page-styles">
-      :host {
-        --placetobe-button-color: var(--placetobe-color-darkblue);
-        --placetobe-button-tint-color: white;
+
+      :host h1 {
+        margin-top: calc( var(--placetobe-margin) * 8 );
       }
 
-      placetobe-card.entrepreneur-card {
-        --placetobe-card-color: var(--placetobe-color--entrepreneurs);
-      }
-
-      placetobe-card.investor-card {
-        --placetobe-card-color: var(--placetobe-color--investors);
-      }
-
-      placetobe-hero placetobe-button:not([link]) {
-        --placetobe-button-color: white;
-      }
     </style>
 
+    <iron-ajax
+      id="getAllCampaigns"
+      url="[[apiEndpoint]]/campaigns"
+      handle-as="json"
+      method="GET"
+      last-response="{{_apiCampaignData}}"
+      on-response="_handleResponse"
+      on-error="_handleError"
+    ></iron-ajax>
 
     <main>
-
       <div class="intro">
-
-        <h1><strong>Campagnes overview page</strong><br></h1>
-        <h3>Crowdfunding biedt kansen om gebouwen te (her)ontwikkelen waar daadwerkelijk behoefte aan is. Gebouwen die iets bijzonders betekenen voor de buurt, de stad of de omgeving. Laten we niet zomaar een gebouw neerzetten, maar samen een plek maken.</h3>
-
+        <h1><strong>Overzicht campagnes</strong><br></h1>
       </div>
 
-
+      <template is="dom-repeat" items="[[_apiCampaignData]]" index-as="index">
+        [[item.projectNaam]]
+      </template>
     </main>
-
-
   </template>
+
   <script>
     Polymer({
       is: 'placetobe-campagnes-overview-page',
+      properties: {
 
-      //source, action, category, value
-      _sendAnalyticsEvent: function(action, category) {
-        this.fire('iron-signal', {
-          name: 'send-event',
-          data: {
-            category: category || null,
-            action: action,
-            label: 'home-landing-page'
-          }
-        });
+        apiEndpoint: {
+          type: String
+        },
+
+        _apiCampaignData: {
+          type: Object
+        }
+      },
+
+      observers: [
+        '_getApiData(apiEndpoint)'
+      ],
+
+      _getApiData: function(apiEndpoint) {
+        this.$.getAllCampaigns.generateRequest();
       }
 
     })
