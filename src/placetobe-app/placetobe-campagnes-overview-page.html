@@ -1,0 +1,63 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<!-- <link rel="import" href="../../bower_components/placetobe-styles/placetobe-styles.html">
+<link rel="import" href="../../bower_components/placetobe-mailinglist-subscribe-form/placetobe-mailinglist-subscribe-form.html">
+<link rel="import" href="../../bower_components/placetobe-illustrations/placetobe-peopletalking-illustration.html">
+<link rel="import" href="../../bower_components/placetobe-card/placetobe-card.html"> -->
+<link rel="import" href="placetobe-landing-page-styles.html">
+
+<dom-module id="placetobe-campagnes-overview-page">
+  <template>
+
+    <style include="placetobe-landing-page-styles">
+      :host {
+        --placetobe-button-color: var(--placetobe-color-darkblue);
+        --placetobe-button-tint-color: white;
+      }
+
+      placetobe-card.entrepreneur-card {
+        --placetobe-card-color: var(--placetobe-color--entrepreneurs);
+      }
+
+      placetobe-card.investor-card {
+        --placetobe-card-color: var(--placetobe-color--investors);
+      }
+
+      placetobe-hero placetobe-button:not([link]) {
+        --placetobe-button-color: white;
+      }
+    </style>
+
+
+    <main>
+
+      <div class="intro">
+
+        <h1><strong>Campagnes overview page</strong><br></h1>
+        <h3>Crowdfunding biedt kansen om gebouwen te (her)ontwikkelen waar daadwerkelijk behoefte aan is. Gebouwen die iets bijzonders betekenen voor de buurt, de stad of de omgeving. Laten we niet zomaar een gebouw neerzetten, maar samen een plek maken.</h3>
+
+      </div>
+
+
+    </main>
+
+
+  </template>
+  <script>
+    Polymer({
+      is: 'placetobe-campagnes-overview-page',
+
+      //source, action, category, value
+      _sendAnalyticsEvent: function(action, category) {
+        this.fire('iron-signal', {
+          name: 'send-event',
+          data: {
+            category: category || null,
+            action: action,
+            label: 'home-landing-page'
+          }
+        });
+      }
+
+    })
+  </script>
+</dom-module>
