@@ -125,7 +125,7 @@ Example:
       _computeInvestmentUnsuccessfull: function(investmentStatus) {
         return (investmentStatus && ['reject', 'error', 'cancel'].indexOf(investmentStatus) !== -1);
       },
-      
+
       _computeInvestmentSuccessfull: function(investmentStatus) {
         return (investmentStatus && investmentStatus == 'success');
       }
