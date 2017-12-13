@@ -49,15 +49,30 @@ Example:
     <placetobe-route
       route="{{subRoute}}"
       pattern="/investeren/:status"
-      data="{{subRouteData}}"
+      data="{{investRouteData}}"
     ></placetobe-route>
 
-    <!-- If routeData indicates that the page is about one campaign and if there is no subRouteData (for example post invest)-->
-    <!--TODO: if route is only /campagnes this will also try to load a single campaing. Can be computed [[!!routeData.campaignId && !subRouteData.status]]-->
-    <template is="dom-if" if="{{!subRouteData.status}}">
-      <placetobe-campaign-page route="[[campaignRoute]]" api-endpoint="[[apiEndpoint]]" campaign-id="{{routeData.campaignId}}"></placetobe-campaign-page>
+    <!-- index page for all campaigns-->
+    <template is="dom-if" if="[[!subRouteData.campaignId]]">
+      <placetobe-campagnes-overview-page api-endpoint="[[apiEndpoint]]"></placetobe-campagnes-overview-page>
     </template>
-    
+
+    <template is="dom-if" if="[[subRouteData.campaignId]]">
+
+      <template is="dom-if" if="[[!investRouteData.status]]">
+        <placetobe-campaign-page route="[[campaignRoute]]" api-endpoint="[[apiEndpoint]]" campaign-id="{{subRouteData.campaignId}}"></placetobe-campaign-page>
+      </template>
+
+      <template is="dom-if" if="[[_computeInvestmentSuccessfull(investRouteData.status)]]">
+        investment succesful
+      </template>
+
+      <template is="dom-if" if="[[_computeInvestmentUnsuccessfull(investRouteData.status)]]">
+        FAILED
+      </template>
+
+    </template>
+
     <!-- If post invest was unsuccesful (route: /campagnes/:campaignId/reject)  -->
     <template is="dom-if" if="[[_computeInvestmentUnsuccessfull(subRouteData.status)]]">
       <placetobe-investment-failed-notice failure-reason="{{subRouteData.status}}"></placetobe-investment-failed-notice>
