@@ -289,7 +289,7 @@
       <placetobe-tarieven-page name="tarieven"></placetobe-tarieven-page>
       <placetobe-klachtenprocedure-page name="klachtenprocedure"></placetobe-klachtenprocedure-page>
       <placetobe-algemene-voorwaarden-page name="algemene-voorwaarden"></placetobe-algemene-voorwaarden-page>
-      <placetobe-campagnes-page api-endpoint="[[apiEndpoint]]" campaign-route="[[subRoute]]" name="campagnes" invoice-number="[[invoiceNumber]]"></placetobe-campagnes-page>
+      <placetobe-campagnes-page api-campaign-data="[[apiCampaignData]]" api-endpoint="[[apiEndpoint]]" campaign-route="[[subRoute]]" name="campagnes" invoice-number="[[invoiceNumber]]"></placetobe-campagnes-page>
     </iron-pages>
 
     <placetobe-footer></placetobe-footer>
@@ -328,6 +328,16 @@
       is: 'placetobe-app',
 
       properties: {
+
+        loadingCampaigns: {
+          type: Boolean,
+          notify: true,
+        },
+
+        apiCampaignData: {
+          type: Array,
+          notify: true
+        },
 
         apiEndpoint: {
           type: String
