@@ -171,6 +171,16 @@
       }
     </style>
 
+    <iron-ajax
+      id="getAllCampaigns"
+      url="[[apiEndpoint]]/campaigns"
+      handle-as="json"
+      method="GET"
+      last-response="{{apiCampaignData}}"
+      loading="{{loadingCampaigns}}"
+      auto="[[apiEndpoint]]"
+    ></iron-ajax>
+
     <google-analytics-tracker
       tracking-id="[[analyticsTrackingId]]"
     ></google-analytics-tracker>
