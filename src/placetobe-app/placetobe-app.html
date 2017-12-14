@@ -213,14 +213,14 @@
     ></placetobe-header>
 
     <div id="hero-wrapper" hidden$="[[!landingPageActive]]">
-      
+
       <placetobe-hero
         >
 
         <main slot="main">
-            
+
           <span hidden$="[[!homePageActive]]">
-            <h2><strong>Positieve impact</strong><br>met vastgoed?</h2>      
+            <h2><strong>Positieve impact</strong><br>met vastgoed?</h2>
             <placetobe-button
               href="/start-project"
               on-tap="_handleTapStartProjectButton"
@@ -278,6 +278,7 @@
       <placetobe-tarieven-page name="tarieven"></placetobe-tarieven-page>
       <placetobe-klachtenprocedure-page name="klachtenprocedure"></placetobe-klachtenprocedure-page>
       <placetobe-algemene-voorwaarden-page name="algemene-voorwaarden"></placetobe-algemene-voorwaarden-page>
+      <placetobe-investeerders-dashboard-page api-endpoint="[[apiEndpoint]]" name="investeerders-dashboard"></placetobe-investeerders-dashboard-page>
       <placetobe-campagnes-page api-endpoint="[[apiEndpoint]]" campaign-route="[[subRoute]]" name="campagnes" invoice-number="[[invoiceNumber]]"></placetobe-campagnes-page>
     </iron-pages>
 
@@ -290,7 +291,7 @@
       >
       <template is="dom-if" if="[[investorQuickscanActive]]" restamp="true">
         <iframe src="https://bambuu.typeform.com/to/OT9wyK" frameborder="0"></iframe>
-      </template>      
+      </template>
     </placetobe-popup>
 
     <placetobe-popup
@@ -351,7 +352,7 @@
           type: Object,
           value: {}
         },
-        /* 
+        /*
         * Number of invoice of succesful investment propogated via POST request body (server.js -> index.hbs -> placetobe-app)
         */
         invoiceNumber: {
@@ -383,7 +384,7 @@
         headerCollapsed: {
           type: Boolean,
           computed: "_computeHeaderCollapsed(scrollY)",
-          reflectToAttribute: true          
+          reflectToAttribute: true
         },
 
         entrepreneurQuickscanActive: {
@@ -416,13 +417,13 @@
           computed: '_computePageIsActive(\'start-project\', page)'
         },
         /*
-        * Information on authentication status of site visitor. 
+        * Information on authentication status of site visitor.
         * Is also obtained from localstorage.
-        */ 
+        */
         userData: {
           type: Object,
           value: {}
-        } 
+        }
       },
 
       observers: [
@@ -462,8 +463,8 @@
             this._setMetaData();
           }, null, true
         );
-      },     
-      
+      },
+
       _handleScroll: function() {
         this._setScrollY(window.scrollY || document.documentElement.scrollTop);
       },
@@ -553,7 +554,7 @@
       },
 
       _handleCloseEntrepreneurQuickscan: function(evt) {
-        this.locationPath = '/start-project';        
+        this.locationPath = '/start-project';
       },
 
       _sendAnalyticsPage: function() {
@@ -579,11 +580,11 @@
       },
 
       _handleTapStartInvestorsQuickscanButton: function() {
-        this._sendAnalyticsEvent('start', 'investors-quickscan')        
+        this._sendAnalyticsEvent('start', 'investors-quickscan')
       },
 
       _handleTapStartEntrepreneursQuickscanButton: function() {
-        this._sendAnalyticsEvent('start', 'entrepreneurs-quickscan')        
+        this._sendAnalyticsEvent('start', 'entrepreneurs-quickscan')
       },
 
       _handleEntrepreneursBrochureRequestingViaQuickscan: function() {
