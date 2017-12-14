@@ -31,7 +31,16 @@
       </div>
 
       <template is="dom-repeat" items="[[_apiCampaignData]]" index-as="index">
-        [[item.projectNaam]]
+        <placetobe-campaign-card
+          api-endpoint="[[apiEndpoint]]"
+          horizontal-layout
+          image-url="[[item.coverURL]]"
+          title="[[item.projectNaam]]"
+          campaign-id="[[item.id]]"
+          introduction-text="[[item.introductieTekst]]"
+          href="/campagnes/[[item.slug]]"
+        ></placetobe-campaign-card>
+
       </template>
     </main>
   </template>
