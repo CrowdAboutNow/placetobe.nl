@@ -28,7 +28,9 @@
     "google-analytics-tracker": "lotsofpeople/google-analytics-tracker",
     "iron-pages": "polymerelements/iron-pages#^1.0.0",
     "app-storage": "^0.9.8",
-    "iron-signals": "^1.0.3"
+    "iron-signals": "^1.0.3",
+    "caas-session": "CaasElements/caas-session"
+    
   },
   "devDependencies": {
     "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
@@ -37,6 +39,7 @@
     "webcomponentsjs": "webcomponents/webcomponentsjs#^0.7.0"
   },
   "resolutions": {
-    "iron-selector": "^1.5.2"
+    "iron-selector": "^1.5.2",
+    "iron-icons": "^2.0.1"
   }
 }

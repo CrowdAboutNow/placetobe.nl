@@ -1,6 +1,7 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/placetobe-styles/placetobe-styles.html">
 <link rel="import" href="../../bower_components/placetobe-investor-dashboard/placetobe-investor-dashboard.html">
+<link rel="import" href="../../bower_components/caas-session/caas-session.html">
 
 
 <dom-module id="placetobe-investeerders-dashboard-page">
@@ -17,6 +18,8 @@
 
 
     <main>
+
+      <caas-session></caas-session>
 
       <placetobe-investor-dashboard
         api-endpoint="[[apiEndpoint]]">
