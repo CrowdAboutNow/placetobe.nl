@@ -73,8 +73,13 @@
         '_getApiData(apiEndpoint)'
       ],
 
+      _handleError: function () {
+        window.alert('er is error!!!!!! sluit deze pagina')
+      },
+      
       _getApiData: function(apiEndpoint) {
         this.$.getAllCampaigns.generateRequest();
+        console.log(this.loadingCampaigns);
       }
 
     })
