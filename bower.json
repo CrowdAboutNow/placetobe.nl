@@ -24,6 +24,7 @@
     "placetobe-quote": "Placetobe/placetobe-quote",
     "placetobe-mailinglist-subscribe-form": "Placetobe/placetobe-mailinglist-subscribe-form",
     "placetobe-create-testimonial-card": "Placetobe/placetobe-create-testimonial-card",
+    "placetobe-investor-dashboard": "Placetobe/placetobe-investor-dashboard",
     "google-analytics-tracker": "lotsofpeople/google-analytics-tracker",
     "iron-pages": "polymerelements/iron-pages#^1.0.0",
     "app-storage": "^0.9.8",
