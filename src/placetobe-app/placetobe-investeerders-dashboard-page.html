@@ -1,0 +1,33 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/placetobe-styles/placetobe-styles.html">
+<link rel="import" href="../../bower_components/placetobe-investor-dashboard/placetobe-investor-dashboard.html">
+
+
+<dom-module id="placetobe-investeerders-dashboard-page">
+  <template>
+
+    <style include="placetobe-landing-page-styles">
+
+      :host placetobe-investor-dashboard {
+        margin-top: calc( var(--placetobe-margin) * 6 );
+        margin-bottom: calc( var(--placetobe-margin) * 4 );
+      }
+
+    </style>
+
+
+    <main>
+
+      <placetobe-investor-dashboard api-endpoint="[[apiEndpoint]]">
+      </placetobe-investor-dashboard>
+
+    </main>
+
+
+  </template>
+  <script>
+    Polymer({
+      is: 'placetobe-investeerders-dashboard-page'
+    })
+  </script>
+</dom-module>
