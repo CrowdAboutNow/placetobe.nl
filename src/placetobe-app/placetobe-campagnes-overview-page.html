@@ -50,36 +50,26 @@
       is: 'placetobe-campagnes-overview-page',
       properties: {
 
-        _apiCampaignData: {
-          type: Array,
-          notify: true
+        apiCampaignData: {
+          type: Array
         },
 
         apiEndpoint: {
           type: String
-        },
-
-        _apiCampaignData: {
-          type: Object
-        },
-
-        loadingCampaigns: {
-          type: Boolean,
-          notify: true,
         }
       },
 
-      observers: [
-        '_getApiData(apiEndpoint)'
-      ],
-
-      _handleError: function () {
-        window.alert('er is error!!!!!! sluit deze pagina')
-      },
-
-      _getApiData: function(apiEndpoint) {
-        this.$.getAllCampaigns.generateRequest();
-      }
+      // observers: [
+      //   '_getApiData(apiEndpoint)'
+      // ],
+      //
+      // _handleError: function () {
+      //   window.alert('er is error!!!!!! sluit deze pagina')
+      // },
+      //
+      // _getApiData: function(apiEndpoint) {
+      //   this.$.getAllCampaigns.generateRequest();
+      // }
 
     })
   </script>
