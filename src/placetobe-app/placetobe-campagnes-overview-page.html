@@ -15,22 +15,22 @@
 
     </style>
 
-    <iron-ajax
+    <!-- <iron-ajax
       id="getAllCampaigns"
       url="[[apiEndpoint]]/campaigns"
       handle-as="json"
       method="GET"
-      last-response="{{_apiCampaignData}}"
+      last-response="{{apiCampaignData}}"
       loading="{{loadingCampaigns}}"
       on-error="_handleError"
-    ></iron-ajax>
+    ></iron-ajax> -->
 
     <main>
       <div class="intro">
         <h1><strong>Overzicht campagnes</strong><br></h1>
       </div>
 
-      <template is="dom-repeat" items="[[_apiCampaignData]]" index-as="index">
+      <template is="dom-repeat" items="[[apiCampaignData]]" index-as="index">
         <placetobe-campaign-card
           api-endpoint="[[apiEndpoint]]"
           horizontal-layout
