@@ -179,6 +179,7 @@
       last-response="{{apiCampaignData}}"
       loading="{{loadingCampaigns}}"
       auto="[[apiEndpoint]]"
+      params='{"api_key": "1337"}'
     ></iron-ajax>
 
     <google-analytics-tracker
@@ -449,6 +450,7 @@
           type: Object,
           value: {}
         }
+
       },
 
       observers: [
