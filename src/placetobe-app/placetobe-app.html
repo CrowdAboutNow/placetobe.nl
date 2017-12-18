@@ -181,9 +181,8 @@
       last-response="{{apiCampaignData}}"
       loading="{{loadingCampaigns}}"
       auto="[[apiEndpoint]]"
-      params='{"api_key": "s(.em1cdYNSB6u&WHhdjT*p29#&Bp.4A8pdCwBe5"}'
+      params='[[_getReqParams(apiKey)]]'
     ></iron-ajax>
-    <!-- params='{"api_key": "[[apiKey]]"}' -->
 
     <google-analytics-tracker
       tracking-id="[[analyticsTrackingId]]"
@@ -472,6 +471,10 @@
 
       attached: function() {
         Polymer.AppMetadata.requestAvailability();
+      },
+
+      _getReqParams: function(apiKey) {
+        return {"api_key": apiKey};
       },
 
       _computeLandingPageActive: function(page) {
