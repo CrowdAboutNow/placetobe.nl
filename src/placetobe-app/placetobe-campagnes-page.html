@@ -25,7 +25,7 @@ Example:
       }
 
       :host h1 {
-        margin-top: calc( var(--placetobe-margin) * 8 );
+        margin: calc( var(--placetobe-margin) * 8 ) auto  0 auto;
       }
 
       [hidden] {
@@ -52,7 +52,6 @@ Example:
       data="{{investRouteData}}"
     ></placetobe-route>
 
-
     <!-- index page for all campaigns-->
     <template is="dom-if" if="[[!subRouteData.campaignId]]">
       <placetobe-campagnes-overview-page api-campaign-data="[[apiCampaignData]]" api-endpoint="[[apiEndpoint]]"></placetobe-campagnes-overview-page>
@@ -60,21 +59,41 @@ Example:
     <template is="dom-if" if="{{!subRouteData.status}}">
       <placetobe-campaign-page route="[[campaignRoute]]" api-endpoint="[[apiEndpoint]]" campaign-slug="{{routeData.campaignId}}"></placetobe-campaign-page>
     </template>
+      
+    <!-- index page for all campaigns-->
+    <template is="dom-if" if="[[!subRouteData.campaignId]]">
+
+      <placetobe-campagnes-overview-page
+        api-campaign-data="[[apiCampaignData]]"
+        api-endpoint="[[apiEndpoint]]"
+      ></placetobe-campagnes-overview-page>
+
+    </template>
 
     <template is="dom-if" if="[[subRouteData.campaignId]]">
 
       <template is="dom-if" if="[[!investRouteData.status]]">
-        <placetobe-campaign-page route="[[campaignRoute]]" api-endpoint="[[apiEndpoint]]" campaign-id="{{subRouteData.campaignId}}"></placetobe-campaign-page>
+        <placetobe-campaign-page
+          route="[[campaignRoute]]"
+          api-endpoint="[[apiEndpoint]]"
+          campaign-slug="[[subRouteData.campaignId]]"
+        ></placetobe-campaign-page>
       </template>
 
       <!-- If post invest was succesful (route: /campagnes/:campaignId/success)  -->
       <template is="dom-if" if="[[_computeInvestmentSuccessfull(investRouteData.status)]]">
-        <placetobe-investment-complete-page campaign-id="[[routeData.campaignId]]" api-endpoint="[[apiEndpoint]]" invoice-number="[[invoiceNumber]]"></placetobe-investment-complete-page>
+        <placetobe-investment-complete-page
+          campaign-id="[[routeData.campaignId]]"
+          api-endpoint="[[apiEndpoint]]"
+          invoice-number="[[invoiceNumber]]"
+        ></placetobe-investment-complete-page>
       </template>
 
       <!-- If post invest was unsuccesful (route: /campagnes/:campaignId/reject)  -->
       <template is="dom-if" if="[[_computeInvestmentUnsuccessfull(investRouteData.status)]]">
-        <placetobe-investment-failed-notice failure-reason="{{subRouteData.status}}"></placetobe-investment-failed-notice>
+        <placetobe-investment-failed-notice
+          failure-reason="{{subRouteData.status}}"
+        ></placetobe-investment-failed-notice>
       </template>
 
     </template>
@@ -111,20 +130,19 @@ Example:
           type: Object,
           value: {}
         },
-<<<<<<< HEAD
 
         investRouteData: {
           type: Object,
           value: {}
         },
-=======
->>>>>>> development
+
         /*
         * Number of invoice of succesful investment propogated via POST request body (server.js -> index.hbs -> placetobe-app)
         */
         invoiceNumber: {
           type: String
-        }
+        },
+
       },
 
       _computeInvestmentUnsuccessfull: function(investmentStatus) {
