@@ -29,12 +29,18 @@
 
       <div class="intro">
 
-        <h1>Vastgoed ontwikkelen samen met de crowd</h1>
+        <h1><strong>Vastgoed ontwikkelen</strong> samen met de crowd</h1>
         <h3>Placetobe financiert de ontwikkeling van nieuw vastgoed en de herfinanciering van bestaand vastgoed. We maken alternatieve financiering mogelijk als aanvulling op, of ter vervanging van een bancaire lening, in de vorm van Crowdfunding. Dit biedt kansen om een grote groep investeerders te bereiken en direct een breder draagvlak voor je project te realiseren.</h3>
-          <placetobe-button
-            href="/start-project/test"
-            on-tap="_handleTapStartQuickscanButton"
-          ><span>Start de quickscan</span></placetobe-button>
+
+        <placetobe-mailinglist-subscribe-form
+          api-endpoint="[[apiEndpoint]]"
+          user-role="entrepreneurs"
+          button-label="Email mij de brochure"
+          on-subscribing="_handleEntrepreneursBrochureRequesting"
+          on-subscribed="_handleEntrepreneursBrochureRequested"
+          on-subscribe-error="_handleEntrepreneursBrochureRequestError"
+        ></placetobe-mailinglist-subscribe-form>
+
       </div>
 
       <section>
@@ -46,8 +52,8 @@
           </p>
         </article>
 
-        <figure>
-          <placetobe-womanandplant-illustration></placetobe-womanandplant-illustration>
+        <figure class="right">
+          <img src$="[[resolveUrl('svg/POPPETJES-02.svg')]]">
         </figure>
 
       </section>
@@ -81,8 +87,8 @@
           ><span>Bekijk onze tarieven</span></placetobe-button>
         </article>
 
-        <figure>
-          <placetobe-manandwomangreeting-illustration></placetobe-manandwomangreeting-illustration>
+        <figure class="left">
+          <img src$="[[resolveUrl('svg/POPPETJES-03.svg')]]">
         </figure>
 
       </section>
@@ -100,8 +106,8 @@
           </p>
         </article>
 
-        <figure>
-          <placetobe-womanholdingclock-illustration></placetobe-womanholdingclock-illustration>
+        <figure class="right">
+          <img src$="[[resolveUrl('svg/POPPETJES-04.svg')]]">
         </figure>
 
       </section>
@@ -123,8 +129,8 @@
           </p>
         </article>
 
-        <figure>
-          <placetobe-womennetworking-illustration></placetobe-womennetworking-illustration>
+        <figure class="left">
+          <img src$="[[resolveUrl('svg/POPPETJES-05.svg')]]">
         </figure>
 
       </section>
@@ -142,18 +148,22 @@
           </p>
         </article>
 
-        <figure>
-          <placetobe-womanwithsuitcase-illustration></placetobe-womanwithsuitcase-illustration>
+        <figure class="right">
+          <img src$="[[resolveUrl('svg/POPPETJES-06.svg')]]">
         </figure>
 
       </section>
 
-      <section>
+      <section class="reversed">
 
-        <placetobe-card title="Direct je project starten?" class="card">
-          <article slot="main">
-            Onze accountmanagers zijn elke werkdag bereikbaar binnen kantooruren per telefoon via <a href="callto:+31306966523">030-6966523</a> of per email via <a href="mailto:info@placetobe.nl">info@placetobe.nl</a>. Mocht je direct je projectinformatie willen opsturen, klik dan op de knop hieronder en vul je gegevens in. We nemen dan zo snel mogelijk contact met je op.
-          </article>
+        <article>
+          <h2>Direct je project starten?</h2>
+          <p>
+          Onze accountmanagers zijn elke werkdag bereikbaar binnen kantooruren per telefoon via <a href="callto:+31306966523">030-6966523</a> of per email via <a href="mailto:info@placetobe.nl">info@placetobe.nl</a>.
+          </p>
+          <p>Mocht je direct je projectinformatie willen opsturen, klik dan op de knop hieronder en vul je gegevens in. We nemen dan zo snel mogelijk contact met je op.
+          </p>
+
           <placetobe-button
             target="_blank"
             href="https://docs.google.com/a/lotsofpeople.nl/forms/d/e/1FAIpQLSdFZhTSDI4kRKZlLedroXEmMCEAGVB6fUPSYJkdIL9jrQR1yg/viewform"
@@ -161,9 +171,14 @@
           >
             <span>Start een project</span>
           </placetobe-button>
-        </placetobe-card>
+        </article>
+
+        <figure class="left">
+          <img src$="[[resolveUrl('svg/POPPETJES-07.svg')]]">
+        </figure>
 
       </section>
+
       <section>
 
         <placetobe-card title="Meer informatie?" class="card">
@@ -183,6 +198,7 @@
         </placetobe-card>
 
       </section>
+
 
     </main>
 
@@ -223,13 +239,21 @@
         this._sendAnalyticsEvent('request-error', 'entrepreneurs-brochure')
       },
 
-      _handleTapStartQuickscanButton: function() {
-        this._sendAnalyticsEvent('start', 'entrepreneurs-quickscan')        
-      },
-
       _handleTapShowPricingButton: function() {
         this._sendAnalyticsEvent('tap-pricing-button', 'pricing')        
-      }
+      },
+
+      _handleEntrepreneursBrochureRequesting: function() {
+        this._sendAnalyticsEvent('intro', 'requesting', 'entrepreneurs-brochure')
+      },
+
+      _handleEntrepreneursBrochureRequested: function() {
+        this._sendAnalyticsEvent('intro', 'requested', 'entrepreneurs-brochure')
+      },
+
+      _handleEntrepreneursBrochureRequestError: function() {
+        this._sendAnalyticsEvent('intro', 'request-error', 'entrepreneurs-brochure')
+      },
 
     })
   </script>

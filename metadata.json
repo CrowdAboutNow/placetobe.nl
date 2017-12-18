@@ -39,6 +39,14 @@
     "/forgotpassword/validate": {
       "title": "Wachtwoord bevestigen",
       "description": ""
+   },
+    "/campagne-dashboard": {
+      "title": "Dashboard voor ondernemers",
+      "description": "Bewerk hier je campagne pagina"
+    },
+    "/investeerders-dashboard": {
+      "title": "Dashboard voor investeerders",
+      "description": "Bekijk hier je investeringen"
     }
   }
 }

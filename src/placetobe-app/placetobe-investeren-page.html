@@ -28,12 +28,18 @@
 
       <div class="intro">
 
-        <h1>Investeren in vastgoed met een goed verhaal</h1>
+        <h1><strong>Investeren in vastgoed</strong> met een goed verhaal</h1>
         <h3>Je geld doet meer wanneer je het belegt via crowdfunding. Door te investeren via Placetobe, kun je vastgoed helpen realiseren waar daadwerkelijk behoefte aan is, nu en in de toekomst. Een mooie plek maken, dat is wat jouw geld kan doen.</h3>
-          <placetobe-button
-            href="/investeren/test"
-            on-tap="_handleTapStartQuickscanButton"
-            ><span>Start de quickscan</span></placetobe-button>
+
+        <placetobe-mailinglist-subscribe-form
+          api-endpoint="[[apiEndpoint]]"
+          user-role="investors"
+          button-label="Email mij de brochure"
+          on-subscribing="_handleInvestorsBrochureRequesting"
+          on-subscribed="_handleInvestorsBrochureRequested"
+          on-subscribe-error="_handleInvestorsBrochureRequestError"
+        ></placetobe-mailinglist-subscribe-form>
+
       </div>
 
       <section>
@@ -47,8 +53,8 @@
           </p>
         </article>
 
-        <figure>
-          <placetobe-manandcalculator-illustration></placetobe-manandcalculator-illustration>
+        <figure class="right">
+          <img src$="[[resolveUrl('svg/POPPETJES-07.svg')]]">
         </figure>
 
       </section>
@@ -77,8 +83,8 @@
           </ul>
         </article>
 
-        <figure>
-          <placetobe-manandclock-illustration></placetobe-womanandplant-illustration>
+        <figure class="left">
+          <img src$="[[resolveUrl('svg/POPPETJES-08.svg')]]">
         </figure>
 
       </section>
@@ -93,8 +99,8 @@
           </p>
         </article>
 
-        <figure>
-          <placetobe-manandumbrella-illustration></placetobe-manandumbrella-illustration>
+        <figure class="right">
+          <img src$="[[resolveUrl('svg/POPPETJES-01.svg')]]">
         </figure>
 
       </section>
@@ -113,8 +119,8 @@
           </p>
         </article>
 
-        <figure>
-          <placetobe-manshowingmoneybox-illustration></placetobe-manshowingmoneybox-illustration>
+        <figure class="left">
+          <img src$="[[resolveUrl('svg/POPPETJES-02.svg')]]">
         </figure>
 
       </section>
@@ -177,10 +183,17 @@
         this._sendAnalyticsEvent('request-error', 'investors-brochure')
       },
 
-      _handleTapStartQuickscanButton: function() {
-        this._sendAnalyticsEvent('start', 'investors-quickscan')        
-      }
+      _handleInvestorsBrochureRequesting: function() {
+        this._sendAnalyticsEvent('intro', 'requesting', 'investors-brochure')
+      },
 
+      _handleInvestorsBrochureRequested: function() {
+        this._sendAnalyticsEvent('intro', 'requested', 'investors-brochure')
+      },
+
+      _handleInvestorsBrochureRequestError: function() {
+        this._sendAnalyticsEvent('intro', 'request-error', 'investors-brochure')
+      },
     })
   </script>
 </dom-module>
