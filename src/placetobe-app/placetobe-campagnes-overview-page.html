@@ -8,7 +8,13 @@
 
     <style include="placetobe-landing-page-styles">
       :host h1 {
-        margin: calc( var(--placetobe-margin) * 8 ) auto calc( var(--placetobe-margin) * 4 ) auto;
+        margin: calc( var(--placetobe-margin) * 6 ) auto 0 auto;
+      }
+
+      @media(min-width: 601px) {
+        :host h1 {
+        margin: calc( var(--placetobe-margin) * 8 ) auto calc( var(--placetobe-margin) * 2 ) auto;
+        }
       }
 
       paper-spinner-lite {
@@ -20,6 +26,32 @@
       paper-spinner-lite[active] {
         margin: calc(var(--placetobe-margin) *2) auto;
       }
+
+      #grid {
+        display: grid;
+        justify-items: start;
+        align-items: start;
+        grid-template-columns: 1fr;
+      }
+
+      @media(min-width: 601px) {
+        #grid {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+
+      @media(min-width: 990px) {
+        #grid {
+          grid-template-columns: 1fr 1fr 1fr;
+        }
+      }
+
+      @media(min-width: 601px) {
+        placetobe-campaign-card {
+          margin: var(--placetobe-margin);
+        }        
+      }
+
     </style>
 
     <main>
@@ -28,18 +60,19 @@
         <paper-spinner-lite active="[[!_hasCampaigns]]"></paper-spinner-lite>
       </div>
 
-      <template is="dom-repeat" items="[[apiCampaignData]]" index-as="index">
-        <placetobe-campaign-card
-          api-endpoint="[[apiEndpoint]]"
-          horizontal-layout
-          image-url="[[item.coverURL]]"
-          title="[[item.projectNaam]]"
-          campaign-id="[[item.id]]"
-          introduction-text="[[item.introductieTekst]]"
-          href="/campagnes/[[item.slug]]"
-        ></placetobe-campaign-card>
+      <section id="grid">
+        <template is="dom-repeat" items="[[apiCampaignData]]" index-as="index">
+          <placetobe-campaign-card
+            api-endpoint="[[apiEndpoint]]"
+            image-url="[[item.coverURL]]"
+            title="[[item.projectNaam]]"
+            campaign-id="[[item.id]]"
+            introduction-text="[[item.introductieTekst]]"
+            href="/campagnes/[[item.slug]]"
+          ></placetobe-campaign-card>
+        </template>
+      </section>
 
-      </template>
     </main>
   </template>
 
@@ -50,7 +83,7 @@
 
         apiCampaignData: {
           type: Array,
-          value: []
+          value: [{"id":429,"status":2,"statusName":"success","coverURL":"https://developmentassets.crowdaboutnow.nl/images/campinfo/429/frontpagesociu-640px.jpeg","projectNaam":"Ravellaan lening","slug":"deravellenen","introductieTekst":"TW De Ravel is onderdeel van Socius Wonen, de andere jongerenhuisvester uit Utrecht","pageURL":"https://developmentapi.crowdaboutnow.nl/campagne/deravellenen","contractTypeID":4,"contractType2ID":0,"contractTypeIds":[4],"contractTypeSortIds":[3],"requiredFunding":500000,"overtekenen":1000000,"maxFunding":1500000,"progressInEuros":695395,"progressPercentage":139,"deadlineDateTime":1438380000,"daysLeftBeforeDeadLine":"Succesvol","categories":["Duurzaamheid","Bouw","Buurt/Bewonersinitiatieven"],"address":{"street":"Ravellaan","houseNumber":"96","postalCode":"3533JR","city":"Utrecht","altplaats":"Utrecht","region":"Utrecht","country":"Nederland"},"teaser":null,"thumb":"https://developmentassets.crowdaboutnow.nl/images/campinfo/429/thumb_frontpagesociu.jpeg","numberOfInvestors":172,"homepageSuccessFeature":null,"homepageSuccessFeatureText":null},{"id":107,"status":2,"statusName":"success","coverURL":"https://developmentassets.crowdaboutnow.nl/images/campinfo/107/aangepast anno12-640px.jpg","projectNaam":"Certificaten ANNO12","slug":"certificaten-anno12","introductieTekst":"Zorg voor verandering","pageURL":"https://developmentapi.crowdaboutnow.nl/campagne/Certificaten-ANNO12","contractTypeID":5,"contractType2ID":0,"contractTypeIds":[5],"contractTypeSortIds":[5],"requiredFunding":500000,"overtekenen":2000000,"maxFunding":2500000,"progressInEuros":556000,"progressPercentage":111,"deadlineDateTime":1372715999,"daysLeftBeforeDeadLine":"Succesvol","categories":["Gezondheidszorg"],"address":{"street":"Stadsring","houseNumber":"181","postalCode":"3817 BA","city":"Amersfoort","altplaats":"Amersfoort","region":"Utrecht","country":"Nederland"},"teaser":null,"thumb":"https://developmentassets.crowdaboutnow.nl/images/campinfo/107/thumb_aangepast anno12.jpg","numberOfInvestors":244,"homepageSuccessFeature":null,"homepageSuccessFeatureText":null},{"id":798,"status":2,"statusName":"success","coverURL":"https://developmentassets.crowdaboutnow.nl/images/campinfo/798/omslagfoto-640px.jpg","projectNaam":"SlowCare Elzeneindhuis","slug":"elzeneindhuis","introductieTekst":"Bouw mee aan het Elzeneindhuis en draag je steentje bij aan de toekomst van onze meervoudig gehandicapte kinderen. ","pageURL":"https://developmentapi.crowdaboutnow.nl/campagne/elzeneindhuis","contractTypeID":4,"contractType2ID":2,"contractTypeIds":[4,2],"contractTypeSortIds":[3,2],"requiredFunding":450000,"overtekenen":50000,"maxFunding":500000,"progressInEuros":501000,"progressPercentage":111,"deadlineDateTime":1488322800,"daysLeftBeforeDeadLine":"Succesvol","categories":["Duurzaamheid","Gezondheidszorg","Buurt/Bewonersinitiatieven"],"address":{"street":"Wijststraat ","houseNumber":"35","postalCode":"5384 RA","city":"Heesch","altplaats":"Heesch","region":"Noord-Brabanrt","country":"Nederland"},"teaser":"Wij vinden dat zorg gericht moet zijn op onze clienten: Meervoudig gehandicapte kinderen. Dus geen dure managers of overhead. Doe je mee?","thumb":"https://developmentassets.crowdaboutnow.nl/images/campinfo/798/thumb_omslagfoto.jpg","numberOfInvestors":132,"homepageSuccessFeature":null,"homepageSuccessFeatureText":null},{"id":951,"status":1,"statusName":"in-progress","coverURL":"https://developmentassets.crowdaboutnow.nl/images/campinfo/951/RC-640px.jpg","projectNaam":"Rock City","slug":"rockcity","introductieTekst":"FANTASTISCH!!! In 37 dagen hebben we samen met meer dan 200 investeerders de 100% bereikt en gaat het écht gebeuren! Iedereen ontzettend bedankt voor alle support en vertrouwen!! Nu door naar de €500.000 zodat we de prachtige Brewpub in Amersfoort kunnen bouwen. Nog 3 weken te gaan, investeer ook mee!","pageURL":"https://developmentapi.crowdaboutnow.nl/campagne/rockcity","contractTypeID":4,"contractType2ID":2,"contractTypeIds":[4,2],"contractTypeSortIds":[3,2],"requiredFunding":350000,"overtekenen":150000,"maxFunding":500000,"progressInEuros":377947,"progressPercentage":107,"deadlineDateTime":1514761200,"daysLeftBeforeDeadLine":"Nog 14 dagen","categories":["Horeca&Recreatie","Ambachten","Cultuur"],"address":{"street":"Springerstraat ","houseNumber":"46","postalCode":"3822TC","city":"Amersfoort","altplaats":"Amersfoort","region":"Utrecht","country":"Nederland"},"teaser":"Een échte brouwerij in Amersfoort? Als het aan ons ligt gaat dat snel gebeuren.","thumb":"https://developmentassets.crowdaboutnow.nl/images/campinfo/951/thumb_RC.jpg","numberOfInvestors":238,"homepageSuccessFeature":null,"homepageSuccessFeatureText":null},{"id":717,"status":2,"statusName":"success","coverURL":"https://developmentassets.crowdaboutnow.nl/images/campinfo/717/Erik.Jan.Header.foto-640px.jpg","projectNaam":"Uitbouw Manifesto","slug":"manifesto","introductieTekst":"Manifesto is een nieuw type accountant voor MKB-ondernemers. Werkt met vaste prijzen. Neemt je alle administratieve rompslomp uit handen. Manifesto bestaat nu 1 jaar en is klaar om op te schalen. Met deze campagne wil Manifesto geld ophalen om de organisatie verder te versterken en twee nieuwe vestigingen te openen. \n","pageURL":"https://developmentapi.crowdaboutnow.nl/campagne/manifesto","contractTypeID":4,"contractType2ID":0,"contractTypeIds":[4],"contractTypeSortIds":[3],"requiredFunding":350000,"overtekenen":250000,"maxFunding":600000,"progressInEuros":350320,"progressPercentage":100,"deadlineDateTime":1480633199,"daysLeftBeforeDeadLine":"Succesvol","categories":["Dienstverlening","Overig"],"address":{"street":"Isaac Titsinghkade","houseNumber":"107","postalCode":"1018 LL","city":"Amsterdam","altplaats":"Amsterdam","region":"Noord Holland","country":"Nederland"},"teaser":"Stel je voor. Dat jij als ondernemer je volledig kunt concentreren op het ondernemen zelf. Je niet meer bezig hoeft te houden met al die administratieve rompslomp eromheen. Je real time resultaten kunt zien. En elk kwartaal gecoacht wordt. Geholpen om nog","thumb":"https://developmentassets.crowdaboutnow.nl/images/campinfo/717/thumb_Erik.Jan.Header.foto.jpg","numberOfInvestors":74,"homepageSuccessFeature":null,"homepageSuccessFeatureText":null},{"id":638,"status":2,"statusName":"success","coverURL":"https://developmentassets.crowdaboutnow.nl/images/campinfo/638/Twochefsfpnieuwresized-640px.jpg","projectNaam":"Two Chefs Brewing","slug":"twochefsbrewing","introductieTekst":"Investeer in de nieuwe brouwinstallatie van Two Chefs Brewing. Here's to crafty beers!","pageURL":"https://developmentapi.crowdaboutnow.nl/campagne/TwoChefsBrewing","contractTypeID":4,"contractType2ID":0,"contractTypeIds":[4],"contractTypeSortIds":[3],"requiredFunding":150000,"overtekenen":150000,"maxFunding":300000,"progressInEuros":300000,"progressPercentage":200,"deadlineDateTime":1464818400,"daysLeftBeforeDeadLine":"Succesvol","categories":["Food"],"address":{"street":"Polijsterweg ","houseNumber":"8, Ruimte F","postalCode":"1032KR","city":"Amsterdam","altplaats":"Amsterdam","region":"Noord Holland","country":"Nederland"},"teaser":null,"thumb":"https://developmentassets.crowdaboutnow.nl/images/campinfo/638/thumb_Twochefsfpnieuwresized.jpg","numberOfInvestors":210,"homepageSuccessFeature":null,"homepageSuccessFeatureText":null}]
         },
 
         _hasCampaigns: {
