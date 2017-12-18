@@ -1,5 +1,5 @@
 <!--
-Page that informs an investor that the investment was successful. 
+Page that informs an investor that the investment was successful.
 
 Example:
 
@@ -34,7 +34,7 @@ Example:
         Hartelijk dank voor je investering. Je kunt je contract nu downloaden in je persoonlijke dashboard. Hier vind je een overzicht van al je investeringen en je contact- en betalingsinformatie.
       </h3>
         <placetobe-button
-          href="https://crowdaboutnow.nl/investeerder/dashboard"
+          href="/investeerders-dashboard"
           target="_blank"
         ><span>naar mijn dashboard</span></placetobe-button>
         <p><br></p>
@@ -44,8 +44,8 @@ Example:
         campaign-id="[[campaignId]]"
         api-endpoint="[[apiEndpoint]]"
       ></placetobe-create-testimonial-card>
-    </div>  
-    
+    </div>
+
   </template>
   <script>
     Polymer({
@@ -60,7 +60,7 @@ Example:
 
         apiEndpoint: {
           type: String
-        }         
+        }
       }
     });
   </script>
