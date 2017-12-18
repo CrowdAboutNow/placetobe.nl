@@ -54,22 +54,12 @@ Example:
 
     <!-- index page for all campaigns-->
     <template is="dom-if" if="[[!subRouteData.campaignId]]">
-      <placetobe-campagnes-overview-page api-campaign-data="[[apiCampaignData]]" api-endpoint="[[apiEndpoint]]"></placetobe-campagnes-overview-page>
-
-    <template is="dom-if" if="{{!subRouteData.status}}">
-      <placetobe-campaign-page route="[[campaignRoute]]" api-endpoint="[[apiEndpoint]]" campaign-slug="{{routeData.campaignId}}"></placetobe-campaign-page>
-    </template>
-      
-    <!-- index page for all campaigns-->
-    <template is="dom-if" if="[[!subRouteData.campaignId]]">
-
       <placetobe-campagnes-overview-page
         api-campaign-data="[[apiCampaignData]]"
         api-endpoint="[[apiEndpoint]]"
       ></placetobe-campagnes-overview-page>
-
     </template>
-
+    
     <template is="dom-if" if="[[subRouteData.campaignId]]">
 
       <template is="dom-if" if="[[!investRouteData.status]]">
