@@ -36,6 +36,10 @@
       "title": "Algemene voorwaarden",
       "description": "Laatst gewijzigd 23 december 2016"
     },
+    "/campagne-dashboard": {
+      "title": "Dashboard voor ondernemers",
+      "description": "Bewerk hier je campagne pagina"
+    },
     "/investeerders-dashboard": {
       "title": "Dashboard voor investeerders",
       "description": "Bekijk hier je investeringen"

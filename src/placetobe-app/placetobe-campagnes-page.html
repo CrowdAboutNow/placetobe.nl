@@ -54,9 +54,9 @@ Example:
     <!-- If routeData indicates that the page is about one campaign and if there is no subRouteData (for example post invest)-->
     <!--TODO: if route is only /campagnes this will also try to load a single campaing. Can be computed [[!!routeData.campaignId && !subRouteData.status]]-->
     <template is="dom-if" if="{{!subRouteData.status}}">
-      <placetobe-campaign-page route="[[campaignRoute]]" api-endpoint="[[apiEndpoint]]" campaign-id="{{routeData.campaignId}}"></placetobe-campaign-page>
+      <placetobe-campaign-page route="[[campaignRoute]]" api-endpoint="[[apiEndpoint]]" campaign-slug="{{routeData.campaignId}}"></placetobe-campaign-page>
     </template>
-    
+
     <!-- If post invest was unsuccesful (route: /campagnes/:campaignId/reject)  -->
     <template is="dom-if" if="[[_computeInvestmentUnsuccessfull(subRouteData.status)]]">
       <placetobe-investment-failed-notice failure-reason="{{subRouteData.status}}"></placetobe-investment-failed-notice>
@@ -92,7 +92,7 @@ Example:
         subRouteData: {
           type: Object
         },
-        /* 
+        /*
         * Number of invoice of succesful investment propogated via POST request body (server.js -> index.hbs -> placetobe-app)
         */
         invoiceNumber: {
@@ -103,7 +103,7 @@ Example:
       _computeInvestmentUnsuccessfull: function(investmentStatus) {
         return (investmentStatus && ['reject', 'error', 'cancel'].indexOf(investmentStatus) !== -1);
       },
-      
+
       _computeInvestmentSuccessfull: function(investmentStatus) {
         return (investmentStatus && investmentStatus == 'success');
       }
