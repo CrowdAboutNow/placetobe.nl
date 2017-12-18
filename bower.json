@@ -41,6 +41,12 @@
   "resolutions": {
     "iron-selector": "^1.5.2",
     "iron-icons": "^2.0.1",
-    "google-youtube": "~1.1.2"
+    "google-youtube": "~1.1.2",
+    "iron-image": "^1.2.5",
+    "google-map": "^2.0.3",
+    "iron-location": "^2.0.2",
+    "iron-ajax": "^1.4.3",
+    "iron-form": "^1.1.4",
+    "moment": "~2.15.0"
   }
 }
