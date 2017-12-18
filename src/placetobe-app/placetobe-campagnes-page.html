@@ -63,22 +63,16 @@ Example:
         <placetobe-campaign-page route="[[campaignRoute]]" api-endpoint="[[apiEndpoint]]" campaign-id="{{subRouteData.campaignId}}"></placetobe-campaign-page>
       </template>
 
-      <template is="dom-if" if="[[_computeInvestmentSuccessfull(investRouteData.status)]]">  
+      <!-- If post invest was succesful (route: /campagnes/:campaignId/success)  -->
+      <template is="dom-if" if="[[_computeInvestmentSuccessfull(investRouteData.status)]]">
+        <placetobe-investment-complete-page campaign-id="[[routeData.campaignId]]" api-endpoint="[[apiEndpoint]]" invoice-number="[[invoiceNumber]]"></placetobe-investment-complete-page>
       </template>
 
+      <!-- If post invest was unsuccesful (route: /campagnes/:campaignId/reject)  -->
       <template is="dom-if" if="[[_computeInvestmentUnsuccessfull(investRouteData.status)]]">
+        <placetobe-investment-failed-notice failure-reason="{{subRouteData.status}}"></placetobe-investment-failed-notice>
       </template>
 
-    </template>
-
-    <!-- If post invest was unsuccesful (route: /campagnes/:campaignId/reject)  -->
-    <template is="dom-if" if="[[_computeInvestmentUnsuccessfull(subRouteData.status)]]">
-      <placetobe-investment-failed-notice failure-reason="{{subRouteData.status}}"></placetobe-investment-failed-notice>
-    </template>
-
-    <!-- If post invest was succesful (route: /campagnes/:campaignId/success)  -->
-    <template is="dom-if" if="[[_computeInvestmentSuccessfull(subRouteData.status)]]">
-      <placetobe-investment-complete-page campaign-id="[[routeData.campaignId]]" api-endpoint="[[apiEndpoint]]" invoice-number="[[invoiceNumber]]"></placetobe-investment-complete-page>
     </template>
 
   </template>
