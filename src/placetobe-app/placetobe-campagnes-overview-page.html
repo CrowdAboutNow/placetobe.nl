@@ -1,20 +1,31 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="placetobe-landing-page-styles.html">
 <link rel="import" href="../../bower_components/placetobe-campaign-card/placetobe-campaign-card.html">
+<link rel="import" href="../../bower_components/paper-spinner/paper-spinner-lite.html">
 
 <dom-module id="placetobe-campagnes-overview-page">
   <template>
 
     <style include="placetobe-landing-page-styles">
       :host h1 {
-        margin-top: calc( var(--placetobe-margin) * 8 );
-        margin-bottom: calc( var(--placetobe-margin) * 4 );
+        margin: calc( var(--placetobe-margin) * 8 ) auto calc( var(--placetobe-margin) * 4 ) auto;
+      }
+
+      paper-spinner-lite {
+        --paper-spinner-color: var(--placetobe-color-darkblue);
+        display: block;
+        margin: 0 auto;    
+      }
+
+      paper-spinner-lite[active] {
+        margin: calc(var(--placetobe-margin) *2) auto;
       }
     </style>
 
     <main>
-      <div>
-        <h1><strong>Overzicht campagnes</strong><br></h1>
+      <div class="intro">
+        <h1><strong>Alle campagnes</strong><br></h1>
+        <paper-spinner-lite active="[[!_hasCampaigns]]"></paper-spinner-lite>
       </div>
 
       <template is="dom-repeat" items="[[apiCampaignData]]" index-as="index">
@@ -38,13 +49,26 @@
       properties: {
 
         apiCampaignData: {
-          type: Array
+          type: Array,
+          value: []
+        },
+
+        _hasCampaigns: {
+          type: Boolean,
+          value: false,
+          computed: '_computeHasCampaigns(apiCampaignData.splices)'
         },
 
         apiEndpoint: {
           type: String
         }
+
+      },
+
+      _computeHasCampaigns: function(apiCampaignDataSplice) {
+        return (this.apiCampaignData && this.apiCampaignData.length > 0);
       }
+
     })
   </script>
 </dom-module>
