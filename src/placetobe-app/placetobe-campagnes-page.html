@@ -14,6 +14,7 @@ Example:
 <link rel="import" href="placetobe-landing-page-styles.html">
 <link rel="import" href="placetobe-investment-failed-notice.html">
 <link rel="import" href="placetobe-investment-complete-page.html">
+<link rel="import" href="placetobe-campagnes-overview-page.html">
 
 
 <dom-module id="placetobe-campagnes-page">
@@ -40,7 +41,7 @@ Example:
     <placetobe-route
       route="{{campaignRoute}}"
       pattern="/:campaignId"
-      data="{{routeData}}"
+      data="{{subRouteData}}"
       tail="{{subRoute}}"
     ></placetobe-route>
 
@@ -48,9 +49,14 @@ Example:
     <placetobe-route
       route="{{subRoute}}"
       pattern="/investeren/:status"
-      data="{{subRouteData}}"
+      data="{{investRouteData}}"
     ></placetobe-route>
 
+<<<<<<< HEAD
+    <!-- index page for all campaigns-->
+    <template is="dom-if" if="[[!subRouteData.campaignId]]">
+      <placetobe-campagnes-overview-page api-campaign-data="[[apiCampaignData]]" api-endpoint="[[apiEndpoint]]"></placetobe-campagnes-overview-page>
+=======
     <!-- If routeData indicates that the page is about one campaign and if there is no subRouteData (for example post invest)-->
     <!--TODO: if route is only /campagnes this will also try to load a single campaing. Can be computed [[!!routeData.campaignId && !subRouteData.status]]-->
     <template is="dom-if" if="{{!subRouteData.status}}">
@@ -60,11 +66,25 @@ Example:
     <!-- If post invest was unsuccesful (route: /campagnes/:campaignId/reject)  -->
     <template is="dom-if" if="[[_computeInvestmentUnsuccessfull(subRouteData.status)]]">
       <placetobe-investment-failed-notice failure-reason="{{subRouteData.status}}"></placetobe-investment-failed-notice>
+>>>>>>> development
     </template>
 
-    <!-- If post invest was succesful (route: /campagnes/:campaignId/success)  -->
-    <template is="dom-if" if="[[_computeInvestmentSuccessfull(subRouteData.status)]]">
-      <placetobe-investment-complete-page campaign-id="[[routeData.campaignId]]" api-endpoint="[[apiEndpoint]]" invoice-number="[[invoiceNumber]]"></placetobe-investment-complete-page>
+    <template is="dom-if" if="[[subRouteData.campaignId]]">
+
+      <template is="dom-if" if="[[!investRouteData.status]]">
+        <placetobe-campaign-page route="[[campaignRoute]]" api-endpoint="[[apiEndpoint]]" campaign-id="{{subRouteData.campaignId}}"></placetobe-campaign-page>
+      </template>
+
+      <!-- If post invest was succesful (route: /campagnes/:campaignId/success)  -->
+      <template is="dom-if" if="[[_computeInvestmentSuccessfull(investRouteData.status)]]">
+        <placetobe-investment-complete-page campaign-id="[[routeData.campaignId]]" api-endpoint="[[apiEndpoint]]" invoice-number="[[invoiceNumber]]"></placetobe-investment-complete-page>
+      </template>
+
+      <!-- If post invest was unsuccesful (route: /campagnes/:campaignId/reject)  -->
+      <template is="dom-if" if="[[_computeInvestmentUnsuccessfull(investRouteData.status)]]">
+        <placetobe-investment-failed-notice failure-reason="{{subRouteData.status}}"></placetobe-investment-failed-notice>
+      </template>
+
     </template>
 
   </template>
@@ -72,6 +92,12 @@ Example:
     Polymer({
       is: 'placetobe-campagnes-page',
       properties: {
+        /**
+        * array with all campaigns
+        */
+        apiCampaignData: {
+          type: Array
+        },
         /**
         * Remaining route information of url that starts with /campagnes/:campaignId
         * campaignRoute.campaignId provides string is :campaignId
@@ -90,8 +116,17 @@ Example:
         * subRouteData.status provides string in :status
         */
         subRouteData: {
-          type: Object
+          type: Object,
+          value: {}
         },
+<<<<<<< HEAD
+
+        investRouteData: {
+          type: Object,
+          value: {}
+        },
+=======
+>>>>>>> development
         /*
         * Number of invoice of succesful investment propogated via POST request body (server.js -> index.hbs -> placetobe-app)
         */

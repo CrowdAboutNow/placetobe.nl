@@ -19,6 +19,7 @@
     "placetobe-illustrations": "Placetobe/placetobe-illustrations",
     "placetobe-footer": "Placetobe/placetobe-footer",
     "placetobe-popup": "Placetobe/placetobe-popup",
+    "placetobe-campaign-card": "Placetobe/placetobe-campaign-card",
     "placetobe-survey": "Placetobe/placetobe-survey",
     "placetobe-navigation-bar": "Placetobe/placetobe-navigation-bar",
     "placetobe-quote": "Placetobe/placetobe-quote",
@@ -28,6 +29,7 @@
     "placetobe-campaign-dashboard": "Placetobe/placetobe-campaign-dashboard",
     "google-analytics-tracker": "lotsofpeople/google-analytics-tracker",
     "iron-pages": "polymerelements/iron-pages#^1.0.0",
+    "iron-ajax": "PolymerElements/iron-ajax#~1.1.1",
     "app-storage": "^0.9.8",
     "iron-signals": "^1.0.3",
     "caas-session": "CaasElements/caas-session"

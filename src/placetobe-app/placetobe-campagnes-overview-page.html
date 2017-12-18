@@ -1,0 +1,50 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="placetobe-landing-page-styles.html">
+<link rel="import" href="../../bower_components/placetobe-campaign-card/placetobe-campaign-card.html">
+
+<dom-module id="placetobe-campagnes-overview-page">
+  <template>
+
+    <style include="placetobe-landing-page-styles">
+      :host h1 {
+        margin-top: calc( var(--placetobe-margin) * 8 );
+        margin-bottom: calc( var(--placetobe-margin) * 4 );
+      }
+    </style>
+
+    <main>
+      <div>
+        <h1><strong>Overzicht campagnes</strong><br></h1>
+      </div>
+
+      <template is="dom-repeat" items="[[apiCampaignData]]" index-as="index">
+        <placetobe-campaign-card
+          api-endpoint="[[apiEndpoint]]"
+          horizontal-layout
+          image-url="[[item.coverURL]]"
+          title="[[item.projectNaam]]"
+          campaign-id="[[item.id]]"
+          introduction-text="[[item.introductieTekst]]"
+          href="/campagnes/[[item.slug]]"
+        ></placetobe-campaign-card>
+
+      </template>
+    </main>
+  </template>
+
+  <script>
+    Polymer({
+      is: 'placetobe-campagnes-overview-page',
+      properties: {
+
+        apiCampaignData: {
+          type: Array
+        },
+
+        apiEndpoint: {
+          type: String
+        }
+      }
+    })
+  </script>
+</dom-module>
