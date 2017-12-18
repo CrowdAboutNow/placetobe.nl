@@ -1,5 +1,5 @@
 {
-	"apiEndpoint": "https://can.local.api/",
+	"apiEndpoint": "http://canapi.local",
 	"port": 8080,
 	"googleAnalyticsId": "",
 	"facebookPixelId": "",
