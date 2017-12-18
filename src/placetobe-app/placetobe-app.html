@@ -102,12 +102,14 @@
   async
 >
 
-
 <link
   rel="import"
   href="../../bower_components/iron-signals/iron-signals.html"
 >
-<link rel="import" href="../iron-ajax/iron-ajax.html">
+
+<link rel="import"
+  href="../../bower_components/iron-ajax/iron-ajax.html"
+>
 
 <dom-module id="placetobe-app">
   <template>
@@ -179,8 +181,9 @@
       last-response="{{apiCampaignData}}"
       loading="{{loadingCampaigns}}"
       auto="[[apiEndpoint]]"
-      params='{"api_key": "1337"}'
+      params='{"api_key": "s(.em1cdYNSB6u&WHhdjT*p29#&Bp.4A8pdCwBe5"}'
     ></iron-ajax>
+    <!-- params='{"api_key": "[[apiKey]]"}' -->
 
     <google-analytics-tracker
       tracking-id="[[analyticsTrackingId]]"
