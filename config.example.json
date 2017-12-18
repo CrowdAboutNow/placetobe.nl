@@ -3,5 +3,5 @@
 	"port": 8080,
 	"googleAnalyticsId": "",
 	"facebookPixelId": "",
-	"api_key": "1337"
+	"apiKey": ""
 }
