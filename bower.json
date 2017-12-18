@@ -27,6 +27,7 @@
     "placetobe-create-testimonial-card": "Placetobe/placetobe-create-testimonial-card",
     "google-analytics-tracker": "lotsofpeople/google-analytics-tracker",
     "iron-pages": "polymerelements/iron-pages#^1.0.0",
+    "iron-ajax": "PolymerElements/iron-ajax#~1.1.1",
     "app-storage": "^0.9.8",
     "iron-signals": "^1.0.3"
   },
