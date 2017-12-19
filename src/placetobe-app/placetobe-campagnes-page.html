@@ -83,7 +83,7 @@ Example:
       <!-- If post invest was succesful (route: /campagnes/:campaignId/success)  -->
       <template is="dom-if" if="[[_computeInvestmentSuccessfull(investRouteData.status)]]">
         <placetobe-investment-complete-page
-          campaign-id="[[routeData.campaignId]]"
+          campaign-id="[[subRouteData.campaignId]]"
           api-endpoint="[[apiEndpoint]]"
           invoice-number="[[invoiceNumber]]"
         ></placetobe-investment-complete-page>
