@@ -224,6 +224,7 @@
       invest-page-active="{{investorLandingPageActive}}"
       api-campaign-data="[[apiCampaignData]]"
       campaign-page-active="[[campaignPageActive]]"
+      hide-campaigns="[[!hasCampaigns]]"
     ></placetobe-header>
 
     <div id="hero-wrapper" hidden$="[[!landingPageActive]]">
@@ -299,7 +300,9 @@
 
     </iron-pages>
 
-    <placetobe-footer></placetobe-footer>
+    <placetobe-footer
+      hide-campaigns="[[!hasCampaigns]]"
+    ></placetobe-footer>
 
     <placetobe-popup
       with-backdrop
@@ -454,7 +457,13 @@
         userData: {
           type: Object,
           value: {}
-        }
+        },
+
+        hasCampaigns: {
+          type: Boolean,
+          value: false,
+          computed: '_computeHasCampaigns(apiCampaignData.splices)'
+        },
 
       },
 
@@ -470,6 +479,10 @@
 
       attached: function() {
         Polymer.AppMetadata.requestAvailability();
+      },
+
+      _computeHasCampaigns: function(splice) {
+        return (this.apiCampaignData && this.apiCampaignData.length > 0);
       },
 
       _computeLandingPageActive: function(page) {
