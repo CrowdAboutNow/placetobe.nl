@@ -15,7 +15,7 @@ Example:
 <link rel="import" href="placetobe-investment-failed-notice.html">
 <link rel="import" href="placetobe-investment-complete-page.html">
 <link rel="import" href="placetobe-campagnes-overview-page.html">
-
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
 
 <dom-module id="placetobe-campagnes-page">
   <template>
@@ -36,6 +36,16 @@ Example:
         margin-top: calc( var(--placetobe-margin) * 8 );
       }
     </style>
+
+    <iron-ajax
+      id="getAllCampaigns"
+      url="[[apiEndpoint]]/campaigns"
+      handle-as="json"
+      method="GET"
+      last-response="{{apiCampaignData}}"
+      loading="{{loadingCampaigns}}"
+      auto="[[apiEndpoint]]"
+    ></iron-ajax>
 
     <!-- obtaines campaign(s) route from parent and exposes information about campaign(s) (for example campaignId).-->
     <placetobe-route
@@ -59,7 +69,7 @@ Example:
         api-endpoint="[[apiEndpoint]]"
       ></placetobe-campagnes-overview-page>
     </template>
-    
+
     <template is="dom-if" if="[[subRouteData.campaignId]]">
 
       <template is="dom-if" if="[[!investRouteData.status]]">
@@ -94,10 +104,18 @@ Example:
       is: 'placetobe-campagnes-page',
       properties: {
         /**
+        * indicates loading campaigns
+        */
+        loadingCampaigns: {
+          type: Boolean,
+          notify: true,
+        },
+        /**
         * array with all campaigns
         */
         apiCampaignData: {
-          type: Array
+          type: Array,
+          notify: true
         },
         /**
         * Remaining route information of url that starts with /campagnes/:campaignId

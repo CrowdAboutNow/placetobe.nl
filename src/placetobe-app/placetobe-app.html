@@ -107,10 +107,6 @@
   href="../../bower_components/iron-signals/iron-signals.html"
 >
 
-<link rel="import"
-  href="../../bower_components/iron-ajax/iron-ajax.html"
->
-
 <dom-module id="placetobe-app">
   <template>
 
@@ -172,16 +168,6 @@
         height: 100%;
       }
     </style>
-
-    <iron-ajax
-      id="getAllCampaigns"
-      url="[[apiEndpoint]]/campaigns"
-      handle-as="json"
-      method="GET"
-      last-response="{{apiCampaignData}}"
-      loading="{{loadingCampaigns}}"
-      auto="[[apiEndpoint]]"
-    ></iron-ajax>
 
     <google-analytics-tracker
       tracking-id="[[analyticsTrackingId]]"
@@ -294,7 +280,7 @@
       <placetobe-klachtenprocedure-page name="klachtenprocedure"></placetobe-klachtenprocedure-page>
       <placetobe-forgotpassword-page validation-route="[[subRoute]]" name="forgotpassword"></placetobe-forgotpassword-page>
       <placetobe-algemene-voorwaarden-page name="algemene-voorwaarden"></placetobe-algemene-voorwaarden-page>
-      <placetobe-campagnes-page api-campaign-data="[[apiCampaignData]]" api-endpoint="[[apiEndpoint]]" campaign-route="[[subRoute]]" name="campagnes" invoice-number="[[invoiceNumber]]"></placetobe-campagnes-page>
+      <placetobe-campagnes-page api-endpoint="[[apiEndpoint]]" campaign-route="[[subRoute]]" name="campagnes" invoice-number="[[invoiceNumber]]"></placetobe-campagnes-page>
       <placetobe-investeerders-dashboard-page api-endpoint="[[apiEndpoint]]" name="investeerders-dashboard"></placetobe-investeerders-dashboard-page>
       <placetobe-campagne-dashboard-page api-endpoint="[[apiEndpoint]]" name="campagne-dashboard"></placetobe-campagne-dashboard-page>
 
@@ -338,16 +324,6 @@
       is: 'placetobe-app',
 
       properties: {
-
-        loadingCampaigns: {
-          type: Boolean,
-          notify: true,
-        },
-
-        apiCampaignData: {
-          type: Array,
-          notify: true
-        },
 
         apiEndpoint: {
           type: String
