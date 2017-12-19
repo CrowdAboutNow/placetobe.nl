@@ -19,7 +19,7 @@ var template = handlebars.compile(index);
 Campaign Page
 */
 app.get('/campagnes/:slug', function(req, res, next) {
-  needle.get('https://api.crowdaboutnow.nl/campaigns/' + req.params.slug, {rejectUnauthorized: false}, function(error, response, data) {
+  needle.get(config.apiEndpoint + '/campaigns/' + req.params.slug, {rejectUnauthorized: false}, function(error, response, data) {
     if(!data) return next();
     var data = {
       'title': data.projectNaam,
