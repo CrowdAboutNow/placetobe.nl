@@ -31,7 +31,7 @@
         access-token="{{accessToken}}"
       ></caas-session>
 
-      <template is="dom-if" if="[[_isNotInvestor(userRole)]]">
+      <template is="dom-if" if="[[signedInAsOtherRole]]">
         <div class="intro">
           <h3>Je bent momenteel ingelogd onder een andere rol. Log uit om in te loggen als investeerder.</h3>
           <placetobe-button
@@ -44,10 +44,11 @@
         </div>
       </template>
 
-      <placetobe-investor-dashboard
-        api-endpoint="[[apiEndpoint]]"
-        hidden$="[[_isNotInvestor(userRole)]]"
-      ></placetobe-investor-dashboard>
+      <template is="dom-if" if="[[!signedInAsOtherRole]]">
+        <placetobe-investor-dashboard
+          api-endpoint="[[apiEndpoint]]"
+        ></placetobe-investor-dashboard>
+      </template>
 
     </main>
 
@@ -57,26 +58,43 @@
     Polymer({
       is: 'placetobe-investeerders-dashboard-page',
       properties: {
+        
+        accessToken: {
+          type: String,
+          value: null,
+        },
+
         tokenData: {
           type: Object,
         },
+
         userRole: {
           type: String,
+          value: null,
           computed: '_computeUserRole(tokenData.data.userRole)'
+        },
+
+        signedInAsOtherRole: {
+          type: Boolean,
+          reflectToAttribute: true,
+          computed: '_computeSignedInAsOtherRole(accessToken, userRole)'
         }
+
       },
 
       signOut: function() {
-        this.$$('placetobe-investor-dashboard').signOut();
+        this.$$('caas-session').destroy();
       },
 
       _computeUserRole: function(userRole) {
-        return userRole;
+        return userRole || null;
       },
 
-      _isNotInvestor: function(userRole) {
-        return userRole !== 'investor';
-      }
+      _computeSignedInAsOtherRole: function(accessToken, userRole) {
+        if (accessToken && userRole !== 'investor')  return true;      
+        return false;
+      },
+      
     })
   </script>
 </dom-module>

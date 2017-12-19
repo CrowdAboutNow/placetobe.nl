@@ -31,7 +31,7 @@
         access-token="{{accessToken}}"
       ></caas-session>
 
-      <template is="dom-if" if="[[_isNotEntrepreneur(userRole)]]">
+      <template is="dom-if" if="[[signedInAsOtherRole]]">
         <div class="intro">
           <h3>Je bent momenteel ingelogd onder een andere rol. Log uit om in te loggen als ondernemer.</h3>
           <placetobe-button
@@ -44,12 +44,11 @@
         </div>
       </template>
 
-      <placetobe-campaign-dashboard
-        api-endpoint="[[apiEndpoint]]"
-        hidden$="[[_isNotEntrepreneur(userRole)]]"
-      ></placetobe-campaign-dashboard>        
-
-    </main>
+      <template is="dom-if" if="[[!signedInAsOtherRole]]">
+        <placetobe-campaign-dashboard
+          api-endpoint="[[apiEndpoint]]"
+        ></placetobe-campaign-dashboard>
+      </template>
 
     </main>
 
@@ -59,28 +58,43 @@
     Polymer({
       is: 'placetobe-campagne-dashboard-page',
       properties: {
+        
+        accessToken: {
+          type: String,
+          value: null,
+        },
+
         tokenData: {
           type: Object,
         },
+
         userRole: {
           type: String,
+          value: null,
           computed: '_computeUserRole(tokenData.data.userRole)'
+        },
+
+        signedInAsOtherRole: {
+          type: Boolean,
+          reflectToAttribute: true,
+          computed: '_computeSignedInAsOtherRole(accessToken, userRole)'
         }
+
       },
 
       signOut: function() {
-        this.$$('placetobe-campaign-dashboard').signOut();
-        this.set('tokenData.data.userRole', null);
-      },
-
-      _isNotEntrepreneur: function(userRole) {
-        return userRole !== 'ondernemer';
+        this.$$('caas-session').destroy();
       },
 
       _computeUserRole: function(userRole) {
-        return userRole;
-      }
+        return userRole || null;
+      },
 
+      _computeSignedInAsOtherRole: function(accessToken, userRole) {
+        if (accessToken && userRole !== 'ondernemer')  return true;      
+        return false;
+      },
+      
     })
   </script>
 </dom-module>
