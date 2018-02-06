@@ -37,16 +37,6 @@ Example:
       }
     </style>
 
-    <iron-ajax
-      id="getAllCampaigns"
-      url="[[apiEndpoint]]/campaigns"
-      handle-as="json"
-      method="GET"
-      last-response="{{apiCampaignData}}"
-      loading="{{loadingCampaigns}}"
-      auto="[[apiEndpoint]]"
-    ></iron-ajax>
-
     <!-- obtaines campaign(s) route from parent and exposes information about campaign(s) (for example campaignId).-->
     <placetobe-route
       route="{{campaignRoute}}"
