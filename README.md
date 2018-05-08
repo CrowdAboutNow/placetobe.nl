@@ -13,16 +13,14 @@ $ node server
 
 ## Update on Server
 
-1. `ssh root@placetobe.nl` and type in your password.
-- `bower update --allow-root`
+1. `bower update --allow-root`
 - `npm update`
 - `pm2 restart server`
 
 
 ## How to install an SSL certificate on placetobe.nl
 
-1. `ssh root@placetobe.nl` and type in your password.
-- cd /var/www/ssl/sslforfree/.well-known/acme-challenge
+1. cd /var/www/ssl/sslforfree/.well-known/acme-challenge
 - add files
 - cd /etc/nginx/sites-available
 - mv default default.bu && mv insecure default
