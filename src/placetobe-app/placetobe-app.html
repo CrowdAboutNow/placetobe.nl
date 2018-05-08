@@ -173,6 +173,16 @@
       tracking-id="[[analyticsTrackingId]]"
     ></google-analytics-tracker>
 
+    <iron-ajax
+      id="getAllCampaigns"
+      url="[[apiEndpoint]]/campaigns"
+      handle-as="json"
+      method="GET"
+      last-response="{{apiCampaignData}}"
+      loading="{{loadingCampaigns}}"
+      auto="[[apiEndpoint]]"
+    ></iron-ajax>
+
     <iron-signals
       on-iron-signal-caas-access-token="_setAccessToken"
       on-iron-signal-request-caas-access-token="_handleRequestAccessToken"
