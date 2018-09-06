@@ -1,0 +1,142 @@
+<!doctype html>
+<html>
+  <head>
+    <title>placetobe-campaign-card demo</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
+    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+
+    <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
+    <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
+
+    <link rel="import" href="../placetobe-campaign-card.html">
+
+    <style is="custom-style" include="demo-pages-shared-styles">
+      section {
+        max-width: var(--placetobe-layout-width);
+      }
+
+      #featured-campaigns {
+        border-bottom: 1px solid var(--placetobe-color-gray);        
+        padding-bottom: 18px;
+        margin: 0 auto 36px auto;
+      }
+
+      #list {
+        display: flex;
+        flex-wrap: wrap;
+        font-size: 0;
+        margin: -18px auto 0 auto;
+        box-sizing: border-box;
+        align-items: stretch;
+      }
+
+      placetobe-campaign-card {
+        padding: 18px;
+        box-sizing: border-box;
+        display: flex;
+      }
+
+      #list placetobe-campaign-card {
+        margin-bottom: 18px;
+      }
+
+      [data-phone="false"] {
+        display: none;
+      }
+
+      @media (min-width: 600px) {
+
+        [data-phone="false"] {
+          display: block;
+        }
+
+        [data-phone="true"] {
+          display: none;
+        }  
+
+      }
+
+      @media (min-width: 600px) {
+        #list placetobe-campaign-card {
+          max-width: 50%;
+        }
+      }
+
+      @media (min-width: 990px) {
+        #list placetobe-campaign-card {
+          max-width: 33.3333%;
+        }
+      }
+
+      #list placetobe-campaign-card:nth-child(1n+1) {
+        border-right: 1px solid var(--placetobe-color-gray);        
+      }
+
+      #list placetobe-campaign-card:nth-child(3n) {
+        border-right: 0;
+      }
+    </style>
+  </head>
+  <body>
+
+    <section id="featured-campaigns">
+
+      <placetobe-campaign-card
+        api-endpoint="http://canapi.local"
+        campaign-id="755"
+        href="#/test"
+        horizontal-layout
+        data-phone="false"
+      ></placetobe-campaign-card>
+
+      <placetobe-campaign-card
+        api-endpoint="http://canapi.local"
+        campaign-id="755"
+        href="#/test"
+        data-phone="true"
+      ></placetobe-campaign-card>
+
+    </section>
+
+    <section id="list">
+
+      <placetobe-campaign-card
+        api-endpoint="http://canapi.local"
+        campaign-id="754"
+        href="#/test"
+      ></placetobe-campaign-card>
+
+      <placetobe-campaign-card
+        api-endpoint="http://canapi.local"
+        campaign-id="583"
+        href="#/test"
+      ></placetobe-campaign-card>
+
+      <placetobe-campaign-card
+        api-endpoint="http://canapi.local"
+        campaign-id="580"
+        href="#/test"
+      ></placetobe-campaign-card>
+      <placetobe-campaign-card
+        api-endpoint="http://canapi.local"
+        campaign-id="638"
+        href="#/test"
+      ></placetobe-campaign-card>
+
+      <placetobe-campaign-card
+        api-endpoint="http://canapi.local"
+        campaign-id="577"
+        href="#/test"
+      ></placetobe-campaign-card>
+
+      <placetobe-campaign-card
+        api-endpoint="http://canapi.local"
+        campaign-id="572"
+        href="#/test"
+      ></placetobe-campaign-card>
+
+    </section>
+
+  </body>
+</html>

@@ -1,0 +1,68 @@
+<!doctype html>
+<html>
+  <head>
+    <title>placetobe-harmonica demo</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
+    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+
+    <script>
+      window.Polymer = {
+        useNativeCSSProperties: true,
+        lazyRegister: true,
+        dom: 'shadow'
+      };
+    </script>
+
+    <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
+    <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
+    <link rel="import" href="../../placetobe-card/placetobe-card.html">
+    <link rel="import" href="../../placetobe-button/placetobe-button.html">
+
+    <link rel="import" href="../placetobe-harmonica.html">
+
+    <style is="custom-style" include="demo-pages-shared-styles">
+      demo-snippet {
+        --demo-snippet-demo: {
+          display: block;
+        }
+      }
+    </style>
+  </head>
+  <body>
+
+    <div class="vertical-section-container centered">
+      <h3>Basic placetobe-harmonica Demo</h3>
+      <demo-snippet>
+        <template>
+          <placetobe-harmonica title="Beloningen">
+
+          <placetobe-card title="Halu" collapsible collapsed>
+            <article slot="main">
+              Curabitur blandit tempus porttitor. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper.
+            </article>
+            <placetobe-button slot="footer"><span>click!</span></placetobe-button>
+          </placetobe-card>
+
+          <placetobe-card title="Halu" collapsible collapsed>
+            <article slot="main">
+              Curabitur blandit tempus porttitor. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper.
+            </article>
+            <placetobe-button slot="footer"><span>click!</span></placetobe-button>
+          </placetobe-card>
+
+          <placetobe-card title="Halu" collapsible collapsed>
+            <article slot="main">
+              Curabitur blandit tempus porttitor. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper.
+            </article>
+            <placetobe-button slot="footer"><span>click!</span></placetobe-button>
+          </placetobe-card>
+
+
+          </placetobe-harmonica>
+        </template>
+      </demo-snippet>
+    </div>
+
+  </body>
+</html>

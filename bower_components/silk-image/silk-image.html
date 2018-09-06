@@ -1,0 +1,377 @@
+<link rel="import" href="../polymer/polymer.html">
+
+<!--
+Silk image: [GitHub](https://github.com/woutervroege/silk-image)
+
+Example:
+
+    <style>
+        silk-image {
+            width: 100%;
+            height: 80vh;
+        }
+    </style>
+
+    <silk-image
+        srcset="320w.png 320w, 640w.png 640w, 960w.png 960w, 1280w.png 1280w"
+        change-on-resize
+        lazy-load
+        object-fit="cover"
+        object-position="50% 50%"
+    ></silk-image>
+
+@demo
+-->
+
+<dom-module id="silk-image">
+    <template>
+        <style>
+            :host {
+                position: relative;
+                display: inline-block;
+                overflow: hidden;
+            }
+            img {
+                display: initial;
+                opacity:1;
+                transition: 1s opacity;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+            }
+            img[hidden] {
+                display: initial;
+                opacity:0;
+            }
+        </style>
+
+        <img
+            src$="[[src]]"
+            hidden$="[[!placeholderImageLoaded]]"
+            style$="width:[[_imageElementSize.width]]px;height:[[_imageElementSize.height]]px;transform:translate([[_imagePosition.left]], [[_imagePosition.top]]);-webkit-transform:translate([[_imagePosition.left]], [[_imagePosition.top]]);-moz-transform:translate([[_imagePosition.left]], [[_imagePosition.top]]);-o-transform:translate([[_imagePosition.left]], [[_imagePosition.top]]);-ms-transform:translate([[_imagePosition.left]], [[_imagePosition.top]])"
+            on-load="_updateLoadedImageSize"
+            >
+    </template>
+    <script>
+        Polymer({
+            
+            is: "silk-image",
+            
+            properties: {
+                /**
+                 * specifies the URL of an image. Use `srcset` if you want to use multiple images. If both `src` and `srcset` are specified, `src` is treated as placeholder image.
+                 */
+                src: {
+                    type: String,
+                    value: null
+                },
+                /**
+                 * a list of one or more strings separated by commas indicating a set of possible image sources for the user agent to use
+                 */
+                scrset: {
+                    type: String,
+                    value: null
+                },
+                /**
+                 * specifies how the image element should be fitted to the box established by its used height and width
+                 */
+                objectFit: {
+                    type: String,
+                    value: "contain"
+                },
+                /**
+                 * determines the alignment of the image element inside its box.
+                 */
+                objectPosition: {
+                    type: String,
+                    value: "50% 50%"
+                },
+                /**
+                 * only loads the image when visible inside the viewport.
+                 */
+                lazyLoad: {
+                    type: Boolean,
+                    value: false
+                },
+                /**
+                 * change loaded image on element resize
+                 */
+                changeOnResize: {
+                    type: Boolean,
+                    value: false
+                },                                
+                /**
+                 * change loaded image on element resize
+                 */
+                currentImage: {
+                    type: String,
+                    computed: "_computeCurrentImage(_images.*, _elementSize, _inViewport, _scrollPosition.*)",
+                    observer: "_loadImage"
+                },
+                /**
+                 * becomes to once the first requested image has finished loading.
+                 */
+                imageLoaded: {
+                    type: Boolean,
+                    value: false,
+                    readOnly: true,
+                    reflectToAttribute: true
+                },
+                /**
+                 * becomes to once the first requested image has finished loading.
+                 */
+                placeholderImageLoaded: {
+                    type: Boolean,
+                    value: false,
+                    readOnly: true,
+                    reflectToAttribute: true
+                },
+
+                _images: {
+                    type: Array,
+                    computed: "_computeImages(srcset)"
+                },
+                
+                _elementSize: {
+                    type: Object,
+                    computed: "_computeElementSize(_viewportSize.*)",
+                },
+
+                _imageElementSize: {
+                    type: Object,
+                    computed: "_computeImageElementSize(_elementSize.*, _loadedImageSize.*, objectFit)"
+                },
+
+                _loadedImageSize: {
+                    type: Object,
+                    readOnly: true,
+                    value: {
+                        width: 0,
+                        height: 0
+                    }
+                },
+
+                _imagePosition: {
+                    type: String,
+                    computed: "_computeImagePosition(_imageElementSize.*, _loadedImageSize.*, objectFit, objectPosition, _scrollPosition.*)"
+                },
+
+                _viewportSize: {
+                    type: Object,
+                    value: {
+                        width: 0,
+                        height: 0
+                    },
+                    readOnly: true
+                },
+
+                _scrollPosition: {
+                    type: Object,
+                    value: {
+                        top: 0,
+                        left: 0
+                    },
+                    readOnly: true
+                },
+
+                _inViewport: {
+                    type: Boolean,
+                    computed: "_computeInViewport(_viewportSize, _scrollPosition.*)"
+                }
+            },
+
+            ready: function() {
+                window.document.onscroll = function() {
+                    this._updateScrollPosition();
+                }.bind(this)
+                window.onresize = function() {
+                    this._updateViewportSize();
+                    this._updateScrollPosition();
+                }.bind(this)
+            },
+
+            attached: function() {
+                this._updateViewportSize();
+            },
+
+            _updateScrollPosition: function() {
+                var scrollableElement = this._getScrollableElement();
+                this._set_scrollPosition({
+                    top: scrollableElement.scrollTop,
+                    left: scrollableElement.scrollLeft
+                })
+            },
+
+            _getScrollableElement: function() {
+                return (document.scrollTop) ? document : document.documentElement;
+            },
+
+            _updateViewportSize: function() {
+                this._set_viewportSize(this._getViewportSizes());                
+            },
+
+            _getViewportSizes: function() {
+                return {
+                    width: Math.max(document.documentElement.clientWidth, window.innerWidth || 0),
+                    height: Math.max(document.documentElement.clientHeight, window.innerHeight || 0)
+                }
+            },
+
+            _updateLoadedImageSize: function(evt) {
+                var img = new Image();
+                img.onload = function() {
+                    this._set_loadedImageSize({
+                        width: img.width,
+                        height: img.height
+                    })
+                }.bind(this)
+                this._setPlaceholderImageLoaded(true);
+                img.src = evt.currentTarget.src;
+            },
+
+            _computeCurrentImage: function(imagesSub, elementSize, inViewport, scrollPosition) {
+                if(this.lazyLoad && !inViewport) return;
+                var devicePixelRatio = window.devicePixelRatio || 1;
+                var deviceElementWidth = elementSize.width * devicePixelRatio;
+                if(!this._images[0]) return;
+                var currentImage = this._images[0].x ? this._computeCurrentImageByXDescriptor(elementSize, devicePixelRatio, deviceElementWidth) : this._computeCurrentImageByWDescriptor(elementSize, devicePixelRatio, deviceElementWidth);
+                return currentImage;
+            },
+
+            _computeCurrentImageByWDescriptor: function(elementSize, devicePixelRatio, deviceElementWidth) {
+                return this._computeCurrentImageByDescriptorAndComparator("w", deviceElementWidth, deviceElementWidth)
+            },
+
+            _computeCurrentImageByXDescriptor: function(elementSize, devicePixelRatio, deviceElementWidth) {
+                return this._computeCurrentImageByDescriptorAndComparator("x", devicePixelRatio, deviceElementWidth)
+            },
+
+            _computeCurrentImageByDescriptorAndComparator: function(descriptor, comparator, deviceElementWidth) {
+                var images = this._images.filter(function(image) {
+                    return image[descriptor] >= comparator;
+                })
+                var sortedImages = images.sort(function(a, b) {
+                    var one = (Math.abs(a.w-deviceElementWidth));
+                    var two = (Math.abs(b.w-deviceElementWidth));
+                    return (one - two);
+                })
+                var currentImage = sortedImages[0] || this._images[this._images.length-1];
+                return currentImage;
+            },
+
+            _loadImage: function(currentImage) {
+                if(!currentImage) return;
+                if(this.imageLoaded && !this.changeOnResize) return;
+                this.src = currentImage.src;
+                this._setImageLoaded(true);
+                this._setPlaceholderImageLoaded(true);
+            },
+
+            _computeImagePosition: function() {
+                var imagePosition = this.objectPosition.split(" ");
+                var imagePositionTop = this._parseImagePosition(imagePosition[1], "height");
+                var imagePositionLeft = this._parseImagePosition(imagePosition[0], "width");
+
+                return {
+                    top: imagePositionTop,
+                    left: imagePositionLeft
+                }
+            },
+
+            _parseImagePosition: function(string, property) {
+                if(!string || string == "center") return "-50%";
+                if(string == "top" || string == "left") string = "0%"; 
+                if(string == "bottom" || string == "right") string = "100%"; 
+                var sizeDifference = this._elementSize[property] - this._imageElementSize[property];
+                if(sizeDifference == 0) return "-50%";
+                var position = this._elementSize[property] / 2;
+                var addedMargin = this._parsePositionStringToPixelNumber(string, this._elementSize[property], property, sizeDifference);
+                position -= addedMargin;
+                return -(position) + "px";
+            },
+
+            _parsePositionStringToPixelNumber: function(string, elementPropertySize, property, sizeDifference) {
+                if(string.indexOf("%") !== -1) {
+                    var fraction = parseInt(string.replace("%", "")) / 100;
+                    return (sizeDifference * fraction);
+                }
+                var pixelNumber =  parseInt(string.replace("px", ""));
+                return pixelNumber;
+            },
+
+            _computeImageElementSize: function() {
+                var diferenceInWidth = this._loadedImageSize.width / this._elementSize.width;
+                var diferenceInHeight = this._loadedImageSize.height / this._elementSize.height;
+                var resizeFactor = this._getResizeFactor(diferenceInWidth, diferenceInHeight);
+                return {
+                    width: (this._loadedImageSize.width / resizeFactor || 0),
+                    height: (this._loadedImageSize.height / resizeFactor || 0)
+                }
+            },
+
+            _getResizeFactor: function(diferenceInWidth, diferenceInHeight) {
+                switch(this.objectFit) {
+                    case "contain":
+                    return (diferenceInWidth > diferenceInHeight) ? diferenceInWidth : diferenceInHeight;
+                    break;
+                    case "cover":
+                    return (diferenceInWidth < diferenceInHeight) ? diferenceInWidth : diferenceInHeight;
+                    break;
+                }
+            },
+
+            _computeElementSize: function() {
+                var computedStyles = window.getComputedStyle(this);
+                var elementWidth = computedStyles.getPropertyValue("width");
+                var elementHeight = computedStyles.getPropertyValue("height");
+                return {
+                    width: (elementWidth) ? parseInt(elementWidth.replace("px", "")) : 0,
+                    height: (elementWidth) ? parseInt(elementHeight.replace("px", "")) : 0                    
+                }
+            },
+
+            _computeImages: function(srcset) {
+                if(!srcset || srcset == "") return [];
+                var imageElements = srcset.split(/,/g);
+                return imageElements
+                    .map(this._parseImageElement.bind(this))
+                    .sort(function(a,b) {
+                        return a.w > b.w
+                    })
+            },
+
+            _parseImageElement: function(imageElement) {
+                var chunks = imageElement.replace(/(^\s+|\s+$)/g, "").split(/\s+/g);
+                var imageURL = chunks[0];
+                var imageSizeChunks = chunks[1].split(/(w|px|x)/g);
+                var devicePixelRatio = (imageSizeChunks[1] == "x") ? parseFloat(imageSizeChunks[0]) : null;
+                var width = (imageSizeChunks[1] !== "x") ? parseInt(imageSizeChunks[0]) : null;
+                return {
+                    src: imageURL,
+                    x: devicePixelRatio,
+                    w: width 
+                }
+            },
+
+            _computeInViewport: function() {
+                var rect = this.getBoundingClientRect();
+                var vWidth   = window.innerWidth || doc.documentElement.clientWidth;
+                var vHeight  = window.innerHeight || doc.documentElement.clientHeight;
+                var efp = function (x, y) { return document.elementFromPoint(x, y) };     
+
+                if (rect.right < 0 || rect.bottom < 0 || rect.left > vWidth || rect.top > vHeight) {
+                    return false;
+                }
+
+                var isVisible = (
+                      this.contains(efp(rect.left,  rect.top))
+                  ||  this.contains(efp(rect.right, rect.top))
+                  ||  this.contains(efp(rect.right, rect.bottom))
+                  ||  this.contains(efp(rect.left,  rect.bottom))
+                );
+                return isVisible;
+            }
+
+        })
+    </script>
+</dom-module>

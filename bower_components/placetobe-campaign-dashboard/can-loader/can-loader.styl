@@ -1,0 +1,190 @@
+can-loader
+    transform translate(-50%, -50%)
+    position fixed
+    display block
+    top 50%
+    left 50%
+    z-index 999
+
+    svg
+        width 128px
+        height 128px
+        display block
+        top 50%
+        left 50%
+        z-index 9
+        
+        .loading-ball
+            stroke-width 0
+            cx 64px
+            cy 64px
+            animation-duration 1.365s
+            animation-iteration-count infinite
+            animation-direction reverse
+            animation-timing-function ease-in-out
+            webkit-transform translate3d(0,0,0)
+            
+            &.one
+                fill $can-blue
+                r 12px
+                animation-name animateOne
+            
+            &.two
+                fill $can-green
+                r 32px
+                animation-name animateTwo
+                animation-delay 0.125s
+
+            &.three
+                fill $can-yellow
+                r 32px
+                animation-name animateThree
+                animation-delay 0.25s
+
+            &.four
+                fill $can-red
+                r 32px
+                animation-name animateFour
+                animation-delay 0.375s
+    
+    &[small]
+        
+        transform none
+        position initial
+        display block
+        top initial
+        left initial
+        z-index initial
+        
+        svg
+                width 48px
+                height 48px
+                margin 6px auto 0 auto
+        
+            .loading-ball
+                cx 24px
+                cy 24px
+                
+                &.one
+                    animation-name animateOneSmall
+                    r 6px
+                
+                &.two
+                    animation-name animateTwoSmall
+                    r 16px
+
+                &.three
+                    animation-name animateThreeSmall
+                    r 16px
+
+                &.four
+                    animation-name animateFourSmall
+                    r 16px
+        h4
+            text-align center
+    
+@keyframes animateOne
+    0% {
+        r 12px
+    }
+    50% {
+        r 0
+    }
+    100% {
+        r 12px
+    }
+
+@keyframes animateTwo
+    0% {
+        r 32px
+    }
+    45% {
+        r 0
+    }
+    65% {
+        r 0
+    }
+    100% {
+        r 32px
+    }
+
+@keyframes animateThree
+    0% {
+        r 48px
+    }
+    45% {
+        r 0
+    }
+    65% {
+        r 0
+    }
+    100% {
+        r 48px
+    }
+
+@keyframes animateFour
+    0% {
+        r 64px
+    }
+    45% {
+        r 0
+    }
+    65% {
+        r 0
+    }
+    100% {
+        r 64px
+    }
+    
+@keyframes animateOneSmall
+    0% {
+        r 3px
+    }
+    50% {
+        r 0
+    }
+    100% {
+        r 3px
+    }
+
+@keyframes animateTwoSmall
+    0% {
+        r 8px
+    }
+    45% {
+        r 0
+    }
+    65% {
+        r 0
+    }
+    100% {
+        r 8px
+    }
+
+@keyframes animateThreeSmall
+    0% {
+        r 12px
+    }
+    45% {
+        r 0
+    }
+    65% {
+        r 0
+    }
+    100% {
+        r 12px
+    }
+
+@keyframes animateFourSmall
+    0% {
+        r 16px
+    }
+    45% {
+        r 0
+    }
+    65% {
+        r 0
+    }
+    100% {
+        r 16px
+    }

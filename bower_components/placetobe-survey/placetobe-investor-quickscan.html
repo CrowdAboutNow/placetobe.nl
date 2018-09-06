@@ -1,0 +1,364 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../iron-selector/iron-selector.html" async>
+<link rel="import" href="../placetobe-button/placetobe-button.html">
+<link rel="import" href="../placetobe-behaviors/placetobe-styles-behavior.html">
+<link rel="import" href="../placetobe-styles/placetobe-styles.html">
+<link rel="import" href="placetobe-survey-styles.html">
+
+<!--
+`placetobe-investor-quickscan`
+Placetobe Investor Quickscan
+
+@demo demo/investor-quickscan.html 
+-->
+<dom-module id="placetobe-investor-quickscan">
+
+  <template>
+    <style include="placetobe-survey-styles"></style>
+
+    <section>
+
+      <template is="dom-if" if="[[!finished]]">
+
+        <main>
+          <h6>[[currentStep]] van [[numberOfQuestions]]</h6>        
+            
+          <template is="dom-if" if="[[_atIndex(0, currentIndex)]]">
+              <h3>Ik wil <strong>rente</strong> verdienen op mijn <strong>geld</strong></h3>
+              <iron-selector selected="{{answers.0}}" attr-for-selected="value">
+                  <button value="1">Totaal onbelangrijk</button>
+                  <button value="2">Redelijk onbelangrijk</button>
+                  <button value="3">Neutraal</button>
+                  <button value="4">Redelijk belangrijk</button>
+                  <button value="5">Heel belangrijk</button>
+              </iron-selector>
+          </template>
+
+          <template is="dom-if" if="[[_atIndex(1, currentIndex)]]">
+              <h3>Ik wil <strong>iedere dag</strong> mijn spaargeld kunnen <strong>opnemen</strong></h3>
+              <iron-selector selected="{{answers.1}}" attr-for-selected="value">
+                  <button value="5">Totaal onbelangrijk</button>
+                  <button value="4">Redelijk onbelangrijk</button>
+                  <button value="3">Neutraal</button>
+                  <button value="2">Redelijk belangrijk</button>
+                  <button value="1">Heel belangrijk</button>
+              </iron-selector>
+          </template>
+
+          <template is="dom-if" if="[[_atIndex(2, currentIndex)]]">
+              <h3>Ik wil <strong>geen enkel risico</strong> lopen dat ik <strong>geld verlies</strong></h3>
+              <iron-selector selected="{{answers.2}}" attr-for-selected="value">
+                  <button value="5">Totaal onbelangrijk</button>
+                  <button value="4">Redelijk onbelangrijk</button>
+                  <button value="3">Neutraal</button>
+                  <button value="2">Redelijk belangrijk</button>
+                  <button value="1">Heel belangrijk</button>
+              </iron-selector>
+          </template>
+
+          <template is="dom-if" if="[[_atIndex(3, currentIndex)]]">
+              <h3>Ik wil een <strong>hoog rendement</strong> maken</h3>
+              <iron-selector selected="{{answers.3}}" attr-for-selected="value">
+                  <button value="1">Totaal onbelangrijk</button>
+                  <button value="2">Redelijk onbelangrijk</button>
+                  <button value="3">Neutraal</button>
+                  <button value="4">Redelijk belangrijk</button>
+                  <button value="5">Heel belangrijk</button>
+              </iron-selector>
+          </template>
+
+          <template is="dom-if" if="[[_atIndex(4, currentIndex)]]">
+              <h3>Ik wil <strong>deelnemen</strong> in de <strong>verhalen van ondernemers</strong></h3>
+              <iron-selector selected="{{answers.4}}" attr-for-selected="value">
+                  <button value="1">Totaal onbelangrijk</button>
+                  <button value="2">Redelijk onbelangrijk</button>
+                  <button value="3">Neutraal</button>
+                  <button value="4">Redelijk belangrijk</button>
+                  <button value="5">Heel belangrijk</button>
+              </iron-selector>
+          </template>
+
+        </main>
+
+        <footer>
+
+          <placetobe-button
+              title="vorige"
+              on-tap="back"
+              disabled$="[[_atIndex(0, currentIndex)]]"
+          ><span>vorige</span></placetobe-button>
+
+          <placetobe-button
+              title="volgende"
+              on-tap="forward"
+              hidden="[[!_atIndex(0, currentIndex)]]"
+              disabled$="[[!answers.0]]"
+          ><span>volgende</span></placetobe-button>
+
+          <placetobe-button
+              title="volgende"
+              on-tap="forward"
+              hidden="[[!_atIndex(1, currentIndex)]]"
+              disabled$="[[!answers.1]]"
+          ><span>volgende</span></placetobe-button>
+
+          <placetobe-button
+              title="volgende"
+              on-tap="forward"
+              hidden="[[!_atIndex(2, currentIndex)]]"
+              disabled$="[[!answers.2]]"
+          ><span>volgende</span></placetobe-button>
+
+          <placetobe-button
+              title="volgende"
+              on-tap="forward"
+              hidden="[[!_atIndex(3, currentIndex)]]"
+              disabled$="[[!answers.3]]"
+          ><span>volgende</span></placetobe-button>
+
+          <placetobe-button
+              title="bekijk resultaat"
+              on-tap="forward"
+              hidden="[[!_atIndex(4, currentIndex)]]"
+              disabled$="[[!answers.4]]"
+          ><span>bekijk score</span></placetobe-button>
+
+        </footer>
+
+      </template>
+
+      <template is="dom-if" if="[[finished]]">
+
+        <main>
+
+          <h6>conclusie</h6>
+          
+          <h3 hidden$="[[!_scoreIsLessThan(score, 10)]]">Je bent geen crowdfunder.</h3>
+          <h3 hidden$="[[!_scoreIsBetween(score, 9, 18)]]">Jij bent een potentiële crowdfunder!</h3>
+          <h3 hidden$="[[!_scoreIsGreaterThan(score, 17)]]">Jij bent een supercrowdfunder!</h3>
+          
+          <article>[[answerText]]</p></article>
+
+        </main>
+
+        <footer>
+
+          <slot name="action"></slot>
+
+          <placetobe-button
+              id="try-again-button"
+              title="Doe de scan opnieuw"
+              on-tap="reset"
+              link
+          ><span>Doe de scan opnieuw</span></placetobe-button>
+
+        </footer>
+
+      </template>
+
+    </section>
+
+  </template>
+
+  <script>
+    Polymer({
+      
+      is: 'placetobe-investor-quickscan',
+      behaviors: [PlacetobeStylesBehavior],
+
+      properties: {
+        
+        answers: {
+            type: Object,
+            value: {}
+        },
+
+        currentIndex: {
+            type: Number,
+            value: 0,
+            readOnly: true
+        },
+
+        numberOfQuestions: {
+            type: Number,
+            value: 5
+        },
+
+        currentStep: {
+            type: Number,
+            computed: "_computeStep(currentIndex)",
+            observer: "_handleCurrentStepChanged"
+        },
+
+        finished: {
+            type: Boolean,
+            computed: "_computeFinished(answers.*, numberOfQuestions, currentIndex)",
+            observer: "_handleFinishedChanged"
+        },
+
+        answerText: {
+            type: String,
+            computed: "_computeAnswerText(answers.*, numberOfQuestions)"
+        },
+
+        score: {
+            type: Number,
+            computed: "_computeScore(answers.*, numberOfQuestions)"
+        }
+
+      },
+
+      back: function() {
+        if(this.currentIndex > 0) this._setCurrentIndex(this.currentIndex-1);
+      },
+
+      forward: function() {
+        if(this.currentIndex < (this.numberOfQuestions)) this._setCurrentIndex(this.currentIndex+1);
+      },
+
+      reset: function() {
+        this.set("answers", {});
+        this._setCurrentIndex(0);
+      },
+
+      _atIndex: function(i, currentIndex) {
+        return (i == currentIndex)
+      },
+
+      _computeStep: function(currentIndex) {
+        return (currentIndex+1)
+      },
+
+      _computeFinished: function(answer, numberOfQuestions, currentIndex) {
+        var answers = answer.base;
+        for(var i=0;i<numberOfQuestions;i++) {
+            if(answers[i] === undefined) return false;
+        }
+        return (currentIndex == numberOfQuestions)
+      },
+
+      _computeScore: function(answer, numberOfQuestions) {
+        var score = 0;
+        var answers = answer.base;
+        for(var i=0;i<numberOfQuestions;i++) {
+            score += parseInt(answers[i] || 0);
+        }
+        return score;
+      },
+
+      _scoreIsGreaterThan: function(score, greaterThan) {
+        return (score > greaterThan);
+      },
+
+      _scoreIsLessThan: function(score, lessThan) {
+        return (score < lessThan);
+      },
+
+      _scoreIsBetween: function(score, greaterThan, lessThan) {
+        return (this._scoreIsGreaterThan(score, greaterThan) && this._scoreIsLessThan(score, lessThan));
+      },
+
+      _computeAnswerText: function(answer, numberOfQuestions) {
+        var answerText = [];
+        var answers = answer.base;
+        for(var i=0;i<numberOfQuestions;i++) {
+            if(answers[i]) answerText.push(this._getAnswerTextByIndexAndValue(i, parseInt(answers[i])));
+        }
+        return answerText.join(" ");
+      },
+
+      _getAnswerTextByIndexAndValue: function(index, value) {
+        switch(index) {
+            case 0:
+                return this._getAnswerTextForQuestionOne(value);
+                break;
+            case 1:
+                return this._getAnswerTextForQuestionTwo(value);
+                break;
+            case 2:
+                return this._getAnswerTextForQuestionThree(value);
+                break;
+            case 3:
+                //return this._getAnswerTextForQuestionFour(value);
+                break;
+            case 4:
+                return this._getAnswerTextForQuestionFive(value);
+                break;
+        }
+      },
+
+      //Ik wil rente verdienen op mijn geld
+      _getAnswerTextForQuestionOne: function(value) {
+        switch(value) {
+            case 1:
+            case 2:
+                return "Je geeft aan dat rente krijgen op je geld niet zo belangrijk is.";
+            case 3:
+            case 4:
+            case 5:
+                return "Je wilt graag rendement op je geld maken.";
+        }
+      },
+
+      //Ik wil iedere dag mijn spaargeld kunnen opnemen
+      _getAnswerTextForQuestionTwo: function(value) {
+        switch(value) {
+            case 1:
+            case 2:
+                return "Wel vind je het belangrijk om elke dag bij je spaargeld te kunnen.";
+            case 3:
+            case 4:
+            case 5:
+                return "Je kent en accepteert de nadelen zoals het niet dagelijks geld kunnen opnemen van je spaarhgeld.";
+        }
+      },
+
+      //Ik wil geen enkel risico lopen dat ik geld verllies
+      _getAnswerTextForQuestionThree: function(value) {
+        switch(value) {
+            case 1:
+            case 2:
+                return "Ook wil je geen risico lopen geld kwijt te kunnen raken.";
+            case 3:
+            case 4:
+            case 5:
+                return "Je kent de risico's van verlies en laat de voordelen zwaarder wegen.";
+        }
+      },
+
+      //Ik wil een hoog rendement maken
+      _getAnswerTextForQuestionFour: function(value) {
+        return "";
+      },
+
+      //Ik wil deelnemen in de verhalen van ondernemers
+      _getAnswerTextForQuestionFive: function(value) {
+        switch(value) {
+            case 1:
+            case 2:
+                return "Daarnaast voel je geen inhoudelijke betrokkenheid bij de projecten van ondernemers.";
+            case 3:
+            case 4:
+            case 5:
+                return "Ten slotte voel je je betrokken bij de ondernemers en hun plannen waarvoor crowdfunding nodig is..";
+        }
+      },
+
+      _handleCurrentStepChanged: function(currentStep) {
+        if(this.currentIndex === 0) return;
+        this.fire('question-answered', {
+          question: this.currentIndex,
+          score: parseInt(this.answers[this.currentIndex-1])
+        })
+      },
+
+      _handleFinishedChanged: function(finished) {
+        if(!finished) return;
+        this.fire('finished', {
+          totalScore: this.score
+        })
+      }
+
+    });
+  </script>
+</dom-module>

@@ -1,0 +1,62 @@
+<link rel="import" href="../../polymer/polymer.html">
+<link rel="import" href="../can-page-cover/can-page-cover.html">
+<link rel="import" href="../can-sidebar/can-sidebar.html">
+
+<!--
+General purpose page element to serve as static page routes
+
+<can-page sidebar>
+<header>
+<h1>The Header</h1>
+</header>
+<section>
+<p>
+The content.
+</p>
+</section>
+<aside>
+Something
+</aside>
+</can-page>
+
+Insert the header and title into the `<header>` so it may be injected into the page cover.
+The content into the `<main>` and the sidebar content into the `<aside>`.
+
+@demo demo.html
+
+-->
+
+<dom-module id="can-page">
+    <template>
+        <template is="dom-if" if="[[exemptionNotice]]">
+            <can-exemption-notice
+                image-height="{{exemptionNoticeImageHeight}}">
+            </can-exemption-notice>
+        </template>
+        <template is="dom-if" if="[[!noHeader]]" restamp="true">
+            <can-page-cover
+                image-url="[[coverImageUrl]]"
+                image-urls="[[coverImageUrls]]"
+                sidebar="[[sidebar]]"
+                object-position="[[objectPosition]]"
+                >
+                <content select="header"></content>
+            </can-page-cover>
+        </template>
+        <content select="h2"></content>
+        <content select="can-page-tabs-navigation"></content>
+        <main>
+            <template is="dom-if" if="[[!sidebar]]" restamp="true">
+                <content select="section"></content>
+            </template>
+            <template is="dom-if" if="[[sidebar]]" restamp="true">
+                <content select="section"></content>
+                <can-sidebar>
+                    <content select="aside"></content>
+                </can-sidebar>
+            </template>
+        </main>
+    </template>
+
+    <script src="can-page.js" charset="utf-8"></script>
+</dom-module>

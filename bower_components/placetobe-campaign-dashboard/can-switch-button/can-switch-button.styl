@@ -1,0 +1,44 @@
+can-switch-button
+    display block
+    border 1px solid $can-blue
+    border-radius 3px
+    width 100%
+    height 40px
+    font-size 0
+    padding 0
+    margin 18px 0
+    display block
+
+    &[hidden]
+        display none
+
+    iron-selector
+
+        button
+            width 50%
+            height 100%
+            font-size 16px
+            line-height 21px
+            -webkit-appearance none
+            display inline-block
+            vertical-align top
+            text-align center
+            position relative
+            margin 0
+            padding 7px 0
+            outline none
+            cursor pointer
+            color #10364B
+            border 0
+            background-color transparent
+
+            @media only screen and (max-width $breakpoint-phone-max)
+                font-size 15px
+                text-overflow ellipsis
+                white-space nowrap
+                padding 7px 5px
+                overflow hidden
+
+            &.iron-selected
+                background-color $can-green
+                color $can-blue

@@ -1,0 +1,604 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../iron-image/iron-image.html">
+<link rel="import" href="../google-youtube/google-youtube.html">
+<link rel="import" href="../vimeo-video/vimeo-video.html">
+<link rel="import" href="../google-map/google-map.html">
+<link rel="import" href="../google-map/google-map-marker.html">
+<link rel="import" href="../caas-campaign/caas-campaign.html">
+<link rel="import" href="../caas-campaign-downloads/caas-campaign-downloads.html">
+<link rel="import" href="../caas-campaign-incentives/caas-campaign-incentives.html">
+<link rel="import" href="../placetobe-invest-page/placetobe-invest-page.html">
+<link rel="import" href="../placetobe-behaviors/placetobe-styles-behavior.html">
+<link rel="import" href="../placetobe-styles/placetobe-styles.html">
+<link rel="import" href="../placetobe-campaign-stats-card/placetobe-campaign-stats-card.html">
+<link rel="import" href="../placetobe-navigation-bar/placetobe-navigation-bar.html">
+<link rel="import" href="../placetobe-harmonica/placetobe-harmonica.html">
+<link rel="import" href="../placetobe-button/placetobe-button.html">
+<link rel="import" href="../placetobe-card/placetobe-card.html">
+<link rel="import" href="../placetobe-popup/placetobe-popup.html">
+<link rel="import" href="../placetobe-icons/placetobe-facebook-icon.html">
+<link rel="import" href="../placetobe-icons/placetobe-twitter-icon.html">
+<link rel="import" href="../placetobe-icons/placetobe-linkedin-icon.html">
+
+<!--
+`placetobe-campaign-page`
+Placetobe Campaign Page
+
+@demo demo/index.html
+-->
+
+<dom-module id="placetobe-campaign-page">
+  <template>
+    <style>
+      :host {
+        display: block;
+        color: var(--placetobe-color-darkblue);
+      }
+
+      @media (min-width: 601px) {
+        :host {
+          --placetobe-popup-content-height: 75vh;
+        }
+      }
+
+      :host header {
+        max-width: var(--placetobe-two-column-width);
+        margin-left: auto;
+        margin-right: auto;
+        padding: 0 var(--placetobe-margin);
+      }
+
+      :host header {
+        margin-top: calc( var(--placetobe-margin) * 3 );
+        margin-bottom: calc( var(--placetobe-margin) * 3 );
+        position: relative;
+        z-index: 1;
+      }
+
+      :host header h1 {
+        @apply(--placetobe-font-title);
+        text-align: center;
+        margin-bottom: var(--placetobe-margin);
+      }
+
+      :host header h2 {
+        @apply(--placetobe-font-heading1-regular);
+        text-align: center;
+      }
+
+      placetobe-campaign-stats-card {
+        max-width: var(--placetobe-layout-width);
+        position: relative;
+        z-index: 1;
+        margin: 0 auto -108px auto;
+        padding: var(--placetobe-margin);
+      }
+
+      :host iron-image {
+        margin-bottom: -4px;
+        background-color: var(--placetobe-color-taupe);
+      }
+
+      :host #coverImage {
+        width: 100%;
+        height: 70vh;
+        position: relative;
+        z-index: 0;
+      }
+
+      :host main {
+        @apply(--placetobe-border-box);
+        @apply(--placetobe-flex-layout--vertical);
+        @apply(--placetobe-flex-align--space-between);
+        @apply(--placetobe-cross-align--start);
+        @apply(--placetobe-flex-wrap--nowrap);
+        max-width: calc( var(--placetobe-layout-width) + (var(--placetobe-margin) * 2) );
+        padding: 0 var(--placetobe-margin);
+        margin: calc( var(--placetobe-margin) * 3 ) auto;
+        position: relative;
+      }
+
+
+      @media(min-width: 601px) {
+        :host main {
+          @apply(--placetobe-flex-layout--horizontal);
+        }
+      }
+
+      :host main > * {
+        @apply --placetobe-border-box;
+        min-width: var(--placetobe-column-width);
+        max-width: 100%;
+      }
+
+      :host main > *:nth-child(1) {
+        @apply(--placetobe-flex-item--2);
+        margin-bottom: var(--placetobe-margin);
+      }
+
+      @media(min-width: 601px) {
+        :host main > *:nth-child(1) {
+          padding-right: var(--placetobe-margin);
+        }
+      }
+
+      :host main > *:nth-child(2) {
+        @apply(--placetobe-flex-item--1);
+      }
+
+      a.button {
+        @apply(--placetobe-default-button);
+      }
+
+      :host main article {
+        @apply(--placetobe-font-body);
+        margin: calc( var(--placetobe-margin) * 2 ) 0;
+      }
+
+      :host main article * strong,
+      :host main article * b {
+        @apply --placetobe-font-body-bold;
+      }
+
+      :host main article ::slotted(div h3),
+      :host main article h3,
+      :host main article ::slotted(* h3) {
+        @apply(--placetobe-font-heading4);
+      }
+
+      :host main article ::slotted(* iframe) {
+        width: 100%;
+      }
+
+      :host main article ::slotted(* img),
+      :host main article * img {
+        width: 100%;
+        height: auto;
+      }
+
+      :host main article ::slotted(* a) {
+        color: var(--placetobe-color-darkblue);
+      }
+
+      :host main article h3 br {
+        display: none;
+      }
+
+      :host placetobe-navigation-bar {
+        position: relative;
+        z-index: 9;
+      }
+
+      :host placetobe-navigation-bar[data-sticky] {
+        position: sticky;
+        position: -webkit-sticky;
+        top:0;
+        left: 0;
+        right: 0;
+        z-index: 10;
+      }
+
+      :host placetobe-navigation-bar[hidden] {
+        display: none;
+      }
+
+      :host footer {
+        margin: 0 auto -100px auto;
+        position: relative;
+        z-index: 1;
+      }
+
+      #invest-page-popup {
+        z-index: 11;
+      }
+
+      #invest-page-popup h3 {
+        @apply --placetobe-font-heading4;
+      }
+
+      #invest-page {
+        border: 0;
+        width: 100%;
+        height: 70vh;
+      }
+
+      google-youtube {
+        max-width: 100%;
+      }
+
+      google-map {
+        width: 100%;
+        height:600px;
+        max-height: 50vh;
+        pointer-events: none;
+      }
+
+      :host aside placetobe-harmonica {
+        margin-bottom: var(--placetobe-margin);
+      }
+
+      #follow-us placetobe-button {
+        margin: 0 calc(var(--placetobe-margin) / 2)
+      }
+
+      :host .icon {
+        @apply(--placetobe-border-box);
+        height: calc( var(--placetobe-margin) * 3);
+        width: calc( var(--placetobe-margin) * 2);
+        padding: var(--placetobe-margin) calc( var(--placetobe-margin) / 2);
+        margin-right: var(--placetobe-margin);
+        cursor: pointer;
+      }
+
+      #follow-us .icon {
+        height: calc(var(--placetobe-margin) * 1.5);
+        width: calc(var(--placetobe-margin) * 1.5);
+        padding: 0;
+      }
+    </style>
+
+      <placetobe-popup
+        id="invest-page-popup"
+        opened="{{!investPageHidden}}"
+        on-popup-closed="hideInvestPage"
+        modal>
+        <template is="dom-if" if="[[!investPageHidden]]">
+          <placetobe-invest-page
+            api-endpoint="[[apiEndpoint]]"
+            campaign-id="[[campaignId]]"
+            contract-type-id="7"
+            incentive-id="{{selectedIncentiveId}}"
+            success-callback-url="[[_getHostUrl(campaignId, apiEndpoint)]]/campagnes/[[campaignId]]/investeren/success"
+            cancel-callback-url="[[_getHostUrl(campaignId, apiEndpoint)]]/campagnes/[[campaignId]]/investeren/cancel"
+            error-callback-url="[[_getHostUrl(campaignId, apiEndpoint)]]/campagnes/[[campaignId]]/investeren/error"
+            reject-callback-url="[[_getHostUrl(campaignId, apiEndpoint)]]/campagnes/[[campaignId]]/investeren/reject"
+            username=""
+            password=""
+          ></placetobe-invest-page>
+
+        </template>
+      </placetobe-popup>
+
+    <caas-campaign
+      api-endpoint="[[apiEndpoint]]"
+      campaign-slug="[[campaignSlug]]"
+      access-token="[[accessToken]]"
+      campaign-id="{{campaignId}}"
+      title="{{title}}"
+      introduction-text="{{introductionText}}"
+      image-url="{{imageUrl}}"
+      body-text="{{campaignText}}"
+      geo-location="{{geoLocation}}"
+      facebook-url="{{facebookUrl}}"
+      twitter-url="{{twitterUrl}}"
+      linked-in-url="{{linkedInUrl}}"
+      video="{{video}}"
+      contract-types="{{contractTypes}}"
+      active="{{campaignActive}}"
+    ></caas-campaign>
+
+    <caas-campaign-downloads
+      api-endpoint="[[apiEndpoint]]"
+      campaign-id="[[campaignId]]"
+      items="{{downloads}}"
+    ></caas-campaign-downloads>
+
+    <caas-campaign-incentives
+      api-endpoint="[[apiEndpoint]]"
+      campaign-id="[[campaignId]]"
+      grouped-incentives="{{_groupedIncentives}}"
+      auto-download="[[campaignId]]"
+    ></caas-campaign-incentives>
+
+      <placetobe-navigation-bar id="stickyNavigationBar" hidden$="[[stickyNavBarHidden]]" data-sticky>
+        <li slot="navigation">[[title]]</li>
+        <placetobe-facebook-icon on-tap="shareOnFacebook" class="icon" slot="footer"></placetobe-facebook-icon>
+        <placetobe-twitter-icon on-tap="shareOnTwitter" class="icon" slot="footer"></placetobe-twitter-icon>
+        <placetobe-linkedin-icon on-tap="shareOnLinkedin" class="icon" slot="footer"></placetobe-linkedin-icon>
+        <placetobe-button
+          hidden$="[[!campaignActive]]"
+          slot="footer"
+          on-tap="showInvestPage"
+        ><span>investeren</span></placetobe-button>
+      </placetobe-navigation-bar>
+
+      <header>
+        <h1>[[title]]</h1>
+        <h2>[[introductionText]]</h2>
+      </header>
+
+      <placetobe-campaign-stats-card
+        api-endpoint="[[apiEndpoint]]"
+        campaign-id="[[campaignId]]"
+        auto-download="[[campaignId]]"
+        campaign-closed="{{campaignClosed}}"
+      >
+      <placetobe-button
+        hidden$="[[campaignClosed]]"
+        on-tap="showInvestPage"
+        ><span>investeren</span></placetobe-button>
+      </placetobe-campaign-stats-card>
+
+      <iron-image
+        id="coverImage"
+        preload
+        fade
+        sizing="cover"
+        src="[[imageUrl]]"
+      ></iron-image>
+
+    <placetobe-navigation-bar id="navigationBar" data-sticky>
+        <li slot="navigation">[[title]]</li>
+        <placetobe-facebook-icon on-tap="shareOnFacebook" class="icon" slot="footer"></placetobe-facebook-icon>
+        <placetobe-twitter-icon on-tap="shareOnTwitter" class="icon" slot="footer"></placetobe-twitter-icon>
+        <placetobe-linkedin-icon on-tap="shareOnLinkedin" class="icon" slot="footer"></placetobe-linkedin-icon>
+        <placetobe-button
+          hidden$="[[!campaignActive]]"
+          slot="footer"
+          on-tap="showInvestPage"
+        ><span>investeren</span></placetobe-button>
+      </placetobe-navigation-bar>
+    </placetobe-navigation-bar>
+
+    <main>
+
+      <div class="two-column">
+
+
+        <template is="dom-if" if="[[video.youtube]]">
+          <google-youtube
+            video-id="[[video.youtube.id]]"
+            height="400px"
+            width="100%"
+            rel="0"
+            start="5"
+            autoplay="0">
+          </google-youtube>
+        </template>
+
+        <template is="dom-if" if="[[video.vimeo]]">
+          <vimeo-video
+              video-id="[[video.vimeo.id]]"
+              container-width="100%"
+              style="height:400px"
+          ></vimeo-video>
+        </template>
+
+        <article id="campaignText"></article>
+
+      </div>
+
+      <aside>
+
+        <template is="dom-if" if="[[incentives.0]]">
+          <placetobe-harmonica title="Beloningen">
+            <template is="dom-repeat" items="[[incentives]]">
+
+              <placetobe-card title="€[[item.minimumInvestment]] of meer" collapsible collapsed>
+                <article slot="main">
+                [[item.message]]<p>
+                <b slot="main" hidden$="[[!item.hasInvestors]]">[[item.investorCount]] investeerders kozen hiervoor</b>
+                </article>
+                <placetobe-button slot="footer" hidden$="[[!campaignActive]]" on-tap="showInvestPageWithSelectedIncentive"><span>investeer</span></placetobe-button>
+              </placetobe-card>
+
+            </template>
+          </placetobe-harmonica>
+        </template>
+
+        <template is="dom-if" if="[[downloads.0]]">
+          <placetobe-harmonica title="Downloads">
+            <template is="dom-repeat" items="[[downloads]]">
+
+              <placetobe-card title="[[item.name]]" collapsible collapsed>
+                <article slot="main">
+                [[item.type]] ([[item.size.megabytes]] Mb)
+                </article>
+                <placetobe-button slot="footer" href="[[item.url]]" target="_blank"><span>download</span></placetobe-button>
+              </placetobe-card>
+
+            </template>
+          </placetobe-harmonica>
+        </template>
+
+        <placetobe-card title="Volg ons" id="follow-us">
+          <article slot="main">
+            Blijf op de hoogte dit project via social media.
+          </article>
+          <div slot="footer">
+            <placetobe-button href="[[facebookUrl]]" target="_blank" link hidden$="[[!facebookUrl]]"><placetobe-facebook-icon class="icon"></placetobe-facebook-icon></placetobe-button>
+            <placetobe-button href="[[twitterUrl]]" target="_blank" link hidden$="[[!twitterUrl]]"><placetobe-twitter-icon class="icon"></placetobe-twitter-icon></placetobe-button>
+            <placetobe-button href="[[linkedInUrl]]" target="_blank" link hidden$="[[!linkedInUrl]]"><placetobe-linkedin-icon class="icon"></placetobe-linkedin-icon></placetobe-button>
+         </div>
+        </placetobe-card>
+
+      </aside>
+
+    </main>
+
+    <template is="dom-if" if="[[showStory]]">
+
+    <footer>
+      <placetobe-campaign-stats-card
+        api-endpoint="[[apiEndpoint]]"
+        campaign-id="[[campaignId]]"
+      ></placetobe-campaign-stats-card>
+    </footer>
+
+    <google-map
+      latitude="[[geoLocation.lat]]"
+      longitude="[[geoLocation.lng]]"
+      api-key="AIzaSyAgZCRoae3GgaFraL2V7vUHcvsdoWj3Fus"
+      disable-default-ui
+      disable-zoom
+      disable-map-type-control
+      fit-to-markers
+      drag-events="false"
+      zoom="13"
+    >
+      <google-map-marker
+        latitude="[[geoLocation.lat]]"
+        longitude="[[geoLocation.lng]]"
+        title="[[title]]"
+      ></google-map-marker>
+
+    </google-map>
+
+    </template>
+
+  </template>
+
+  <script>
+    Polymer({
+
+      is: 'placetobe-campaign-page',
+      behaviors: [PlacetobeStylesBehavior],
+
+      ready: function() {
+        this._setScrollPositions();
+        window.addEventListener('scroll', this._setScrollPositions.bind(this))
+        window.addEventListener('resize', this._setScrollPositions.bind(this))
+      },
+
+      attached: function() {
+        this._setScrollPositions();
+      },
+
+      properties: {
+
+        apiEndpoint: {
+          type: String,
+          value: null,
+        },
+
+        campaignSlug: {
+          type: String,
+          value: null,
+        },
+
+        accessToken: {
+          type: String,
+          value: null
+        },
+
+        campaignText: {
+          type: String,
+          value: null,
+          observer: '_parseCampaignText'
+        },
+
+        campaignClosed: {
+          type: Boolean
+        },
+
+        stickyNavBarHidden: {
+          type: Boolean,
+          computed: '_computeStickyNavBarHidden(_scrollY, _navigationBarY)'
+        },
+
+        contractTypes: {
+          type: Array
+        },
+
+        selectedIncentiveId: {
+          type: String,
+        },
+
+        investPageHidden: {
+          type: Boolean,
+          value: true
+        },
+
+        canWarningHidden: {
+          type: Boolean,
+          value: false
+        },
+
+        incentives: {
+          type: Array,
+          computed: "_computeAvailablesIncentives(_groupedIncentives.*, contractTypes.*)"
+        },
+
+        imageUrl: {
+          type: String
+        },
+
+        _groupedIncentives: {
+          type: Object
+        },
+
+        _scrollY: {
+          type: Number,
+          value: 0
+        },
+
+        _navigationBarY: {
+          type: Number,
+          value: 0
+        }
+
+      },
+
+      showInvestPage: function() {
+        this.investPageHidden = false;
+        this.$$('#invest-page-popup').open();
+      },
+
+      showInvestPageWithSelectedIncentive: function (evt) {
+        var selectedIncentiveId = evt.model.item.id;
+        this.set('selectedIncentiveId', selectedIncentiveId)
+        this.showInvestPage()
+      },
+
+      hideCanWarning: function() {
+        this.canWarningHidden = true;
+      },
+
+      hideInvestPage: function() {
+        this.investPageHidden = true;
+      },
+
+      shareOnFacebook: function() {
+        var url = 'https://www.facebook.com/sharer.php?s=100&p[url]=' + this._getHostUrl() + '/campagnes/'+this.campaignId;
+        window.open(url,"Share on Facebook");
+      },
+
+      shareOnTwitter: function() {
+        var url = 'https://twitter.com/intent/tweet?url=' + this._getHostUrl() + '/campagnes/'+this.campaignId;
+        window.open(url,"Share on Twitter");
+      },
+
+      shareOnLinkedin: function() {
+        var url = 'https://www.linkedin.com/shareArticle?mini=true&url=' + this._getHostUrl() + '/campagnes/'+this.campaignId;
+        window.open(url,"Share on LinkedIn");
+      },
+
+      _computeAvailablesIncentives: function (groupedIncentivesChanges, contractTypesChanges) {
+        var groupedIncentives = groupedIncentivesChanges.base;
+        var contractTypes = contractTypesChanges.base;
+
+        // first item in contractTypes array is currently the only supported type for PlaceToBe
+        var incentives = groupedIncentives[contractTypes[0].id] || [];
+        return incentives;
+      },
+
+      _getHostUrl: function() {
+        return window.location.protocol + '//' + window.location.host;
+      },
+
+      _setScrollPositions: function(evt) {
+        this._scrollY = window.document.body.scrollTop;
+        this._navigationBarY = this.$.navigationBar.offsetTop;
+      },
+
+      _parseCampaignText: function(campaignText) {
+        this.$.campaignText.innerHTML = campaignText;
+      },
+
+      _computeStickyNavBarHidden: function(scrollY, navigationBarY) {
+        return (scrollY <= navigationBarY);
+      }
+
+    });
+  </script>
+</dom-module>

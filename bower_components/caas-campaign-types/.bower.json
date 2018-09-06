@@ -1,0 +1,26 @@
+{
+  "name": "caas-campaign-types",
+  "description": "Polymer CampaignTypes Element for Crowdfunding as a Service Solutions",
+  "main": "caas-campaign-types.html",
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.6.0",
+    "iron-ajax": "PolymerElements/iron-ajax#^1.4.3"
+  },
+  "devDependencies": {
+    "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
+    "iron-demo-helpers": "PolymerElements/iron-demo-helpers#^1.0.0",
+    "web-component-tester": "^4.0.0",
+    "webcomponentsjs": "webcomponents/webcomponentsjs#^0.7.0"
+  },
+  "homepage": "https://github.com/CaaSElements/caas-campaign-types",
+  "version": "0.0.9",
+  "_release": "0.0.9",
+  "_resolution": {
+    "type": "version",
+    "tag": "v0.0.9",
+    "commit": "346183f61f88ff9db86ac2b518f68b0081364cb7"
+  },
+  "_source": "https://github.com/CaaSElements/caas-campaign-types.git",
+  "_target": "*",
+  "_originalSource": "CaaSElements/caas-campaign-types"
+}

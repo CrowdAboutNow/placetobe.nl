@@ -1,0 +1,86 @@
+<!doctype html>
+<html>
+  <head>
+    <title>caas-session demo</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
+    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+
+    <script>
+      window.Polymer = {
+        useNativeCSSProperties: true,
+        lazyRegister: true,
+        dom: 'shadow'
+      };
+    </script>
+
+    <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
+    <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
+
+    <link rel="import" href="../caas-session.html">
+    <link rel="import" href="../../caas-auth/caas-auth.html">
+
+    <style is="custom-style" include="demo-pages-shared-styles">
+      demo-snippet {
+        --demo-snippet-demo: {
+          display: block;
+        }
+      }
+
+      input {
+        width: 100%;
+        margin: 3px 0;
+        padding: 6px;
+        font-size: 18px;
+        box-sizing: border-box;
+      }
+    </style>
+  </head>
+  <body>
+
+    <div class="vertical-section-container centered">
+      <h3>Basic caas-session Demo</h3>
+
+      <demo-snippet>
+        <template is="dom-bind" id="demo" signed-in="[[signedIn]]">
+
+        <caas-auth
+          api-endpoint="https://developmentapi.crowdaboutnow.nl"
+          signed-in="{{signedIn}}"
+          user-id="{{userId}}"
+          user-role="{{userRole}}"
+        ></caas-auth>
+
+        <caas-session></caas-session>
+
+        <!-- signed in -->
+        <template is="dom-if" if="[[signedIn]]">
+          <p>Welcome, [[userId]] ([[userRole]])</p>
+          <button id="signOutButton">sign out</button>
+          <script>
+          signOutButton.addEventListener("click", function() {
+            document.querySelector('caas-auth').signOut()
+          })
+          </script>
+        </template>
+        
+        <!-- not signed in -->
+        <template is="dom-if" if="[[!signedIn]]">
+          <input type="text" id="username" placeholder="username"><br>
+          <input type="password" id="password" placeholder="password"><br>
+          <input type="text" id="role" placeholder="ondernemer | investor | accountmanager"><br>
+          <button id="signInButton">sign in</button>
+          <script>
+          signInButton.addEventListener("click", function() {
+            document.querySelector('caas-auth').signIn(username.value, password.value, role.value);
+          });
+          </script>
+        </template>
+
+        </template>
+      </demo-snippet>
+
+    </div>
+
+  </body>
+</html>

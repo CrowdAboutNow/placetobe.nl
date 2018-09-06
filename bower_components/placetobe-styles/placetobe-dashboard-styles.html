@@ -1,0 +1,178 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="placetobe-styles.html">
+
+<dom-module id="placetobe-dashboard-styles">
+  <template>
+
+    <style is="custom-style">
+
+      :host {
+        display: block;
+        @apply --placetobe-flex-layout--vertical;
+        @apply --placetobe-cross-align--center;
+      }
+
+      :host header {
+        margin-left: auto;
+        margin-right: auto;     
+        padding: 0 var(--placetobe-margin);
+        text-align: center;   
+      }
+
+      :host header {
+        margin-top: calc( var(--placetobe-margin) * 3 );
+        margin-bottom: var(--placetobe-margin);
+        position: relative;
+        z-index: 1;
+      }
+
+      :host header h1 {
+        @apply(--placetobe-font-title);
+        max-width: var(--placetobe-two-column-width);
+        text-align: center;
+        margin-bottom: var(--placetobe-margin);
+      }
+
+      :host h2 {
+        @apply(--placetobe-font-heading1-regular);
+        margin-bottom:  var(--placetobe-margin);
+      }
+
+      :host header h2 {
+        max-width: var(--placetobe-two-column-width);
+        text-align: center;        
+      }
+
+      :host header placetobe-button {
+        margin: var(--placetobe-margin);
+      }
+
+      :host header placetobe-button.iron-selected {
+        --placetobe-button-tint-color: var(--placetobe-color-taupe);
+        --placetobe-button-tint-hover-color: var(--placetobe-color-taupe);
+      }
+
+      :host main {
+        @apply(--placetobe-border-box);
+        @apply(--placetobe-flex-layout--vertical);
+        @apply(--placetobe-flex-align--space-between);
+        @apply(--placetobe-cross-align--start);
+        @apply(--placetobe-flex-wrap--nowrap);
+        max-width: calc( var(--placetobe-layout-width) + (var(--placetobe-margin) * 2) );
+        padding: 0 var(--placetobe-margin);
+        margin: calc( var(--placetobe-margin) * 3 ) auto;
+        position: relative;
+      }
+
+      @media(min-width: 601px) {
+        :host main {
+          @apply(--placetobe-flex-layout--horizontal); 
+        }
+      }
+
+      @media(min-width: 990px) {
+        :host main {
+          min-width: calc( var(--placetobe-layout-width) + (var(--placetobe-margin) * 2) );
+        }
+      }
+
+      :host main > * {
+        @apply --placetobe-border-box;
+        min-width: var(--placetobe-column-width);
+        max-width: 100%;
+      }
+
+      :host main > *:nth-child(1) {
+        @apply(--placetobe-flex-item--2);
+        margin-bottom: var(--placetobe-margin);
+      }
+
+      @media(min-width: 601px) {
+        :host main > *:nth-child(1) {
+          padding-right: var(--placetobe-margin);
+        }
+      }
+
+      :host main > *:nth-child(2) {
+        @apply(--placetobe-flex-item--1);
+      }
+
+      :host main article {
+        @apply --placetobe-font-body-serif;
+      }
+
+      :host main article h3 {
+        @apply --placetobe-font-heading6;
+        margin-bottom: var(--placetobe-margin);
+      }
+
+      placetobe-signin-card {
+        width: 100%;
+        max-width: 540px;
+      }
+
+      placetobe-card {
+        width: 100%;
+        display: flex;
+        flex-direction: horizontal;
+        flex-basis: wrap;
+        --placetobe-card-color: var(--placetobe-color-gray);
+        margin-bottom: var(--placetobe-margin);
+        list-style: none;
+      }
+
+      :host ul {
+        padding: 0;
+      }
+
+      li {
+        display: flex;
+        padding-bottom: 5px;
+        display: flex;
+        flex-direction: horizontal;
+        flex-basis: wrap;
+      }
+      placetobe-input-box,
+      placetobe-textarea-box,
+      placetobe-select-box {
+        flex: 1;
+        padding: 3px;
+       --input-box-disabled-background-color: var(-placetobe-color-yellow);
+      }
+
+      :host placetobe-navigation-bar {
+        position: relative;
+        z-index: 9;
+        width: 100%;
+        position: sticky;
+        position: -webkit-sticky;
+        top: 0;
+      }
+
+      .warning {
+        padding-bottom: var(--placetobe-margin);
+      }
+
+      aside placetobe-card {
+        --placetobe-card-color: var(--placetobe-color-yellow);
+      }
+
+      paper-spinner-lite {
+        --paper-spinner-color: var(--placetobe-color-darkblue);
+        display: block;
+        margin: 0 auto;    
+      }
+
+      paper-spinner-lite[active] {
+        margin: calc(var(--placetobe-margin) *2) auto;
+      }
+
+    </style>
+
+  </template>
+  <script>
+    Polymer({
+      is: 'placetobe-dashboard-styles'
+    })
+  </script>
+</dom-module>

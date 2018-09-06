@@ -1,0 +1,159 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../placetobe-styles/placetobe-styles.html">
+<link rel="import" href="../placetobe-behaviors/placetobe-styles-behavior.html">
+<link rel="import" href="../placetobe-icons/placetobe-expand-icon.html">
+
+<!--
+`placetobe-card`
+Placetobe Card
+
+@demo demo/index.html
+-->
+
+<dom-module id="placetobe-card">
+  <template>
+    <style>
+      :host {
+        display: flex;
+      }
+
+      :host section {
+        @apply(--placetobe-border-box);
+        @apply(--placetobe-border-radius);
+        background-color: var(--placetobe-card-color, var(--placetobe-color-yellow));
+        padding: calc( var(--placetobe-margin) * 2 );
+        text-align: center;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      :host section header h2 {
+        @apply(--placetobe-font-heading3);
+        color: var(--placetobe-card-tint-color, var(--placetobe-color-darkblue));
+        margin: calc( var(--placetobe-margin)  - ( var(--placetobe-margin) * 1.5) ) 0;
+      }
+
+      :host([collapsible]) section {
+        text-align: left;
+        padding: calc( var(--placetobe-margin) );
+      }
+
+      :host([collapsible]) section header {
+        @apply --placetobe-flex-layout--horizontal;
+        @apply --placetobe-flex-align--stretch;
+        @apply --placetobe-cross-align--center;
+        cursor: pointer;
+      }
+
+      :host([collapsible]) section header placetobe-expand-icon {
+        width: 20px;
+        height: 20px;
+        @apply --placetobe-flex-item--none;
+      }
+
+      :host([collapsible]) section header h2 {
+        @apply --placetobe-font-body;
+        @apply --placetobe-flex-item--3;
+        padding-left: var(--placetobe-margin);
+      }
+
+      :host([collapsible]) .overflow {
+        transition: 0.5s max-height ease-in-out;
+        overflow: hidden;
+        max-height: 600px;
+      }
+
+      :host([collapsible][collapsed]) .overflow {
+        max-height: 0;
+      }
+
+      :host section main ::slotted(article) {
+        @apply(--placetobe-font-body-serif);
+        margin: var(--placetobe-margin) 0;
+        color: var(--placetobe-card-tint-color, var(--placetobe-color-darkblue));
+        text-align: center;
+      }
+
+      :host([collapsible]) section main ::slotted(article) {
+        text-align: left;
+      }
+
+      :host([collapsible]) section footer {
+        padding-bottom: 3px;
+      }
+
+      .overflow {
+        width: 100%;
+      }
+
+    </style>
+
+    <section>
+      <header on-tap="toggle">
+        <h2>[[title]]</h2>
+
+        <template is="dom-if" if="[[collapsible]]">
+        <placetobe-expand-icon expanded="[[!collapsed]]"></placetobe-expand-icon>
+        </template>
+      </header>
+
+      <div class="overflow">
+        <main>
+          <slot name="main"></slot>
+        </main>
+        <footer>
+          <slot name="footer"></slot>
+        </footer>
+      </div>
+
+    </section>
+
+  </template>
+
+  <script>
+    Polymer({
+
+      is: 'placetobe-card',
+      behaviors: [PlacetobeStylesBehavior],
+
+      properties: {
+
+        title: {
+          type: String,
+          value: null
+        },
+
+        collapsible: {
+          type: Boolean,
+          value: false,
+          reflectToAttribute: true
+        },
+
+        collapsed: {
+          type: Boolean,
+          value: false,
+          notify: true,
+          reflectToAttribute: true
+        },
+
+        loaded: {
+          type: Boolean,
+          value: false,
+          notify: true
+        }
+
+      },
+
+      attached: function() {
+         this.set('loaded', true);
+      },
+
+      toggle: function() {
+        this.collapsed = !this.collapsed;
+      }
+
+    });
+  </script>
+</dom-module>

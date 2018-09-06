@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+    <title>placetobe-textarea-box demo</title>
+
+    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+
+    <script>
+      window.Polymer = {
+        useNativeCSSProperties: true,
+        lazyRegister: true,
+        dom: 'shadow'
+      };
+    </script>
+
+    <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
+    <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
+    <link rel="import" href="../placetobe-textarea-box.html">
+
+    <style is="custom-style" include="demo-pages-shared-styles">
+      demo-snippet {
+        --demo-snippet-demo: {
+          display: block;
+        }
+      }
+
+      placetobe-textarea-box {
+        margin-bottom: 6px;
+      }
+      #fixed-height{
+        --iron-autogrow-textarea-max-height: {
+          max-height: 100px;
+        };
+      }
+    </style>
+  </head>
+  <body>
+    <div class="vertical-section-container centered">
+      <h3>Basic placetobe-textarea-box demo</h3>
+      <demo-snippet>
+        <template>
+          <placetobe-textarea-box
+            type="text"
+            name="first name"
+            required
+            pattern=".{2,}"
+            tip="min 2 charachters"
+          ></placetobe-textarea-box>
+          No label
+          <placetobe-textarea-box
+            type="text"
+            required
+            pattern=".{3,}"
+            tip="min 3 charachters"
+          ></placetobe-textarea-box>
+          Max of 5 rows
+          <placetobe-textarea-box
+            type="text"
+            name="postal code"
+            required
+            pattern="[0-9]{4}(\s|)[a-zA-Z]{2}"
+            tip="e.g. 1234 AB"
+            max-rows="5"
+          ></placetobe-textarea-box>
+          No Tip
+          <placetobe-textarea-box
+            type="text"
+            name="postal code"
+            required
+            pattern="[0-9]{4}(\s|)[a-zA-Z]{2}"          
+          ></placetobe-textarea-box>
+          Fixed height
+          <placetobe-textarea-box
+            id="fixed-height"
+            type="text"
+            name="postal code"
+          ></placetobe-textarea-box>
+        </template>
+      </demo-snippet>
+    </div>
+  </body>
+</html>

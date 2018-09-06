@@ -1,0 +1,142 @@
+can-card
+    display block
+    margin-bottom ($defaultmargin/2)
+    padding ($defaultmargin/2)
+    background-color #fff
+    font-size 1rem
+    text-align left
+    border-radius 3px
+    position relative
+    // color $can-blue
+    box-shadow 0 2px 4px 0px rgba(0,0,0,0.15)
+    transition (all) .3s
+
+    &[hidden]
+        display none
+
+    header
+        h3
+            overflow hidden
+            text-overflow ellipsis
+            line-height 24px
+
+    header
+        p
+            font-size initial
+        img
+            width 100%
+            height auto
+
+    article, .markdown-html p
+        font-size 16px
+        line-height 22px
+        margin-bottom 0
+
+        img
+            max-width 100%
+
+    summary
+        font-size 16px
+        line-height 23px
+        margin-top 18px
+
+    button
+        margin ($defaultmargin/2) auto 0 auto
+
+    can-button
+
+        button
+            margin ($defaultmargin/2) auto 0 auto
+
+        &[right]
+            button
+                margin ($defaultmargin/2) 0 0 auto
+
+        &[left]
+            button
+                margin ($defaultmargin/2) auto 0 0
+
+    can-list
+        margin 0 -18px -18px -18px
+
+    &[expandable]
+
+        header
+            cursor pointer
+            user-select none
+
+            > *
+                padding-right 36px
+
+            &:after
+                position absolute
+                content " "
+                background-image url("/assets/components/can-card/expand-icon.svg")
+                background-size 100%
+                background-position 50%
+                background-repeat no-repeat
+                right 20px
+                top 21px
+                height 20px
+                width 18px
+                border-radius 50%
+                opacity .5
+                $$transition()
+                transform-origin center
+                transform rotate(180deg)
+
+        article
+            display none
+
+        &[expanded]
+            background-color $can-green
+            box-shadow 0 2px 10px 0 rgba(0, 0, 0, 0.16)
+
+            header
+                &:after
+                    transform rotate(0)
+
+            article
+                display block
+
+    &[notification]
+        article
+            margin-top 0
+        &:after
+            content " "
+            width 0
+            height 0
+            border-left 18px solid transparent
+            border-right 18px solid transparent
+            border-top 18px solid #fff
+            position absolute
+            margin 0 -18px
+            transition 0.5s all
+            bottom -18px
+            left 50%
+            z-index 1001
+
+    &[raise-on-hover]:hover
+        box-shadow 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23)
+        background-color $can-yellow
+
+    &[list]
+        iron-list
+            height 40vh
+
+            .container
+                padding 8px 8px
+
+                &:nth-child(odd)
+                    background-color $can-lightergreen
+
+                h4
+                    margin-bottom 0
+        header
+            >div
+                padding 10px 8px
+                background-color $can-green
+                border-bottom 4px solid #10364b;
+
+                h3
+                    cursor pointer

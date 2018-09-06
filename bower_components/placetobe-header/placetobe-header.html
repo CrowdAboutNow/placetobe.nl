@@ -1,0 +1,262 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../app-route/app-location.html">
+<link rel="import" href="../placetobe-behaviors/placetobe-styles-behavior.html">
+<link rel="import" href="../placetobe-styles/placetobe-styles.html">
+<link rel="import" href="../placetobe-logo/placetobe-logo.html">
+<link rel="import" href="../placetobe-icons/placetobe-menu-icon.html">
+<link rel="import" href="../placetobe-main-menu/placetobe-main-menu.html">
+
+<!--
+`placetobe-header`
+Placetobe Header
+
+@demo demo/index.html
+-->
+
+<dom-module id="placetobe-header">
+  <template>
+    <style>
+
+      :host header {
+        display: block;
+        width: 100%;
+        height: 72px;
+        z-index: 5;
+        transition: 0.5s all;
+      }
+
+      @media (min-width: 601px) {
+        :host header {
+          height: 112px;
+        }
+      }
+
+      :host([collapsed]) header {
+        @apply(--placetobe-box-shadow);
+        background-color: white;
+        height: calc( var(--placetobe-margin) * 3 );
+      }
+
+      @media (min-width: 601px) {
+        :host([collapsed]) header {
+          @apply(--placetobe-box-shadow);
+          background-color: white;
+          height: 72px;
+        }
+      }
+
+      :host nav {
+        display: block;
+        height: 100%;
+        @apply(--placetobe-border-box);
+        @apply(--placetobe-flex-layout--horizontal);
+        @apply(--placetobe-flex-align--space-between);
+        @apply(--placetobe-cross-align--center);
+        max-width: calc( var(--placetobe-layout-width) + (var(--placetobe-margin) * 2) );
+        margin: 0 auto;
+        padding: 0 var(--placetobe-margin);
+      }
+
+      :host placetobe-logo {
+        @apply(--placetobe-flex-item--none);
+        @apply(--placetobe-item-align--start);
+        width: 126px;
+        height: calc( var(--placetobe-margin) * 1.5 );
+        --placetobe-logo-color: var(--placetobe-header-tint-color, var(--placetobe-color-darkblue));
+      }
+
+      @media (min-width: 601px) {
+        :host placetobe-logo {
+          width: 168px;
+          height: calc( var(--placetobe-margin) * 2 );
+        }
+      }
+
+      :host placetobe-menu-icon {
+        @apply(--placetobe-flex-item--none);
+        @apply(--placetobe-item-align--center);
+        width: calc( var(--placetobe-margin) * 1.5 );
+        height: calc( var(--placetobe-margin) * 1.5 );
+        --placetobe-icon-color: var(--placetobe-header-tint-color, var(--placetobe-color-darkblue));
+        cursor: pointer;
+      }
+
+      @media (min-width: 601px) {
+        :host placetobe-menu-icon {
+          width: calc( var(--placetobe-margin) * 2 );
+          height: calc( var(--placetobe-margin) * 2 );
+        }
+      }
+
+      @media (min-width: 991px) {
+        :host placetobe-menu-icon {
+          display: none;
+        }
+      }
+
+      :host ul {
+        @apply(--placetobe-flex-item--2);
+        @apply(--placetobe-flex-align--end);
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: none;
+      }
+
+      @media (min-width: 991px) {
+        :host ul {
+          @apply(--placetobe-flex-layout--horizontal);
+        }
+      }
+
+      :host ul li {
+        @apply(--placetobe-font-body-serif-bold);
+        margin-left: calc( var(--placetobe-margin) * 2 );
+      }
+
+      :host ul li a {
+        text-decoration: none;
+        color: var(--placetobe-header-tint-color, var(--placetobe-color-darkblue));
+        transition: 0.2s color;
+      }
+
+      :host ul li a[data-active] {
+        color: var(--placetobe-header-tint-active-color, var(--placetobe-color-red));
+      }
+
+      :host([collapsed]) ul li a {
+        text-decoration: none;
+        color: var(--placetobe-header-tint-color, var(--placetobe-color-darkblue));
+      }
+
+      :host ul li a:not([data-active]):hover {
+        opacity: 0.75;
+      }
+
+      :host([collapsed]) ul li a[data-active] {
+        color: var(--placetobe-header-tint-active-color, var(--placetobe-color-red));
+      }
+
+      :host placetobe-main-menu {
+        position: fixed;
+        top:0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        z-index: 2;
+      }
+
+      :host([collapsed]) placetobe-main-menu {
+        --placetobe-main-menu-menu-icon-top: var(--placetobe-margin);
+      }
+
+      :host placetobe-main-menu[hidden] {
+        visibility: hidden;
+        opacity: 0;
+        pointer-events: none;
+        height: 0;
+        width: 0;
+        overflow: hidden;
+      }
+
+      [hidden] {
+        display: none!important;
+      }
+      </style>
+
+    <header>
+      <nav>
+        <a href="/"><placetobe-logo></placetobe-logo></a>
+        <ul>
+          <li hidden$="[[hideCampaigns]]"><a href="/campagnes" data-path="campagnes" data-active$="[[campaignPageActive]]">Campagnes</a></li>
+          <li><a href="/start-project" data-path="start-project" data-active$="[[entrepreneurPageActive]]">Start project</a></li>
+          <li><a href="/investeren" data-path="investeren" data-active$="[[investPageActive]]">Investeer</a></li>
+        </ul>
+        <placetobe-menu-icon on-tap="_openMenu"></placetobe-menu-icon>
+      </nav>
+    </header>
+
+    <placetobe-main-menu
+      location-path="{{locationPath}}"
+      hidden$="[[!menuOpen]]"
+      on-tap-close="_closeMenu"
+      hide-campaigns="[[hideCampaigns]]"
+    ></placetobe-main-menu>
+
+  </template>
+
+  <script>
+    Polymer({
+
+      is: 'placetobe-header',
+      behaviors: [PlacetobeStylesBehavior],
+
+      properties: {
+
+        locationPath: {
+          type: String,
+          value: null,
+          notify: true
+        },
+
+        collapsed: {
+          type: Boolean,
+          value: false,
+          reflectToAttribute: true
+        },
+
+        homePageActive: {
+          type: Boolean,
+          value: true,
+          notify: true
+        },
+
+        campaignPageActive: {
+          type: Boolean,
+          notify: true
+        },
+
+        investPageActive: {
+          type: Boolean,
+          notify: true
+        },
+
+        entrepreneurPageActive: {
+          type: Boolean,
+          notify: true
+        },
+
+        campaignPath: {
+          type: String,
+          value: null
+        },
+
+        campaignRoute: {
+          type: String,
+          value: null
+        },
+
+        menuOpen: {
+          type: Boolean,
+          value: false
+        },
+
+        hideCampaigns: {
+          type: Boolean,
+          value: false,
+        }
+
+      },
+
+      _openMenu: function() {
+        this.menuOpen = true;
+      },
+
+      _closeMenu: function() {
+        this.menuOpen = false;
+      }
+
+
+    });
+  </script>
+</dom-module>

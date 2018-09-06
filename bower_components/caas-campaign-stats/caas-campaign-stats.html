@@ -1,0 +1,292 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../iron-ajax/iron-ajax.html">
+
+<!--
+`caas-campaign-stats`
+Campaign Stats Data Element for Crowdfunding as a Service Solutions
+
+@demo demo/index.html 
+-->
+
+<dom-module id="caas-campaign-stats">
+  <template>
+
+    <iron-ajax
+      id="getCampaignStats"
+      url="[[apiEndpoint]]/campaigns/[[campaignId]]/stats"
+      handle-as="json"
+      method="GET"
+      last-response="{{_apiData}}"
+      debounce-duration="3000"
+    ></iron-ajax>
+
+  </template>
+
+  <script>
+    Polymer({
+
+      is: 'caas-campaign-stats',
+
+      properties: {
+
+        apiEndpoint: {
+          type: String,
+          value: null
+        },
+
+        campaignId: {
+          type: String,
+          value: null
+        },
+
+        status: {
+          type: String,
+          computed: '_getApiDataValue(_apiData.status)'
+        },
+
+        statusLabel: {
+          type: String,
+          computed: '_computeStatusLabel(status)',
+          notify: true
+        },
+
+        startTime: {
+          type: Number,
+          computed: '_parseDateToTime(_apiData.startDateTime)',
+          notify: true
+        },
+
+        endTime: {
+          type: Number,
+          computed: '_parseDateToTime(_apiData.endDateTime)',
+          notify: true
+        },
+
+        daysLeft: {
+          type: Number,
+          computed: '_computeDaysLeft(endTime)',
+          notify: true         
+        },
+
+        lastRepaymentTime: {
+          type: Number,
+          computed: '_parseUnixDateToTime(_apiData.finalPaymentDateTime)',
+          notify: true
+        },
+
+        requiredFunding: {
+          type: Number,
+          computed: '_getApiDataValue(_apiData.requiredFunding)',
+          notify: true
+        },
+
+        maximumFunding: {
+          type: Number,
+          computed: '_computeMaximumFunding(requiredFunding, _apiData.overtekenen)',
+          notify: true
+        },
+
+        currentlyFunded: {
+          type: Number,
+          computed: '_getApiDataValue(_apiData.progressInEuros)',
+          notify: true
+        },
+
+        numberOfFunders: {
+          type: Number,
+          computed: '_getApiDataValue(_apiData.numberOfInvestors)',
+          notify: true
+        },
+
+        averageFunding: {
+          type: Number,
+          computed: '_getApiDataValue(_apiData.averageInvestment)',
+          notify: true
+        },
+
+        nominalInterestRate: {
+          type: Number,
+          computed: '_getApiDataValue(_apiData.returnOnInvestmentPercentage)',
+          notify: true
+        },
+
+        nominalInterestRatePerYear: {
+          type: Number,
+          computed: '_computeNominalInterestRatePerYear(nominalInterestRate, interestRateRefundTerms)',
+          notify: true
+        },
+
+        effectiveInterestRatePerYear: {
+          type: Number,
+          computed: '_getApiDataValue(_apiData.effectiveInterestRate)',
+          notify: true
+        },
+
+        interestRateRefundTerms: {
+          type: Number,
+          computed: '_getApiDataValue(_apiData.paymentDuration)',
+          notify: true
+        },
+
+        started: {
+          type: Boolean,
+          computed: '_computeStarted(_apiData.status)',
+          notify: true
+        },
+
+        running: {
+          type: Boolean,
+          computed: '_computeRunning(_apiData.status)',
+          notify: true
+        },
+
+        closed: {
+          type: Boolean,
+          computed: '_computeClosed(status)',
+          notify: true
+        },
+
+        blocked: {
+          type: Boolean,
+          computed: '_getApiDataValue(_apiData.campaignBlocked)',
+          notify: true
+        },
+
+        categories: {
+          type: Object,
+          computed: '_computeCategories(_apiData.contractTypes.*)',
+          notify: true
+        },
+
+        labels: {
+          type: Array,
+          computed: '_computeLabels(_apiData.contractTypes.*)',
+          notify: true
+        },
+
+        _apiData: {
+          type: Object,
+          value: {}
+        }
+
+      },
+
+      observers: [
+        '_getApiData(apiEndpoint, campaignId)'
+      ],
+
+      _getApiData: function(apiEndpoint, campaignId) {
+        if(!apiEndpoint && campaignId) return;
+        this.$.getCampaignStats.generateRequest();
+      },
+
+      _computeStatusLabel: function(status) {
+        switch(status) {
+          case 0:
+            return 'in voorbereiding';
+            break;
+          case 1:
+            return 'actief';
+            break;
+          case 2:
+          case 3:
+          case 4:
+            return 'geslaagd';
+            break;
+          default:
+            return 'gesloten';
+            break;
+        }
+      },
+
+      _computeClosed: function(status) {
+        return (status !== 1);
+      },
+
+      _computeDaysLeft: function(endTime) {
+        var oneDay = 24*60*60*1000;
+        var now = new Date().getTime();
+        if(now >= endTime) return 0;
+        var daysLeft = Math.ceil(Math.abs(now - endTime)/(oneDay));
+        return daysLeft;
+      },
+
+      _computeNominalInterestRatePerYear: function(nominalInterestRate, interestRateRefundTerms) {
+        var years = interestRateRefundTerms / 12;
+        return (nominalInterestRate / years);
+      },
+
+      _computeMaximumFunding: function(requiredFunding, overtekenen) {
+        return (requiredFunding + overtekenen);
+      },
+
+      _computeCategories: function(campaignType) {
+        var campaignTypes = campaignType.base;
+        if(!campaignTypes) return [];
+        var categories = campaignTypes.map(function(campaignType) {
+          return campaignType.name.toLowerCase();
+        })
+        return {
+          presale: categories.indexOf('voorverkoop') !== -1,
+          shares: categories.indexOf('aandelen') !== -1,
+          loan: categories.indexOf('lening') !== -1,
+        }
+      },
+
+      _computeLabels: function(campaignType) {
+        var campaignTypes = campaignType.base;
+        if(!campaignTypes) return [];
+        var labels = campaignTypes.map((function(campaignType) {
+          return this._getCampaignTypeNameById(campaignType.id);
+        }).bind(this))
+        return labels;
+      },
+
+      _getCampaignTypeNameById: function(campaignTypeId) {
+        var campaignTypeName;
+        switch(campaignTypeId) {
+          case 1:
+          case 2:
+            campaignTypeName = 'voorverkoop';
+          case 3:
+          case 4:
+            campaignTypeName = 'lening';
+            break;
+          case 5:
+          case 6:
+            campaignTypeName = 'aandelen';
+            break;
+          case 7:
+            campaignTypeName = 'lineaire lening';
+            break;
+          case 8:
+            campaignTypeName = 'annuitaire lening';
+            break;
+        }
+        return campaignTypeName;
+      },
+
+      _computeStarted: function(status) {
+        return (parseInt(status) !== 0);
+      },
+
+      _computeRunning: function(status) {
+        return (parseInt(status) === 1);
+      },
+
+      _getApiDataValue: function(apiDataValue) {
+        return apiDataValue;
+      },
+
+      _parseUnixDateToTime: function(unixDate) {
+        var timeValue = parseInt(unixDate + '000');
+        return new Date(timeValue).getTime();
+      },
+
+      _parseDateToTime: function(dateValue) {
+        return new Date(dateValue).getTime();
+      }
+
+    });
+  </script>
+</dom-module>

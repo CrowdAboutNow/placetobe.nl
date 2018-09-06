@@ -1,0 +1,32 @@
+can-checkbox 
+    cursor pointer
+    user-select none
+    display block
+    margin-top 9px
+    font-size initial
+
+    &[disabled]
+        pointer-events none
+        opacity 0.5
+    
+    input[type="checkbox"]
+        pointer-events none
+        position relative
+        display inline-block
+        width 18px
+        height 18px
+        border 1px solid $can-blue
+        background-color transparent
+        border-radius 3px
+        appearance none
+        margin 0
+        vertical-align middle
+        cursor pointer
+        margin-right 6px
+        pointer-events none
+        
+        &:checked
+            background-image url(/assets/svg/check.svg)
+            background-color $can-green
+            background-position 50%
+            background-repeat no-repeat

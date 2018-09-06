@@ -1,0 +1,72 @@
+can-tooltip
+    display inline
+    margin auto 0px
+    width 100%
+
+    .extended-info
+        font-size 12px
+        color $can-blue
+        padding 0px 3px
+        border 1px solid $can-blue
+        border-radius 50%
+        cursor pointer
+        text-align center
+        height 15px
+        width 15px
+        overflow hidden
+        vertical-align top
+        margin-top 10px
+        position relative
+
+        &:after
+            position absolute
+            top 0
+            left 0
+            margin -4px 0 0 3px
+            content "?"
+
+        &:active
+            color #FFF
+            background-color $can-blue
+
+    .expanded-info
+        visibility visible
+        position absolute
+        z-index 7
+        width: 336px
+        cursor pointer
+        background-color $can-yellow
+        max-width calc(100% - 36px)
+        top 40px
+        left 50%
+        box-shadow 0 2px 4px 0px rgba(0,0,0,0.15)
+        transition (all) .3s
+        border-radius 3px
+        transform: translate(-50%, 0%)
+
+        p
+            font-size 14px
+            line-height 22px
+            margin 0px
+            padding 18px
+
+    .overlay
+        display block
+        position fixed
+        z-index 9
+        left 0
+        top 0
+        width 100%
+        height 100%
+        background-color transparent
+
+    &[bottom]
+        .expanded-info
+            position relative
+            margin-top 15px
+            top initial
+            bottom 0
+
+    &[hidetoggle]
+        span
+            display none

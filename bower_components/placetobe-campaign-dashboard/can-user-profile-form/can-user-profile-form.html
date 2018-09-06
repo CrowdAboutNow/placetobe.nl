@@ -1,0 +1,145 @@
+<!doctype html>
+<link rel="import" href="../../polymer/polymer.html">
+<link rel="import" href="../can-api/can-api.html">
+<link rel="import" href="../can-form/can-form.html">
+<link rel="import" href="../../placetobe-select-box/placetobe-select-box.html">
+<link rel="import" href="../../placetobe-input-box/placetobe-input-box.html">
+<link rel="import" href="../../placetobe-textarea-box/placetobe-textarea-box.html">
+
+<dom-module id="can-user-profile-form">
+    <template>
+
+        <style>
+            placetobe-input-box,
+            placetobe-select-box {
+                padding: 3px;
+            }
+        </style>
+
+        <can-api
+            auth
+            route="[[APIRoute]]"
+            method="GET"
+            auto="[[userId]]"
+            last-response="{{data}}"
+        ></can-api>
+
+        <can-form
+            auth
+            disabled$="[[disabled]]"
+            valid="{{valid}}"
+            formdata="{{data}}"
+            submitlabel="Opslaan"
+            hidesubmitbutton="[[readonly]]"
+            apipath="[[APIRoute]]"
+            method="PUT"
+            hide-warning="[[readonly]]"
+            on-response="_saveSuccess"
+            on-error="_saveFailed"
+            >
+
+            <template is="dom-if" if="[[ondernemer]]">
+
+                <placetobe-input-box
+                    required="false"
+                    value="{{data.name}}"
+                    name="bedrijfsnaam"
+                    tip="Dit is de officiële naam van je bedrijf zoals deze staat ingeschreven bij de Kamer van Koophandel."
+                ></placetobe-input-box>
+
+                <placetobe-select-box
+                    required="false"
+                    value="{{data.businessEntity}}"
+                    name="Rechtsvorm"
+                    options="{{businessEntities}}">
+                </placetobe-select-box>
+
+            </template>
+
+            <template is="dom-if" if="[[isStocksCampaign]]">
+
+                <placetobe-input-box
+                    required="false"
+                    value="{{data.stakName}}"
+                    name="Naam stichting sdministratiekantoor (STAK)"
+                    tip="Dit is de naam van de stak voor de aandelen."
+                ></placetobe-input-box>
+
+            </template>
+
+            <template is="dom-if" if="[[investor]]">
+
+                <placetobe-input-box
+                    required="true"
+                    name="firstName"
+                    value="{{data.firstName}}"
+                    name="voornaam (of bedrijfsnaam)"
+                ></placetobe-input-box>
+
+                <placetobe-input-box
+                    required="true"
+                    value="{{data.lastName}}"
+                    name="achternaam (of rechtsvorm)"
+                ></placetobe-input-box>
+
+            </template>
+
+            <placetobe-input-box
+                required="true"
+                value="{{data.address.street}}"
+                name="straat"
+                tip="Dit is het adres waarmee je bedrijf staat ingeschreven bij de Kamer van Koophandel. Let op: dit komt niet altijd overeen met het bezoekadres van je bedrijf."
+            ></placetobe-input-box>
+
+            <placetobe-input-box
+                required="true"
+                value="{{data.address.houseNumber}}"
+                name="huisnummer"
+                pattern="^([0-9]+).*$"
+            ></placetobe-input-box>
+
+            <placetobe-input-box
+                required="true"
+                value="{{data.address.postalCode}}"
+                name="postcode"
+            ></placetobe-input-box>
+
+            <placetobe-input-box
+                required="true"
+                value="{{data.address.city}}"
+                name="woonplaats"
+            ></placetobe-input-box>
+
+            <placetobe-input-box
+                required="true"
+                value="{{data.address.region}}"
+                name="provincie"
+            ></placetobe-input-box>
+
+            <can-country-selectbox
+                required
+                value="{{data.address.country}}"
+                name="land"
+            ></can-country-selectbox>
+
+            <template is="dom-if" if="[[ondernemer]]">
+
+                <placetobe-input-box
+                    value="{{data.KVKNumber}}"
+                    name="kvk nummer"
+                    pattern="^[0-9]{8}$">
+                </placetobe-input-box>
+
+                <placetobe-input-box
+                    value="{{data.IBAN}}"
+                    name="IBAN"
+                    pattern="^[A-Z]{2}[0-9]{2}[A-Z]{4}[0-9]{10}$">
+                </placetobe-input-box>
+
+            </template>
+
+        </can-form>
+
+    </template>
+    <script src="can-user-profile-form.js"></script>
+</dom-module>

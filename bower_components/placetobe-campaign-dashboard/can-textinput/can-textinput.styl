@@ -1,0 +1,72 @@
+can-textinput
+
+    display inline-block
+    position relative
+    width 100%
+    @media screen and (max-width $breakpoint-phone-max)
+        width 100% !important
+    text-align left
+    margin-bottom 6px
+
+    &[required]
+        label
+            &:after
+                content '*'
+    &[disabled]
+            pointer-events none
+            opacity .5
+
+    > h3
+        color $can-blue!important
+
+    > input
+        background #F5EDEB
+        color $can-blue
+        border-radius 2px
+        width 100%
+        display inline-block
+        height 36px
+        border 2px solid transparent
+        font-size 16px
+        padding 3px 9px
+
+        &:invalid
+            background-color $can-red
+            &:focus
+                border-color $can-red
+
+
+        &:focus
+            border-color #FAFFBD
+
+    &[empty]
+        &[required]
+            > input
+                background-color $can-yellow
+
+    .extended-info
+        font-size 12px
+        color $can-blue
+        padding 0px 3px
+        border 1px solid $can-blue
+        border-radius 50%
+        cursor pointer
+        text-align center
+        height 15px
+        width 15px
+        overflow hidden
+        display inline-block
+        vertical-align top
+        margin-top 10px
+        position relative
+
+        &:after
+            content "?"
+            position absolute
+            top 0
+            left 0
+            margin -4px 0 0 3px
+
+        &:active
+            color #FFF
+            background-color $can-blue

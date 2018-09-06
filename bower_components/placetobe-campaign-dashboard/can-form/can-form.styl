@@ -1,0 +1,37 @@
+can-form
+    display block
+
+    &[disabled]
+        pointer-events none
+
+        form
+            opacity 0.6
+
+    &[aligncenter]
+        form
+
+            button
+                margin-right auto
+
+    form
+        width 100%
+        font-size 0
+
+        &[data-disabled]
+            input, textarea, button
+                pointer-events none
+
+        br
+            font-size 12px
+
+        label
+            font-size 14px
+            text-align left
+            color $can-blue
+            display inline-block
+            text-transform capitalize
+            padding 6px 9px
+            text-transform lowercase
+
+        button
+            margin-right 0!important

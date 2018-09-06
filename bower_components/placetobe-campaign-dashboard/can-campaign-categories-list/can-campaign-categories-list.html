@@ -1,0 +1,28 @@
+<!doctype html>
+<link rel="import" href="../../polymer/polymer.html">
+<link rel="import" href="../../iron-selector/iron-selector.html">
+<link rel="import" href="../can-filter-button/can-filter-button.html">
+
+<dom-module id="can-campaign-categories-list">
+    <template>
+
+        <iron-selector
+            attr-for-selected="value"
+            selected-attribute="enabled"
+            selected-values="{{selectedValues}}"
+            multi
+            on-iron-activate="_checkMaxSelected">
+
+
+            <template is="dom-repeat" items="[[options]]" sort="_mySort">
+
+                <div class="selectifier" value="[[item.value]]"><div class="btn">[[item.label]]</div></div>
+
+            </template>
+
+         </iron-selector>
+
+    </template>
+
+    <script src="can-campaign-categories-list.js"></script>
+</dom-module>

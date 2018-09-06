@@ -1,0 +1,154 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../placetobe-styles/placetobe-styles.html">
+<link rel="import" href="../placetobe-behaviors/placetobe-styles-behavior.html">
+
+<!--
+`placetobe-campaign-progress-bar`
+Placetobe Campaign Progress Bar
+
+@demo demo/index.html 
+-->
+
+<dom-module id="placetobe-campaign-progress-bar">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+
+      :host section {
+        @apply(--placetobe-flex-layout--vertical)
+      }
+
+      :host([text-below]) section {
+        @apply(--placetobe-flex-layout--vertical-reverse)
+      }
+
+      :host section .container.
+      :host section h6 {
+        @apply(--placetobe-flex-item--1);
+      }
+
+      :host .container {
+        @apply(--placetobe-border-box);
+        @apply(--placetobe-border-radius);
+        background-color: var(--placetobe-campaign-progress-bar-background-color, white);
+        height: 9px;
+        width: 100%;
+      }
+
+      :host #progress-bar {
+        @apply(--placetobe-border-radius);
+        background-color: var(--placetobe-campaign-progress-bar-tint-color, var(--placetobe-color-green));
+        height: 100%;
+        position: relative;
+      }
+
+      :host #progress-bar:after {
+        position: absolute;
+        width: var(--placetobe-margin);
+        height: var(--placetobe-margin);
+        right: -9px;
+        top: -4px;
+        content: "";
+        border-radius: 50%;
+        background-color: var(--placetobe-campaign-progress-bar-tint-color, var(--placetobe-color-green));
+      }
+
+      :host h6 {
+        @apply(--placetobe-font-body-serif);
+        font-size: var(--placetobe-font-body-size--small);
+        color: var(--placetobe-campaign-progress-bar-tint-color, var(--placetobe-color-green));
+        margin: 6px 0;
+      }
+    </style>
+
+    <section>
+      <h6>[[currentlyFundedPercentage]]% [[fundedLabel]]</h6>
+      <div class="container">
+        <div id="progress-bar" style$="width:[[_progressBarPercentage]]%;"></div>
+      </div>
+    </section>
+
+
+  </template>
+
+  <script>
+    Polymer({
+
+      is: 'placetobe-campaign-progress-bar',
+      behaviors: [PlacetobeStylesBehavior],
+
+      properties: {
+        
+        /*
+        Label for currently funded
+        */
+        fundedLabel: {
+          type: String,
+          value: 'behaald'
+        },
+
+        /*
+        The currently funded capital
+        */
+        currentlyFunded: {
+          type: Number,
+          value: 0
+        },
+
+        /*
+        The required funded capital
+        */
+        requiredFunding: {
+          type: Number,
+          value: 0
+        },
+
+        /*
+        The maximum funded capital
+        */
+        maximumFunding: {
+          type: Number,
+          value: 0
+        },
+
+        /*
+        Exposes the currently funded capital, as a percentage related to `required-funding`
+        */
+        currentlyFundedPercentage: {
+          type: Number,
+          notify: true,
+          computed: '_computePercentageFundedPercentage(currentlyFunded, requiredFunding)'
+        },
+
+        /*
+        If true, the text label is placed below the progress bar
+        */
+        textBelow: {
+          type: Boolean,
+          value: false,
+          reflectToAttribute: true
+        },
+
+        _progressBarPercentage: {
+          type: Number,
+          computed: '_computeProgressBarPercentage(currentlyFunded, requiredFunding, maximumFunding)'
+        }
+
+      },
+
+      _computePercentageFundedPercentage: function(currentlyFunded, requiredFunding) {
+        if(! (currentlyFunded && requiredFunding) ) return 0;
+        return Math.floor(currentlyFunded / requiredFunding * 100);
+      },
+
+      _computeProgressBarPercentage: function(currentlyFunded, requiredFunding, maximumFunding) {
+        if(!maximumFunding) return this.currentlyFundedPercentage;
+        if(! (currentlyFunded && maximumFunding) ) return 0;
+        return Math.floor(currentlyFunded / maximumFunding * 100);        
+      }
+
+    });
+  </script>
+</dom-module>
