@@ -1,6 +1,6 @@
 .DS_Store
 node_modules
-# bower_components
+bower_components
 placetobe-config.html
 /build/*/*
 /firebase-debug.log
