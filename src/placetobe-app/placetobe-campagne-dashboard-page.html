@@ -5,96 +5,109 @@
 
 
 <dom-module id="placetobe-campagne-dashboard-page">
-  <template>
+	<template>
 
-    <style include="placetobe-landing-page-styles">
+		<style include="placetobe-landing-page-styles">
+			:host placetobe-campaign-dashboard {
+				margin-top: calc(var(--placetobe-margin) * 6);
+				margin-bottom: calc(var(--placetobe-margin) * 4);
+			}
 
-      :host placetobe-campaign-dashboard {
-        margin-top: calc( var(--placetobe-margin) * 6 );
-        margin-bottom: calc( var(--placetobe-margin) * 4 );
-      }
+			:host h3 {
+				margin-top: calc(var(--placetobe-margin) * 8);
+			}
 
-      :host h3 {
-        margin-top: calc(var(--placetobe-margin) * 8);
-      }
-
-      [hidden] {
-        display: none!important;
-      }
-    </style>
-
-
-    <main>
-
-      <caas-session
-        token-data="{{tokenData}}"
-        access-token="{{accessToken}}"
-      ></caas-session>
-
-      <template is="dom-if" if="[[signedInAsOtherRole]]">
-        <div class="intro">
-          <h3>Je bent momenteel ingelogd onder een andere rol. Log uit om in te loggen als ondernemer.</h3>
-          <placetobe-button
-            on-tap="signOut"
-          >Uitloggen</placetobe-button>
-          <br>
-          <br>
-          <br>
-          <br>
-        </div>
-      </template>
-
-      <template is="dom-if" if="[[!signedInAsOtherRole]]">
-        <placetobe-campaign-dashboard
-          api-endpoint="[[apiEndpoint]]"
-        ></placetobe-campaign-dashboard>
-      </template>
-
-    </main>
+			[hidden] {
+				display: none !important;
+			}
+		</style>
 
 
-  </template>
-  <script>
-    Polymer({
-      is: 'placetobe-campagne-dashboard-page',
-      properties: {
-        
-        accessToken: {
-          type: String,
-          value: null,
-        },
+		<main>
 
-        tokenData: {
-          type: Object,
-        },
+			<caas-session 
+				token-data="{{tokenData}}" 
+				access-token="{{accessToken}}" 
+				assigned-roles="{{assignedRoles}}"
+				role-descriptions="{{roleDescriptions}}" 
+				entrepreneur="{{entrepreneur}}"
+				entrepreneur-id="{{entrepreneurId}}"></caas-session>
 
-        userRole: {
-          type: String,
-          value: null,
-          computed: '_computeUserRole(tokenData.data.userRole)'
-        },
+			<template is="dom-if" if="[[signedInAsOtherRole]]">
+				<div class="intro">
+					<h3>Je bent momenteel ingelogd onder een andere rol. Log uit om in te loggen als ondernemer.</h3>
+					<placetobe-button on-tap="signOut">Uitloggen</placetobe-button>
+					<br>
+					<br>
+					<br>
+					<br>
+				</div>
+			</template>
 
-        signedInAsOtherRole: {
-          type: Boolean,
-          reflectToAttribute: true,
-          computed: '_computeSignedInAsOtherRole(accessToken, userRole)'
-        }
+			<template is="dom-if" if="[[!signedInAsOtherRole]]">
+				<placetobe-campaign-dashboard entrepreneur-id=[[entrepreneurId]] api-endpoint="[[apiEndpoint]]"></placetobe-campaign-dashboard>
+			</template>
 
-      },
+		</main>
 
-      signOut: function() {
-        this.$$('caas-session').destroy();
-      },
 
-      _computeUserRole: function(userRole) {
-        return userRole || null;
-      },
+	</template>
+	<script>
+		Polymer({
+			is: 'placetobe-campagne-dashboard-page',
+			properties: {
 
-      _computeSignedInAsOtherRole: function(accessToken, userRole) {
-        if (accessToken && userRole !== 'ondernemer')  return true;      
-        return false;
-      },
-      
-    })
-  </script>
+				accessToken: {
+					type: String,
+					value: null,
+				},
+
+				tokenData: {
+					type: Object,
+				},
+
+				userRole: {
+					type: String,
+					value: null,
+					computed: '_computeUserRole(roleDescriptions)'
+				},
+
+				signedInAsOtherRole: {
+					type: Boolean,
+					reflectToAttribute: true,
+					computed: '_computeSignedInAsOtherRole(accessToken, userRole)'
+				},
+
+				assignedRoles: {
+					type: Array,
+					notify: true
+				},
+
+				roleDescriptions: {
+					type: Array,
+					notify: true
+				}
+
+			},
+
+			signOut: function () {
+				this.$$('caas-session').destroy();
+			},
+
+			_computeUserRole: function (roleDescriptions) {
+				if (!roleDescriptions) return null;
+				for (var index = 0; index < roleDescriptions.length; index++) {
+					if (roleDescriptions[index].title == 'Ondernemer') {
+						return roleDescriptions[index].title
+					};
+				}
+			},
+
+			_computeSignedInAsOtherRole: function (accessToken, userRole) {
+				if (accessToken && userRole !== 'Ondernemer') return true;
+				return false;
+			},
+
+		})
+	</script>
 </dom-module>
