@@ -4,4 +4,4 @@ placetobe-config.html
 /build/*/*
 /firebase-debug.log
 config.json
-bower_components
+/bower_components
