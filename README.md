@@ -13,7 +13,7 @@ $ node server
 
 ## Update on Server
 
-1. `bower update --allow-root`
+1. `bower update`
 - `npm update`
 - `pm2 restart server`
 
@@ -38,7 +38,7 @@ $ node server
 2. cd to project folder
 3. install bower global `npm install -g bower`
 4. In project folder run: `npm install`
-5. In project folder run: `bower install`
+5. In project folder run: `bower install && bower update`
 6. `cp config.example.json config.json and edit accordingly`
 7. Start node server by running `node server` in your terminal in the project folder
 8. Serve the front-end with `polyer serve`
