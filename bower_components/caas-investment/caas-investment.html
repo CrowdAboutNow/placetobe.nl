@@ -1,0 +1,652 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../iron-ajax/iron-ajax.html">
+<link rel="import" href="../caas-campaign/caas-campaign.html">
+<link rel="import" href="../caas-campaign-incentives/caas-campaign-incentives.html">
+
+<!--
+`caas-investment`
+Polymer Investment Element for Crowdfunding as a Service Solutions
+
+@demo demo/index.html
+-->
+
+<dom-module id="caas-investment">
+  <template>
+
+    <caas-campaign
+      api-endpoint="[[apiEndpoint]]"
+      campaign-slug="[[campaignId]]"
+      contract-types="{{availableContractTypes}}"
+    ></caas-campaign>
+
+    <caas-campaign-incentives
+      api-endpoint="[[apiEndpoint]]"
+      campaign-id="[[campaignId]]"
+      grouped-incentives="{{_apiIncentives}}"
+      auto-download="[[campaignId]]"
+    ></caas-campaign-incentives>
+
+    <iron-ajax
+      id="getTransactionCosts"
+      url="[[apiEndpoint]]/buckaroo/transactioncosts"
+      handle-as="json"
+      method="GET"
+      last-response="{{_transactionCostsData}}"
+    ></iron-ajax>
+
+    <iron-ajax
+      id="getDraftContract"
+      url="[[apiEndpoint]]/investors/[[investorId]]/draftcontract"
+      handle-as="json"
+      headers="[[_requestHeaders]]"
+      body="[[_contractRequestData]]"
+      method="POST"
+      last-response="{{_draftContractData}}"
+      on-response="_handleGetContractResponse"
+      on-error="_handleGetContractError"
+    ></iron-ajax>
+
+    <iron-ajax
+      id="getSignature"
+      url="[[apiEndpoint]]/buckaroo/signature"
+      handle-as="json"
+      content-type="json"
+      headers="[[_requestHeaders]]"
+      body="[[_signatureRequestData]]"
+      method="POST"
+      last-response="{{_signatureData}}"
+      on-response="_handleGetSignatureResponse"
+      on-error="_handleGetSignatureError"
+      auto="[[bic]]"
+    ></iron-ajax>
+
+    <form
+      id="checkoutForm"
+      action="[[checkoutUrl]]"
+      method="POST"
+    >
+    <input
+    type="hidden"
+    readonly
+    name="Add_userId"
+    value="[[_signatureData.userId]]">
+    <input
+    type="hidden"
+    readonly
+    name="Add_campaignId"
+    value="[[_signatureData.campaignId]]">
+    <input
+    type="hidden"
+    readonly
+    name="Add_contractTypeId"
+    value="[[_signatureData.contractTypeId]]">
+    <input
+    type="hidden"
+    readonly
+    name="Add_incentiveId"
+    value="[[_signatureData.incentiveId]]">
+    <input
+    type="hidden"
+    readonly
+    name="Brq_amount"
+    value="[[_signatureData.amount]]">
+    <input
+    type="hidden"
+    readonly
+    name="Brq_currency"
+    value="[[_signatureData.currency]]">
+    <input
+    type="hidden"
+    readonly
+    name="Brq_description"
+    value="[[_signatureData.description]]">
+    <input
+    type="hidden"
+    readonly
+    name="Brq_invoicenumber"
+    value="[[_signatureData.invoiceNumber]]">
+    <input
+    type="hidden"
+    readonly
+    name="Brq_PAYMENT_METHOD"
+    value="[[_signatureData.paymentMethod]]">
+    <input
+    type="hidden"
+    readonly
+    name="Brq_return"
+    value="[[successCallbackUrl]]">
+    <input
+    type="hidden"
+    readonly
+    name="Brq_returncancel"
+    value="[[cancelCallbackUrl]]">
+    <input
+    type="hidden"
+    readonly
+    name="Brq_returnerror"
+    value="[[errorCallbackUrl]]">
+    <input
+    type="hidden"
+    readonly
+    name="Brq_returnreject"
+    value="[[rejectCallbackUrl]]">
+    <input
+    type="hidden"
+    readonly
+    name="Brq_SERVICE_ideal_action"
+    value="[[_signatureData.iDEALAction]]">
+    <input
+    type="hidden"
+    readonly
+    name="Brq_SERVICE_ideal_issuer"
+    value="[[_signatureData.iDEALIssuer]]">
+    <input
+    type="hidden"
+    readonly
+    name="Brq_SERVICE_ideal_version"
+    value="[[_signatureData.iDEALVersion]]">
+    <input
+    type="hidden"
+    readonly
+    name="Brq_websitekey"
+    value="{{_signatureData.websiteKey}}">
+    <input
+    type="hidden"
+    readonly
+    name="Brq_signature"
+    value="{{_signatureData.signature}}">
+    </form>
+
+  </template>
+
+  <script>
+    Polymer({
+
+      is: 'caas-investment',
+
+      properties: {
+
+        /**
+        * The Server side API endpoint
+        */
+        apiEndpoint: {
+          type: String,
+          notify: true
+        },
+
+        /**
+        * The unique id of the associated campaign
+        */
+        campaignId: {
+          type: String
+        },
+
+        /**
+        * The id of the associated contract type
+        */
+        contractTypeId: {
+          type: String,
+          observer: '_handleContractTypeIdChanged'
+        },
+
+        /**
+        * Investable amount, in euros
+        */
+        amount: {
+          type: Number,
+          value: null
+        },
+
+        /**
+        * The smallest allowed `amount` in euros
+        */
+        smallestAllowedAmount: {
+          type: Number,
+          computed: '_computeSmallestAllowedAmount(contractTypeId, availableContractTypes.*, incentiveId)',
+          notify: true
+        },
+
+        /**
+        * The largest allowed `amount` in euros
+        */
+        largestAllowedAmount: {
+          type: Number,
+          computed: '_computeLargestAllowedAmount(contractTypeId, availableContractTypes.*)',
+          notify: true
+        },
+
+        /**
+        * The step `amount` may be increased with
+        */
+        amountStep: {
+          type: Number,
+          computed: '_computeAmountStep(contractTypeId, availableContractTypes.*)',
+          notify: true
+        },
+
+        /**
+        * The id of the chosen incentive
+        */
+        incentiveId: {
+          type: String,
+          value: null
+        },
+
+        /**
+        * The access token (JSON web token) associated with the current user session
+        */
+        accessToken: {
+          type: String
+        },
+
+        /**
+        * The user id associated with the current user session
+        */
+        investorId: {
+          type: String
+        },
+
+        /**
+        * Considerations that a user needs to accept in order to `checkout()`
+        */
+        considerations: {
+          type: Array,
+          computed: '_computeConsiderations(apiEndpoint, campaignId, contractTypeId, amount, incentiveId, accessToken, transactionCosts)',
+          notify: true
+        },
+
+        /**
+        * Exposes whether the user accepted the `considerations`
+        */
+        considerationsAccepted: {
+          type: Boolean,
+          notify: true,
+          observer: '_handleConsiderationsAcceptedChanged'
+        },
+
+        /**
+        * Contract that a user needs to accept in order to `checkout()`
+        */
+        draftContract: {
+          type: String,
+          computed: '_computeDraftContract(_draftContractData.body)',
+          notify: true
+        },
+
+        /**
+        * Exposes whether the user accepted the `draftContract`
+        */
+        contractAccepted: {
+          type: Boolean,
+          notify: true
+        },
+
+        /**
+        * Exposes whether the user accepted the terms of use
+        */
+        termsOfUseAccepted: {
+          type: Boolean,
+          notify: true
+        },
+
+        /**
+        * Exposes the additional transaction costs for this investment
+        */
+        transactionCosts: {
+          type: Number,
+          notify: true,
+          computed: '_computeTransactionCosts(_transactionCostsData.transactionCosts)',
+        },
+
+        /**
+        * Exposes a list of available (allowed) contract types
+        */
+        availableContractTypes: {
+          type: Array,
+          value: null,
+          notify: true
+        },
+
+        /**
+        * Exposes a list of available (allowed) incentives
+        */
+        availableIncentives: {
+          type: Array,
+          value: null,
+          computed: '_computeAvailableIncentives(_apiIncentives.*, contractTypeId, amount)',
+          notify: true
+        },
+
+        /**
+        * The BIC code associated with the bank a user uses to checkout
+        */
+        bic: {
+          type: String,
+          notify: true
+        },
+
+        /**
+        * Exposes a list of available banks and bics
+        */
+        availableBanks: {
+          type: Array,
+          value: [
+            {
+              name: "ABN AMRO Bank",
+              bic: "ABNANL2A"
+            },
+            {
+              name: "ASN Bank",
+              bic: "ASNBNL21"
+            },
+            {
+              name: "Bunq bank",
+              bic: "BUNQNL2A"
+            },
+            {
+              name: "ING Bank",
+              bic: "INGBNL2A"
+            },
+            {
+              name: "Knab",
+              bic: "KNABNL2H"
+            },
+            {
+              name: "Rabobank",
+              bic: "RABONL2U"
+            },
+            {
+              name: "RegioBank",
+              bic: "RBRBNL21"
+            },
+            {
+              name: "SNS bank",
+              bic: "SNSBNL2A"
+            },
+            {
+              name: "Triodos Bank",
+              bic: "TRIONL2U"
+            },
+            {
+              name: "Van Lanschot",
+              bic: "FVLBNL22"
+            }
+          ],
+          notify: true
+        },
+
+        /**
+        * The Url to go to when a user calls `checkout()`
+        */
+        checkoutUrl: {
+          type: String,
+          value: 'https://checkout.buckaroo.nl/html/'
+        },
+
+        /**
+        * The Url to return to when a transaction was successfull
+        */
+        successCallbackUrl: {
+          type: String
+        },
+
+        /**
+        * The Url to return to when a transaction was canceled
+        */
+        cancelCallbackUrl: {
+          type: String
+        },
+
+        /**
+        * The Url to return to when a transaction was errored
+        */
+        errorCallbackUrl: {
+          type: String
+        },
+
+        /**
+        * The Url to return to when a transaction was rejected
+        */
+        rejectCallbackUrl: {
+          type: String
+        },
+
+        /**
+        * Exposes whether `checkout()` is allowed
+        */
+        checkoutAllowed: {
+          type: Boolean,
+          value: false,
+          computed: '_computeCheckoutAllowed(_signatureData.signature, considerationsAccepted, contractAccepted, termsOfUseAccepted)',
+          notify: true
+        },
+
+        _signatureRequestData: {
+          type: String,
+          computed: '_computeSignatureRequestData(campaignId, incentiveId, contractTypeId, amount, bic, successCallbackUrl, cancelCallbackUrl, errorCallbackUrl, rejectCallbackUrl)'
+        },
+
+        _contractRequestData: {
+          type: String,
+          computed: '_computeContractRequestData(campaignId, incentiveId, contractTypeId, amount)'
+        },
+
+        _transactionCostsData: {
+          type: Object,
+          value: {}
+        },
+
+        _transactionSignature: {
+          type: String,
+          value: null
+        },
+
+        _campaignData: {
+          type: Object,
+        },
+
+        _apiIncentives: {
+          type: Object
+        },
+
+        _requestHeaders: {
+          type: Object,
+          computed: '_computeRequestHeaders(accessToken)'
+        },
+
+        _signatureData: {
+          type: Object
+        },
+
+        _draftContractData: {
+          type: String
+        }
+
+      },
+
+      observers: [
+        'getTransactionCosts(apiEndpoint, campaignId, contractTypeId, amount, incentiveId, accessToken)',
+        'getDraftContract(apiEndpoint, campaignId, contractTypeId, amount, incentiveId, accessToken)',
+        '_resetConsiderations(apiEndpoint, campaignId, contractTypeId, amount, incentiveId, accessToken)'
+      ],
+
+      /**
+      * Checkout
+      */
+      checkout: function() {
+        if(!this.checkoutAllowed) return;
+        this.$.checkoutForm.submit();
+      },
+
+      /**
+      * Download the `draftContract`
+      */
+      getDraftContract: function() {
+        var args = [].slice.call(arguments);
+        if( (args.indexOf(null) !== -1) || (args.indexOf(false) !== -1) ) return;
+        this.$.getDraftContract.generateRequest();
+      },
+
+      /**
+      * Download the `transactionCosts`
+      */
+      getTransactionCosts: function() {
+        this.$.getTransactionCosts.generateRequest();
+      },
+
+      _resetConsiderations: function(apiEndpoint, campaignId, contractTypeId, amount, incentiveId, accessToken) {
+        this.considerationsAccepted = false;
+      },
+
+      _computeRequestHeaders: function(accessToken) {
+        return {
+          'authorization': 'Bearer ' + accessToken
+        }
+      },
+
+      _computeSignatureRequestData: function(campaignId, incentiveId, contractTypeId, amount, bic, successCallbackUrl, cancelCallbackUrl, errorCallbackUrl, rejectCallbackUrl) {
+        return JSON.stringify({
+          "campaignId": campaignId,
+          "incentiveId": incentiveId,
+          "contractTypeId": contractTypeId,
+          "amount": amount,
+          "BIC": bic,
+          "successCallbackUrl": successCallbackUrl,
+          "cancelCallbackUrl": cancelCallbackUrl,
+          "errorCallbackUrl": errorCallbackUrl,
+          "rejectCallbackUrl": rejectCallbackUrl
+        })
+      },
+
+      _computeContractRequestData: function(campaignId, incentiveId, contractTypeId, amount) {
+        return JSON.stringify({
+          "campaignId": campaignId,
+          "incentiveId": incentiveId,
+          "contractTypeId": contractTypeId,
+          "amount": amount
+        })
+      },
+
+      _computeAvailableIncentives: function(apiIncentives, contractTypeId, amount) {
+        if(!amount) return this._apiIncentives[contractTypeId] || [];
+
+        if(!this._apiIncentives[contractTypeId]) return [];
+        return this._apiIncentives[contractTypeId].filter(function(incentive) {
+          return incentive.minimumInvestment <= amount;
+        });
+      },
+
+      _computeConsiderations: function(apiEndpoint, campaignId, contractTypeId, amount, incentiveId, accessToken, transactionCosts) {
+
+        var considerations = [
+          'Er gelden eenmalige transactiekosten van €' + transactionCosts + '.',
+          'Je loopt het risico om je volledige inleg kwijt te raken, bijvoorbeeld in het geval van faillissement.'
+        ];
+
+        switch(parseInt(contractTypeId)) {
+          case 1:
+          case 2:
+            considerations.push('Je doet een vooraankoop. Omdat de levering vaak op langere termijn plaats vindt zijn er risico\'s bij een eventueel faillissement.');
+            break;
+          default:
+            considerations.push('Beleg een verantwoord deel van je vermogen. Investeer uitsluitend met geld dat je kunt missen.');
+            considerations.push('Spreid je beleggingen. Spreid je risico door in zo divers mogelijke projecten te investeren.');
+            considerations.push('Lees de volledige overeenkomst en bevestig onderaan dat je deze goed hebt gelezen. Pas daarna kun je investeren.');
+            break;
+        }
+
+        return considerations;
+
+      },
+
+      _computeCheckoutAllowed: function(signature, considerationsAccepted, contractAccepted, termsOfUseAccepted) {
+        return (!!signature && !!considerationsAccepted && !!contractAccepted &&!!termsOfUseAccepted);
+      },
+
+      _computeTransactionCosts: function(costs) {
+        return costs;
+      },
+
+      _computeContractTypes: function(contractTypeIds) {
+        return contractTypeIds;
+      },
+
+      _computeSmallestAllowedAmount: function(contractTypeId, contractTypesChange, incentiveId) {
+        var contractTypes = contractTypesChange.base;
+        if(!contractTypes) return null;
+        var selectedContractType = contractTypes.filter(function(contractType) {
+          return contractType.id == contractTypeId;
+        })[0]
+
+        var incentive = this._getIncentiveById(incentiveId);
+        var incentiveMinimum = (incentive) ? incentive.minimumInvestment : 0;
+
+        var contractTypeMinimum = (selectedContractType) ? selectedContractType.smallestAllowedInvestment : null;
+
+        return (contractTypeMinimum > incentiveMinimum) ? contractTypeMinimum : incentiveMinimum;
+      },
+
+      _computeLargestAllowedAmount: function(contractTypeId, contractTypesChange) {
+        var contractTypes = contractTypesChange.base;
+        if(!contractTypes) return null;
+        var selectedContractType = contractTypes.filter(function(contractType) {
+          return contractType.id == contractTypeId;
+        })[0]
+        return (selectedContractType) ? selectedContractType.largestAllowedInvestment : null;
+      },
+
+      _computeAmountStep: function(contractTypeId, contractTypesChange) {
+        var contractTypes = contractTypesChange.base;
+        if(!contractTypes) return null;
+        var selectedContractType = contractTypes.filter(function(contractType) {
+          return contractType.id == contractTypeId;
+        })[0]
+        return (selectedContractType) ? selectedContractType.investmentStep : null;
+      },
+
+      _computeDraftContract: function(draftContractBody, considerationsAccepted) {
+        return draftContractBody;
+      },
+
+      _handleConsiderationsAcceptedChanged: function(considerationsAccepted) {
+        if(considerationsAccepted) this.fire('considerations-accepted');
+        else this.fire('considerations-unaccepted');
+        this.fire('considerations-acceptance-changed', considerationsAccepted);
+      },
+
+      _handleGetSignatureResponse: function() {
+        this.fire('investment-signed');
+      },
+
+      _handleGetSignatureError: function(evt) {
+        this.fire('investment-sign-error', {
+          message: evt.detail.error.message,
+          response: event.detail.request.xhr.response
+        });
+      },
+
+      _handleGetContractResponse: function() {
+        this.fire('contract-drafted', this.draftContract);
+      },
+
+      _handleGetContractError: function(evt) {
+        this.fire('contract-draft-error', {
+          message: evt.detail.error.message,
+          response: event.detail.request.xhr.response
+        });
+      },
+
+      _handleContractTypeIdChanged: function(contractTypeId) {
+        this.incentiveId = null;
+      },
+
+      _getIncentiveById: function (id) {
+        if(!this.availableIncentives) return false;
+        return this.availableIncentives.filter(function(incentive) {
+          return incentive.id === id;
+        })[0];
+      }
+
+    });
+  </script>
+</dom-module>

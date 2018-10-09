@@ -1,0 +1,72 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../placetobe-styles/placetobe-styles.html">
+
+<dom-module id="placetobe-menu-icon">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+      :host svg {
+        width: 100%;
+        height: 100%;
+        display: inline-block;
+        border: 2px solid var(--placetobe-icon-color, --placetobe-color-darkblue);
+        border-radius: 50%;
+      }
+
+      :host svg:hover g {
+        transform: scale(0.9, 0.9)
+      }
+
+      :host #menu-icon,
+      :host #close-icon {
+        stroke: var(--placetobe-icon-color, --placetobe-color-darkblue);
+        transition: 0.3s all;
+        transform-origin: 50% 50%;
+      }
+
+      :host #menu-icon[data-hidden] {
+        display: block;
+        opacity: 0;
+        transform: scale(0,0)
+      }
+      
+      :host #close-icon[data-hidden] {
+        display: block;
+        opacity: 0;
+        transform: scale(0,0)
+      }
+      
+    </style>
+
+    <svg viewBox="0 0 54 54" version="1.1" xmlns="http://www.w3.org/2000/svg">
+      <g id="menu-icon" data-hidden$="[[open]]">
+        <path d="M42.2830189,19.3584906 L22.8977346,19.3584906" stroke-width="2" stroke-linecap="square"></path>
+        <path d="M42.2830189,27.509434 L17.3207547,27.509434" stroke-width="2" stroke-linecap="square"></path>
+        <path d="M42.2830189,35.6603774 L11.2075472,35.6603774" stroke-width="2" stroke-linecap="square"></path>
+      </g>
+      <g id="close-icon" data-hidden$="[[!open]]">
+        <path d="M35.6509863,35.6509863 L18,18" id="Line" stroke-width="2" stroke-linecap="square"></path>
+        <path d="M35.6509863,35.6509863 L18,18" id="Line" stroke-width="2" stroke-linecap="square" transform="translate(26.825493, 26.825493) scale(-1, 1) translate(-26.825493, -26.825493) "></path>
+      </g>
+  </svg>
+
+  </template>
+
+  <script>
+    Polymer({
+      is: 'placetobe-menu-icon',
+      properties: {
+
+        open: {
+          type: Boolean,
+          value: false,
+          notify: true,
+          reflectToAttribute: true
+        }
+
+      }
+    });
+  </script>
+</dom-module>

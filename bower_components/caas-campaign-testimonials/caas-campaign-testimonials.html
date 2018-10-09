@@ -1,0 +1,159 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../iron-ajax/iron-ajax.html">
+<link rel="import" href="../caas-auth-behavior/caas-auth-behavior.html">
+
+<!--
+`caas-campaign-testimonials`
+Polymer Campaign Testimonials Element for Crowdfunding as a Service Solutions
+
+Example: 
+          <caas-campaign-testimonials>
+            id="caas-testimonials"
+            api-endpoint="http://canapi.local"
+            access-token="[[accessToken]]"
+            campaign-id="[[campaignId]]"
+            investor-id="[[userId]]"
+            testimonials="{{testimonials}}"
+          </caas-campaign-testimonials>
+
+@demo demo/index.html 
+-->
+
+<dom-module id="caas-campaign-testimonials">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+
+    <iron-ajax
+      auto="[[autoLoad]]"
+      id="getTestimonials"
+      url="[[apiEndpoint]]/campaigns/[[campaignId]]/investments"
+      handle-as="json"
+      method="GET"
+      last-response="{{testimonials}}"
+    ></iron-ajax>
+
+    <iron-ajax
+      id="postInvestorTestimonial"
+      url="[[apiEndpoint]]/investors/[[investorId]]/testimonials"
+      headers="[[_authHeader]]"
+      handle-as="json"
+      method="POST"
+      content-type="application/json"
+      on-response="_handlePostResponse"
+      on-error="_handlePostError"      
+    ></iron-ajax>    
+
+  </template>
+
+  <script>
+    Polymer({
+
+      is: 'caas-campaign-testimonials',
+      behaviors: [CaasAuthBehavior],
+
+      properties: {
+        /**
+        *  Whether testimonials Array should be obtained when iron-ajax element getTestimonials is attached
+        */
+        autoLoad: {
+          type: Boolean,
+          value: false
+        },
+        /**
+        *  Id String of campaign
+        */
+        campaignId: {
+          type: String
+        },
+        /**
+        * Id String of logged in User
+        */
+        investorId: {
+          type: String,
+          notify: true
+        },
+        /**
+        * Array filled with testimonial Objects of investors (firstName, id, investment (amount invested), lastName & message)
+        */        
+        testimonials: {
+          type: Array,
+          notify: true
+        },
+        /**
+        * The Server side API endpoint
+        */
+        apiEndpoint: {
+          type: String
+        },
+
+      },
+
+      observers: [
+        '_setInvestorId(_tokenData.data.*)'
+      ],
+
+      /**
+      * Sends a POST request to the iron-ajax element postInvestorTestimonial url
+      * @param {String} invoiceNumber The invoice id associated with the investment
+      * @param {String} relationToEntrepreneur The relation to the entrepreneur
+      * @param {Boolean} anonymous If true, the testimonial won't be published publicly
+      * @param {String} motivationalMessage The message
+      */  
+      addItem: function (invoiceNumber, relationToEntrepreneur, anonymous, motivationalMessage) {
+        this.$.postInvestorTestimonial.body = JSON.stringify({
+          "campaignId": this.campaignId,
+          "invoiceNumber": invoiceNumber, 
+          "motivationalMessage": motivationalMessage, 
+          "anonymous": anonymous, 
+          "relationToEntrepeneur": relationToEntrepreneur
+        })
+        this.$.postInvestorTestimonial.generateRequest()
+      },
+      /**
+      * Sends a GET request to the iron-ajax element getTestimonials url
+      */  
+      getItems: function () {
+        this.$.getTestimonials.generateRequest()
+      },
+      /**
+      * Return Object to be used as POST request body
+      */  
+      _computeContractRequestData: function(campaignId, invoiceNumber, motivationalMessage, anonymous, relationToEntrepeneur) {
+        return JSON.stringify({
+          "campaignId": campaignId,
+          "invoiceNumber": invoiceNumber, 
+          "motivationalMessage": motivationalMessage, 
+          "anonymous": anonymous, 
+          "relationToEntrepeneur": relationToEntrepeneur
+        })
+      },
+      /**
+      * Handle response of POST request. This will be run when request was succesful. 
+      * A new GET request is made to the database to collect the updated testimonials Array.
+      */  
+      _handlePostResponse: function () {
+        this.fire('campaign-testimonial-created')
+        this.$.postInvestorTestimonial.body = null;
+        this.getItems()
+      },
+      /**
+      * Handle error of POST request. 
+      */      
+      _handlePostError: function (event) {
+        this.fire('campaign-testimonial-creation-error', {
+          message: event.detail.error.message,
+          response: event.detail.request.xhr.response
+        })
+      },
+
+      _setInvestorId: function (tokenDataChange) {
+        this.investorId = this._tokenData.data.userId;
+      }
+
+    });
+  </script>
+</dom-module>

@@ -1,0 +1,176 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../placetobe-behaviors/placetobe-styles-behavior.html">
+<link rel="import" href="../placetobe-styles/placetobe-styles.html">
+<link rel="import" href="../../bower_components/caas-session/caas-session.html">
+
+<!--
+`placetobe-footer`
+Placetobe Footer
+
+@demo demo/index.html
+-->
+
+<dom-module id="placetobe-footer">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+
+      :host footer {
+        background-color: var(--placetobe-footer-color, var(--placetobe-color-beige));
+        padding: calc( var(--placetobe-margin) * 4 ) calc( var(--placetobe-margin) * 2 );
+      }
+
+      :host .layout {
+        @apply(--placetobe-border-box);
+        @apply(--placetobe-flex-layout--vertical);
+        @apply(--placetobe-flex-align--center);
+        @apply(--placetobe-cross-align--center);
+        max-width: calc( var(--placetobe-layout-width) + (var(--placetobe-margin) * 2 ) );
+        margin: 0 auto;
+        text-align: center;
+      }
+
+
+      :host input {
+        @apply(--placetobe-textinput);
+        @apply(--placetobe-border-box);
+        display: block;
+      }
+
+      :host #sitemap {
+        @apply(--placetobe-border-box);
+        @apply(--placetobe-flex-layout--vertical);
+        @apply(--placetobe-flex-align--space-between);
+        @apply(--placetobe-cross-align--center);
+        @apply(--placetobe-flex-wrap--nowrap);
+        width: 100%;
+        max-width: calc( var(--placetobe-layout-width) + (var(--placetobe-margin) * 2) );
+        margin: 0 auto;
+        text-align: left;
+      }
+
+      @media(min-width: 601px) {
+        :host #sitemap {
+          @apply --placetobe-flex-layout--horizontal;
+          @apply --placetobe-cross-align--stretch;
+          padding: 0 var(--placetobe-margin);
+        }
+      }
+
+      :host #sitemap ul {
+        margin: 0;
+        padding:0;
+        list-style: none;
+        @apply --placetobe-flex-item--1;
+        width: 100%;
+      }
+
+      :host #sitemap ul li {
+        @apply(--placetobe-font-body-serif-bold);
+        margin: 12px 0;
+        display: block;
+        position: relative;
+      }
+
+      :host #sitemap ul li {
+        color: var(--placetobe-footer-heading-color, var(--placetobe-color-green));
+      }
+
+      :host #sitemap ul li a {
+        color: var(--placetobe-footer-tint-color, var(--placetobe-color-darkblue));
+        text-decoration: none;
+        font-weight: 400;
+      }
+
+      :host #sitemap ul li a:hover,
+      :host #sitemap ul li a:active {
+        color: var(--placetobe-footer-tint-hover-color, var(--placetobe-color-red));
+      }
+
+      :host h6 {
+        @apply(--placetobe-font-body);
+        color: var(--placetobe-footer-tint-color, var(--placetobe-color-darkblue));
+        margin-top: calc( var(--placetobe-margin) * 2 );
+      }
+
+      :host h6 a {
+        color: inherit;
+      }
+
+      :host main ::slotted(*) {
+        margin-bottom: 36px;
+      }
+
+      [hidden] {
+        display: none!important;
+      }
+   </style>
+
+    <footer>
+      <caas-session token-data="{{tokenData}}"></caas-session>
+      <div class="layout">
+        <main><slot></slot></main>
+        <nav id="sitemap">
+          <ul>
+            <li>Placetobe</li>
+            <li><a href="/" title="Home">Home</a></li>
+            <li><a hidden$="[[hideCampaigns]]" href="/campagnes" title="Alle Campagnes">Alle Campagnes</a></li>
+            <li><a href="/klachtenprocedure" title="Klachtenprocedure">Klachtenprocedure</a></li>
+            <li><a href="/algemene-voorwaarden" title="Algemene Voorwaarden">Algemene Voorwaarden</a></li>
+          </ul>
+          <ul>
+            <li>Ondernemers</li>
+            <li><a href="/start-project" title="Start een project">Start een project</a></li>
+            <li><a href="/start-project/test" title="Quickscan Ondernemers">Quickscan ondernemers</a></li>
+            <li><a href="/tarieven" title="Tarieven">Tarieven</a></li>
+            <li hidden$="[[investorIsLoggedIn]]"><a href="/campagne-dashboard" title="Inloggen Dashboard Ondernemers">Inloggen Ondernemers</a></li>
+          </ul>
+          <ul>
+            <li>Investeerders</li>
+            <li><a href="/investeren" title="Informatie over investeren">Informatie over investeren</a></li>
+            <li><a href="/investeren/test" title="Quickscan Investeerders">Quickscan investeerders</a></li>
+            <li hidden$="[[entrepreneurIsLoggedIn]]"><a href="/investeerders-dashboard" title="Inloggen Dashboard Investeerders">Inloggen investeerders</a></li>
+          </ul>
+        </nav>
+        <h6>Placetobe B.V.&nbsp;&nbsp;|&nbsp;&nbsp;Ravellaan 96 Utrecht&nbsp;&nbsp;|&nbsp;&nbsp;<a href="callto:+31306966523">030-6966523</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="mailto:info@placetobe.nl">info@placetobe.nl</a>&nbsp;&nbsp;|&nbsp;&nbsp;KVK no. 67041221</h6>
+      </div>
+    </footer>
+
+  </template>
+
+  <script>
+    Polymer({
+
+      is: 'placetobe-footer',
+      behaviors: [PlacetobeStylesBehavior],
+
+      properties: {
+        tokenData: {
+          type: Object
+        },
+        investorIsLoggedIn: {
+          type: Boolean,
+          value: false
+        },
+        entrepreneurIsLoggedIn: {
+          type: Boolean,
+          value: false
+        },
+        hideCampaigns: {
+          type: Boolean,
+          value: false
+        }
+      },
+      observers: [
+        '_computeLoggedInRole(tokenData.data.userRole)'
+      ],
+      _computeLoggedInRole: function(userRole) {
+        this.set('investorIsLoggedIn', (userRole == 'investor'));
+        this.set('entrepreneurIsLoggedIn', (userRole == 'ondernemer'));;
+      }
+
+    });
+  </script>
+</dom-module>

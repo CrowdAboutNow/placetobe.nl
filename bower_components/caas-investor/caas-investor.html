@@ -1,0 +1,416 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../caas-auth-behavior/caas-auth-behavior.html">
+
+<!--
+`caas-investor`
+Polymer Investor Element for Crowdfunding as a Service Solutions
+
+@demo demo/index.html
+-->
+
+<dom-module id="caas-investor">
+  <template>
+
+    <iron-ajax
+      id="getInvestorProfile"
+      url="[[apiEndpoint]]/investors/[[investorId]]"
+      handle-as="json"
+      headers="[[_authHeader]]"
+      method="GET"
+      last-response="{{_investorData}}"
+      on-response="_handleGetInvestorResponse"
+      on-error="_handleGetInvestorError"
+      auto="[[accessToken]]"
+      loading="{{loading}}"
+    ></iron-ajax>
+
+    <iron-ajax
+      id="getInvestorRepayments"
+      url="[[apiEndpoint]]/investors/[[investorId]]/repayments"
+      handle-as="json"
+      headers="[[_authHeader]]"
+      method="GET"
+      last-response="{{_investorRepaymentData}}"
+      on-response="_handleGetInvestorRepaymentResponse"
+      on-error="_handleGetInvestorRepaymentError"
+      auto="[[accessToken]]"
+    ></iron-ajax>
+
+    <iron-ajax
+      id="getInvestorContracts"
+      url="[[apiEndpoint]]/investors/[[investorId]]/contracts"
+      handle-as="json"
+      headers="[[_authHeader]]"
+      method="GET"
+      last-response="{{_investorContractsData}}"
+      on-response="_handleGetInvestorContractsResponse"
+      on-error="_handleGetInvestorContractsError"
+      auto="[[accessToken]]"
+    ></iron-ajax>
+
+    <iron-ajax
+      id="subscription"
+      url="[[apiEndpoint]]/investors/[[investorId]]/newsletter"
+      body='{"subscribed": [[subscribedToNewsletter]]}'
+      handle-as="json"
+      content-type="application/json"
+      headers="[[_authHeader]]"
+      method="POST"
+      on-request="_handleSubscribtionRequestSent"
+      on-response="_handleSubscribtionResponse"
+      on-error="_handleSubscribtionResponseError"
+      loading="{{savingSubscription}}"
+    ></iron-ajax>
+
+    <iron-ajax
+      id="saveInvestorProfile"
+      url="[[apiEndpoint]]/investors/[[investorId]]"
+      body='[[_updatedProfileBody]]'
+      handle-as="json"
+      content-type="application/json"
+      headers="[[_authHeader]]"
+      method="PUT"
+      on-request="_handleProfileUpdateRequestSent"
+      on-response="_handleProfileUpdateResponse"
+      on-error="_handleProfileUpdateResponseError"
+      loading="{{savingProfile}}"
+    ></iron-ajax>
+
+  </template>
+
+  <script>
+    Polymer({
+
+      is: 'caas-investor',
+      behaviors: [CaasAuthBehavior],
+
+      properties: {
+        /**
+        * The Server side API endpoint
+        */
+        apiEndpoint: {
+          type: String,
+          notify: true
+        },
+
+        /**
+        * The user id associated with the current user session
+        */
+        investorId: {
+          type: String
+        },
+
+        /**
+        * First Name
+        */
+        firstName: {
+          type: String,
+          notify: true
+        },
+
+        /**
+        * Last Name
+        */
+        lastName: {
+          type: String,
+          notify: true
+        },
+
+        /**
+        * Exposes whether the user is subscribed to the newsletter
+        */
+        subscribedToNewsletter: {
+          type: Boolean,
+          notify: true
+        },
+
+        /**
+        * Exposes whether the users privacy mode is enabled
+        */
+        privacy: {
+          type: Boolean,
+          notify: true
+        },
+
+        /**
+        * IBAN
+        */
+        iban: {
+          type: String,
+          notify: true
+        },
+
+        /**
+        * Bank Account Name
+        */
+        bankAccountName: {
+          type: String,
+          notify: true
+        },
+
+        /**
+        * Twitter Profile URL
+        */
+        twitterUrl: {
+          type: String,
+          notify: true
+        },
+
+        /**
+        * Facebook Profile URL
+        */
+        facebookUrl: {
+          type: String,
+          notify: true
+        },
+
+        /**
+        * LinkedIn Profile URL
+        */
+        linkedinUrl: {
+          type: String,
+          notify: true
+        },
+
+        /**
+        * Postal Address
+        */
+        address: {
+          type: Object,
+          notify: true
+        },
+
+        /**
+        * Exposes the currently invested capital, in euros.
+        */
+        currentInvestment: {
+          type: Number,
+          notify: true,
+          readOnly: true
+        },
+
+        /**
+        * Exposes the all-time total invested capital, in euros.
+        */
+        totalInvestment: {
+          type: Number,
+          readOnly: true,
+          notify: true
+        },
+
+        totalInvestedCapital: {
+          type: Number,
+          notify: true
+        },
+
+        currentlyInvestedCapital: {
+          type: Number,
+          notify: true
+        },
+
+        campaigns: {
+          type: Array,
+          value: [],
+          notify: true
+        },
+
+        contracts: {
+          type: Array,
+          notify: true,
+        },
+
+        /**
+        * True while loading investor daa
+        */
+        loadingCampaignTypes: {
+          type: Boolean,
+          value: false,
+          notify: true
+        },
+
+        savingProfile: {
+          type: Boolean,
+          value: false,
+          notify: true
+        },
+
+        savingSubscription: {
+          type: Boolean,
+          value: false,
+          notify: true
+        },
+
+        responseStatus: {
+            type: Object,
+            notify: true
+        },
+
+        _updatedProfileBody: {
+          type: Object,
+          value: {},
+          computed: '_computeUpdatedProfileBody(firstName, lastName, privacy, address.*)'
+        },
+
+        _investorData: {
+          type: Object,
+          value: {},
+          observer: '_setInvestorProfile'
+        },
+
+        _investorRepaymentData: {
+          type: Object,
+          value: {},
+          observer: '_setInvestorRepaymentDetails'
+        },
+
+        _investorContractsData: {
+          type: Array,
+          value: [],
+          observer: '_setInvestorContractsDetails'
+        }
+      },
+
+      getData: function () {
+        this.$.getInvestorProfile.generateRequest();
+      },
+
+      getInvestorContracts: function () {
+        this.$.getInvestorContracts.generateRequest();
+      },
+
+      saveNewsletterSubscription: function (evt) {
+        this.$.subscription.generateRequest();
+      },
+
+      save: function () {
+        this._setStatusResponseObject('loading');
+        this.$.saveInvestorProfile.generateRequest();
+        // this.saveNewsletterSubscription();
+      },
+
+      saveNewsletterSubscription: function () {
+        this.$.saveNewsLetterSubscription.generateRequest();
+      },
+
+      _setInvestorProfile: function (investorData) {
+        this.set('firstName', investorData.firstName);
+        this.set('lastName', investorData.lastName);
+        this.set('privacy', investorData.privacy);
+        this.set('subscribedToNewsletter', investorData.newsletter || 0);
+        this.set('iban', investorData.iban);
+        this.set('bankAccountName', investorData.bankTenaam);
+        this.set('twitterUrl', investorData.twitter);
+        this.set('facebookUrl', investorData.facebook);
+        this.set('linkedinUrl', investorData.linkedin);
+        this.set('address', investorData.address);
+        this._setCurrentInvestment(investorData.currentlyInvestedCapital);
+        this._setTotalInvestment(investorData.totalInvestments);
+      },
+
+      _computeUpdatedProfileBody: function (firstName, lastName, privacy, addressChange) {
+          console.log(firstName);
+        var address = addressChange.base;
+        return {
+          'firstName': firstName,
+          'lastName': lastName,
+          'address': address,
+          'privacy': privacy
+        }
+      },
+
+      _setInvestorContractsDetails: function (investorContractsData) {
+        this.set('contracts', investorContractsData);
+      },
+
+      _setInvestorRepaymentDetails: function (investorRepaymentData) {
+        this.set('totalInvestedCapital', investorRepaymentData.totalInvestedCapital);
+        this.set('currentlyInvestedCapital', investorRepaymentData.currentlyInvestedCapital);
+        this.set('campaigns', investorRepaymentData.campaigns);
+      },
+
+      _handleGetInvestorResponse: function(response) {
+        this.fire('investor-details-obtained')
+      },
+
+      _handleGetInvestorRepaymentResponse: function(response) {
+        this.fire('investor-repayment-obtained')
+      },
+
+      _handleGetInvestorError: function(evt) {
+        this.fire('investor-details-error', {
+          message: evt.detail.error.message,
+          response: evt.detail.request.xhr.response
+        });
+      },
+
+      _handleGetInvestorContractsResponse: function(response) {
+        this.fire('investor-contracts-obtained')
+      },
+
+      _handleGetInvestorContractsError: function(evt) {
+        this.fire('investor-contracts-error', {
+          message: evt.detail.error.message,
+          response: evt.detail.request.xhr.response
+        });
+      },
+
+
+      _handleGetInvestorRepaymentError: function(evt) {
+        this.fire('investor-repayment-error', {
+          message: evt.detail.error.message,
+          response: evt.detail.request.xhr.response
+        });
+      },
+
+      _handleSubscribtionRequestSent: function (evt) {
+        this.fire('subscribe-request-sent')
+      },
+
+      _handleSubscribtionResponse: function (evt) {
+        this.fire('subscribe-request-response')
+
+        // Generate GET request on succesfull POST
+        this.getData();
+      },
+
+      _handleSubscribtionResponseError: function (evt) {
+        this.fire('subscribe-request-error', {
+          message: evt.detail.error.message,
+          response: evt.detail.request.xhr.response
+        });
+      },
+
+      _handleProfileUpdateRequestSent: function (evt) {
+        this.fire('update-profile-request-sent')
+      },
+
+      _handleProfileUpdateResponse: function (evt) {
+        this.fire('update-profile-request-response')
+        this._setStatusResponseObject('success');
+        // Generate GET request on succesfull PUT
+        this.getData();
+      },
+
+      _handleProfileUpdateResponseError: function (evt, data) {
+        this.fire('update-profile-request-error', {
+          message: evt.detail.error.message,
+          response: evt.detail.request.xhr.response
+        });
+        this._setStatusResponseObject('failed',
+            this.$.saveInvestorProfile.method,
+            this.$.saveInvestorProfile.route,
+            'Opslaan mislukt' + ((data.request.xhr.response && data.request.xhr.response.error[0]) ? ': '+data.request.xhr.response.error[0].message : ''));
+
+      },
+
+      _setStatusResponseObject: function(status, method, route, error) {
+            this.set('responseStatus', {
+                status: status,
+                method: method,
+                route: route,
+                error: error
+            });
+      }
+    });
+  </script>
+</dom-module>

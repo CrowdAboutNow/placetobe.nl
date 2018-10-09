@@ -1,0 +1,30 @@
+can-campaign-categories-list
+    .selectifier
+
+        display inline-block
+        margin 3px
+        font-size initial
+        
+        &.iron-selected, &[enabled]
+            > .btn
+                background-color $can-green
+        
+        > .btn
+            outline none
+            height $defaultmargin
+            width auto
+            padding 3px ($defaultmargin/2)
+            color $can-blue
+            border 1px solid $can-blue
+            background-color transparent
+            cursor pointer
+            display inline-block
+            text-align center
+            border-radius 3px
+            font-size 16px
+            margin 0!important
+            
+            @media only screen and (max-width $breakpoint-phone-max)
+                padding 3px 6px
+                height 27px
+                margin 2px

@@ -1,0 +1,24 @@
+{
+  "name": "placetobe-campaign-card",
+  "description": "Placetobe Campaign Card",
+  "main": "placetobe-campaign-card.html",
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.6.0",
+    "caas-campaign": "CaasElements/caas-campaign",
+    "caas-campaign-stats": "CaasElements/caas-campaign-stats",
+    "placetobe-behaviors": "Placetobe/placetobe-behaviors",
+    "placetobe-styles": "Placetobe/placetobe-styles",
+    "placetobe-button": "Placetobe/placetobe-button",
+    "placetobe-campaign-progress-bar": "Placetobe/placetobe-campaign-progress-bar",
+    "iron-image": "PolymerElements/iron-image#^1.2.5"
+  },
+  "devDependencies": {
+    "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
+    "iron-demo-helpers": "PolymerElements/iron-demo-helpers#^1.0.0",
+    "web-component-tester": "^4.0.0",
+    "webcomponentsjs": "webcomponents/webcomponentsjs#^0.7.0",
+    "iron-media-query": "PolymerElements/iron-media-query#^1.0.8"
+  },
+  "version": "0.9.0",
+  "homepage": "https://github.com/Placetobe/placetobe-campaign-page"
+}

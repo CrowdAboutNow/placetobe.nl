@@ -1,0 +1,112 @@
+can-progress-bar
+
+    &[small]
+        >div
+            height 4px
+            margin 0px auto
+            background-color white
+
+            &:before
+                position inherit
+                top 0
+                left 0
+                /* display and box model */
+                width 0
+                height 0
+                /* color */
+                background-color none
+                /* text */
+                /* other */
+                content " "
+
+            &:after
+                position inherit
+                top 0
+                left 0
+                /* display and box model */
+                width 0
+                height 0
+                /* color */
+                background-color none
+                /* text */
+                /* other */
+                content " "
+
+            .progress
+                transition none
+
+    > div
+        /* positioning */
+        position relative
+        /* display and box model */
+        width 100%
+        height 18px
+        margin 9px auto
+        background-color $can-progress-bg
+        /* text */
+        /* other */
+
+        &:before
+            /* positioning */
+            position absolute
+            top -5px
+            left 0
+            /* display and box model */
+            width 1px
+            height 27px
+            /* color */
+            background-color $can-green
+            /* text */
+            /* other */
+            content " "
+
+        &:after
+            /* positioning */
+            position absolute
+            top -5px
+            right 0
+            /* display and box model */
+            width 1px
+            height 27px
+            /* color */
+            background-color $can-progress-bg
+            /* text */
+            /* other */
+            content " "
+
+        .progress
+            /* positioning */
+            /* display and box model */
+            height 100%
+            width 0
+            /* color */
+            background-color $can-green
+            transition width 1s
+            transition-delay 0.3s
+            /* text */
+            /* other */
+
+            &[multi]
+                height 100%
+                width 0
+
+
+
+        &.progressbar-status-failed
+
+            background-color $lightred
+
+            &:after
+                background-color $lightred
+
+            .progress
+                background-color $can-green
+
+
+        &[data-progress="100"]
+
+            &:after
+                background-color $can-green
+
+            .progress
+                background-color $can-green

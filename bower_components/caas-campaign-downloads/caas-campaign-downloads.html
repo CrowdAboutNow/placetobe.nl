@@ -1,0 +1,95 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../iron-ajax/iron-ajax.html">
+
+<!--
+`caas-campaign-downloads`
+Polymer Campaign Downloads Element for Crowdfunding as a Service Solutions
+
+@demo demo/index.html 
+-->
+
+<dom-module id="caas-campaign-downloads">
+  <template>
+
+    <iron-ajax
+      id="getCampaignFiles"
+      url="[[apiEndpoint]]/campaigns/[[campaignId]]/publicfiles"
+      handle-as="json"
+      method="GET"
+      last-response="{{_apiData}}"
+      debounce-duration="3000"
+    ></iron-ajax>
+
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+
+  </template>
+
+  <script>
+    Polymer({
+
+      is: 'caas-campaign-downloads',
+
+      properties: {
+
+        apiEndpoint: {
+          type: String
+        },
+
+        campaignId: {
+          type: String
+        },
+
+        items: {
+          type: Array,
+          computed: '_computeItems(_apiData.files.*)',
+          notify: true
+        }
+
+      },
+
+      observers: [
+        '_getApiData(apiEndpoint, campaignId)'
+      ],
+
+      _getApiData: function(apiEndpoint, campaignId) {
+        this.$.getCampaignFiles.generateRequest();
+      },
+
+      _computeItems(file) {
+        if(!file || !file.base || !file.base.map) return [];
+        return file.base.map(this._parseItemObject.bind(this));
+      },
+
+      _parseItemObject: function(file) {
+        return {
+          name: this._parseItemName(file.fileName),
+          url: file.url,
+          type: this._parseItemExtension(file.fileName),
+          description: file.description,
+          size: this._parseItemSize(file.fileSize),
+        }
+      },
+
+      _parseItemName: function(fileName) {
+        return fileName.replace(/(_|\-)/g, ' ').replace(/(^.*?)\.[a-zA-Z]+$/, '$1')
+      },
+
+      _parseItemExtension: function(fileName) {
+        return fileName.replace(/(^.*?\.)([a-zA-Z]+)$/, '$2')
+      },
+
+      _parseItemSize: function(size) {
+        return {
+          bytes: size,
+          kilobytes: parseFloat((size / 1000).toFixed(0)),
+          megabytes: parseFloat((size / 1000 / 1000).toFixed(1))
+        }
+      }
+
+    });
+  </script>
+</dom-module>

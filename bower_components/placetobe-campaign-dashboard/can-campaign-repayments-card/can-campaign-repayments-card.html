@@ -1,0 +1,96 @@
+<!doctype html>
+<link rel="import" href="../../polymer/polymer.html">
+<link rel="import" href="../../placetobe-styles/placetobe-styles.html">
+<link rel="import" href="../../placetobe-card/placetobe-card.html">
+<link rel="import" href="../can-api/can-api.html">
+<link rel="import" href="../can-utils/can-number.html">
+<link rel="import" href="../can-utils/can-date.html">
+<link rel="import" href="../can-card/can-card.html">
+<link rel="import" href="../can-list/can-list.html">
+<link rel="import" href="../can-utils/can-date.html">
+<link rel="import" href="../can-list-item/can-list-item.html">
+
+<!--
+A card with the repayments schedule of a campaign
+Example:
+
+    <can-campaign-repayments-card></can-campaign-repayments-card>
+
+-->
+
+<dom-module id="can-campaign-repayments-card">
+    <template>
+
+        <style>
+            can-list-item {
+                @apply --placetobe-font-body;
+            }
+        </style>
+
+        <can-api
+            id="paymentsAjax"
+            auto="[[campaignId]]"
+            method="GET"
+            route="/campaigns/[[campaignId]]/repayments/schedule"
+            last-response="{{payments}}"
+            >
+        </can-api>
+
+        <placetobe-card title="Terugbetalingen aan investeerders">
+            <can-list reversed slot="main">
+
+                <template is="dom-repeat" items="[[_repaymentsAmounts]]" as="amount">
+                    <can-list-item expandable expanded$="[[_itemIsExpanded(index, expandedItem)]]">
+                        <header>
+                            <h4>bij <can-number
+                                euros="[[amount]]"
+                            ></can-number>
+                            </h4>
+                        </header>
+                        <article>
+
+                            <template is="dom-repeat" items="[[payments]]">
+                                <small>
+                                Datum:
+                                <!-- <span>[[item.date]]</span> -->
+                                <can-date input-format="DD-MM-YYYY" format="DD-MM-YYYY" value="[[item.date]]"></can-date>
+                                <br>
+
+                                Aflossing:
+                                <can-number
+                                    decimals="2"
+                                    euros="{{computeAmountForPayment(item.shareRate, amount)}}"
+                                ></can-number>
+
+                                <br>
+
+                                Rente:
+                                <can-number
+                                    decimals="2"
+                                    euros="{{computeAmountForPayment(item.interestRate, amount)}}"
+                                ></can-number>
+                                </small>
+
+                                <br>
+
+                                Totaal:
+                                <can-number
+                                    decimals="2"
+                                    euros="{{computeAmountForPayment(item.totalPayment, amount)}}"
+                                ></can-number>
+                                </small>
+
+                                <p>
+                            </template>
+
+                        </article>
+
+                    </can-list-item>
+
+                </can-list>
+            </template>
+        </placetobe-card>
+
+    </template>
+    <script src="can-campaign-repayments-card.js"></script>
+</dom-module>

@@ -1,0 +1,281 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../iron-ajax/iron-ajax.html">
+
+<!--
+`caas-prospects`
+Polymer Prospects Element for Crowdfunding as a Service Solutions
+
+@demo demo/index.html
+-->
+
+<dom-module id="caas-prospects">
+  <template>
+
+      <iron-ajax
+        id="getItems"
+        headers="[[_requestHeaders]]"
+        url="[[apiEndpoint]]/accountmanager/prospects"
+        method="GET"
+        last-response="{{_apiData}}"
+        debounce-duration="500"
+        auto="[[autoDownload]]"
+        loading="{{loadingProspects}}"
+        params="[[_queryParams]]"
+      ></iron-ajax>
+
+      <iron-ajax
+        id="updateItem"
+        headers="[[_requestHeaders]]"
+        method="PUT"
+        on-response="_handleUpdateItemResponse"
+        on-error="_handleUpdateItemError"
+        params="[[_queryParams]]"
+        debounce-duration="500"
+      ></iron-ajax>
+
+  </template>
+
+  <script>
+    Polymer({
+
+      is: 'caas-prospects',
+
+      properties: {
+
+        /**
+        * The server side API endpoint
+        */
+        apiEndpoint: {
+          type: String,
+          value: null
+        },
+
+        /**
+        * Exposes the access token (JSON web token) associated with the current session
+        */
+        accessToken: {
+          type: String,
+          value: null,
+          notify: true
+        },
+
+        /**
+        * True while getting all prospects
+        */
+        loadingProspects: {
+          type: Boolean,
+          value: false,
+          notify: true
+        },
+
+        /**
+        * Determines whether the prospeccts should be downloaded automatically
+        */
+        autoDownload: {
+          type: Boolean,
+          value: false
+        },
+
+        /**
+        * Maximum number of downloaded prospects
+        */
+        limit: {
+          type: Number,
+          value: 100,
+          notify: true
+        },
+
+        /**
+        * Sort direction 'ASC' or 'DESC'
+        */
+        direction: {
+          type: String,
+          value: 'DESC',
+          notify: true
+        },
+
+        /**
+        * Search for projectname or prospect name
+        */
+        searchQuery: {
+          type: String,
+          value: null
+        },
+
+        /**
+        * Only show prospects for 1 particular accountmanager
+        */
+        accountManager: {
+          type: String,
+          value: null
+        },
+
+        /**
+        * Sort prospects by any of the keys
+        */
+        orderBy: {
+            type: String,
+            value: 'id',
+            notify: true
+        },
+
+        /**
+        * Offset for pagination
+        */
+        offset: {
+          type: Number,
+          value: 0,
+          notify: true
+        },
+
+        /**
+        * List of all available prospects
+        */
+        prospects: {
+          type: Array,
+          value: [],
+          computed: '_computeProspects(_apiData.*)',
+          notify: true
+        },
+
+        activeRole: {
+          type: String,
+          notify: true
+        },
+
+        _requestHeaders: {
+          type: Object,
+          computed: '_computeRequestHeaders(accessToken, activeRole)'
+        },
+
+        _queryParams: {
+            type: Object,
+            computed: '_computeQueryParams(limit, direction, searchQuery, accountManager, orderBy, offset)'
+        },
+
+        _apiData: {
+          type: Array
+        }
+
+      },
+
+      observers: [
+        '_prospectsDataChanged(prospects.*)'
+      ],
+
+      /*
+      * Get All Incentives
+      */
+      getItems: function() {
+        this.$.getItems.generateRequest();
+      },
+
+      _computeRequestHeaders: function(accessToken, activeRole) {
+        return {
+          'authorization': 'Bearer ' + accessToken,
+          'activeRole': activeRole
+        }
+      },
+
+      _computeQueryParams: function(limit, direction, searchQuery, accountManager, orderBy, offset) {
+        var queryParams = {}
+        if (limit) queryParams.limit = limit;
+        if (direction && (direction == "ASC" || direction == "DESC")) queryParams.direction = direction;
+        if (searchQuery) queryParams.searchQuery = searchQuery;
+        if (accountManager) queryParams.accountManager = accountManager;
+        if (orderBy) queryParams.orderBy = orderBy;
+        if (offset) queryParams.offset = offset;
+        return queryParams;
+      },
+
+      _computeProspects: function(apiDataChange) {
+        var apiData = apiDataChange.base;
+        if(!apiData) return;
+        return apiData.map(this._parseApiDataItemToProspect)
+      },
+
+      _prospectsDataChanged: function(changeRecord) {
+        var arrayItemIndex = changeRecord.path.split('.');
+        if (!arrayItemIndex[2]) return;
+        var item = this.get('prospects.' + arrayItemIndex[1]);
+
+        this.fire('prospect-updating', item.id);
+        this.$.updateItem.url = this.apiEndpoint + '/accountmanager/prospects/' + item.id;
+        this.$.updateItem.body = JSON.stringify(item);
+        this.$.updateItem.generateRequest();
+      },
+
+      _handleUpdateItemResponse: function(evt) {
+        var savedItem = evt.detail.response;
+        var toBeUpdatedArrayIndex = this._getArrayIndexByProspectId(savedItem.id);
+        this._updateProspectByArrayIndex(savedItem, toBeUpdatedArrayIndex);
+        this.$.updateItem.url = null;
+        this.fire('prospect-updated', {
+          response: savedItem
+        });
+      },
+
+      _getArrayIndexByProspectId: function(id) {
+        for (var i = 0; i < this.prospects.length; i++) {
+          if(this.prospects[i].id === id){
+            return this.prospects.indexOf(this.prospects[i]);
+          }
+        }
+      },
+
+      _updateProspectByArrayIndex: function(updatedProspect, arrayIndex) {
+        var updatedProspect = this._parseApiDataItemToProspect(updatedProspect);
+        if (arrayIndex != -1) {
+          return this.splice('prospects', arrayIndex, 1, updatedProspect);
+        }
+      },
+
+      _handleUpdateItemError: function(evt) {
+        this.$.updateItem.url = null;
+        this.fire('prospect-update-error', {
+          message: evt.detail.error.message,
+          response: evt.detail.response
+        });
+      },
+
+      _parseApiDataItemToProspect: function(apiDataItem) {
+        return {
+          savedOn: apiDataItem.savedOn,
+          id: apiDataItem.id,
+          emailAddress: apiDataItem.emailAddress,
+          createdOn: apiDataItem.createdOn,
+          score: apiDataItem.score,
+          fullName: apiDataItem.fullName,
+          phoneNumber: apiDataItem.phoneNumber,
+          organisationName: apiDataItem.organisationName,
+          websiteURL: apiDataItem.websiteURL,
+          region: apiDataItem.region,
+          reference: apiDataItem.reference,
+          comments: apiDataItem.comments,
+          status: apiDataItem.status,
+          action: apiDataItem.action,
+          accountmanager: apiDataItem.accountmanager,
+          progress: apiDataItem.progress,
+          followUp: apiDataItem.followUp,
+          desiredCapital: apiDataItem.desiredCapital,
+          fundingType: apiDataItem.fundingType,
+          KvKRegistrationTime: apiDataItem.KvKRegistrationTime,
+          inspiredBy: apiDataItem.inspiredBy,
+          prominentCustomers: apiDataItem.prominentCustomers,
+          networkCommitmentScore: apiDataItem.networkCommitmentScore,
+          toBeCalled: apiDataItem.toBeCalled,
+          mailed: apiDataItem.mailed,
+          called: apiDataItem.called,
+          talked: apiDataItem.talked,
+          placeAble: apiDataItem.placeAble,
+          toBeMailed: apiDataItem.toBeMailed,
+          scorePercentage: apiDataItem.scorePercentage,
+          flagged: apiDataItem.flagged,
+          masterclassInfoMailed: apiDataItem.masterclassInfoMailed,
+          savedScorePercentage: apiDataItem.savedScorePercentage,
+          testResults: apiDataItem.testResults
+        }
+      }
+    });
+  </script>
+</dom-module>

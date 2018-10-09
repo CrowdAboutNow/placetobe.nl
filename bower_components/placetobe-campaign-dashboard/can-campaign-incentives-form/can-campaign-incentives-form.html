@@ -1,0 +1,67 @@
+<!doctype html>
+<link rel="import" href="../../polymer/polymer.html">
+<link rel="import" href="../../caas-campaign-incentives/caas-campaign-incentives.html">
+<link rel="import" href="../../caas-campaign-types/caas-campaign-types.html">
+<link rel="import" href="../../placetobe-button/placetobe-button.html">
+<link rel="import" href="../can-incentive-input/can-incentive-input.html">
+<link rel="import" href="../can-loader/can-loader.html">
+
+<dom-module id="can-campaign-incentives-form">
+    <template>
+
+        <caas-campaign-types
+            active-role="[[activeRole]]"
+            auto-download="[[campaignid]]"
+            id="caas-campaign-types"
+            campaign-types="{{campaignTypes}}"
+            api-endpoint="[[apiEndpoint]]"
+            campaign-id="[[campaignid]]">
+        </caas-campaign-types>
+
+        <caas-campaign-incentives
+            active-role="[[activeRole]]"
+            auto-download="[[campaignTypes]]"
+            id="incentives"
+            api-endpoint="[[apiEndpoint]]"
+            access-token="[[accessToken]]"
+            campaign-id="[[campaignid]]"
+            incentives="{{incentives}}"
+            loading-incentives="{{loading}}"
+            on-incentive-added="_handleIncentiveAdded"
+            on-incentive-add-error="_handleIncentiveAddError"
+            on-incentive-updated="_handleIncentiveUpdated"
+            on-incentive-update-error="_handleIncentiveUpdateError"
+            on-incentive-loading="_handleIncentiveUpdateLoading"
+            on-incentive-deleted="_handleIncentiveDeleted"
+            on-incentive-delete-error="_handleIncentiveDeleteError"
+            response-status="{{incentivesResponseStatus}}"
+        ></caas-campaign-incentives>
+
+        <can-loader small hidden$="[[!loading]]"></can-loader>
+
+        <template is="dom-repeat" items="{{incentives}}">
+            <can-incentive-input
+                id="{{item.id}}"
+                index="{{index}}"
+                title="{{item.title}}"
+                message="{{item.message}}"
+                costs="{{item.costs}}"
+                minimum-investment="{{item.minimumInvestment}}"
+                campaign-types="[[campaignTypes]]"
+                for-business="{{item.forBusiness}}"
+                in-stock="{{item.totalStock}}"
+                contract-type-id="{{item.contractTypeId}}"
+                loading="{{item.loading}}"
+                on-update="_handleUpdateIncentive"
+                on-updated="_handleIncentiveUpdated"
+                on-delete="_handleDeleteIncentive"
+                on-changed="_incentiveChanged"
+                response-status="{{incentivesResponseStatus}}">
+            </can-incentive-input>
+
+        </template>
+
+        <placetobe-button on-tap="_handleAddIncentive">Voeg beloning toe</placetobe-button>
+    </template>
+    <script src="can-campaign-incentives-form.js"></script>
+</dom-module>

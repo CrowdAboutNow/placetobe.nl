@@ -1,0 +1,37 @@
+can-warning
+    display block
+    margin 18px 0
+    h5
+        font-size 18px!important
+        line-height 26px!important
+        font-weight 400!important
+        padding ($defaultmargin/2)!important
+        margin 0!important
+        margin-bottom ($defaultmargin/2)!important
+        background-color $can-red!important
+        border-radius 3px!important
+
+        @media only screen and (max-width $breakpoint-tablet-max)
+            font-size 16px!important
+            line-height 22px!important
+            padding ($defaultmargin/3)!important
+            margin-bottom ($defaultmargin/3)!important
+
+        @media only screen and (max-width $breakpoint-phone-max)
+            font-size 16px!important
+            line-height 24px!important
+            padding ($defaultmargin/4)!important
+            margin-bottom ($defaultmargin/4)!important
+
+        &:first-letter
+            text-transform uppercase!important
+    &[small]
+        h5
+            margin 0 !important
+            padding 0 !important
+            ul
+                padding 10px 10px 10px 25px
+                li
+                    font-size 14px
+                    list-style-type none
+                    text-align left

@@ -1,0 +1,36 @@
+<!doctype html>
+<link rel="import" href="../../polymer/polymer.html">
+<link rel="import" href="../../iron-ajax/iron-ajax.html">
+<link rel="import" href="../../iron-signals/iron-signals.html">
+<link rel="import" href="../../caas-session/caas-session.html">
+
+<dom-module id="can-api">
+
+    <template>
+
+        <caas-session
+            access-token="{{accessToken}}"
+            token-data="{{tokenData}}"
+        ></caas-session>
+
+        <iron-ajax
+            id="ajax"
+            url="{{url}}"
+            method="{{method}}"
+            handle-as="{{handleAs}}"
+            headers="{{requestheaders}}"
+            auto="{{isAuto}}"
+            content-type="{{contentType}}"
+            body="{{body}}"
+            on-response="_handleResponse"
+            last-response="{{lastResponse}}"
+            on-error="_handleError"
+            last-error="{{error}}"
+            loading="{{loading}}"
+        ></iron-ajax>
+
+    </template>
+
+    <script src="can-api.js"></script>
+
+</dom-module>

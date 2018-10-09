@@ -1,0 +1,25 @@
+<link rel="import" href="../../polymer/polymer.html">
+<script src="../../accounting.js/accounting.min.js" charset="utf-8"></script>
+
+<!--
+Display numbers in the right way and beautifully
+
+Numbers:
+
+    <can-number number="12532"></can-number>
+
+Euros:
+
+    <can-number euros="295000"></can-number>
+
+Percentage:
+
+    <can-number percentage="43"></can-number>
+
+@demo demo/can-number.html
+-->
+
+<dom-module id="can-number">
+<template>[[formatted]]<content></content></template>
+<script src="can-number.js" charset="utf-8"></script>
+</dom-module>

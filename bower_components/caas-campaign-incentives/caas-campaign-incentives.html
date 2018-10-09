@@ -1,0 +1,361 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../iron-ajax/iron-ajax.html">
+
+<!--
+`caas-campaign-incentives`
+Polymer Campaign Incentives Element for Crowdfunding as a Service Solutions
+
+@demo demo/index.html
+-->
+
+<dom-module id="caas-campaign-incentives">
+  <template>
+
+    <iron-ajax
+      id="getSettings"
+      url="[[apiEndpoint]]/campaigns/[[campaignId]]/campaigntypes"
+      method="GET"
+      last-response="{{_apiSettings}}"
+      auto="[[campaignId]]"
+    ></iron-ajax>
+
+    <iron-ajax
+      id="getItems"
+      url="[[apiEndpoint]]/campaigns/[[campaignId]]/incentives"
+      method="GET"
+      last-response="{{_apiData}}"
+      auto="[[autoDownload]]"
+      loading="{{loadingIncentives}}"
+    ></iron-ajax>
+
+    <iron-ajax
+      id="addItem"
+      headers="[[_requestHeaders]]"
+      url="[[apiEndpoint]]/entrepreneurs/[[campaignId]]/incentives"
+      method="POST"
+      on-response="_handleAddItemResponse"
+      on-error="_handleAddItemError"
+      last-response="{{_apiData}}"
+    ></iron-ajax>
+
+    <iron-ajax
+      id="updateItem"
+      headers="[[_requestHeaders]]"
+      method="PUT"
+      on-request="_handleUpdateItemRequest"
+      on-response="_handleUpdateItemResponse"
+      on-error="_handleUpdateItemError"
+      debounce-duration="500"
+    ></iron-ajax>
+
+    <iron-ajax
+      id="removeItem"
+      headers="[[_requestHeaders]]"
+      content-type="json"
+      method="DELETE"
+      on-response="_handleRemoveItemResponse"
+      on-error="_handleRemoveItemError"
+      last-response="{{_apiData}}"
+    ></iron-ajax>
+
+  </template>
+
+  <script>
+    Polymer({
+
+      is: 'caas-campaign-incentives',
+
+      properties: {
+
+        /**
+        * The server side API endpoint
+        */
+        apiEndpoint: {
+          type: String,
+          value: null
+        },
+
+        /**
+        * Exposes the access token (JSON web token) associated with the current session
+        */
+        accessToken: {
+          type: String,
+          value: null,
+          notify: true
+        },
+
+        /**
+        * True while getting all incentives
+        */
+        loadingIncentives: {
+          type: Boolean,
+          value: false,
+          notify: true
+        },
+
+        /**
+        * Determines whether the incentives should be downloaded automatically
+        */
+        autoDownload: {
+          type: Boolean,
+          value: false
+        },
+
+        /**
+        * The campaign Id associated with the campaign
+        */
+        campaignId: {
+          type: String,
+          value: null
+        },
+
+        /**
+        * List of all available incentives for this `campaignId`
+        */
+        incentives: {
+          type: Array,
+          computed: '_computeIncentives(_apiData.*)',
+          notify: true
+        },
+
+        /**
+        * Object of Arrays of all available incentives for this `campaignId`, grouped by `contractTypeId`
+        */
+        groupedIncentives: {
+          type: Object,
+          computed: '_computeGroupedIncentives(incentives.*)',
+          notify: true
+        },
+
+        /*
+        Exposes the minimum allowed amount
+        */
+        minimumAllowedInvestment: {
+          type: Number,
+          computed: '_getApiValue(_apiSettings.0.minimumInvestment)',
+          notify: true
+        },
+
+        /*
+        Exposes the maximum allowed amount
+        */
+        maximumAllowedInvestment: {
+          type: Number,
+          computed: '_getApiValue(_apiSettings.0.maximumInvestment)',
+          notify: true
+        },
+
+        /*
+        Exposes an array of available contract type ids
+        */
+        allowedContractTypeIds: {
+          type: Number,
+          computed: '_getAllowedContractTypeIds(_apiSettings)',
+          notify: true
+        },
+
+        responseStatus: {
+            type: Object,
+            notify: true
+        },
+
+        _requestHeaders: {
+          type: Object,
+          computed: '_computeRequestHeaders(accessToken, activeRole)'
+        },
+
+        _apiData: {
+          type: Array
+        },
+        activeRole: {
+          type: String,
+          notify: true
+        }
+
+      },
+
+      /*
+      * Download All Incentives
+      */
+      getItems: function() {
+        this.$.getItems.generateRequest();
+      },
+
+      /*
+      * Add Item
+      * @param {{
+      * title: String,
+      * message: String,
+      * minimumInvestment: Number,
+      * totalStock: Number,
+      * contractTypeId: Number,
+      * forBusiness: Boolean
+      }} item The Item to be added
+      */
+      addItem: function(item) {
+        this.$.addItem.body = JSON.stringify(item);
+        this.$.addItem.generateRequest();
+      },
+
+      /**
+      * Update Item
+      * @param {{
+      * id: String,
+      * title: String,
+      * message: String,
+      * minimumInvestment: Number,
+      * totalStock: Number,
+      * contractTypeId: Number,
+      * forBusiness: Boolean
+      }} item The Item to be updated
+      */
+      updateItem: function(item) {
+        this.fire('incentive-loading', item.id);
+        this.$.updateItem.url = this.apiEndpoint + '/entrepreneurs/'+ this.campaignId +'/incentives/' + item.id;
+        this.$.updateItem.body = JSON.stringify(item);
+        this.$.updateItem.generateRequest();
+      },
+
+      /**
+      * Remove Item
+      * @param {String} id The Id of the item to be removed
+      */
+      removeItem: function(id) {
+        this.$.removeItem.url = this.apiEndpoint + '/entrepreneurs/'+ this.campaignId +'/incentives/' + id;
+        this.$.removeItem.generateRequest();
+      },
+
+      _computeIncentives: function(apiDataChange) {
+        var apiData = apiDataChange.base;
+        if(!apiData) return;
+        if(apiData.error) return;
+        return apiData.map(this._parseApiDataItemToIncentive)
+      },
+
+      _computeGroupedIncentives: function() {
+        var groupedIncentives = {};
+        this.incentives.map(function(incentive) {
+          if(!groupedIncentives[incentive.contractTypeId]) groupedIncentives[incentive.contractTypeId] = [];
+          groupedIncentives[incentive.contractTypeId].push(incentive);
+        })
+        return groupedIncentives;
+      },
+
+      _computeRequestHeaders: function(accessToken, activeRole) {
+        return {
+          'authorization': 'Bearer ' + accessToken,
+          'activeRole': activeRole
+        }
+      },
+
+      _getApiValue: function(value) {
+        return value;
+      },
+
+      _getAllowedContractTypeIds: function(campaignTypes) {
+          return campaignTypes.map(function(campaignType) {
+              return campaignType.contractTypeId;
+          });
+      },
+
+      _parseApiDataItemToIncentive: function(apiDataItem) {
+        return {
+          title: apiDataItem.title,
+          message: apiDataItem.message,
+          minimumInvestment: apiDataItem.minimumInvestment,
+          forBusiness: apiDataItem.forBusiness,
+          numberOfInvestors: apiDataItem.investorCount,
+          hasInvestors: apiDataItem.hasInvestors,
+          hasStock: apiDataItem.hasStock,
+          totalStock: apiDataItem.inStock,
+          currentStock: apiDataItem.currentStock,
+          available: apiDataItem.available,
+          id: apiDataItem.id,
+          contractTypeId: apiDataItem.contractTypeId,
+          loading: false
+        }
+      },
+
+      _handleUpdateItemRequest: function(evt) {
+          this._setStatusResponseObject('loading',
+                this.$.updateItem.method,
+                this.$.updateItem.url);
+      },
+
+      _handleAddItemResponse: function() {
+        this.$.addItem.body = {};
+        this.fire('incentive-added');
+      },
+
+      _handleAddItemError: function(evt) {
+        this.$.addItem.body = {};
+        this.fire('incentive-add-error', {
+          message: evt.detail.error.message,
+          response: event.detail.request.xhr.response
+        });
+      },
+
+      _getArrayIndexByIncentiveId: function(id) {
+        for (var i = 0; i < this.incentives.length; i++) {
+          if(this.incentives[i].id == id){
+            return this.incentives.indexOf(this.incentives[i]);
+          }
+        }
+      },
+
+      _updateIncentiveByArrayIndex: function(updatedIncentive, arrayIndex) {
+        var updatedIncentive = this._parseApiDataItemToIncentive(updatedIncentive);
+        if (arrayIndex != -1) {
+          return this.splice('incentives', arrayIndex, 1, updatedIncentive);
+        }
+      },
+
+      _handleUpdateItemResponse: function(evt, data) {
+        var savedItem = evt.detail.response;
+        var toBeUpdatedArrayIndex = this._getArrayIndexByIncentiveId(savedItem.id);
+        this._updateIncentiveByArrayIndex(savedItem, toBeUpdatedArrayIndex);
+        this._setStatusResponseObject('success',
+              this.$.updateItem.method,
+              this.$.updateItem.url);
+        this.$.updateItem.url = null;
+        this.fire('incentive-updated', {
+          response: savedItem
+        });
+      },
+
+      _handleUpdateItemError: function(evt, data) {
+        this.$.updateItem.url = null;
+        this.$.updateItem.body = {};
+        this.fire('incentive-update-error', {
+          message: evt.detail.error.message,
+          response: event.detail.request.xhr.response
+        });
+        this._setStatusResponseObject('failed',
+              this.$.updateItem.method,
+              this.$.updateItem.url,
+              'Opslaan mislukt' + ((data.request.xhr.response && data.request.xhr.response.error[0]) ? ': '+data.request.xhr.response.error[0].message : ''));
+      },
+
+      _handleRemoveItemResponse: function() {
+        this.$.removeItem.url = null;
+        this.fire('incentive-deleted');
+      },
+
+      _handleRemoveItemError: function(evt) {
+        this.$.removeItem.url = null;
+        this.fire('incentive-delete-error', {
+          message: evt.detail.error.message,
+          response: event.detail.request.xhr.response
+        });
+      },
+      _setStatusResponseObject: function(status, method, route, error) {
+          this.set('responseStatus', {
+              status: status,
+              method: method,
+              route: route,
+              error: error
+          });
+      }
+    });
+  </script>
+</dom-module>

@@ -1,0 +1,54 @@
+<!doctype html>
+<html>
+  <head>
+    <title>placetobe-investor-quickscan demo</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
+    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+
+    <script>
+      window.Polymer = {
+        useNativeCSSProperties: true,
+        lazyRegister: true,
+        dom: 'shadow'
+      };
+    </script>
+    
+    <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
+    <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
+
+    <link rel="import" href="../placetobe-investor-quickscan.html">
+
+    <style is="custom-style" include="demo-pages-shared-styles">
+      demo-snippet {
+        --demo-snippet-demo: {
+          display: block;
+        }
+      }
+    </style>
+  </head>
+  <body>
+
+    <div class="vertical-section-container centered">
+      <h3>Basic placetobe-investor-quickscan Demo</h3>
+      <demo-snippet>
+        <template is="dom-bind">
+          <placetobe-investor-quickscan
+            on-question-answered="_handleQuestionAnswered"
+            on-finished="_handleFinished"
+          ></placetobe-investor-quickscan>
+        </template>
+        <script>
+          document.querySelector('template')._handleQuestionAnswered = function(evt) {
+            console.info('answered question', evt.detail)
+          }
+
+          document.querySelector('template')._handleFinished = function(evt) {
+            console.info('finished', evt.detail)
+          }
+        </script>
+      </demo-snippet>
+    </div>
+
+  </body>
+</html>

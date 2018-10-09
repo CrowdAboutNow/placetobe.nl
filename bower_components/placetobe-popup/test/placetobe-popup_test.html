@@ -1,0 +1,32 @@
+<!doctype html>
+
+<html>
+  <head>
+    <title>placetobe-popup test</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
+    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="../../web-component-tester/browser.js"></script>
+
+    <link rel="import" href="../placetobe-popup.html">
+  </head>
+  <body>
+
+    <test-fixture id="basic">
+      <template>
+        <placetobe-popup></placetobe-popup>
+      </template>
+    </test-fixture>
+
+    <script>
+      suite('placetobe-popup', function() {
+
+        test('instantiating the element works', function() {
+          var element = fixture('basic');
+          assert.equal(element.is, 'placetobe-popup');
+        });
+
+      });
+    </script>
+  </body>
+</html>

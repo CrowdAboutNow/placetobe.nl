@@ -1,0 +1,80 @@
+can-page
+    display block
+    background-color $background
+    margin-bottom 54px
+
+    main
+        position relative
+        max-width ($mainwidth)
+        margin 0 auto
+        padding 0 ($defaultmargin/2)
+
+    > section
+        ol, ul
+            padding 18px
+
+            li
+                margin-bottom 18px
+                font-size inherit
+                line-height inherit
+
+                @media only screen and (max-width $breakpoint-tablet-max)
+                    font-size inherit
+                    line-height inherit
+
+                @media only screen and (max-width $breakpoint-phone-max)
+                    font-size inherit
+                    line-height inherit
+
+    @media only screen and (max-width $breakpoint-phone-max)
+        margin-bottom 64px
+
+
+        >section
+            font-size initial
+            vertical-align top
+            padding 0
+            color $can-blue
+
+            @media only screen and (max-width $breakpoint-phone-max)
+                width 100%
+                margin 0
+
+            ol, ul
+              padding 0 24px
+              margin 0
+              li
+                line-height 1.45
+                margin 0 0 18px 0
+
+    can-campaigns-list
+        a
+            text-decoration none
+
+    &[high-fold]
+        can-page-cover
+            &[has-image]
+                height 35vh
+            silk-image
+                height 35vh
+
+
+    &[sidebar]
+        @media only screen and (min-width $breakpoint-phone-max)
+            >can-page-cover header >*
+                max-width 66.6666%
+            >main
+                display flex
+                flex-direction row
+                flex-wrap wrap
+                white-space normal
+                > section
+                    width 66.6666%
+                    padding 63 0 63px 0
+                    padding-right ($defaultmargin/2)
+                    display inline-block
+                > can-sidebar
+                    width 33.3333%
+                    margin-top -121px
+                    padding-left ($defaultmargin/2)
+                    display inline-block

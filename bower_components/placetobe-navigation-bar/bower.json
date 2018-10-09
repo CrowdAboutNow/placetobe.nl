@@ -1,0 +1,20 @@
+{
+  "name": "placetobe-navigation-bar",
+  "description": "Placetobe Navigation Bar",
+  "main": "placetobe-navigation-bar.html",
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.6.0",
+    "placetobe-behaviors": "Placetobe/placetobe-behaviors",
+    "placetobe-styles": "Placetobe/placetobe-styles",
+    "placetobe-icons": "Placetobe/placetobe-icons"
+  },
+  "devDependencies": {
+    "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
+    "iron-demo-helpers": "PolymerElements/iron-demo-helpers#^1.0.0",
+    "web-component-tester": "^4.0.0",
+    "webcomponentsjs": "webcomponents/webcomponentsjs#^0.7.0",
+    "placetobe-button": "Placetobe/placetobe-button"
+  },
+  "version": "0.3.0",
+  "homepage": "https://github.com/Placetobe/placetobe-navigation-bar"
+}
