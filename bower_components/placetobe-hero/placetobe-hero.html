@@ -1,0 +1,208 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../placetobe-behaviors/placetobe-styles-behavior.html">
+<link rel="import" href="../placetobe-styles/placetobe-styles.html">
+
+<!--
+`placetobe-hero`
+Placetobe Hero
+
+@demo demo/index.html 
+-->
+
+<dom-module id="placetobe-hero">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+
+      :host section {
+        @apply(--placetobe-border-box);
+        height: 100%;
+        width: 100%;
+        position: relative;
+        transition: 0.5s background-color ease-in;
+        background-color: var(--placetobe-hero-color, #F4F1F0);
+      }
+
+      :host section div {
+        @apply(--placetobe-border-box);
+        @apply(--placetobe-flex-layout--vertical);
+        @apply(--placetobe-flex-align--center);
+        height: 100%;
+        max-width: calc( var(--placetobe-layout-width) + (var(--placetobe-margin) * 2) );
+        margin: 0 auto;
+        padding: 0 var(--placetobe-margin);
+        position: relative;
+        overflow: hidden;
+      }
+
+      :host div main {
+        @apply(--placetobe-border-box);
+        @apply(--placetobe-flex-item--none);
+        width: calc( var(--placetobe-margin) * 30 );
+        max-width: 100%;
+        position: relative;
+        z-index: 1;
+        box-sizing: border-box;
+        height: 100%;
+      }
+
+      :host div aside {
+        position: absolute;
+        bottom: 50%;
+        left: 0;
+        right: auto;
+        z-index: 0;
+        width: 100%;
+        display: block;
+        height: 50%;
+        box-sizing: border-box;
+        overflow: hidden;
+      }
+
+      @media (min-width: 601px) {
+        :host div aside {
+          height: 75%;
+          bottom: 9%;
+          width: 50%;
+          left: auto;
+          right: 0;
+        }
+      }
+
+      :host div aside ::slotted(*) {
+        height: 65%;
+        top: 35%;
+        width: 100%;
+        left: 0;
+        right: auto;
+        position: absolute;
+        transition: 0.5s all;
+        box-sizing: border-box;
+        display: flex;
+        align-items: flex-end;
+      }
+
+      @media (min-width: 601px) {
+        :host div aside ::slotted(*) {
+          height: 100%;
+          width: 100%;
+          top: 0;
+          left: auto;
+          right: var(--placetobe-margin);
+          object-position: 100% 50%;
+          object-fit: contain;
+        }        
+      }
+
+      :host div aside ::slotted(*[hidden]) {
+        opacity: 0;
+        display: block!important;
+        transform: translate(50px, 0px);
+        -webkit-transform: translate(50px, 0px);
+        -moz-transform: translate(50px, 0px);
+        -o-transform: translate(50px, 0px);
+        -ms-transform: translate(50px, 0px);
+        pointer-events: none;
+      }
+
+      :host div main {
+        @apply(--placetobe-flex-item--1);
+        position: relative;
+      }
+
+      :host div main ::slotted(main > *) {
+        box-sizing: border-box;
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        height: 45%;
+        opacity: 1;
+        transition: 0.5s all;
+        transform: translate(0, 0);
+        -webkit-transform: translate(0, 0);
+        -moz-transform: translate(0, 0);
+        -o-transform: translate(0, 0);
+        -ms-transform: translate(0, 0);
+        text-align: center;
+    }
+
+      @media (min-width: 601px) {
+        :host div main ::slotted(main > *) {
+          height: auto;
+          text-align: left;
+          top: 50%;
+          bottom: auto;
+          transform: translateY(-50%);
+          position: absolute;
+        }
+      }
+
+      :host div main ::slotted(main > *[hidden]) {
+        display: block!important;
+        opacity: 0;
+        transform: translate(0, -30%);
+        pointer-events: none;    
+      }
+
+      :host div main ::slotted(* h2) {
+        @apply(--placetobe-font-heading1);
+        font-weight: 400;
+        color: var(--placetobe-color-darkblue);
+        margin-bottom: var(--placetobe-margin);
+      }
+
+      @media (min-width: 601px) {
+        :host div main ::slotted(* h2) {
+          @apply(--placetobe-font-title);
+          font-weight: 400;
+          margin-bottom: var(--placetobe-margin);
+        }
+      }
+
+      :host div main ::slotted(* placetobe-button) {
+        margin: var(--placetobe-margin) 0;
+        display: block;
+      }
+
+      :host div main ::slotted(h2 b, h2 strong) {
+        font-weight: 600;
+      }
+
+    </style>
+
+    <section>
+
+      <div>
+        <main><slot name="main"></slot></main>
+        <aside><slot name="illustration"></slot></aside>
+      </div>
+
+    </section>
+
+  </template>
+
+  <script>
+    Polymer({
+
+      is: 'placetobe-hero',
+      behaviors: [PlacetobeStylesBehavior],
+
+      properties: {
+
+        carParked: {
+          type: Boolean,
+          value: false
+        },
+
+        carGone: {
+          type: Boolean,
+          value: false
+        }
+
+      }
+
+    });
+  </script>
+</dom-module>

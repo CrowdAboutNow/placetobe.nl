@@ -1,0 +1,92 @@
+can-page-tabs-navigation
+    margin 0
+    position fixed
+    height 52px
+    bottom -3px
+    width 100%
+    left 0
+    overflow auto
+    -webkit-overflow-scrolling touch
+    background-color $can-blue
+    z-index 8
+    white-space nowrap
+    display none
+    border-bottom 3px solid #fff
+    box-sizing border-box
+    
+    @media only screen and (max-width $breakpoint-phone-max)
+        display block
+        visibility visible
+
+    &::-webkit-scrollbar
+        height 0
+    
+    &:after
+        content " "
+        position absolute
+        width 100%
+        height 4px
+        bottom 0
+        left 0
+        z-index 0
+    
+    button
+        border 0
+        z-index 2
+        position relative
+        outline none
+        background-color transparent
+        cursor pointer
+        font-size 12px
+        line-height 1
+        font-weight 400
+        overflow hidden
+        text-overflow ellipsis
+        color #fff
+        height 100%
+        padding 0 18px
+        margin 0
+        width auto
+        height 100%
+        max-width auto
+        opacity .5
+        border-bottom 3px solid transparent
+
+        &[data-showcompletion]
+            padding-left 33px !important
+            background-image url(/assets/components/can-page-tabs/tab-icon-incomplete.svg)
+            background-repeat no-repeat
+            background-position 5% 50%
+
+            &[data-complete]
+                background-image url(/assets/components/can-page-tabs/tab-icon-complete.svg)
+                color $can-green
+
+                &:after
+                    background-color $can-green
+                    
+                &[disabled]
+                    background-image url(/assets/components/can-page-tabs/tab-icon-complete.svg)
+                
+            &[disabled]
+                background-image url(/assets/components/can-page-tabs/tab-icon-incomplete-disabled.svg)
+
+        &[disabled]
+            pointer-events none
+            opacity .5
+        
+        @media only screen and (max-width $breakpoint-tablet-max)
+            width auto
+        
+        &:first-letter
+            text-transform capitalize
+
+        &:hover
+            //
+            
+        &.iron-selected
+            border-bottom-color $can-green
+            opacity 1
+                
+        &:before
+            content attr(data-label)

@@ -1,0 +1,30 @@
+<!doctype html>
+<link rel="import" href="../../polymer/polymer.html">
+<link rel="import" href="../../iron-selector/iron-selector.html">
+<link rel="import" href="../can-page-tab/can-page-tab.html">
+<link rel="import" href="../can-page-tabs/can-page-tabs-navigation.html">
+
+<dom-module id="can-page-tabs">
+
+    <template>
+
+        <iron-selector selected="{{activeTab}}" class="tab-buttons">
+            <template is="dom-repeat" items="[[tabsdata]]">
+                <button
+                    value="[[index]]"
+                    disabled="[[item.isDisabled]]"
+                    data-showcompletion$="[[item.requiresCompletion]]"
+                    data-complete$="[[item.isComplete]]"
+                    >[[item.name]]
+                </button>
+            </template>
+        </iron-selector>
+
+        <iron-selector selected="{{activeTab}}">
+            <content select="can-page-tab"></content>
+        </iron-selector>
+
+    </template>
+    <script src="can-page-tabs.js"></script>
+
+</dom-module>

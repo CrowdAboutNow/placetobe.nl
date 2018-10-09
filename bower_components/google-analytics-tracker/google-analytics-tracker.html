@@ -1,0 +1,74 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../iron-signals/iron-signals.html">
+
+<!--
+`google-analytics-tracker`
+is a Polymer Element for [Google Analytics Web Tracking](https://developers.google.com/analytics/devguides/collection/analyticsjs/)
+
+@demo demo/index.html 
+-->
+
+<dom-module id="google-analytics-tracker">
+  <template>
+      <iron-signals
+        on-iron-signal-send-page="sendPage"
+        on-iron-signal-send-event="sendEvent"
+      ></iron-signals>
+  </template>
+  <script>
+
+    //google analytics
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName('link')[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    Polymer({
+
+      is: 'google-analytics-tracker',
+
+      properties: {
+        
+        trackingId: {
+          type: String,
+          value: null,
+          observer: '_trackingIdChanged'
+        },
+
+        debugMode: {
+          type: Boolean,
+          value: false
+        }
+
+      },
+
+      sendEvent: function(e) {
+        if(this.debugMode) {
+          console.log('sendEvent', e.detail);
+        }
+        ga('send', 'event', e.detail.category, e.detail.action, e.detail.label, e.detail.value);
+      },
+
+      sendPage: function(e) {
+        if(this.debugMode) {
+          console.log('sendPage', e.detail);
+        }
+        if (e !== undefined && e.detail !== undefined && e.detail.path !== undefined) {
+          ga('set', 'page', e.detail.path);
+        }
+        ga('send', 'pageview');
+      },
+
+      _trackingIdChanged: function(newTrackingId, oldTrackingId) {
+        if(this.debugMode) {
+          console.log('_trackingIdChanged', newTrackingId, oldTrackingId);
+        }
+        if(newTrackingId && oldTrackingId === null) {
+          ga('create', newTrackingId, 'auto');
+          this.sendPage({});
+        }      
+      }
+
+    });
+  </script>
+</dom-module>

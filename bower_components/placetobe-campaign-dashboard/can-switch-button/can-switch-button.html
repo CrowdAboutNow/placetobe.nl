@@ -1,0 +1,18 @@
+<!doctype html>
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<link rel="import" href="../../polymer/polymer.html">
+<link rel="import" href="../../iron-selector/iron-selector.html">
+
+<dom-module id="can-switch-button">
+
+    <template>
+        <iron-selector
+        	attr-for-selected="value"
+        	selected="{{selectedValue}}">
+            <content></content>
+        </iron-selector>
+    </template>
+
+    <script src="can-switch-button.js"></script>
+
+</dom-module>

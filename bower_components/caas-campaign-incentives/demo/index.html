@@ -1,0 +1,262 @@
+<!doctype html>
+<html>
+  <head>
+    <title>caas-campaign-incentives demo</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
+    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+
+    <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
+    <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
+
+    <link rel="import" href="../caas-campaign-incentives.html">
+    <link rel="import" href="../../caas-auth/caas-auth.html">
+    <link rel="import" href="../../app-route/app-location.html">
+
+    <style is="custom-style" include="demo-pages-shared-styles">
+    </style>
+  </head>
+  <body>
+
+    <div class="vertical-section-container centered">
+      <h3>Basic caas-campaign-incentives Demo</h3>
+      <demo-snippet>
+        <template
+          is="dom-bind"
+          id="demo"
+          signed-in="[[signedIn]]"
+        >
+
+          <caas-campaign-incentives
+            id="incentives"
+            auto-download
+            api-endpoint="http://canapi.local"
+            access-token="[[accessToken]]"
+            campaign-id="[[queryParams.campaignId]]"
+            incentives="{{incentives}}"
+            minimum-allowed-investment="{{minimumAllowedInvestment}}"
+            maximum-allowed-investment="{{maximumAllowedInvestment}}"
+            allowed-contract-type-ids="{{allowedContractTypeIds}}"
+            on-incentive-added="_handleIncentiveAdded"
+            on-incentive-add-error="_handleIncentiveAddError"
+            on-incentive-updated="_handleIncentiveUpdated"
+            on-incentive-update-error="_handleIncentiveUpdateError"
+            on-incentive-deleted="_handleIncentiveDeleted"
+            on-incentive-delete-error="_handleIncentiveDeleteError"
+          ></caas-campaign-incentives>
+
+          <caas-auth
+            id="auth"
+            api-endpoint="http://canapi.local"
+            signed-in="{{signedIn}}"
+            access-token="{{accessToken}}"
+            user-role="{{userRole}}"
+            user-id="{{userId}}"
+          ></caas-auth>
+
+          <app-location
+            query-params="{{queryParams}}"
+          ></app-location>
+
+          <template is="dom-if" if="[[!signedIn]]">
+            <h2>Sign in</h2>
+            <form on-submit="signIn">
+              <label for="username">username</label><br>
+              <input type="text" id="username" value="[[queryParams.username]]"><p>
+              <label for="password">password</label><br>
+              <input type="password" id="password" value="[[queryParams.password]]"><p>
+              <input type="submit" value="Sign In">
+            </form>
+          </template>
+
+          <template is="dom-if" if="[[signedIn]]">
+            
+            <h2>Signed In as [[userRole]] #[[userId]]</h2>
+            <form on-submit="signOut">
+              <input type="submit" value="Sign Out">
+            </form>
+
+            <h2>Add Item</h2>
+            <form on-submit="addItem">
+              <label>title</label><br>
+              <input type="text" value="{{newItem.title::input}}" placeholder="title"><p>
+
+              <label>message</label><br>
+              <textarea placeholder="message" value="{{newItem.message::input}}"></textarea><p>
+
+              <label>minimum investment</label><br>
+              <input
+                type="number"
+                min$="[[minimumAllowedInvestment]]"
+                max$="[[maximumAllowedInvestment]]"
+                value="{{newItem.minimumInvestment::input}}"
+                placeholder="minimum investment"
+              ><p>
+
+              <label>extra costs?</label><br>
+              <input
+                type="number"
+                value="{{newItem.costs::input}}"
+                placeholder="costs"
+              ><p>
+
+              <label>Total Stock (0 = unlimited)</label><br>
+              <input
+                type="number"
+                value="{{newItem.totalStock::input}}"
+                placeholder="total stock"
+              ><p>
+
+              <label>contract type?</label><br>
+              <select value="{{newItem.contractTypeId::change}}">
+                <option></option>
+                <template is="dom-repeat" items="[[allowedContractTypeIds]]">
+                  <option value="{{item}}">[[item]]</option>
+                </template>
+              </select><p>
+
+              <label>for business?</label><br>
+              <select value="{{newItem.forBusiness::change}}">
+                <option></option>
+                <option value="true">Yes</option>
+              </select><p>
+
+              <input type="submit" value="Add Item">
+            </form>
+          </template>
+
+          <h2>Incentives</h2>
+
+          <ul>
+          <template is="dom-repeat" items="{{incentives}}" index-as="incentiveIndex">
+            <li>
+              <template is="dom-if" if="[[!signedIn]]">
+                <h2>[[item.title]]</h2>
+                <h3>bij €[[item.minimumInvestment]] of meer</h3>
+                <h5>[[item.numberOfInvestors]] investeerders kozen hiervoor</h5>
+                <h5 hidden$="[[item.available]]">niet meer beschikbaar</h5>
+                <article>[[item.message]]</article><br>
+                <button hidden$="[[!signedIn]]" on-tap="deleteItem" data-itemid$="[[item.id]]">Delete Item</button>
+              </template>
+              <template is="dom-if" if="[[signedIn]]">
+                <form on-submit="updateItem" data-index$="[[incentiveIndex]]">
+                  <label>title</label><br>
+                  <input type="text" value="{{item.title::input}}" placeholder="title"><p>
+
+                  <label>message</label><br>
+                  <textarea placeholder="message" value="{{item.message::input}}"></textarea><p>
+
+                  <label>minimum investment</label><br>
+                  <input
+                    type="number"
+                    min$="[[minimumAllowedInvestment]]"
+                    max$="[[maximumAllowedInvestment]]"
+                    value="{{item.minimumInvestment::input}}"
+                    placeholder="minimum investment"
+                  ><p>
+
+                  <label>extra costs?</label><br>
+                  <input
+                    type="number"
+                    value="{{item.costs::input}}"
+                    placeholder="costs"
+                  ><p>
+
+                  <label>Total Stock (0 = unlimited)</label><br>
+                  <input
+                    type="number"
+                    value="{{item.totalStock::input}}"
+                    placeholder="total stock"
+                  ><p>
+
+                  <label>contract type?</label><br>
+                  <select value="{{item.contractTypeId::change}}">
+                    <option selected value="{{item.contractTypeId}}">[[item.contractTypeId]]</option>
+                    <template is="dom-repeat" items="[[allowedContractTypeIds]]" as="allowedContractTypeId">
+                      <option value="{{allowedContractTypeId}}">[[allowedContractTypeId]]</option>
+                    </template>
+                  </select><p>
+
+                  <label>for business?</label><br>
+                  <select value="{{item.forBusiness::change}}">
+                    <option></option>
+                    <option value="true">Yes</option>
+                  </select><p>
+
+                  <input type="submit" value="Update Item">
+                </form>
+                <button hidden$="[[!signedIn]]" on-tap="deleteItem" data-itemid$="[[item.id]]">Delete Item</button>
+              </template>
+            </li>
+          </template>
+          </ul>
+
+          <script>
+            var demo = document.querySelector('#demo');
+            var incentives = document.querySelector('#incentives');
+
+            demo.signIn = function(evt) {
+              evt.preventDefault();
+              auth.signIn(
+                document.querySelector('#username').value,
+                document.querySelector('#password').value,
+                'ondernemer'
+              );
+            }
+
+            demo.signOut = function(evt) {
+              evt.preventDefault();
+              auth.signOut();
+            }
+
+            demo.deleteItem = function(evt) {
+              var id = evt.target.getAttribute('data-itemid');
+              incentives.removeItem(id);
+            }
+
+            demo._handleIncentiveDeleted = function() {
+              alert('Incentive Successfully deleted!');
+            }
+
+            demo._handleIncentiveDeleteError = function(evt, error) {
+              alert('Something went wrong while deleting: ' + error.message)
+            }
+
+            demo.newItem = {}
+            
+            demo.addItem = function(evt) {
+              evt.preventDefault();
+              incentives.addItem(demo.newItem);
+            }
+
+            demo._handleIncentiveAdded = function() {
+              demo.newItem = {};
+            }
+
+            demo._handleIncentiveAddError = function(evt, error) {
+              alert('Something went wrong while adding: ' + error.message)
+            }
+
+            demo.updateItem = function(evt) {
+              evt.preventDefault();
+              var index = evt.target.getAttribute('data-index');
+              incentives.updateItem(this.incentives[index]);
+            }
+
+            demo._handleIncentiveUpdated = function() {
+              alert('Incentive Successfully updated!');
+            }
+
+            demo._handleIncentiveUpdateError = function(evt, error) {
+              alert('Something went wrong while updating: ' + error.message)
+            }
+
+
+          </script>
+
+        </template>
+      </demo-snippet>
+    </div>
+
+  </body>
+</html>

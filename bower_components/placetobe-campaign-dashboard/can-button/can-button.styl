@@ -1,0 +1,150 @@
+can-button
+    display block
+    user-select none
+    
+    &[hidden]
+        display none
+
+    &[disabled]
+        pointer-events none
+
+    button
+        position relative
+        display block
+        /* display and box model */
+        padding 6px ($defaultmargin/2)
+        min-height 36px
+        height auto
+        margin ($defaultmargin/2) 0 ($defaultmargin/2) 0
+        border 1px solid $can-blue
+        /* color */
+        background-color: var(--my-can-button-bk-color, #fff)
+        /* text */
+        font-size 18px
+        font-weight 400
+        // text-transform lowercase
+        /* other */
+        cursor pointer
+        outline none
+        color $can-blue
+
+        @media only screen and (max-width $breakpoint-phone-max)
+            font-size 15px
+
+        &:first-letter
+            text-transform uppercase
+
+        &:hover
+            /* color */
+            background-color $can-green
+
+        &:active
+            border-color $can-green
+
+    &[disabled] button, button:disabled
+            pointer-events none
+            opacity .5
+            background-color $can-grey
+
+    &[small] button
+        border 0
+        background-color transparent
+        border-bottom 2px solid $can-green
+        font-size  1rem
+        padding 0
+        margin 0
+        width auto
+        height auto
+        min-height auto
+        color $can-blue
+        text-transform lowercase
+
+        &:hover
+            background-color $can-green
+
+    &[deselect]
+        &:not([disabled]):hover
+            color $can-green
+
+    &[add] button, &[download] button, &[remove] button
+        border 0
+        background-color transparent
+        text-decoration none
+        font-size 14px
+        line-height 24px
+        padding 0
+        width auto
+        height auto
+        min-height auto
+        color $can-blue
+        margin 18px 0
+
+        &:hover
+
+            &:before
+                transform rotate(180deg)
+
+        &:before
+            content ""
+            position absolute
+            height 24px
+            width 24px
+            border-radius 12px
+            background-color $can-green
+            background-repeat no-repeat
+            background-position 50% 50%
+            right -33px
+            top 0
+            transition .3s
+
+    &[add] button
+        &:before
+            background-image url(/assets/components/can-button/add.svg)
+
+    &[download] button
+        position relative
+
+        &:hover
+            background-color transparent
+
+            &:before
+                background-position 50% 0%
+                transform none
+
+        &:before
+            background-image url(/assets/components/can-button/download.svg)
+            transition .2s ease-in-out
+            background-position 50% 100%
+
+    &[remove] button
+        position absolute
+        right 51px
+        top 0
+
+        &:before
+            background-color $can-red
+            background-image url(/assets/components/can-button/remove.svg)
+
+    &[multiple] button
+        position relative
+        float right
+        top -40px
+        right 35px
+
+
+    &[special] button
+        color white
+        background-color $can-blue
+
+    &[invest] button
+        color $can-blue
+        background-color $can-yellow
+        padding 9px 18px
+        box-shadow 0 2px 4px 0px rgba(0,0,0,0.15)
+        transition box-shadow .2s ease
+
+        &:hover
+            background-color rgba($can-green,0.8)
+
+            @media only screen and (max-width $breakpoint-tablet-max)
+                -webkit-tap-highlight-color transparent

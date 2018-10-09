@@ -1,0 +1,274 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../iron-image/iron-image.html">
+<link rel="import" href="../caas-campaign/caas-campaign.html">
+<link rel="import" href="../caas-campaign-stats/caas-campaign-stats.html">
+<link rel="import" href="../placetobe-behaviors/placetobe-styles-behavior.html">
+<link rel="import" href="../placetobe-styles/placetobe-styles.html">
+<link rel="import" href="../placetobe-campaign-progress-bar/placetobe-campaign-progress-bar.html">
+
+<!--
+`placetobe-campaign-card`
+Placetobe Campaign Card
+
+@demo demo/index.html
+-->
+
+<dom-module id="placetobe-campaign-card">
+  <template>
+    <style>
+
+      :host {
+        display: block;
+      }
+
+      :host #container {
+        color: var(--placetobe-color-darkblue);
+        position: relative;
+        z-index: 0;
+        @apply(--placetobe-flex-layout--vertical);
+        @apply(--placetobe-cross-align--stretch);
+        @apply(--placetobe-flex-item--1);
+        @apply(--placetobe-border-box);
+      }
+
+      :host([horizontal-layout]) #container {
+        @apply(--placetobe-flex-layout--horizontal-reverse);
+        @apply(--placetobe-cross-align--stretch);
+      }
+
+      :host #link {
+        position: absolute;
+        top: calc(var(--placetobe-margin) - ( var(--placetobe-margin)  * 2 ) );
+        right: calc(var(--placetobe-margin) - ( var(--placetobe-margin)  * 2 ) );
+        bottom: calc(var(--placetobe-margin) - ( var(--placetobe-margin)  * 2 ) );
+        left: calc(var(--placetobe-margin) - ( var(--placetobe-margin)  * 2 ) );
+        background-color: transparent;
+        content: "";
+        z-index: 3;
+      }
+
+      :host([has-link]) #container:hover:after {
+        position: absolute;
+        top: calc(var(--placetobe-margin) - ( var(--placetobe-margin)  * 2 ) );
+        right: calc(var(--placetobe-margin) - ( var(--placetobe-margin)  * 2 ) );
+        bottom: calc(var(--placetobe-margin) - ( var(--placetobe-margin)  * 2 ) );
+        left: calc(var(--placetobe-margin) - ( var(--placetobe-margin)  * 2 ) );
+        background-color: var(--placetobe-color-yellow);
+        content: "";
+        z-index: 0;
+        @apply(--placetobe-border-radius);
+      }
+
+      :host iron-image {
+        width: 100%;
+        height: calc( var(--placetobe-margin) * 10 );
+        position: relative;
+        z-index: 1;
+        background-color: var(--placetobe-color-gray);
+      }
+
+      :host([horizontal-layout]) iron-image {
+        height: auto;
+        @apply(--placetobe-flex-item--2);
+      }
+
+      @media (min-width: 601px) {
+        :host([horizontal-layout]) iron-image {
+          min-width: calc(50% - var(--placetobe-margin));
+          max-width: calc(50% - var(--placetobe-margin));
+        }
+      }
+
+      @media (min-width: 991px) {
+        :host([horizontal-layout]) iron-image {
+          min-width: calc(66.666% - (var(--placetobe-margin) / 3 *2));
+          max-width: calc(66.666% - (var(--placetobe-margin) / 3 *2));
+        }
+      }
+
+      :host section {
+        position: relative;
+        z-index: 1;
+        @apply(--placetobe-flex-layout--vertical);
+        padding-right: calc( var(--placetobe-margin) * 4 );
+        @apply(--placetobe-flex-item--1);
+      }
+
+      :host h6 {
+        @apply(--placetobe-font-body);
+        margin: var(--placetobe-margin) 0 calc(var(--placetobe-margin)/2) 0;
+      }
+
+      :host h2 {
+        @apply(--placetobe-font-heading1);
+      }
+
+      :host h3 {
+        @apply(--placetobe-font-heading3-bold);
+        color: var(--placetobe-color-green);
+        margin-top: var(--placetobe-margin);
+      }
+
+      :host placetobe-campaign-progress-bar {
+        --placetobe-campaign-progress-bar-background-color: var(--placetobe-color-darkblue);
+        margin: calc(var(--placetobe-margin)/2) 0 calc(var(--placetobe-margin)/3*4) 0;
+      }
+
+      :host article {
+        @apply(--placetobe-font-body);
+        margin: calc(var(--placetobe-margin)/2) 0;
+      }
+
+      :host main {
+        @apply(--placetobe-flex-item--1);
+      }
+
+      :host footer {
+        @apply(--placetobe-font-body-serif);
+      }
+
+      :host .button {
+        @apply(--placetobe-default-button);
+        margin-top: var(--placetobe-margin);
+        background-color: var(--placetobe-color-darkblue);
+        box-shadow: 0 3px 0 white;
+        color: white;
+      }
+
+      :host .rolling-container {
+        height: 58px;
+        overflow: hidden;
+      }
+
+      :host .rolling-content[data-rolling] {
+        transition: 0.25s transform ease-in-out;
+      }
+
+      :host #container:hover .rolling-content[data-rolling] {
+        transform: translateY(-62px);
+      }
+
+      img {
+        max-width: 100% !important;
+        width: 100% !important;
+      }
+
+    </style>
+
+    <caas-campaign
+      api-endpoint="[[apiEndpoint]]"
+      id="[[campaignId]]"
+      title="{{title}}"
+      introduction-text="{{introductionText}}"
+      image-url="{{imageUrl}}"
+      body-text="{{campaignText}}"
+    ></caas-campaign>
+
+    <caas-campaign-stats
+      api-endpoint="[[apiEndpoint]]"
+      campaign-id="[[campaignId]]"
+      number-of-funders="{{numberOfFunders}}"
+      required-funding="{{requiredFunding}}"
+      maximum-funding="{{maximumFunding}}"
+      currently-funded="{{currentlyFunded}}"
+      days-left="{{daysLeft}}"
+      labels="{{labels}}"
+      closed="{{closed}}"
+      status-label="{{statusLabel}}"
+    ></caas-campaign-stats>
+
+
+    <div id="container">
+
+      <a id="link" href$="[[href]]" hidden$="[[!hasLink]]"></a>
+
+      <iron-image
+        src$="[[imageUrl]]"
+        sizing="cover"
+        fade
+      ></iron-image>
+
+      <section>
+
+        <header>
+          <h6>[[labels]]</h6>
+          <h2>[[title]]</h2>
+        </header>
+
+        <main>
+          <article>
+          [[introductionText]]
+          </article>
+        </main>
+
+        <footer>
+          <h3>€[[currentlyFunded]]</h3>
+          <placetobe-campaign-progress-bar
+            required-funding="[[requiredFunding]]"
+            maximum-funding="[[maximumFunding]]"
+            currently-funded="[[currentlyFunded]]"
+            text-below
+          ></placetobe-campaign-progress-bar>
+
+          <div class="rolling-container">
+            <div class="rolling-content" data-rolling$="[[hasLink]]">
+              <strong>[[numberOfFunders]]</strong> investeerders<br>
+              <span hidden$="[[closed]]">nog <strong>[[daysLeft]]</strong> dagen</span>
+              <span hidden$="[[!closed]]">[[statusLabel]]</span>
+              <br>
+              <a class="button">Bekijk project</a>
+            </div>
+          </div>
+        </footer>
+
+      </section>
+
+    </div>
+
+  </template>
+
+  <script>
+    Polymer({
+
+      is: 'placetobe-campaign-card',
+      behaviors: [PlacetobeStylesBehavior],
+
+      properties: {
+
+        campaignId: {
+          type: String,
+          value: null
+        },
+
+        apiEndpoint: {
+          type: String,
+          value: null
+        },
+
+        href: {
+          type: String,
+          value: null,
+        },
+
+        hasLink: {
+          type: Boolean,
+          computed: '_computeHasLink(href)',
+          reflectToAttribute: true,
+          notify: true
+        },
+
+        horizontalLayout: {
+          type: Boolean,
+          value: false,
+          reflectToAttribute: true
+        }
+
+      },
+
+      _computeHasLink: function(href) {
+        return (!!href);
+      }
+
+    });
+  </script>
+</dom-module>

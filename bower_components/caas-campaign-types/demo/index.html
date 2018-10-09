@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+    <title>caas-campaign-types demo</title>
+
+    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+
+    <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
+    <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
+    <link rel="import" href="../caas-campaign-types.html">
+
+    <custom-style>
+      <style is="custom-style" include="demo-pages-shared-styles">
+      </style>
+    </custom-style>
+  </head>
+  <body>
+    <div class="vertical-section-container centered">
+      <h3>Basic caas-campaign-types demo</h3>
+      <demo-snippet>
+        <template is="dom-bind">
+
+              <caas-campaign-types
+                auto-download
+                id="campaigntypes"
+                campaign-types="{{campaignTypes}}"
+                api-endpoint="https://192.168.178.36/api/"
+                campaign-id="892">
+              </caas-campaign-types>
+
+              <template is="dom-repeat" items="{{campaignTypes}}" index-as="index">
+                <ul>
+                    <li>[[item.campaignId]]</li>
+                    <li>[[item.contractTypeId]]</li>
+                    <li>[[item.contractTypeName]]</li>
+                    <li>[[item.minimumInvestment]]</li>
+                    <li>[[item.maximumInvestment]]</li>
+                    <li>[[item.investmentIncrement]]</li>
+                    <li>[[item.investmentVerb]]</li>
+                    <li>[[item.maximumTotalAmount]]</li>
+                    <li>[[item.progress]]</li>
+                </ul>
+              </template>
+
+        </template>
+      </demo-snippet>
+    </div>
+  </body>
+</html>

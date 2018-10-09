@@ -1,0 +1,69 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../iron-signals/iron-signals.html">
+
+<!--
+`caas-auth-behavior`
+Polymer Authentication Behavior for Crowdfunding as a Service Solutions
+-->
+
+<script>
+  /** @polymerBehavior CaasAuthBehavior */
+  CaasAuthBehavior = {
+
+    properties: {
+
+        /**
+        * Exposes the access token (JSON web token) associated with the current session
+        */
+        accessToken: {
+          type: String,
+          value: null,
+          notify: true
+        },
+
+        _authHeader: {
+          type: Object,
+          computed: '_computeAuthHeader(accessToken)'
+        },
+
+        _tokenData: {
+          type: Object,
+          value: { data:{} },
+          computed: '_computeTokenData(accessToken)'
+        }
+
+    },
+
+    created: function() {
+      document.addEventListener('iron-signal', this._handleIronSignals.bind(this))
+    },
+
+    attached: function() {
+      this.fire('iron-signal', {name: 'request-caas-access-token'});
+    },
+
+    _computeAuthHeader: function(accessToken) {
+      return {
+        'authorization': 'Bearer ' + accessToken
+      }
+    },
+    
+    _computeTokenData: function(accessToken) {
+      if(!accessToken) return { data:{} };
+      var base64Url = accessToken.split('.')[1];
+      var base64 = base64Url.replace('-', '+').replace('_', '/');
+      return JSON.parse(window.atob(base64));
+    },
+
+    _handleIronSignals: function(evt) {
+      switch(evt.detail.name) {
+        case 'caas-access-token':
+          this.set('accessToken', evt.detail.data.accessToken);
+          break;
+        default:
+          break;
+      }
+    }
+
+  }
+</script>

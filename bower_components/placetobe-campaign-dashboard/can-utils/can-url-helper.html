@@ -1,0 +1,24 @@
+<!doctype html>
+<link rel="import" href="../../polymer/polymer.html">
+<link rel="import" href="../../iron-location/iron-location.html">
+<script src="../../qs/dist/qs.js"></script>
+
+<!--
+Display great dates
+
+    <can-date value="[[date]]">
+-->
+
+<dom-module id="can-url-helper">
+
+    <template>
+        <iron-location
+            query="{{paramsString}}">
+        </iron-location>
+    </template>
+    
+    <script src="can-url-helper.js"></script>
+
+
+
+</dom-module>

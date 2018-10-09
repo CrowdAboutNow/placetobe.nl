@@ -1,0 +1,29 @@
+<!doctype html>
+<link rel="import" href="../../polymer/polymer.html"> 
+<link rel="import" href="../can-login-form/can-login-form.html">
+<link rel="import" href="../can-card/can-card.html">
+
+<dom-module id="can-login-page">
+    <template>
+                    
+        <can-card>
+            <header>
+                <h3>Login <template is="dom-if" if="[[hideUsertypeSelect]]"> [[userRoleName]]s</template></h3>
+                
+            </header>
+            <article>
+            <can-login-form
+                user-role-name="{{userRoleName}}"
+                user-role="{{userRole}}"
+                hide-usertype-select="{{hideUsertypeSelect}}"
+            ></can-login-form>
+            </article>
+            <footer>
+                <br>
+                <can-button small url="/forgotpassword">Wachtwoord vergeten?</can-button>
+            </footer>
+        </can-card>
+
+    </template>
+    <script src="can-login-page.js"></script>
+</dom-module>

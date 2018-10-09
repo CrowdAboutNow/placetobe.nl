@@ -1,0 +1,128 @@
+can-list-item
+    display block
+    background-color white
+    position relative
+    border-radius 0 0 3px 3px
+    border-top 1px solid rgba(0,0,0,0.16)
+    box-shadow 0 1px 0 0 rgba(0,0,0,0.16)
+    margin-top -3px
+    $$transition()
+
+    .expand-button-expands
+
+        right 18px
+        top 23px
+        height 20px
+        width 20px
+        position absolute
+
+        &:before
+            position absolute
+            cursor pointer
+            content " "
+            background-image url("/assets/components/can-selectbox/drop-icon.svg")
+            background-size 10px
+            background-position 50%
+            background-repeat no-repeat
+            height 16px
+            width 16px
+            border-radius 50%
+            opacity .5
+            border 1px solid $can-blue
+            $$transition()
+
+    &[completed]
+        header
+            background-color $can-lightgreen
+        article
+            background-color $can-lightgreen
+
+    &[expandable]
+
+        .header-expands
+
+            &[expanded]
+
+            header
+                cursor pointer
+                padding 18px
+                text-align left
+
+                &:before
+                    position absolute
+                    content " "
+                    background-image url("/assets/components/can-selectbox/drop-icon.svg")
+                    background-size 10px
+                    background-position 50%
+                    background-repeat no-repeat
+                    right 18px
+                    top 23px
+                    height 16px
+                    width 16px
+                    border-radius 50%
+                    opacity .5
+                    border 1px solid $can-blue
+                    $$transition()
+
+    header
+
+        h4
+            margin 0
+
+
+    article, footer
+        text-align left
+        padding 18px
+        padding-top 0
+
+    article
+        &:first-of-type
+            padding-top 0
+
+    &[disabled]
+        pointer-events none
+
+    &[expandable]
+
+        &[expanded]
+            background-color $can-green
+
+        header
+
+        &[expanded]
+            header:before
+                transform rotate(180deg)
+
+        &:hover
+            background-color $can-lightgreen
+            &:after
+                background-color $can-lightgreen
+
+        &[expanded]:hover
+            background-color $can-green
+
+        article, footer, can-list
+            display none
+
+        &[expanded]
+            article, footer, can-list
+                display block
+
+    &[simplified]
+
+        &[expandable]
+
+            &[expanded]
+                background-color white
+
+        header
+            cursor pointer
+            text-align left
+
+            h3
+                padding 18px
+
+            &:hover
+                background-color $can-lightgreen
+                &:after
+                    background-color $can-lightgreen

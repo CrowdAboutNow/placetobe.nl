@@ -1,0 +1,45 @@
+<!doctype html>
+<html>
+  <head>
+    <title>placetobe-mailinglist-subscribe-form demo</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
+    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+
+    <script>
+      window.Polymer = {
+        useNativeCSSProperties: true,
+        lazyRegister: true,
+        dom: 'shadow'
+      };
+    </script>
+
+    <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
+    <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
+
+    <link rel="import" href="../placetobe-mailinglist-subscribe-form.html">
+
+    <style is="custom-style" include="demo-pages-shared-styles">
+      demo-snippet {
+        --demo-snippet-demo: {
+          display: block;
+        }
+      }
+    </style>
+  </head>
+  <body>
+
+    <div class="vertical-section-container">
+      <h3>Basic placetobe-mailinglist-subscribe-form Demo</h3>
+      <demo-snippet>
+        <template>
+          <placetobe-mailinglist-subscribe-form
+            api-endpoint="http://canapi.local"
+            user-role="investors"
+          ></placetobe-mailinglist-subscribe-form>
+        </template>
+      </demo-snippet>
+    </div>
+
+  </body>
+</html>

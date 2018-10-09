@@ -1,0 +1,134 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../iron-ajax/iron-ajax.html">
+
+<!--
+`caas-accountmanagers`
+Polymer accountmanagers Element for Crowdfunding as a Service Solutions
+
+@demo demo/index.html
+-->
+
+<dom-module id="caas-accountmanagers">
+  <template>
+
+      <iron-ajax
+        id="getItems"
+        headers="[[_requestHeaders]]"
+        url="[[apiEndpoint]]/accountmanagers"
+        method="GET"
+        last-response="{{_apiData}}"
+        debounce-duration="500"
+        auto="[[autoDownload]]"
+        loading="{{loadingAccountmanagers}}"
+        params="[[_queryParams]]"
+      ></iron-ajax>
+
+  </template>
+
+  <script>
+    Polymer({
+
+      is: 'caas-accountmanagers',
+
+      properties: {
+
+        /**
+        * The server side API endpoint
+        */
+        apiEndpoint: {
+          type: String,
+          value: null
+        },
+
+        /**
+        * Exposes the access token (JSON web token) associated with the current session
+        */
+        accessToken: {
+          type: String,
+          value: null,
+          notify: true
+        },
+
+        /**
+        * True while getting all accountmanagers
+        */
+        loadingAccountmanagers: {
+          type: Boolean,
+          value: false,
+          notify: true
+        },
+
+        /**
+        * Determines whether the accountmanagers should be downloaded automatically
+        */
+        autoDownload: {
+          type: Boolean,
+          value: false
+        },
+
+        active: {
+          type: Boolean,
+          value: false
+        },
+
+        accountManagers: {
+          type: Array,
+          notify: true,
+          computed: '_computeAccountManagers(_apiData.*, active)'
+        },
+
+        _requestHeaders: {
+          type: Object,
+          computed: '_computeRequestHeaders(accessToken)'
+        },
+
+        _apiData: {
+          type: Array
+        }
+
+      },
+
+      /*
+      * Download All accountmanagers
+      */
+      getItems: function() {
+        this.$.getItems.generateRequest();
+      },
+
+      _computeAccountManagers: function(apiDataChange, active) {
+        var _self = this;
+        var apiData = apiDataChange.base;
+        if(!apiData) return;
+        return apiData.filter(this._checkIfAccountManagerIsActive, _self)
+            .map(this._parseApiDataItemToAccountManager, _self);
+      },
+
+
+      _computeRequestHeaders: function(accessToken) {
+        return {
+          'authorization': 'Bearer ' + accessToken
+        }
+      },
+
+      _parseApiDataItemToAccountManager: function(apiDataItem) {
+        return {
+          id: apiDataItem.id,
+          email: apiDataItem.email,
+          firstName: apiDataItem.firstName,
+          lastName: apiDataItem.lastName,
+          shortBio: apiDataItem.shortBio,
+          avatarURL: apiDataItem.avatarURL
+        }
+      },
+
+      _checkIfAccountManagerIsActive: function(apiDataItem) {
+        if(!this.active) return true;
+        if(apiDataItem.email == "mark@crowdaboutnow.com") return true;
+        if(apiDataItem.email == "loes@crowdaboutnow.com") return true;
+        if(apiDataItem.email == "kim@crowdaboutnow.com") return true;
+        return false
+      }
+
+    });
+  </script>
+</dom-module>

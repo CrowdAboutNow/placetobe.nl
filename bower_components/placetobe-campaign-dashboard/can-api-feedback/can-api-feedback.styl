@@ -1,0 +1,54 @@
+can-api-feedback
+
+    float left
+    display block
+    margin-top -27px
+    width calc(100% - 120px)
+    font-size initial
+    position relative
+    padding-left 35px
+    font-size 14px
+    $$transition()
+
+    @media only screen and (max-width $breakpoint-tablet-max)
+        line-height 14px
+
+    &:before
+        width 26px
+        height 26px
+        content " "
+        position absolute
+        top -6px
+        left 0
+
+    &:after
+        $$transition()
+
+    &[status]
+        opacity 0
+
+    &[status="unsaved"]
+        opacity 1
+        &:before
+            background-image url(/assets/components/can-api-feedback/unsaved.svg)
+        &:after
+            // content "onopgeslagen wijzigingen"
+
+    &[status="loading"]
+        opacity 1
+        &:before
+            background-image url(/assets/components/can-api-feedback/saving.svg)
+        &:after
+            // content "bezig met opslaan"
+
+    &[status="success"]
+        opacity 1
+        &:before
+            background-image url(/assets/components/can-api-feedback/success.svg)
+        &:after
+            // content "opgeslagen!"
+
+    &[status="failed"]
+        opacity 1
+        &:before
+            background-image url(/assets/components/can-api-feedback/failed.svg)

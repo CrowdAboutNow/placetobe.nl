@@ -1,0 +1,57 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../placetobe-styles/placetobe-styles.html">
+<link rel="import" href="../placetobe-behaviors/placetobe-styles-behavior.html">
+<link rel="import" href="../placetobe-button/placetobe-button.html">
+
+<!--
+`placetobe-cookie-warning`
+Placetobe Cookie Warning
+
+@demo demo/index.html 
+-->
+
+<dom-module id="placetobe-cookie-warning">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+
+      :host section {
+        @apply(--placetobe-flex-layout--horizontal);
+        @apply(--placetobe-border-box);
+        padding: var(--placetobe-margin);
+        background-color: var(--placetobe-cookie-background-color, var(--placetobe-color-red));
+      }
+
+      :host article {
+        @apply(--placetobe-flex-item--2);
+        @apply(--placetobe-font-body);
+      }
+
+      :host placetobe-button {
+        @apply(--placetobe-flex-item--none);
+        margin-left: var(--placetobe-margin);
+        --placetobe-button-color: white;
+      }
+
+    </style>
+    <section>
+      <article>Wij gebruiken cookies voor analyse en het goed functioneren van deze website. Gaat u verder op de site? Dan gaat u akkoord om cookies te plaatsen.</article>
+      <placetobe-button on-tap="_handleTapClose"><span>Sluiten</span></placetobe-button>
+    </section>
+  </template>
+
+  <script>
+    Polymer({
+
+      is: 'placetobe-cookie-warning',
+      behaviors: [PlacetobeStylesBehavior],
+
+      _handleTapClose: function() {
+        this.fire('cookies-accepted');
+      }
+
+    });
+  </script>
+</dom-module>

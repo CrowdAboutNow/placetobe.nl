@@ -1,0 +1,37 @@
+{
+  "name": "caas-auth",
+  "description": "Authentication Element for Crowdfunding as a Service Solutions",
+  "main": "caas-auth.html",
+  "authors": [
+    "Wouter Vroege"
+  ],
+  "keywords": [
+    "web-components",
+    "polymer"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com:CaaSElements/caas-auth.git"
+  },
+  "homepage": "https://github.com/CaaSElements/caas-auth",
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.6.0",
+    "iron-ajax": "PolymerElements/iron-ajax#^1.4.3",
+    "caas-auth-behavior": "CaaSElements/caas-auth-behavior"
+  },
+  "devDependencies": {
+    "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
+    "iron-demo-helpers": "PolymerElements/iron-demo-helpers#^1.0.0",
+    "web-component-tester": "^4.0.0",
+    "webcomponentsjs": "webcomponents/webcomponentsjs#^0.7.0"
+  },
+  "_release": "f78de178d7",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "f78de178d752462970e32bbea643b566f4f097f7"
+  },
+  "_source": "https://github.com/CaasElements/caas-auth.git",
+  "_target": "*",
+  "_originalSource": "CaasElements/caas-auth"
+}

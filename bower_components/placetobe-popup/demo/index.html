@@ -1,0 +1,43 @@
+<!doctype html>
+<html>
+  <head>
+    <title>placetobe-popup demo</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
+    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+
+    <script>
+      window.Polymer = {
+        useNativeCSSProperties: true,
+        lazyRegister: true,
+        dom: 'shadow'
+      };
+    </script>
+
+    <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
+    <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
+
+    <link rel="import" href="../placetobe-popup.html">
+    <link rel="import" href="../../placetobe-invest-page/placetobe-invest-page.html">
+
+    <style is="custom-style" include="demo-pages-shared-styles">
+      demo-snippet {
+        --demo-snippet-demo: {
+          display: block;
+          padding: 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+
+    <placetobe-popup opened>
+      <placetobe-invest-page
+        api-endpoint="http://canapi.local"
+        campaign-id="719"
+        contract-type-id="2"
+        ></placetobe-invest-page>
+    </placetobe-popup>
+
+  </body>
+</html>

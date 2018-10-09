@@ -1,0 +1,1108 @@
+<!doctype html>
+
+<html>
+  <head>
+    <title>caas-auth test</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
+    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="../../web-component-tester/browser.js"></script>
+
+    <link rel="import" href="../caas-auth.html">
+  </head>
+  <body>
+
+    <iron-ajax
+      id="getAuthenticationCode"
+      handle-as="json"
+      method="GET"
+      debounce-duration="3000"
+    ></iron-ajax>
+
+    <iron-ajax
+      id="getPasswordToken"
+      handle-as="text"
+      method="GET"
+      debounce-duration="3000"
+    ></iron-ajax>
+
+    <test-fixture id="init">
+      <template>
+        <caas-auth></caas-auth>
+      </template>
+    </test-fixture>
+
+    <test-fixture id="ondernemer">
+      <template>
+        <caas-auth></caas-auth>
+      </template>
+    </test-fixture>
+
+    <test-fixture id="investor">
+      <template>
+        <caas-auth></caas-auth>
+      </template>
+    </test-fixture>
+
+    <test-fixture id="accountmanager">
+      <template>
+        <caas-auth></caas-auth>
+      </template>
+    </test-fixture>
+
+    <test-fixture id="financialadministrator">
+      <template>
+        <caas-auth></caas-auth>
+      </template>
+    </test-fixture>
+
+    <script>
+
+      function getQueryParameter(name) {
+        url = window.location.href;
+        name = name.replace(/[\[\]]/g, "\\$&");
+        var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+            results = regex.exec(url);
+        if (!results) return null;
+        if (!results[2]) return '';
+        return decodeURIComponent(results[2].replace(/\+/g, " "));
+      }
+
+      function createUserName() {
+        return new Date().getTime() + "@caastest.local";
+      }
+
+      function createPassword() {
+        return (Math.random() * 9999999999999999).toString(16);
+      }
+
+      suite('caas-auth', function() {
+
+        var API_ENDPOINT = getQueryParameter('api') || 'http://canapi.local';
+        
+        var ENTREPRENEUR_USERNAME = getQueryParameter('entrepreneur') || 'entrepreneur@caastest.local';
+        var ENTREPRENEUR_PASSWORD = createPassword();
+        var ENTREPRENEUR_TOKEN = null;
+        
+        var INVESTOR_USERNAME = createUserName();
+        var INVESTOR_PASSWORD = createPassword();
+        var INVESTOR_TOKEN = null;
+
+        var ACCOUNTMANAGER_USERNAME = getQueryParameter('accountmanager') || 'accountmanager@caastest.local';
+        var ACCOUNTMANAGER_PASSWORD = createPassword();
+        var ACCOUNTMANAGER_TOKEN = null;
+
+        var FINANCIALADMIN_USERNAME = getQueryParameter('financialadministrator') || 'financialadministrator@caastest.local';
+        var FINANCIALADMIN_PASSWORD = createPassword();
+        var FINANCIALADMIN_TOKEN = null;
+
+        var TEMP_PASSWORD = createPassword();
+        
+        var AUTH_CODE_AJAX = document.getElementById('getAuthenticationCode');
+        AUTH_CODE_AJAX.url =  getQueryParameter('auth-code-api') || 'http://caas-auth-code-generator.local';
+        
+        var PASS_TOKEN_AJAX = document.getElementById('getPasswordToken');
+        PASS_TOKEN_AJAX.url =  getQueryParameter('pass-token-api') || 'http://caas-password-token-generator.local';
+
+        /*
+        Create User
+        */
+        function createUserTest(testFixtureName, userRole, data, callback) {
+            var element = fixture(testFixtureName);
+            element.apiEndpoint = API_ENDPOINT;
+            element.addEventListener('user-created', function(evt, data) {
+              return callback();
+            });
+            element.addEventListener('user-creation-error', function(evt) {
+              return callback(evt.detail.error);
+            });
+            element.createUser(userRole, data);
+        }
+
+        /*
+        Sign Out
+        */
+
+        function signOutTest(testFixtureName, accessToken, callback) {
+            
+            var element = fixture(testFixtureName);
+            element.apiEndpoint = API_ENDPOINT;
+            element.accessToken = accessToken;
+            element.addEventListener('signed-out', function(evt) {
+              assert.equal(element.signedIn, false);
+              assert.equal(element.userId, null);
+              assert.equal(element.accessToken, null);
+              assert.equal(element.sessionStartTime, null);
+              assert.equal(element.sessionExpirationTime, null);
+              return callback(null);
+            })
+            element.addEventListener('sign-out-error', function(evt, error) {
+              assert.equal(element.signedIn, true);
+              return callback(error);
+            })
+            element.signOut();
+
+        }
+
+        /*
+        Default Sign In
+        */
+
+        function signInTest(testFixtureName, userName, password, userRole, callback) {
+          
+          var element = fixture(testFixtureName);
+          element.apiEndpoint = API_ENDPOINT;
+          
+          element.addEventListener('signed-in', function(evt) {
+            assert.equal(element.querySelector('#signIn').body, null); //user credentials should always be deleted after response
+            assert.equal(element.userRole, userRole);
+            assert.equal(element.signedIn, true);
+            assert.isNumber(element.sessionStartTime);
+            assert.isNumber(element.sessionExpirationTime);
+            assert.operator(element.sessionStartTime, '>', 1451606400); //session start time should be greater than Jan 1st 2016
+            assert.operator(element.sessionStartTime, '<', element.sessionExpirationTime);
+            return callback(null, element.accessToken);
+          })
+
+          element.addEventListener('request-authentication-code', function(evt) {
+            return callback('auth-code-requested'); 
+          })
+
+          element.addEventListener('sign-in-error', function(evt) {
+            return callback(evt.detail); 
+          })
+
+          element.signIn(userName, password, userRole);
+
+        }
+
+        /*
+        Sign In using authentication code
+        */
+
+        function signInTwoFactorTest(testFixtureName, userName, password, userRole, callback) {
+          
+          var element = fixture(testFixtureName);
+          element.apiEndpoint = API_ENDPOINT;
+          
+          element.addEventListener('signed-in', function(evt) {
+            AUTH_CODE_AJAX.removeEventListener("response", responseCallback);
+            assert.equal(element.querySelector('#signIn').body, null); //user credentials should always be deleted after response
+            assert.equal(element.userRole, userRole);
+            assert.equal(element.signedIn, true);
+            assert.isNumber(element.sessionStartTime);
+            assert.isNumber(element.sessionExpirationTime);
+            assert.operator(element.sessionStartTime, '>', 1451606400); //session start time should be greater than Jan 1st 2016
+            assert.operator(element.sessionStartTime, '<', element.sessionExpirationTime);
+            return callback(null, element.accessToken);
+          })
+
+          element.addEventListener('request-authentication-code', function(evt) {
+            AUTH_CODE_AJAX.generateRequest();
+          })
+
+          element.addEventListener('sign-in-error', function(evt) {
+            AUTH_CODE_AJAX.removeEventListener("response", responseCallback);
+            assert.equal(element.signedIn, false);
+            return callback(evt.detail); 
+          })
+
+          function responseCallback(evt) {
+            var authenticationCode = AUTH_CODE_AJAX.lastResponse;
+            element.signIn(userName, password, userRole, authenticationCode);              
+          }
+
+          AUTH_CODE_AJAX.addEventListener("response", responseCallback);
+          AUTH_CODE_AJAX.params = {"username": userName};
+
+          element.signIn(userName, password, userRole);
+
+        }
+
+        /*
+        Set password
+        */
+
+        function setPasswordTest(testFixtureName, userName, password, userRole, callback) {
+
+          var element = fixture(testFixtureName);
+          element.apiEndpoint = API_ENDPOINT;
+          
+          element.addEventListener('password-set', function(evt) {
+            return callback(null, element.accessToken);
+          })
+
+          element.addEventListener('password-set-error', function(evt) {
+            return callback(evt.detail); 
+          })
+
+          element.setPassword(userName, password, userRole);
+
+        }
+
+        /*
+        Confirm password
+        */
+
+        function confirmPasswordTest(testFixtureName, userName, callback) {
+
+          var element = fixture(testFixtureName);
+          element.apiEndpoint = API_ENDPOINT;
+          
+          element.addEventListener('password-confirmed', function(evt) {
+            PASS_TOKEN_AJAX.removeEventListener("response", responseCallback);
+            return callback(null, element.accessToken);
+          })
+
+          element.addEventListener('password-confirmation-error', function(evt) {
+            PASS_TOKEN_AJAX.removeEventListener("response", responseCallback);
+            return callback(evt.detail); 
+          })
+
+          function responseCallback(evt) {
+            var passcodeToken = PASS_TOKEN_AJAX.lastResponse;
+            element.confirmPassword(passcodeToken);            
+          }
+
+          PASS_TOKEN_AJAX.addEventListener("response", responseCallback);
+          PASS_TOKEN_AJAX.params = {"username": userName};
+          PASS_TOKEN_AJAX.generateRequest();
+
+        }
+
+        /*
+        Enable Two Factor Auth
+        */
+
+        function enableTwoFactorAuthTest(testFixtureName, accessToken, callback) {
+
+          var element = fixture(testFixtureName);
+          element.apiEndpoint = API_ENDPOINT;
+          element.accessToken = accessToken;
+
+          element.addEventListener('two-factor-enabled', function(evt) {
+            return callback(null, element.accessToken);
+          })
+
+          element.addEventListener('two-factor-enabling-error', function(evt) {
+            return callback(evt.detail); 
+          })
+
+          element.enableTwoFactor();
+
+        }
+
+        /*
+        Enable Two Factor Auth
+        */
+
+        function disableTwoFactorAuthTest(testFixtureName, accessToken, callback) {
+
+          var element = fixture(testFixtureName);
+          element.apiEndpoint = API_ENDPOINT;
+          element.accessToken = accessToken;
+
+          element.addEventListener('two-factor-disabled', function(evt) {
+            return callback(null, element.accessToken);
+          })
+
+          element.addEventListener('two-factor-disabling-error', function(evt) {
+            return callback(evt.detail); 
+          })
+
+          element.disableTwoFactor();
+
+        }
+
+        /*
+        Trust IP Test
+        */
+
+        function trustClientIPTest(testFixtureName, accessToken, callback) {
+
+          var element = fixture(testFixtureName);
+          element.apiEndpoint = API_ENDPOINT;
+          element.accessToken = accessToken;
+
+          element.addEventListener('ip-trusted', function(evt) {
+            return callback(null, element.accessToken);
+          })
+
+          element.addEventListener('ip-trust-error', function(evt) {
+            return callback(evt.detail); 
+          })
+
+          element.trustClientIP();
+
+        }
+
+        /*
+        Disrust IP Test
+        */
+
+        function distrustClientIPTest(testFixtureName, accessToken, callback) {
+
+          var element = fixture(testFixtureName);
+          element.apiEndpoint = API_ENDPOINT;
+          element.accessToken = accessToken;
+
+          element.addEventListener('ip-distrusted', function(evt) {
+            return callback(null, element.accessToken);
+          })
+
+          element.addEventListener('ip-distrust-error', function(evt) {
+            return callback(evt.detail); 
+          })
+
+          element.distrustClientIP();
+
+        }
+
+        /*
+        Run Tests!
+        */
+
+        test('instantiating the element', function() {
+          var element = fixture('init');
+          assert.equal(element.is, 'caas-auth');
+        });
+
+        test('create investor', function(done) {
+          createUserTest('investor', 'investor', {
+            email: INVESTOR_USERNAME,
+            password: INVESTOR_PASSWORD,
+            firstName: 'John',
+            lastName: 'Doe',
+            street: 'Main Street',
+            houseNumber: '101',
+            postalCode: '1234AB',
+            city: 'Sim City',
+            region: 'ABC',
+            country: 'USA'
+          }, function(error) {
+            if(error) return console.error(error);
+            done();
+          });
+        });
+
+        test('sign in as investor', function(done) {
+          signInTest('investor', INVESTOR_USERNAME, INVESTOR_PASSWORD, 'investor', function(error, accessToken) {
+            if(error) return console.error(error);
+            INVESTOR_TOKEN = accessToken;
+            done();
+          })
+        });
+
+        test('enable two factor authentication as investor', function(done) {
+          enableTwoFactorAuthTest('investor', INVESTOR_TOKEN, function(error, accessToken) {
+            if(error) return console.error(error);
+            done();
+          })
+        });
+
+        test('sign out as investor', function(done) {
+          signOutTest('investor', INVESTOR_TOKEN, function(error) {
+            if(error) return console.error(error);
+            done();
+          })
+        });
+
+        test('sign in should fail because two-factor authentication is enabled', function(done) {
+          signInTest('investor', INVESTOR_USERNAME, INVESTOR_PASSWORD, 'investor', function(error, accessToken) {
+            if(error) {
+              assert.equal(error, 'auth-code-requested');
+              return done();
+            }
+            console.error('signed in successfull but not allowed since two-factor auth is enabled');
+          })
+        });
+
+        test('sign in as investor using access token', function(done) {
+          signInTwoFactorTest('investor', INVESTOR_USERNAME, INVESTOR_PASSWORD, 'investor', function(error, accessToken) {
+            if(error) return console.error(error);
+            INVESTOR_TOKEN = accessToken;
+            done();
+          })
+        });
+
+        test('trust client ip', function(done) {
+          trustClientIPTest('investor', INVESTOR_TOKEN, function(error) {
+            if(error) return console.error(error);
+            done();
+          })
+        });
+
+        test('sign out as investor', function(done) {
+          signOutTest('investor', INVESTOR_TOKEN, function(error) {
+            if(error) return console.error(error);
+            INVESTOR_TOKEN = null;
+            done();
+          })
+        });
+
+        test('sign in should now work without access token because this ip address is trusted', function(done) {
+          signInTest('investor', INVESTOR_USERNAME, INVESTOR_PASSWORD, 'investor', function(error, accessToken) {
+            if(error) return console.error(error);
+            INVESTOR_TOKEN = accessToken;
+            done();
+          })
+        });
+
+        test('distrust client ip', function(done) {
+          distrustClientIPTest('investor', INVESTOR_TOKEN, function(error) {
+            if(error) return console.error(error);
+            done();
+          })
+        });
+
+        test('sign out as investor', function(done) {
+          signOutTest('investor', INVESTOR_TOKEN, function(error) {
+            if(error) return console.error(error);
+            INVESTOR_TOKEN = null;
+            done();
+          })
+        });
+
+        test('sign in should fail again because two-factor authentication is enabled', function(done) {
+          signInTest('investor', INVESTOR_USERNAME, INVESTOR_PASSWORD, 'investor', function(error, accessToken) {
+            if(error) return done();
+            console.error('signed in successfull but not allowed since two-factor auth is enabled');
+          })
+        });
+
+        test('sign in as investor using access token', function(done) {
+          signInTwoFactorTest('investor', INVESTOR_USERNAME, INVESTOR_PASSWORD, 'investor', function(error, accessToken) {
+            if(error) return console.error(error);
+            INVESTOR_TOKEN = accessToken;
+            done();
+          })
+        });
+
+        test('disable two factor auth as investor', function(done) {
+          disableTwoFactorAuthTest('investor', INVESTOR_TOKEN, function(error, accessToken) {
+            if(error) return console.error(error);
+            done();
+          })
+        });
+
+        test('sign out as investor', function(done) {
+          signOutTest('investor', INVESTOR_TOKEN, function(error) {
+            if(error) return console.error(error);
+            INVESTOR_TOKEN = null;
+            done();
+          })
+        });
+
+        test('default sign in should work again since we disabled two-factor authentication', function(done) {
+          signInTest('investor', INVESTOR_USERNAME, INVESTOR_PASSWORD, 'investor', function(error, accessToken) {
+            if(error) return console.error(error);
+            INVESTOR_TOKEN = accessToken;
+            done();
+          })
+        });
+
+        test('set password as investor', function(done) {
+          TEMP_PASSWORD = createPassword();
+          setPasswordTest('investor', INVESTOR_USERNAME, TEMP_PASSWORD, 'investor', function(error) {
+            if(error) return console.error(error);
+            done();
+          })
+        });
+
+        test('sign in as investor, old password should still work', function(done) {
+          signInTest('investor', INVESTOR_USERNAME, INVESTOR_PASSWORD, 'investor', function(error, accessToken) {
+            if(error) return console.error(error);
+            done();
+          })
+        });
+
+        test('confirm password as investor', function(done) {
+          confirmPasswordTest('investor', INVESTOR_USERNAME, function(error) {
+            if(error) return console.error(error);
+            done();            
+          })
+        });
+
+        test('sign in as investor, old password shouldn\'t work anymore', function(done) {
+          signInTest('investor', INVESTOR_USERNAME, INVESTOR_PASSWORD, 'investor', function(error, accessToken) {
+            if(error) return done();
+            console.error('new password confirmed but old password still valid');
+          })
+        });
+
+        test('use new password as investor, login should work again', function(done) {
+          INVESTOR_PASSWORD = TEMP_PASSWORD;
+          signInTest('investor', INVESTOR_USERNAME, INVESTOR_PASSWORD, 'investor', function(error, accessToken) {
+            if(error) return console.error(error);
+            INVESTOR_TOKEN = accessToken;
+            done();
+          })
+        });
+
+        test('final sign out as investor', function(done) {
+          signOutTest('investor', INVESTOR_TOKEN, function(error) {
+            if(error) return console.error(error);
+            INVESTOR_TOKEN = null;
+            done();
+          })
+        });
+
+        test('set password as ondernemer', function(done) {
+          TEMP_PASSWORD = createPassword();
+          setPasswordTest('ondernemer', ENTREPRENEUR_USERNAME, TEMP_PASSWORD, 'ondernemer', function(error) {
+            if(error) return console.error(error);
+            done();
+          })
+        });
+
+        test('confirm password as ondernemer', function(done) {
+          confirmPasswordTest('ondernemer', ENTREPRENEUR_USERNAME, function(error) {
+            if(error) return console.error(error);
+            ENTREPRENEUR_PASSWORD = TEMP_PASSWORD;
+            done();            
+          })
+        });
+
+        test('sign in as ondernemer', function(done) {
+          signInTest('ondernemer', ENTREPRENEUR_USERNAME, ENTREPRENEUR_PASSWORD, 'ondernemer', function(error, accessToken) {
+            if(error) return console.error(error);
+            ENTREPRENEUR_TOKEN = accessToken;
+            return done();
+          })
+        });
+
+        test('enable two factor authentication as ondernemer', function(done) {
+          enableTwoFactorAuthTest('ondernemer', ENTREPRENEUR_TOKEN, function(error, accessToken) {
+            if(error) return console.error(error);
+            done();
+          })
+        });
+
+        test('sign out as ondernemer', function(done) {
+          signOutTest('ondernemer', ENTREPRENEUR_TOKEN, function(error) {
+            if(error) return console.error(error);
+            done();
+          })
+        });
+
+        test('enable two factor authentication as ondernemer should fail, since we signed out', function(done) {
+          enableTwoFactorAuthTest('ondernemer', ENTREPRENEUR_TOKEN, function(error, accessToken) {
+            if(error) return done();
+            console.error('signed in successfull but not allowed since token should be invalid');
+          })
+        });
+
+        test('sign in should fail because two-factor authentication is enabled', function(done) {
+          signInTest('ondernemer', ENTREPRENEUR_USERNAME, ENTREPRENEUR_PASSWORD, 'ondernemer', function(error, accessToken) {
+            if(error) {
+              assert.equal(error, 'auth-code-requested');
+              return done();
+            }
+            console.error('signed in successfull but not allowed since two-factor auth is enabled');
+          })
+        });
+
+        test('sign in as ondernemer using access token', function(done) {
+          signInTwoFactorTest('ondernemer', ENTREPRENEUR_USERNAME, ENTREPRENEUR_PASSWORD, 'ondernemer', function(error, accessToken) {
+            if(error) return console.error(error);
+            ENTREPRENEUR_TOKEN = accessToken;
+            done();
+          })
+        });
+
+        test('trust client ip', function(done) {
+          trustClientIPTest('ondernemer', ENTREPRENEUR_TOKEN, function(error) {
+            if(error) return console.error(error);
+            done();
+          })
+        });
+
+        test('sign out as ondernemer', function(done) {
+          signOutTest('ondernemer', ENTREPRENEUR_TOKEN, function(error) {
+            if(error) return console.error(error);
+            ENTREPRENEUR_TOKEN = null;
+            done();
+          })
+        });
+
+        test('sign in should now work without access token because this ip address is trusted', function(done) {
+          signInTest('ondernemer', ENTREPRENEUR_USERNAME, ENTREPRENEUR_PASSWORD, 'ondernemer', function(error, accessToken) {
+            if(error) return console.error(error);
+            ENTREPRENEUR_TOKEN = accessToken;
+            done();
+          })
+        });
+
+        test('distrust client ip', function(done) {
+          distrustClientIPTest('ondernemer', ENTREPRENEUR_TOKEN, function(error) {
+            if(error) return console.error(error);
+            done();
+          })
+        });
+
+        test('sign out as ondernemer', function(done) {
+          signOutTest('ondernemer', ENTREPRENEUR_TOKEN, function(error) {
+            if(error) return console.error(error);
+            ENTREPRENEUR_TOKEN = null;
+            done();
+          })
+        });
+
+        test('sign in should fail again because two-factor authentication is enabled', function(done) {
+          signInTest('ondernemer', ENTREPRENEUR_USERNAME, ENTREPRENEUR_PASSWORD, 'ondernemer', function(error, accessToken) {
+            if(error) return done();
+            console.error('signed in successfull but not allowed since two-factor auth is enabled');
+          })
+        });
+
+        test('sign in as ondernemer using access token', function(done) {
+          signInTwoFactorTest('ondernemer', ENTREPRENEUR_USERNAME, ENTREPRENEUR_PASSWORD, 'ondernemer', function(error, accessToken) {
+            if(error) return console.error(error);
+            ENTREPRENEUR_TOKEN = accessToken;
+            done();
+          })
+        });
+
+        test('disable two factor auth as ondernemer', function(done) {
+          disableTwoFactorAuthTest('ondernemer', ENTREPRENEUR_TOKEN, function(error, accessToken) {
+            if(error) return console.error(error);
+            done();
+          })
+        });
+
+        test('sign out as ondernemer', function(done) {
+          signOutTest('ondernemer', ENTREPRENEUR_TOKEN, function(error) {
+            if(error) return console.error(error);
+            ENTREPRENEUR_TOKEN = null;
+            done();
+          })
+        });
+
+        test('default sign in should work again since we disabled two-factor authentication', function(done) {
+          signInTest('ondernemer', ENTREPRENEUR_USERNAME, ENTREPRENEUR_PASSWORD, 'ondernemer', function(error, accessToken) {
+            if(error) return console.error(error);
+            ENTREPRENEUR_TOKEN = accessToken;
+            done();
+          })
+        });
+
+        test('set password as ondernemer', function(done) {
+          TEMP_PASSWORD = createPassword();
+          setPasswordTest('ondernemer', ENTREPRENEUR_USERNAME, TEMP_PASSWORD, 'ondernemer', function(error) {
+            if(error) return console.error(error);
+            done();
+          })
+        });
+
+        test('sign in as ondernemer, old password should still work', function(done) {
+          signInTest('ondernemer', ENTREPRENEUR_USERNAME, ENTREPRENEUR_PASSWORD, 'ondernemer', function(error, accessToken) {
+            if(error) return console.error(error);
+            done();
+          })
+        });
+
+        test('confirm password as ondernemer', function(done) {
+          confirmPasswordTest('ondernemer', ENTREPRENEUR_USERNAME, function(error) {
+            if(error) return console.error(error);
+            done();            
+          })
+        });
+
+        test('sign in as ondernemer, old password shouldn\'t work anymore', function(done) {
+          signInTest('ondernemer', ENTREPRENEUR_USERNAME, ENTREPRENEUR_PASSWORD, 'ondernemer', function(error, accessToken) {
+            if(error) return done();
+            console.error('new password confirmed but old password still valid');
+          })
+        });
+
+        test('use new password as ondernemer, login should work again', function(done) {
+          ENTREPRENEUR_PASSWORD = TEMP_PASSWORD;
+          signInTest('ondernemer', ENTREPRENEUR_USERNAME, ENTREPRENEUR_PASSWORD, 'ondernemer', function(error, accessToken) {
+            if(error) return console.error(error);
+            ENTREPRENEUR_TOKEN = accessToken;
+            done();
+          })
+        });
+
+        test('final sign out as ondernemer', function(done) {
+          signOutTest('ondernemer', ENTREPRENEUR_TOKEN, function(error) {
+            if(error) return console.error(error);
+            ENTREPRENEUR_TOKEN = null;
+            done();
+          })
+        });
+
+        test('set password as accountmanager', function(done) {
+          TEMP_PASSWORD = createPassword();
+          setPasswordTest('accountmanager', ACCOUNTMANAGER_USERNAME, TEMP_PASSWORD, 'accountmanager', function(error) {
+            if(error) return console.error(error);
+            done();
+          })
+        });
+
+        test('confirm password as accountmanager', function(done) {
+          confirmPasswordTest('accountmanager', ACCOUNTMANAGER_USERNAME, function(error) {
+            if(error) return console.error(error);
+            ACCOUNTMANAGER_PASSWORD = TEMP_PASSWORD;
+            done();            
+          })
+        });
+
+        test('sign in as accountmanager', function(done) {
+          signInTest('accountmanager', ACCOUNTMANAGER_USERNAME, ACCOUNTMANAGER_PASSWORD, 'accountmanager', function(error, accessToken) {
+            if(error) return console.error(error);
+            ACCOUNTMANAGER_TOKEN = accessToken;
+            return done();
+          })
+        });
+
+        test('enable two factor authentication as accountmanager', function(done) {
+          enableTwoFactorAuthTest('accountmanager', ACCOUNTMANAGER_TOKEN, function(error, accessToken) {
+            if(error) return console.error(error);
+            done();
+          })
+        });
+
+        test('sign out as accountmanager', function(done) {
+          signOutTest('accountmanager', ACCOUNTMANAGER_TOKEN, function(error) {
+            if(error) return console.error(error);
+            done();
+          })
+        });
+
+        test('enable two factor authentication as accountmanager should fail, since we signed out', function(done) {
+          enableTwoFactorAuthTest('accountmanager', ACCOUNTMANAGER_TOKEN, function(error, accessToken) {
+            if(error) return done();
+            console.error('signed in successfull but not allowed since token should be invalid');
+          })
+        });
+
+        test('sign in should fail because two-factor authentication is enabled', function(done) {
+          signInTest('accountmanager', ACCOUNTMANAGER_USERNAME, ACCOUNTMANAGER_PASSWORD, 'accountmanager', function(error, accessToken) {
+            if(error) {
+              assert.equal(error, 'auth-code-requested');
+              return done();
+            }
+            console.error('signed in successfull but not allowed since two-factor auth is enabled');
+          })
+        });
+
+        test('sign in as accountmanager using access token', function(done) {
+          signInTwoFactorTest('accountmanager', ACCOUNTMANAGER_USERNAME, ACCOUNTMANAGER_PASSWORD, 'accountmanager', function(error, accessToken) {
+            if(error) return console.error(error);
+            ACCOUNTMANAGER_TOKEN = accessToken;
+            done();
+          })
+        });
+
+        test('trust client ip', function(done) {
+          trustClientIPTest('accountmanager', ACCOUNTMANAGER_TOKEN, function(error) {
+            if(error) return console.error(error);
+            done();
+          })
+        });
+
+        test('sign out as accountmanager', function(done) {
+          signOutTest('accountmanager', ACCOUNTMANAGER_TOKEN, function(error) {
+            if(error) return console.error(error);
+            ACCOUNTMANAGER_TOKEN = null;
+            done();
+          })
+        });
+
+        test('sign in should now work without access token because this ip address is trusted', function(done) {
+          signInTest('accountmanager', ACCOUNTMANAGER_USERNAME, ACCOUNTMANAGER_PASSWORD, 'accountmanager', function(error, accessToken) {
+            if(error) return console.error(error);
+            ACCOUNTMANAGER_TOKEN = accessToken;
+            done();
+          })
+        });
+
+        test('distrust client ip', function(done) {
+          distrustClientIPTest('accountmanager', ACCOUNTMANAGER_TOKEN, function(error) {
+            if(error) return console.error(error);
+            done();
+          })
+        });
+
+        test('sign out as accountmanager', function(done) {
+          signOutTest('accountmanager', ACCOUNTMANAGER_TOKEN, function(error) {
+            if(error) return console.error(error);
+            ACCOUNTMANAGER_TOKEN = null;
+            done();
+          })
+        });
+
+        test('sign in should fail again because two-factor authentication is enabled', function(done) {
+          signInTest('accountmanager', ACCOUNTMANAGER_USERNAME, ACCOUNTMANAGER_PASSWORD, 'accountmanager', function(error, accessToken) {
+            if(error) return done();
+            console.error('signed in successfull but not allowed since two-factor auth is enabled');
+          })
+        });
+
+        test('sign in as accountmanager using access token', function(done) {
+          signInTwoFactorTest('accountmanager', ACCOUNTMANAGER_USERNAME, ACCOUNTMANAGER_PASSWORD, 'accountmanager', function(error, accessToken) {
+            if(error) return console.error(error);
+            ACCOUNTMANAGER_TOKEN = accessToken;
+            done();
+          })
+        });
+
+        test('disable two factor auth as accountmanager', function(done) {
+          disableTwoFactorAuthTest('accountmanager', ACCOUNTMANAGER_TOKEN, function(error, accessToken) {
+            if(error) return console.error(error);
+            done();
+          })
+        });
+
+        test('sign out as accountmanager', function(done) {
+          signOutTest('accountmanager', ACCOUNTMANAGER_TOKEN, function(error) {
+            if(error) return console.error(error);
+            ACCOUNTMANAGER_TOKEN = null;
+            done();
+          })
+        });
+
+        test('default sign in should work again since we disabled two-factor authentication', function(done) {
+          signInTest('accountmanager', ACCOUNTMANAGER_USERNAME, ACCOUNTMANAGER_PASSWORD, 'accountmanager', function(error, accessToken) {
+            if(error) return console.error(error);
+            ACCOUNTMANAGER_TOKEN = accessToken;
+            done();
+          })
+        });
+
+        test('set password as accountmanager', function(done) {
+          TEMP_PASSWORD = createPassword();
+          setPasswordTest('accountmanager', ACCOUNTMANAGER_USERNAME, TEMP_PASSWORD, 'accountmanager', function(error) {
+            if(error) return console.error(error);
+            done();
+          })
+        });
+
+        test('sign in as accountmanager, old password should still work', function(done) {
+          signInTest('accountmanager', ACCOUNTMANAGER_USERNAME, ACCOUNTMANAGER_PASSWORD, 'accountmanager', function(error, accessToken) {
+            if(error) return console.error(error);
+            done();
+          })
+        });
+
+        test('confirm password as accountmanager', function(done) {
+          confirmPasswordTest('accountmanager', ACCOUNTMANAGER_USERNAME, function(error) {
+            if(error) return console.error(error);
+            done();            
+          })
+        });
+
+        test('sign in as accountmanager, old password shouldn\'t work anymore', function(done) {
+          signInTest('accountmanager', ACCOUNTMANAGER_USERNAME, ACCOUNTMANAGER_PASSWORD, 'accountmanager', function(error, accessToken) {
+            if(error) return done();
+            console.error('new password confirmed but old password still valid');
+          })
+        });
+
+        test('use new password as accountmanager, login should work again', function(done) {
+          ACCOUNTMANAGER_PASSWORD = TEMP_PASSWORD;
+          signInTest('accountmanager', ACCOUNTMANAGER_USERNAME, ACCOUNTMANAGER_PASSWORD, 'accountmanager', function(error, accessToken) {
+            if(error) return console.error(error);
+            ACCOUNTMANAGER_TOKEN = accessToken;
+            done();
+          })
+        });
+
+        test('final sign out as accountmanager', function(done) {
+          signOutTest('accountmanager', ACCOUNTMANAGER_TOKEN, function(error) {
+            if(error) return console.error(error);
+            ACCOUNTMANAGER_TOKEN = null;
+            done();
+          })
+        });        
+
+        test('set password as financialadministrator', function(done) {
+          TEMP_PASSWORD = createPassword();
+          setPasswordTest('financialadministrator', FINANCIALADMIN_USERNAME, TEMP_PASSWORD, 'financialadministrator', function(error) {
+            if(error) return console.error(error);
+            done();
+          })
+        });
+
+        test('confirm password as financialadministrator', function(done) {
+          confirmPasswordTest('financialadministrator', FINANCIALADMIN_USERNAME, function(error) {
+            if(error) return console.error(error);
+            FINANCIALADMIN_PASSWORD = TEMP_PASSWORD;
+            done();            
+          })
+        });
+
+        test('sign in as financialadministrator', function(done) {
+          signInTest('financialadministrator', FINANCIALADMIN_USERNAME, FINANCIALADMIN_PASSWORD, 'financialadministrator', function(error, accessToken) {
+            if(error) return console.error(error);
+            FINANCIALADMIN_TOKEN = accessToken;
+            return done();
+          })
+        });
+
+        test('enable two factor authentication as financialadministrator', function(done) {
+          enableTwoFactorAuthTest('financialadministrator', FINANCIALADMIN_TOKEN, function(error, accessToken) {
+            if(error) return console.error(error);
+            done();
+          })
+        });
+
+        test('sign out as financialadministrator', function(done) {
+          signOutTest('financialadministrator', FINANCIALADMIN_TOKEN, function(error) {
+            if(error) return console.error(error);
+            done();
+          })
+        });
+
+        test('enable two factor authentication as financialadministrator should fail, since we signed out', function(done) {
+          enableTwoFactorAuthTest('financialadministrator', FINANCIALADMIN_TOKEN, function(error, accessToken) {
+            if(error) return done();
+            console.error('signed in successfull but not allowed since token should be invalid');
+          })
+        });
+
+        test('sign in should fail because two-factor authentication is enabled', function(done) {
+          signInTest('financialadministrator', FINANCIALADMIN_USERNAME, FINANCIALADMIN_PASSWORD, 'financialadministrator', function(error, accessToken) {
+            if(error) {
+              assert.equal(error, 'auth-code-requested');
+              return done();
+            }
+            console.error('signed in successfull but not allowed since two-factor auth is enabled');
+          })
+        });
+
+        test('sign in as financialadministrator using access token', function(done) {
+          signInTwoFactorTest('financialadministrator', FINANCIALADMIN_USERNAME, FINANCIALADMIN_PASSWORD, 'financialadministrator', function(error, accessToken) {
+            if(error) return console.error(error);
+            FINANCIALADMIN_TOKEN = accessToken;
+            done();
+          })
+        });
+
+        test('trust client ip', function(done) {
+          trustClientIPTest('financialadministrator', FINANCIALADMIN_TOKEN, function(error) {
+            if(error) return console.error(error);
+            done();
+          })
+        });
+
+        test('sign out as financialadministrator', function(done) {
+          signOutTest('financialadministrator', FINANCIALADMIN_TOKEN, function(error) {
+            if(error) return console.error(error);
+            FINANCIALADMIN_TOKEN = null;
+            done();
+          })
+        });
+
+        test('sign in should now work without access token because this ip address is trusted', function(done) {
+          signInTest('financialadministrator', FINANCIALADMIN_USERNAME, FINANCIALADMIN_PASSWORD, 'financialadministrator', function(error, accessToken) {
+            if(error) return console.error(error);
+            FINANCIALADMIN_TOKEN = accessToken;
+            done();
+          })
+        });
+
+        test('distrust client ip', function(done) {
+          distrustClientIPTest('financialadministrator', FINANCIALADMIN_TOKEN, function(error) {
+            if(error) return console.error(error);
+            done();
+          })
+        });
+
+        test('sign out as financialadministrator', function(done) {
+          signOutTest('financialadministrator', FINANCIALADMIN_TOKEN, function(error) {
+            if(error) return console.error(error);
+            FINANCIALADMIN_TOKEN = null;
+            done();
+          })
+        });
+
+        test('sign in should fail again because two-factor authentication is enabled', function(done) {
+          signInTest('financialadministrator', FINANCIALADMIN_USERNAME, FINANCIALADMIN_PASSWORD, 'financialadministrator', function(error, accessToken) {
+            if(error) return done();
+            console.error('signed in successfull but not allowed since two-factor auth is enabled');
+          })
+        });
+
+        test('sign in as financialadministrator using access token', function(done) {
+          signInTwoFactorTest('financialadministrator', FINANCIALADMIN_USERNAME, FINANCIALADMIN_PASSWORD, 'financialadministrator', function(error, accessToken) {
+            if(error) return console.error(error);
+            FINANCIALADMIN_TOKEN = accessToken;
+            done();
+          })
+        });
+
+        test('disable two factor auth as financialadministrator', function(done) {
+          disableTwoFactorAuthTest('financialadministrator', FINANCIALADMIN_TOKEN, function(error, accessToken) {
+            if(error) return console.error(error);
+            done();
+          })
+        });
+
+        test('sign out as financialadministrator', function(done) {
+          signOutTest('financialadministrator', FINANCIALADMIN_TOKEN, function(error) {
+            if(error) return console.error(error);
+            FINANCIALADMIN_TOKEN = null;
+            done();
+          })
+        });
+
+        test('default sign in should work again since we disabled two-factor authentication', function(done) {
+          signInTest('financialadministrator', FINANCIALADMIN_USERNAME, FINANCIALADMIN_PASSWORD, 'financialadministrator', function(error, accessToken) {
+            if(error) return console.error(error);
+            FINANCIALADMIN_TOKEN = accessToken;
+            done();
+          })
+        });
+
+        test('set password as financialadministrator', function(done) {
+          TEMP_PASSWORD = createPassword();
+          setPasswordTest('financialadministrator', FINANCIALADMIN_USERNAME, TEMP_PASSWORD, 'financialadministrator', function(error) {
+            if(error) return console.error(error);
+            done();
+          })
+        });
+
+        test('sign in as financialadministrator, old password should still work', function(done) {
+          signInTest('financialadministrator', FINANCIALADMIN_USERNAME, FINANCIALADMIN_PASSWORD, 'financialadministrator', function(error, accessToken) {
+            if(error) return console.error(error);
+            done();
+          })
+        });
+
+        test('confirm password as financialadministrator', function(done) {
+          confirmPasswordTest('financialadministrator', FINANCIALADMIN_USERNAME, function(error) {
+            if(error) return console.error(error);
+            done();            
+          })
+        });
+
+        test('sign in as financialadministrator, old password shouldn\'t work anymore', function(done) {
+          signInTest('financialadministrator', FINANCIALADMIN_USERNAME, FINANCIALADMIN_PASSWORD, 'financialadministrator', function(error, accessToken) {
+            if(error) return done();
+            console.error('new password confirmed but old password still valid');
+          })
+        });
+
+        test('use new password as financialadministrator, login should work again', function(done) {
+          FINANCIALADMIN_PASSWORD = TEMP_PASSWORD;
+          signInTest('financialadministrator', FINANCIALADMIN_USERNAME, FINANCIALADMIN_PASSWORD, 'financialadministrator', function(error, accessToken) {
+            if(error) return console.error(error);
+            FINANCIALADMIN_TOKEN = accessToken;
+            done();
+          })
+        });
+
+        test('final sign out as financialadministrator', function(done) {
+          signOutTest('financialadministrator', FINANCIALADMIN_TOKEN, function(error) {
+            if(error) return console.error(error);
+            FINANCIALADMIN_TOKEN = null;
+            done();
+          })
+        });
+
+      });
+    </script>
+  </body>
+</html>

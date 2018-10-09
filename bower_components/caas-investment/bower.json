@@ -1,0 +1,26 @@
+{
+  "name": "caas-investment",
+  "description": "Polymer Investment Element for Crowdfunding as a Service Solutions",
+  "main": "caas-investment.html",
+  "authors": [
+    "Wouter Vroege"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com:CaaSElements/caas-investment.git"
+  },
+  "homepage": "https://github.com/CaaSElements/caas-investment",
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.6.0",
+    "iron-ajax": "PolymerElements/iron-ajax#^1.4.3",
+    "caas-campaign": "CaaSElements/caas-campaign",
+    "caas-campaign-incentives": "CaaSElements/caas-campaign-incentives"
+  },
+  "devDependencies": {
+    "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
+    "iron-demo-helpers": "PolymerElements/iron-demo-helpers#^1.0.0",
+    "web-component-tester": "^4.0.0",
+    "webcomponentsjs": "webcomponents/webcomponentsjs#^0.7.0",
+    "caas-auth": "CaaSElements/caas-auth"
+  }
+}

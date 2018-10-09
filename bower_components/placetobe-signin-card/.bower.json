@@ -1,0 +1,32 @@
+{
+  "name": "placetobe-signin-card",
+  "description": "Placetobe Sign In Card",
+  "main": "placetobe-signin-card.html",
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.7.0",
+    "placetobe-behaviors": "Placetobe/placetobe-behaviors",
+    "placetobe-styles": "Placetobe/placetobe-styles",
+    "placetobe-button": "Placetobe/placetobe-button",
+    "placetobe-input-box": "Placetobe/placetobe-input-box",
+    "placetobe-card": "Placetobe/placetobe-card",
+    "caas-auth": "CaasElements/caas-auth",
+    "iron-form": "PolymerElements/iron-form#^1.1.4",
+    "moment-element": "abdonrd/moment-element#^0.4.3"
+  },
+  "devDependencies": {
+    "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
+    "iron-demo-helpers": "PolymerElements/iron-demo-helpers#^1.0.0",
+    "web-component-tester": "^4.0.0",
+    "webcomponentsjs": "webcomponents/webcomponentsjs#^0.7.0"
+  },
+  "homepage": "https://github.com/Placetobe/placetobe-signin-card",
+  "_release": "eb45ef3046",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "eb45ef304600ae0e75246136cb704fe2dd7ba756"
+  },
+  "_source": "https://github.com/Placetobe/placetobe-signin-card.git",
+  "_target": "*",
+  "_originalSource": "Placetobe/placetobe-signin-card"
+}

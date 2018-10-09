@@ -1,0 +1,85 @@
+can-page-tabs
+    box-sizing border-box
+        
+    .tab-buttons
+        margin $defaultmargin 0
+        font-size 0
+        position relative
+        height 52px
+        border-bottom 1px solid $mediumgrey
+        border-top 1px solid $mediumgrey
+        width 100%
+        display flex
+        justify-content space-around
+        
+        +$$phone()
+            display none
+            
+        button
+            flex 1
+            border 0
+            z-index 2
+            outline none
+            background-color transparent
+            cursor pointer
+            font-size 18px
+            line-height 20px
+            font-weight 400
+            overflow hidden
+            text-overflow ellipsis
+            color rgba($can-blue,0.5)
+            height 50px
+            padding 3px 0
+            margin 0
+            width auto
+            max-width auto
+            border-bottom 4px solid transparent
+
+            &[data-showcompletion]
+                padding-left 33px !important
+                background-image url(/assets/components/can-page-tabs/tab-icon-incomplete.svg)
+                background-repeat no-repeat
+                background-position 5% 50%
+    
+                &[data-complete]
+                    background-image url(/assets/components/can-page-tabs/tab-icon-complete.svg)
+                    color $can-green
+
+                    &:hover
+                        &:after
+                            background-color $can-green
+                    
+                    &:after
+                        background-color $can-green
+                        
+                    &[disabled]
+                        background-image url(/assets/components/can-page-tabs/tab-icon-complete.svg)
+                    
+                &[disabled]
+                    background-image url(/assets/components/can-page-tabs/tab-icon-incomplete-disabled.svg)
+
+            &[disabled]
+                pointer-events none
+                opacity .5
+            
+            @media only screen and (max-width $breakpoint-tablet-max)
+                width auto
+            
+            &:first-letter
+                text-transform capitalize  
+            
+            &:hover
+                border-bottom 4px solid alpha($can-blue,.5)
+
+            &.iron-selected
+                color $can-blue
+                border-bottom 4px solid $can-blue
+                
+                &:hover
+                    opacity 1
+    
+    can-page-tab
+        display none
+        
+        &.iron-selected
+            display block

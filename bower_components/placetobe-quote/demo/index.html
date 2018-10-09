@@ -1,0 +1,79 @@
+<!doctype html>
+<html>
+  <head>
+    <title>placetobe-quote demo</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
+    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+
+    <script>
+      window.Polymer = {
+        useNativeCSSProperties: true,
+        lazyRegister: true,
+        dom: 'shadow'
+      };
+    </script>
+    
+    <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
+    <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
+
+    <link rel="import" href="../placetobe-quote.html">
+
+    <style is="custom-style" include="demo-pages-shared-styles">
+      demo-snippet {
+        --demo-snippet-demo: {
+          display: block;
+        }
+      }
+    </style>
+  </head>
+  <body>
+
+    <div class="vertical-section-container">
+      
+      <h3>Basic placetobe-quote Demo</h3>
+      <demo-snippet>
+        <template>
+          <placetobe-quote
+            name="Bojack Horseman"
+            image-url="https://s.yimg.com/uu/api/res/1.2/hFhTjYsDeguBkzz2WcwHVA--/aD0yODA7dz01MDA7c209MTthcHBpZD15dGFjaHlvbg--/https://s.yimg.com/cd/diminuendo/1.0/original/711b93b2fa389a7af38c350ff4c5a179703890ce.gif"
+            >
+            <blockquote><strong>You know, sometimes I feel like I was born with a leak, and any goodness I started with just slowly spilled out of me, and now it's all gone.</strong> And I'll never get it back in me. It's too late. Life is a series of closing doors, isn't it?</blockquote>
+          </placetobe-quote>
+        </template>
+      </demo-snippet>
+
+      <h3>Custom colors</h3>
+      <demo-snippet>
+        <template>
+          <placetobe-quote
+            name="Bojack Horseman"
+            image-url="https://s.yimg.com/uu/api/res/1.2/hFhTjYsDeguBkzz2WcwHVA--/aD0yODA7dz01MDA7c209MTthcHBpZD15dGFjaHlvbg--/https://s.yimg.com/cd/diminuendo/1.0/original/711b93b2fa389a7af38c350ff4c5a179703890ce.gif"
+            class="custom-colors"
+            >
+            <blockquote><strong>You know, sometimes I feel like I was born with a leak, and any goodness I started with just slowly spilled out of me, and now it's all gone.</strong> And I'll never get it back in me. It's too late. Life is a series of closing doors, isn't it?</blockquote>
+          </placetobe-quote>
+          <style>
+            .custom-colors {
+              --placetobe-quote-color: var(--placetobe-color-darkblue);
+              --placetobe-quote-tint-color: white;
+            }
+          </style>
+        </template>
+      </demo-snippet>
+
+      <h3>No avatar</h3>
+      <demo-snippet>
+        <template>
+          <placetobe-quote
+            name="Bojack Horseman"
+            >
+            <blockquote><strong>You know, sometimes I feel like I was born with a leak, and any goodness I started with just slowly spilled out of me, and now it's all gone.</strong> And I'll never get it back in me. It's too late. Life is a series of closing doors, isn't it?</blockquote>
+          </placetobe-quote>
+        </template>
+      </demo-snippet>
+
+    </div>
+
+  </body>
+</html>

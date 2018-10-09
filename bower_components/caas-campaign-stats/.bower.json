@@ -1,0 +1,36 @@
+{
+  "name": "caas-campaign-stats",
+  "description": "Campaign Stats Data Element for Crowdfunding as a Service Solutions",
+  "main": "caas-campaign-stats.html",
+  "authors": [
+    "Wouter Vroege"
+  ],
+  "keywords": [
+    "web-components",
+    "polymer"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com:CaaSElements/caas-campaign-stats.git"
+  },
+  "homepage": "https://github.com/CaaSElements/caas-campaign-stats",
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.6.0",
+    "iron-ajax": "PolymerElements/iron-ajax#^1.4.3"
+  },
+  "devDependencies": {
+    "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
+    "iron-demo-helpers": "PolymerElements/iron-demo-helpers#^1.0.0",
+    "web-component-tester": "^4.0.0",
+    "webcomponentsjs": "webcomponents/webcomponentsjs#^0.7.0"
+  },
+  "_release": "031c7a73c9",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "031c7a73c9bfb68fbfc09474ca8e256d11c29446"
+  },
+  "_source": "https://github.com/CaasElements/caas-campaign-stats.git",
+  "_target": "*",
+  "_originalSource": "CaasElements/caas-campaign-stats"
+}
