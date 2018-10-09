@@ -21,6 +21,10 @@
       [hidden] {
         display: none!important;
       }
+
+      img {
+          max-width: 100%;
+      }
     </style>
 
 
@@ -58,7 +62,7 @@
     Polymer({
       is: 'placetobe-campagne-dashboard-page',
       properties: {
-        
+
         accessToken: {
           type: String,
           value: null,
@@ -91,10 +95,10 @@
       },
 
       _computeSignedInAsOtherRole: function(accessToken, userRole) {
-        if (accessToken && userRole !== 'ondernemer')  return true;      
+        if (accessToken && userRole !== 'ondernemer')  return true;
         return false;
       },
-      
+
     })
   </script>
 </dom-module>
