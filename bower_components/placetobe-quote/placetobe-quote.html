@@ -1,0 +1,122 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../placetobe-behaviors/placetobe-styles-behavior.html">
+<link rel="import" href="../placetobe-styles/placetobe-styles.html">
+
+<!--
+`placetobe-quote`
+Placetobe quote
+
+@demo demo/index.html 
+-->
+
+<dom-module id="placetobe-quote">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+
+      :host section {
+        display: block;
+        padding: calc( var(--placetobe-margin) * 4 ) 0;
+        background-color: var(--placetobe-quote-color, var(--placetobe-color-taupe));
+        position: relative;
+        color: var(--placetobe-quote-tint-color, var(--placetobe-color-darkblue));
+        text-align: left;
+      }
+
+      :host main, :host header {
+        @apply --placetobe-border-box;
+        display: block;
+        max-width: calc( var(--placetobe-layout-width) + (var(--placetobe-margin) * 2) );
+        padding: 0 var(--placetobe-margin);
+        margin: 0 auto;
+      }
+
+      :host header {
+        position: absolute;
+        top: -54px;
+        left: 0;
+        right: 0;
+        bottom: 
+      }
+
+      :host header figure {
+        display: block;
+        width: calc( var(--placetobe-margin) * 6 );
+        height: calc( var(--placetobe-margin) * 6 );
+        border-radius: 50%;
+        overflow: hidden;
+        background-color: white;
+        margin:0;
+      }
+
+      :host header figure img {
+        object-fit: cover;
+        object-position: center center;
+        width: 100%;
+        height: 100%;
+        filter: grayscale(100%);
+      }
+
+      :host main article {
+        margin-bottom: var(--placetobe-margin);        
+      }
+
+      :host main article ::slotted(blockquote),
+      :host main article ::slotted(q) {
+        @apply --placetobe-font-heading4;
+        max-width: var(--placetobe-two-column-width);
+        font-weight: 400;
+        margin: 0;
+        padding: 0;
+        display: block;
+      }
+
+      :host main article ::slotted(blockquote:before),
+      :host main article ::slotted(q:before) {
+        content: '“';
+      }
+
+      :host main article ::slotted(blockquote:after),
+      :host main article ::slotted(q:after) {
+        content: '”';
+      }
+
+      :host main article strong {
+        font-weight: 700;        
+      }
+
+      :host main h6 {
+        @apply --placetobe-font-body;
+      }
+    </style>
+
+    <section>
+      <template is="dom-if" if="[[imageUrl]]">
+        <header>
+          <figure><img src$="[[imageUrl]]" alt$="[[name]]"></figure>
+        </header>
+      </template>
+      <main>
+        <article><slot></slot></article>
+        <h6>[[name]]</h6>
+      </main>
+    </section>
+
+  </template>
+
+  <script>
+    Polymer({
+
+      is: 'placetobe-quote',
+      behaviors: [PlacetobeStylesBehavior],
+
+      properties: {
+        name: String,
+        imageUrl: String
+      }
+
+    });
+  </script>
+</dom-module>

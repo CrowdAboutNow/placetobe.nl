@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <!-- Generator: Sketch 3.4.4 (17249) - http://www.bohemiancoding.com/sketch -->
+    <title>vinkje-active</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="CAN-UI-KIT" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <g id="can-page-tabs" sketch:type="MSArtboardGroup" transform="translate(-245.000000, -642.000000)">
+            <g id="can-page-tabs-copy-2" sketch:type="MSLayerGroup" transform="translate(235.000000, 627.000000)">
+                <g id="Kies-+-vinkje-active" transform="translate(10.000000, 15.000000)" sketch:type="MSShapeGroup">
+                    <g id="vinkje-active">
+                        <path d="M12,24 C18.627417,24 24,18.627417 24,12 C24,5.372583 18.627417,0 12,0 C5.372583,0 0,5.372583 0,12 C0,18.627417 5.372583,24 12,24 Z" id="Oval-55" fill="#50E3C2"></path>
+                        <path d="M8,10.2166823 L11.5366827,16.0629883 L17,7.06298828" id="Path-350" stroke="#FFFFFF" stroke-width="2"></path>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

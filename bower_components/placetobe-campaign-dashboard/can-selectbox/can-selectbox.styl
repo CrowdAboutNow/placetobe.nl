@@ -1,0 +1,50 @@
+can-selectbox
+    
+    display inline-block
+    position relative
+    width 100%
+    text-align left
+    margin-bottom 6px
+    vertical-align top
+
+    &:after
+        content " "
+        background-image url("/assets/components/can-selectbox/drop-icon.svg")
+        background-repeat no-repeat
+        background-position  50%
+        position absolute
+        top 50%
+        margin-top 14px
+        right 18px
+        width 15px
+        height 9px
+        z-index 1
+        transform translateY(-50%)
+        pointer-events none
+
+    > label
+        z-index 2
+
+    > select
+        appearance none
+        background #F5EDEB
+        color $can-blue
+        border-radius 2px
+        display block
+        height 36px
+        width 100%
+        outline none
+        font-size 16px
+        padding 0 9px
+        position relative
+        z-index 1
+        border 1px solid $can-blue
+
+        &:focus
+            background-color #FAFFBD
+        
+        &:invalid
+            background-color $can-red
+            
+    @media only screen and (max-width $breakpoint-phone-max)
+        width 100% !important

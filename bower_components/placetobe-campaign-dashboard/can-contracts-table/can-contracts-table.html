@@ -1,0 +1,68 @@
+<!doctype html>
+<link rel="import" href="../../polymer/polymer.html">
+<link rel="import" href="../can-api/can-api.html">
+<link rel="import" href="../can-button/can-button.html">
+<link rel="import" href="../can-list/can-list.html">
+<link rel="import" href="../can-card/can-card.html">
+<link rel="import" href="../can-list-item/can-list-item.html">
+
+<dom-module id="can-contracts-table">
+    
+    <template>
+
+        <style>
+            ul {
+                list-style: none;
+                margin: 0;
+                padding: 0;
+            }
+        </style>
+
+        <can-api
+            auth
+            active-role="[[activeRole]]"
+            auto="[[campaignId]]"
+            route="/entrepreneurs/[[campaignId]]/contracts"
+            method="GET"
+            on-error="_handleError"
+            on-response="_handleResponse">
+        </can-api>
+
+        <can-api
+            download-file
+            active-role="[[activeRole]]"
+            auth
+            id="download-contract"
+            content-type="application/pdf"
+            downloaded-filename="contract.pdf"
+            route="/entrepreneurs/[[campaignId]]/contracts/[[currentContractId]]/download"
+            method="GET">
+        </can-api>
+
+        <template
+            is="dom-repeat"
+            items="[[contracts]]"
+        >
+
+        <placetobe-card title="[[item.firstName]] [[item.lastName]]">
+            <article slot="main">
+                <ul>
+                    <li><b>Investering</b>€ [[item.investment]] </li>
+                    <li><b>Email adres:</b> <a href="mailto:[[item.emailAddress]]">[[item.emailAddress]]</a></li>
+                    <li><b>Beloning: </b>[[item.incentive]]</li>
+                </ul>
+            </article>
+            <placetobe-button
+                slot="footer"
+                on-tap="_downloadFile"
+                contract-id="[[item.id]]"
+            >download contract</placetobe-button>
+        </placetobe-card>
+
+        </template>
+
+    </template>
+    
+    <script src="can-contracts-table.js"></script>
+
+</dom-module>

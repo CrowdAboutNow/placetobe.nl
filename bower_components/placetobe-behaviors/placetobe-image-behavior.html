@@ -1,0 +1,37 @@
+<link rel="import" href="../polymer/polymer.html">
+<script>
+
+  /**
+  * @polymerBehavior
+  */
+  PlacetobeImageBehavior = {
+
+    properties: {
+
+      imageLoaded: {
+        type: Boolean,
+        value: false,
+        reflectToAttribute: true
+      }
+
+    },
+
+    attached: function() {
+      this._loadImage();
+    },
+
+    _loadImage: function() {
+      var tempImage = new Image();
+      tempImage.onload = (function() {
+        this.placeholderUrl = tempImage.src;
+        this._handleImageLoaded();
+      }).bind(this);
+      tempImage.src = this.resolveUrl(this.imageUrl);
+    },
+
+    _handleImageLoaded: function() {
+      this.imageLoaded = true;        
+    }
+
+  }
+</script>

@@ -1,0 +1,141 @@
+can-campaign-dashboard-page
+
+    main
+        margin 0 auto!important
+
+        #campaign-interview
+        	max-height 400px
+        	overflow auto
+        	-webkit-overflow-scrolling touch
+
+    google-map
+        width 100%
+        height $defaultmargin*4
+        margin-bottom ($defaultmargin/2)
+
+    can-page-tabs
+        can-card
+            text-align left
+
+
+    can-textinput
+
+        &[name="maxInvestmentSecondContractType"],&[name="minInvestmentSecondContractType"],&[name="requiredFunding"],&[name="maxFunding"], &[name="startDate"], &[name="endDate"], &[name="firstPaymentDate"],&[name="totalInterest"],&[name="minInvestment"],&[name="maxInvestment"]
+            width 50%
+            padding 0 3px
+
+    can-textinput[name="finalPaymentDate"]
+        width 50%
+        padding 0 3px
+
+
+    can-selectbox
+        &[name="annuity"]
+            width 50%
+            padding 0 3px
+
+    #campaignText
+        min-height 200px
+
+        img
+            width 100%
+
+    silk-editor
+        width 755px
+        height 80vh
+
+        .content
+            max-height auto
+            overflow initial
+            padding-top auto
+            min-height initial
+            position relative
+
+            article
+                max-height 80vh
+                overflow auto
+                padding-top 54px
+
+                a
+                    text-decoration none
+                    border-bottom 2px solid $can-green
+                    color inherit
+
+                img
+                    width 100%
+
+    can-overlay
+        can-button
+            display inline-block
+            margin-right 18px
+
+    can-card > article.administrativeFormalities li
+        list-style-type none
+        padding-top 4px
+        padding-left 33px !important
+        background-image url(/assets/components/can-campaign-dashboard-page/tab-icon-incomplete.svg)
+        background-repeat no-repeat
+        background-position 0 50%
+        &[completed]
+            background-image url(/assets/components/can-campaign-dashboard-page/tab-icon-complete.svg)
+
+    can-card > article.public-files ul
+        padding-left 0
+
+        li
+            list-style-type none
+            padding-top 4px
+
+            a
+                width 90%
+                display block
+                white-space nowrap
+                text-overflow ellipsis
+                overflow hidden
+
+    can-card
+        h4
+            margin 0
+
+    silk-editor > article.silk-editor
+        // font-size 14px
+        // line-height 1.3
+        // margin-top 100px
+        q, blockquote
+            /* positioning */
+            /* display and box model */
+            display inline-block
+            padding $defaultmargin
+            /* color */
+            /* text */
+            font-size 24px
+            font-weight 500
+            line-height 18px
+            /* other */
+
+
+        p
+            font-size 14px
+            line-height 1.3
+            > br
+                display none
+
+            &:empty
+                margin 0
+                display none
+
+        p > strong
+            display block
+
+        img
+            display none
+            width 100%
+            height auto!important
+            margin 0
+
+            &[src]
+                display initial
+
+
+            &:hover
+                background-color alpha($can-green, 1)

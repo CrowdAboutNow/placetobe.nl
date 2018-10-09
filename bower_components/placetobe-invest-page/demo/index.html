@@ -1,0 +1,62 @@
+<!doctype html>
+<html>
+  <head>
+    <title>placetobe-invest-page demo</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=no">
+    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+
+    <script>
+      window.Polymer = {
+        useNativeCSSProperties: true,
+        lazyRegister: true,
+        dom: 'shadow'
+      };
+    </script>
+
+    <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
+    <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
+
+    <link rel="import" href="../placetobe-invest-page.html">
+
+    <style is="custom-style" include="demo-pages-shared-styles">
+      demo-snippet {
+        --demo-snippet-demo: {
+          display: block;
+          padding: 0;
+        }
+      }
+
+      placetobe-invest-page {
+        position: fixed;
+        top:0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        --placetobe-popup-content-height: 100vh;
+      }
+
+      body {
+        margin: 0;
+        padding: 0;
+        background-color: white;
+      }
+    </style>
+
+  </head>
+  <body>
+
+    <placetobe-invest-page
+      api-endpoint="http://canapi.local"
+      campaign-id="719"
+      contract-type-id="2"
+      username="investor@caastest.local"
+      password="abc123"
+      success-callback-url="http://localhost:8080/investeren/719/success"
+      cancel-callback-url="http://localhost:8080/investeren/719/cancel"
+      error-callback-url="http://localhost:8080/investeren/719/error"
+      reject-callback-url="http://localhost:8080/investeren/719/reject"
+    ></placetobe-invest-page>
+
+  </body>
+</html>

@@ -1,0 +1,55 @@
+<!doctype html>
+<link rel="import" href="../../polymer/polymer.html">
+<link rel="import" href="../../placetobe-button/placetobe-button.html">
+<link rel="import" href="../can-button/can-button.html">
+<link rel="import" href="../can-form/can-form.html">
+<link rel="import" href="../can-api/can-api.html">
+
+<dom-module id="can-file-io">
+    <template>
+
+        <can-form
+            class="upload-file"
+            active-role="[[activeRole]]"
+            auth
+            hidesubmitbutton
+            disabled$="[[disabled]]"
+            disabled-warning="[[disabledWarning]]"
+            apipath="[[apiRoute]]"
+            method="[[method]]"
+            formdata="{{uploadData}}"
+            on-response="_handleUpload"
+            on-error="_handleUploadError"
+            >
+
+            <placetobe-button on-tap="_selectFile">[[selectButtonLabel]]</placetobe-button>
+            <br>
+            <br>
+
+            <input
+                id="selectFile"
+                hidden="true"
+                type="file"
+                name="cover"
+                on-change="_handleFile"
+                accept="image/jpeg,image/jpeg,image/png,application/pdf"
+                >
+
+        </can-form>
+
+        <can-api
+            active-role="[[activeRole]]"
+            id="download-file"
+            auth
+            auto="[[userId]]"
+            route="[[apiRoute]]"
+            method="GET"
+            last-response="{{downloadData}}"
+            on-response="_handleDownload"
+            on-error="_handleDownloadError"
+            >
+        </can-api>
+
+    </template>
+    <script src="can-file-io.js"></script>
+</dom-module>

@@ -1,0 +1,764 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../iron-ajax/iron-ajax.html">
+<link rel="import" href="../caas-auth-behavior/caas-auth-behavior.html">
+
+<!--
+`caas-auth`
+Authentication Element for Crowdfunding as a Service Solutions
+
+<h3>Create a user</h3>
+
+    <caas-auth
+      api-endpoint="http://my-caas-api.local"
+      on-user-created="_handleUserCreated"
+      on-user-creation-error="_handleUserCreationError"
+    ></caas-auth>
+
+    <script>
+      document.querySelector('caas-auth').createUser(
+        'investor',
+        {
+          email: 'john@johndoe.local',
+          password: 'johnisgeneric',
+          firstName: 'John',
+          lastName: 'Doe',
+          street: 'Main Street',
+          houseNumber: '101',
+          postalCode: '1234AB',
+          city: 'Sim City',
+          region: 'ABC',
+          country: 'USA'
+        }
+      );
+    </script>
+
+<h3>Sign in</h3>
+
+    <caas-auth
+      api-endpoint="http://my-caas-api.local"
+      signed-in="{{signedIn}}"
+      user-id="{{userId}}"
+      user-role="{{userRole}}"
+      access-token="{{accessToken}}"
+      requires-authentication-code="{{requiresAuthenticationCode}}"
+      on-signed-in="_handleSignedIn"
+      on-sign-in-error="_handleSignInError"
+      on-request-authentication-code="_seeExampleBelow"
+    ></caas-auth>
+
+    <script>
+      document.querySelector('caas-auth').signIn(
+        'john@johndoe.local',
+        'johnisgeneric',
+        'investor'
+      );
+    </script>
+
+Once two-factor athentication is enabled, one will need a fourth parameter during `signIn`, representing the 6-digit authentication code (currently sent via email):
+
+<h3>Sign in with authentication code</h3>
+
+    <caas-auth
+      api-endpoint="http://my-caas-api.local"
+      signed-in="{{signedIn}}"
+      user-id="{{userId}}"
+      user-role="{{userRole}}"
+      requires-authentication-code="{{requiresAuthenticationCode}}"
+      access-token="{{accessToken}}"
+      on-signed-in="_handleSignedIn"
+      on-sign-in-error="_handleSignInError"
+    ></caas-auth>
+
+    <script>
+      document.querySelector('caas-auth').signIn(
+        'john@johndoe.local',
+        'johnisgeneric',
+        'investor',
+        '123456'
+      );
+    </script>
+
+Once `signedIn = true`, you can perform the following methods:
+
+<h3>Enable two-factor authentication</h3>
+
+    <caas-auth
+      api-endpoint="http://my-caas-api.local"
+      signed-in="{{true}}"
+      access-token="{{accessToken}}"
+      on-two-factor-enabled="_handleTwoFactorEnabled"
+      on-two-factor-enabling-error="_handleTwoFactorEnablingError"
+    ></caas-auth>
+
+    <script>
+      document.querySelector('caas-auth').enableTwoFactor();
+    </script>
+
+<h3>Trust client IP Address</h3>
+
+    <caas-auth
+      api-endpoint="http://my-caas-api.local"
+      signed-in="{{true}}"
+      access-token="{{accessToken}}"
+      on-ip-trusted="_handleIPTrusted"
+      on-ip-trust-error="_handleIPTrustError"
+    ></caas-auth>
+
+    <script>
+      document.querySelector('caas-auth').trustClientIP();
+    </script>
+
+<h3>Distrust client IP Address</h3>
+
+    <caas-auth
+      api-endpoint="http://my-caas-api.local"
+      signed-in="{{true}}"
+      access-token="{{accessToken}}"
+      on-ip-distrusted="_handleIPDistrusted"
+      on-ip-distrust-error="_handleIPDistrustError"
+    ></caas-auth>
+
+    <script>
+      document.querySelector('caas-auth').distrustClientIP();
+    </script>
+
+<h3>Disable two-factor authentication</h3>
+
+    <caas-auth
+      api-endpoint="http://my-caas-api.local"
+      signed-in="{{true}}"
+      access-token="{{accessToken}}"
+      on-two-factor-disabled="_handleTwoFactorDisabled"
+      on-two-factor-disabling-error="_handleTwoFactorDisablingError"
+    ></caas-auth>
+
+    <script>
+      document.querySelector('caas-auth').disableTwoFactor();
+    </script>
+
+<h3>Sign out</h3>
+
+    <caas-auth
+      api-endpoint="http://my-caas-api.local"
+      signed-in="{{true}}"
+      access-token="{{accessToken}}"
+      on-signed-out="_handleSignedOut"
+      on-sign-out-error="_handleSignOutError"
+    ></caas-auth>
+
+    <script>
+      document.querySelector('caas-auth').signOut();
+    </script>
+
+-->
+
+<dom-module id="caas-auth">
+  <template>
+
+    <iron-ajax
+      id="createInvestor"
+      url="[[apiEndpoint]]/investors"
+      handle-as="json"
+      method="POST"
+      loading="{{creatingInvestor}}"
+      on-response="_handleCreateInvestor"
+      on-error="_handleCreateInvestorError"
+    ></iron-ajax>
+
+    <iron-ajax
+      id="signIn"
+      url="[[apiEndpoint]]/authenticate"
+      handle-as="json"
+      method="POST"
+      loading="{{signingIn}}"
+      last-response="{{lastSignInResponse}}"
+      last-error="{{lastSignInError}}"
+      on-response="_handleSignIn"
+      on-error="_handleSignInError"
+    ></iron-ajax>
+
+    <iron-ajax
+      id="signOut"
+      url="[[apiEndpoint]]/authenticate"
+      headers="[[_authHeader]]"
+      handle-as="json"
+      method="DELETE"
+      loading="{{signingOut}}"
+      last-response="{{lastSignOutResponse}}"
+      last-error="{{lastSignOutError}}"
+      on-response="_handleSignOut"
+      on-error="_handleSignOutError"
+    ></iron-ajax>
+
+    <iron-ajax
+      id="enableTwoFactor"
+      url="[[apiEndpoint]]/authenticate/twofactor"
+      headers="[[_authHeader]]"
+      handle-as="json"
+      method="POST"
+      loading="{{enablingTwoFactor}}"
+      last-response="{{lastEnableTwoFactorResponse}}"
+      last-error="{{lastEnableTwoFactorError}}"
+      on-response="_handleEnableTwoFactor"
+      on-error="_handleEnableTwoFactorError"
+    ></iron-ajax>
+
+    <iron-ajax
+      id="trustClientIP"
+      url="[[apiEndpoint]]/authenticate/trust-client-ip"
+      headers="[[_authHeader]]"
+      handle-as="json"
+      method="POST"
+      loading="{{trustingClientIp}}"
+      last-response="{{lastTrustClientIPResponse}}"
+      last-error="{{lastTrustClientIPError}}"
+      on-response="_handleTrustClientIP"
+      on-error="_handleTrustClientIPError"
+    ></iron-ajax>
+
+    <iron-ajax
+      id="distrustClientIP"
+      url="[[apiEndpoint]]/authenticate/trust-client-ip"
+      headers="[[_authHeader]]"
+      handle-as="json"
+      method="DELETE"
+      loading="{{distrustingClientIp}}"
+      last-response="{{lastDistrustClientIPResponse}}"
+      last-error="{{lastDistrustClientIPError}}"
+      on-response="_handleDistrustClientIP"
+      on-error="_handleDistrustClientIPError"
+    ></iron-ajax>
+
+    <iron-ajax
+      id="disableTwoFactor"
+      url="[[apiEndpoint]]/authenticate/twofactor"
+      headers="[[_authHeader]]"
+      handle-as="json"
+      method="DELETE"
+      loading="{{disablingTwoFactor}}"
+      last-response="{{lastDisableTwoFactorResponse}}"
+      last-error="{{lastDisableTwoFactorError}}"
+      on-response="_handleDisableTwoFactor"
+      on-error="_handleDisableTwoFactorError"
+    ></iron-ajax>
+
+    <iron-ajax
+      id="setPassword"
+      url="[[apiEndpoint]]/forgotpassword"
+      handle-as="json"
+      method="POST"
+      last-response="{{lastSetPasswordResponse}}"
+      last-error="{{lastSetPasswordError}}"
+      loading="{{settingPassword}}"
+      on-response="_handleSetPassword"
+      on-error="_handleSetPasswordError"
+    ></iron-ajax>
+
+    <iron-ajax
+      id="confirmPassword"
+      url="[[apiEndpoint]]/forgotpassword/validate"
+      handle-as="json"
+      method="POST"
+      loading="{{confirmingPassword}}"
+      last-response="{{lastConfirmPasswordResponse}}"
+      last-error="{{lastConfirmPasswordError}}"
+      on-response="_handleConfirmPassword"
+      on-error="_handleConfirmPasswordError"
+    ></iron-ajax>
+
+  </template>
+	<script>
+		Polymer({
+
+			is: 'caas-auth',
+			behaviors: [CaasAuthBehavior],
+
+			properties: {
+
+
+				/**
+				* Exposes the server side API endpoint
+				*/
+				apiEndpoint: {
+					type: String,
+					value: null,
+					notify: true
+				},
+
+				/**
+				* Exposes the username of the current session
+				*/
+				userId: {
+					type: String,
+					computed: '_computeUserId(_tokenData.data.userId)',
+					notify: true
+				},
+
+				/**
+				* Exposes the role belonging to the account associated with the `username`
+				*/
+				userRole: {
+					type: String,
+					notify: true,
+					computed: '_computeUserRole(_tokenData.data.userRole)',
+				},
+
+				/**
+				* Exposes the access token (JSON web token) associated with the current session
+				*/
+				accessToken: {
+					type: String,
+					value: null,
+					notify: true,
+					observer: '_handleAccessTokenChanged'
+				},
+
+				/**
+				* Exposes the start time for the current session, in milliseconds
+				*/
+				sessionStartTime: {
+					type: Number,
+					computed: '_computeSessionStartTime(_tokenData.nbf)',
+				},
+
+				/**
+				* Exposes the expiration time for the current session, in milliseconds
+				*/
+				sessionExpirationTime: {
+					type: Number,
+					computed: '_computeSessionExpirationTime(_tokenData.exp)',
+				},
+
+				/**
+				* Exposes the remaining time untill the current session is expired, in seconds
+				*/
+				sessionTimeout: {
+					type: Number,
+					computed: '_computeSessionTimeout(_currentTime, sessionExpirationTime)',
+					notify: true
+				},
+
+				/**
+				* Determines whether a valid session is active on the server
+				*/
+				signedIn: {
+					type: Boolean,
+					computed: '_computeSignedIn(_currentTime, sessionExpirationTime)',
+					notify: true,
+					observer: '_handleSignedInChanged'
+				},
+
+				/**
+				* Becomes `true` when a user tries to `signIn` while two-factor authentication is enabled
+				*/
+				requiresAuthenticationCode: {
+					type: Boolean,
+					value: false,
+					readOnly: true,
+					observer: '_handleRequiresAuthenticationCodeChanged'
+				},
+
+				/**
+				* `True` while the 'createInvestor' request is in flight
+				*/
+				creatingInvestor: {
+					type: Boolean,
+					value: false,
+					notify: true
+				},
+
+				/**
+				* `True` while the 'signIn' request is in flight
+				*/
+				signingIn: {
+					type: Boolean,
+					value: false,
+					notify: true
+				},
+
+				/**
+				* `True` while the 'signOut' request is in flight
+				*/
+				signingOut: {
+					type: Boolean,
+					value: false,
+					notify: true
+				},
+
+				/**
+				* `True` while the 'enableTwoFactor' request is in flight
+				*/
+				enablingTwoFactor: {
+					type: Boolean,
+					value: false,
+					notify: true
+				},
+
+				/**
+				* `True` while the 'disableTwoFactor' request is in flight
+				*/
+				disablingTwoFactor: {
+					type: Boolean,
+					value: false,
+					notify: true
+				},
+
+				/**
+				* `True` while the 'trustClientIp' request is in flight
+				*/
+				trustingClientIp: {
+					type: Boolean,
+					value: false,
+					notify: true
+				},
+
+				/**
+				* `True` while the 'distrustClientIp' request is in flight
+				*/
+				distrustingClientIp: {
+					type: Boolean,
+					value: false,
+					notify: true
+				},
+
+				/**
+				* `True` while the 'setPassword' request is in flight
+				*/
+				settingPassword: {
+					type: Boolean,
+					value: false,
+					notify: true
+				},
+
+				/**
+				* `True` while the 'confirmPassword' request is in flight
+				*/
+				confirmingPassword: {
+					type: Boolean,
+					value: false,
+					notify: true
+				},
+
+				_tokenData: {
+					type: Object,
+					value: { data: {} }
+				},
+
+				_authHeader: {
+					type: Object,
+					computed: '_computeAuthHeader(accessToken)'
+				},
+
+				_currentTime: {
+					type: Number,
+					value: null
+				},
+
+				lastSignInResponse: {
+					type: Object,
+					notify: true
+				},
+
+				_assignedRoles: {
+					type: Array,
+					value: null,
+					notify: true,
+					computed: '_computeAssignedRoles(lastSignInResponse.assignedRoles)'
+				},
+
+				_roleDescriptions: {
+					type: Array,
+					notify: true,
+					value: null,
+					computed: '_computeRoleDescriptions(lastSignInResponse.roleDescriptions)'
+				}
+
+			},
+
+
+			ready: function () {
+				window.setInterval((function () {
+					this._currentTime = new Date().getTime();
+				}).bind(this), 1000);
+			},
+
+			/**
+			* Create a user
+			*
+			* @param {String} userRole The user's role (currently, only `investor` is accepted)
+			* @param {Object} data User account data (email, password, firstName, lastName, street, houseNumber, postalCode, city, region, country)
+			*/
+			createUser: function (userRole, data) {
+				if (userRole === 'investor') return this._createInvestor(data);
+			},
+
+			/**
+			* Sign In
+			*
+			* @param {String} username The user's email address
+			* @param {String} password The user's password
+			* @param {String} userRole The user's role (investor|ondernemer|accountmanager|financialadministrator)
+			* @param {String} authenticationCode The authentication code, required when two-factor authentication is enabled
+			* @param {String} partnerId The partner id (server fallback = 1)
+			*/
+			signIn: function (username, password, userRole, authenticationCode, partnerId) {
+				var params = {};
+				params.username = username;
+				params.password = password;
+				params.userRole = userRole;
+				if (authenticationCode) params.authenticationCode = authenticationCode;
+				if (partnerId) params.partnerId = partnerId;
+				this.$.signIn.body = JSON.stringify(params);
+				this.$.signIn.generateRequest();
+			},
+
+			/**
+			* Sign out
+			*/
+			signOut: function () {
+				this.$.signOut.generateRequest();
+			},
+
+			setPassword: function (username, password, userRole, partnerId) {
+				var params = {};
+				params.username = username;
+				params.password = password;
+				params.userRole = userRole;
+				if (partnerId) params.partnerId = partnerId;
+				this.$.setPassword.body = JSON.stringify(params);
+				this.$.setPassword.generateRequest();
+			},
+
+			/**
+			* Confirm a password
+			*
+			* @param {String} passwordToken The token to confirm the newly set password
+			*/
+			confirmPassword: function (passwordToken) {
+				var params = {};
+				params.token = passwordToken;
+				this.$.confirmPassword.body = JSON.stringify(params);
+				this.$.confirmPassword.generateRequest();
+			},
+
+			/**
+			* Enable two-factor authentication
+			*/
+			enableTwoFactor: function () {
+				this.$.enableTwoFactor.generateRequest();
+			},
+
+			/**
+			* Disable two-factor authentication
+			*/
+			disableTwoFactor: function () {
+				this.$.disableTwoFactor.generateRequest();
+			},
+
+			/**
+			* Whitelist the user's IP address to skip two-factor authentication (when enabled)
+			*/
+			trustClientIP: function () {
+				this.$.trustClientIP.generateRequest();
+			},
+
+			/**
+			* Remove the user's IP address from the whitelist
+			*/
+			distrustClientIP: function () {
+				this.$.distrustClientIP.generateRequest();
+			},
+
+			_createInvestor: function (data) {
+				var params = {};
+				params.email = data.email;
+				params.password = data.password;
+				params.firstName = data.firstName;
+				params.lastName = data.lastName;
+				params.street = data.street;
+				params.houseNumber = data.houseNumber;
+				params.postalCode = data.postalCode;
+				params.city = data.city;
+				params.region = data.region;
+				params.country = data.country;
+				this.$.createInvestor.body = JSON.stringify(params);
+				this.$.createInvestor.generateRequest();
+			},
+
+			_computeAuthHeader: function (accessToken) {
+				return {
+					'authorization': 'Bearer ' + accessToken
+				}
+			},
+
+			_computeSignedIn: function (currentTime, sessionExpirationTime) {
+				return (currentTime < sessionExpirationTime);
+			},
+
+			_computeSessionTimeout: function (currentTime, sessionExpirationTime) {
+				if (!currentTime || !sessionExpirationTime) return 0;
+				var sessionTimeout = Math.floor((sessionExpirationTime - currentTime) / 1000);
+				return sessionTimeout;
+			},
+
+			_computeUserId: function (userId) {
+				return userId;
+			},
+
+			_computeUserRole: function (userRole) {
+				return userRole;
+			},
+
+			_computeSessionStartTime: function (sessionStartTime) {
+				return (sessionStartTime) ? (sessionStartTime * 1000) : null;
+			},
+
+			_computeSessionExpirationTime: function (sessionExpirationTime) {
+				return (sessionExpirationTime) ? (sessionExpirationTime * 1000) : null;
+			},
+
+			_computeAssignedRoles: function (assignedRoles) {
+				return this._assignedRoles = assignedRoles;
+			},
+
+			_computeRoleDescriptions: function (roleDescriptions) {
+				if (roleDescriptions) return this._roleDescriptions = roleDescriptions;
+			},
+
+			_handleSignIn: function (evt) {
+				this.$.signIn.body = null;
+				if (evt.detail.status == 202) return this._setRequiresAuthenticationCode(true);
+				this.accessToken = this.lastSignInResponse.token;
+				this._setRequiresAuthenticationCode(false);
+			},
+
+			_handleAccessTokenChanged: function (accessToken) {
+				if (accessToken) {
+					this.fire('iron-signal', {
+						name: 'caas-access-token', data: {
+							accessToken: accessToken || null,
+							assignedRoles: this._assignedRoles,
+							roleDescriptions: this._roleDescriptions
+						}
+					}
+					);
+
+					if (accessToken) {
+						this._parseJWT(accessToken);
+					}
+					else {
+						this._tokenData = { data: {} };
+					}
+				}
+			},
+
+			_handleSignInError: function (evt) {
+				this.$.signIn.body = null;
+				this.fire('sign-in-error', {
+					status: this.lastSignInError.status,
+					message: this.lastSignInError.error
+				});
+			},
+
+			_handleSignOut: function () {
+				this.accessToken = null;
+				this._assignedRoles = null;
+				this._roleDescriptions = null;
+				window.localStorage.setItem('caas-session-data', null);
+				window.localStorage.setItem('user-data', null);
+			},
+
+			_handleSignOutError: function () {
+				this.fire('sign-out-error', this.lastSignOutError);
+			},
+
+			_handleEnableTwoFactor: function (evt) {
+				this.fire('two-factor-enabled');
+			},
+
+			_handleEnableTwoFactorError: function () {
+				this.fire('two-factor-enabling-error', {
+					status: this.lastEnableTwoFactorError.status,
+					message: this.lastEnableTwoFactorError.error
+				});
+			},
+
+			_handleTrustClientIP: function (evt) {
+				this.fire('ip-trusted');
+			},
+
+			_handleTrustClientIPError: function (evt) {
+				this.fire('ip-trust-error');
+			},
+
+			_handleDistrustClientIP: function (evt) {
+				this.fire('ip-distrusted');
+			},
+
+			_handleDistrustClientIPError: function (evt) {
+				this.fire('ip-distrust-error');
+			},
+
+			_handleDisableTwoFactor: function (evt) {
+				this.fire('two-factor-disabled');
+			},
+
+			_handleDisableTwoFactorError: function () {
+				this.fire('two-factor-disabling-error', {
+					status: this.lastDisableTwoFactorError.status,
+					message: this.lastDisableTwoFactorError.error
+				});
+			},
+
+			_handleSetPassword: function () {
+				this.$.setPassword.body = null;
+				this.fire('password-set');
+			},
+
+			_handleSetPasswordError: function () {
+				this.$.setPassword.body = null;
+				this.fire('password-set-error');
+			},
+
+			_handleConfirmPassword: function () {
+				this.$.confirmPassword.body = null;
+				this.fire('password-confirmed');
+			},
+
+			_handleConfirmPasswordError: function () {
+				this.$.confirmPassword.body = null;
+				this.fire('password-confirmation-error');
+			},
+
+			_handleSignedInChanged: function (signedIn) {
+				if (signedIn === false) {
+					this.fire('signed-out');
+				}
+				else {
+					this.fire('signed-in');
+				}
+			},
+
+			_handleRequiresAuthenticationCodeChanged: function (requiresAuthenticationCode) {
+				if (requiresAuthenticationCode === true) this.fire('request-authentication-code');
+			},
+
+			_handleCreateInvestor: function (evt, data) {
+				this.$.createInvestor.body = null;
+				this.fire('user-created');
+			},
+
+			_handleCreateInvestorError: function (evt, error) {
+				this.$.createInvestor.body = null;
+				this.fire('user-creation-error', error);
+			},
+
+			_parseJWT: function (accessToken) {
+				var base64Url = accessToken.split('.')[1];
+				var base64 = base64Url.replace('-', '+').replace('_', '/');
+				this._tokenData = JSON.parse(window.atob(base64));
+			}
+
+		});
+	</script>
+</dom-module>

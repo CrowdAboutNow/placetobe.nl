@@ -1,0 +1,466 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../iron-selector/iron-selector.html">
+<link rel="import" href="../caas-auth/caas-auth.html">
+<link rel="import" href="../caas-investment/caas-investment.html">
+<link rel="import" href="../caas-campaign/caas-campaign.html">
+<link rel="import" href="../placetobe-behaviors/placetobe-styles-behavior.html">
+<link rel="import" href="../placetobe-styles/placetobe-styles.html">
+<link rel="import" href="../placetobe-signin-card/placetobe-signin-card.html">
+<link rel="import" href="../placetobe-signup-card/placetobe-signup-card.html">
+<link rel="import" href="../placetobe-input-box/placetobe-input-box.html">
+<link rel="import" href="../placetobe-stepper-form/placetobe-stepper-form.html">
+
+<!--
+`placetobe-invest-page`
+Placetobe Campaign Invest Page
+
+@demo demo/index.html 
+-->
+
+<dom-module id="placetobe-invest-page">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+
+      placetobe-stepper-form {
+        height: 100%;
+        max-height: var(--placetobe-popup-content-height, 100vh);
+      }
+
+
+      b, strong {
+        font-weight: 500;
+      }
+
+      placetobe-signin-card[hidden] {
+        display: none;
+      }
+    </style>
+    
+    <caas-auth id="auth"
+      api-endpoint="http://canapi.local"
+      signed-in="{{signedIn}}"
+      access-token="{{accessToken}}"
+      user-id="{{investorId}}"
+    ></caas-auth>
+    
+    <caas-campaign
+      api-endpoint="[[apiEndpoint]]"
+      campaign-id="[[campaignId]]"
+      title="{{title}}"
+    ></caas-campaign>
+
+    <caas-investment
+      id="caasInvest"
+      api-endpoint="[[apiEndpoint]]"
+      access-token="[[accessToken]]"
+      investor-id="[[investorId]]"
+      campaign-id="[[campaignId]]"
+      contract-type-id="[[contractTypeId]]"
+      available-contract-types="{{availableContractTypes}}"
+      incentive-id="[[incentiveId]]"
+      available-incentives="{{availableIncentives}}"
+      amount="[[amount]]"
+      smallest-allowed-amount="{{smallestAllowedAmount}}"
+      largest-allowed-amount="{{largestAllowedAmount}}"
+      amount-step="{{amountStep}}"
+      bic="[[bic]]"
+      available-banks="{{availableBanks}}"
+      considerations="{{considerations}}"
+      considerations-accepted="{{considerationsAccepted}}"
+      terms-of-use-accepted="{{termsOfUseAccepted}}"
+      checkout-allowed="{{checkoutAllowed}}"
+      success-callback-url="[[successCallbackUrl]]"
+      cancel-callback-url="[[cancelCallbackUrl]]"
+      error-callback-url="[[errorCallbackUrl]]"
+      reject-callback-url="[[rejectCallbackUrl]]"
+      on-investment-sign-error="_handleInvestmentSignError"
+      contract-accepted="{{contractAccepted}}"
+      on-contract-drafted="_handleContractDrafted"
+      on-contract-draft-error="_handleContractDraftError"
+    ></caas-investment>
+
+    <placetobe-stepper-form steps="[[steps]]">
+
+      <div>
+
+        <template is="dom-if" if="[[!availableIncentives]]">
+          <p>beloningen laden...</p>
+        </template>
+        <template is="dom-if" if="[[availableIncentives]]">
+          <iron-selector attr-for-selected="value" selected="{{incentiveId}}">
+            <template is="dom-repeat" items="[[availableIncentives]]" as="incentive">
+
+            <label value$="[[incentive.id]]">
+              <p>
+                <input type="radio" name="incentive" checked$="[[_computeIsSelected(incentive.id, incentiveId)]]">
+                <b>meer dan €[[incentive.minimumInvestment]]</b><br>
+                [[incentive.message]]
+              </p>
+            </label>
+
+            </template>
+          </iron-selector>          
+        </template>
+
+      </div>
+
+      <div>
+
+        <p>
+        Typ hieronder het bedrag in dat je wilt investeren. Je kunt minimaal €[[smallestAllowedAmount]] en maximaal €[[largestAllowedAmount]] investeren, met tussenstappen van €[[amountStep]]
+        </p>
+
+        <placetobe-input-box
+          name="Je bedrag in €"
+          type="number"
+          min="[[smallestAllowedAmount]]"
+          max="[[largestAllowedAmount]]"
+          step="[[amountStep]]"
+          value="{{amount}}"
+          valid="{{amountValid}}"
+          required
+          tip="Kies een bedrag tussen de €[[smallestAllowedAmount]] en €[[largestAllowedAmount]] met tussenstappen van €[[amountStep]]."
+        ></placetobe-input-box>
+      </div>
+
+      <div>
+        <p>Placetobe is een partnerplatform van CrowdAboutNow. Dit betekent dat het daadwerkelijke investeerproces verloopt via crowdaboutnow.nl. Login met je bestaande CrowdAboutNow account, of maak een account aan.</p>
+        
+          <placetobe-signin-card
+            hidden$="[[!existingUser]]"
+            id="signInCard"
+            username="[[username]]"
+            password="[[password]]"
+            api-endpoint="[[apiEndpoint]]"
+            signed-in="{{signedIn}}"
+            access-token="{{accessToken}}"
+            user-role="investor"
+          ></placetobe-signin-card>
+
+        <template is="dom-if" if="[[!signedIn]]">
+          <p hidden$="[[!existingUser]]">
+            Nieuwe gebruiker? Klik <a href="#" on-tap="_isNewUser">hier</a> om te registreren.
+          </p>
+        </template>
+
+        <template is="dom-if" if="[[!signedIn]]">
+        <template is="dom-if" if="[[!existingUser]]">
+          <placetobe-signup-card
+            username="investor@caastest.local"
+            password="abc123"
+            first-name="John"
+            last-name="Doe"
+            street="Main Street"
+            house-number="101"
+            city="Sim City"
+            postal-code="1234AB"
+            country="Nederland"
+            user-role="investor"
+            api-endpoint="[[apiEndpoint]]"
+            on-signed-up="_handleSignedUp"
+            user-role="investor"
+          ></placetobe-signup-card>
+
+          <p>
+            Bestaande gebruiker? Klik <a href="#" on-tap="_isExistingUser">hier</a> om in te loggen.
+          </p>
+
+        </template>
+        </template>
+
+      </div>
+
+      <div>
+        <p>
+        <strong>Contract</strong><br>
+        <section id="contractFrame"></section>
+        <br>
+        <label><input type="checkbox" checked="{{contractAccepted::change}}">Ik ga hiermee akkoord</label>
+        </p>
+
+      </div>
+
+      <div>
+        <p>
+        <strong>Jouw investering</strong><br>
+        <ul>
+          <li>
+            Campagne: [[title]]
+          </li>
+          <li>
+            Bedrag: &euro;[[amount]]
+          </li>   
+          <li>
+            Beloning: [[selectedIncentiveDescription]]
+          </li>                    
+        </ul>
+        </p>
+
+        <hr>
+
+        <p>Rond je investering af door te betalen met iDEAL. Selecteer je bank, klik op 'Betalen met iDEAL' en dan word je automatisch doorgeleid naar je online bankrekening.</p>
+
+        <p>
+        <strong>Algemene gebruiksvoorwaarden</strong><br>
+        <a href="https://placetobe.nl/algemene-voorwaarden" target="_blank">Klik hier</a> om de algemene gebruikersvoorwaarden te lezen.
+        <br>
+        <label><input type="checkbox" checked="{{termsOfUseAccepted::change}}">Ik ga hiermee akkoord</label>
+        </p>
+
+        <p>
+        <strong>Aandachtspunten</strong><br>
+        <ul>
+        <template is="dom-repeat" items="[[considerations]]" as="consideration">
+          <li>[[consideration]]</li>
+        </template>
+        </ul>
+        <br>
+        <label><input type="checkbox" checked="{{considerationsAccepted::change}}">Ik ga hiermee akkoord</label>
+        </p>
+
+        <p>
+          <select value="{{bic::change}}">
+          <option>Kies een bank...</option>
+          
+          <template is="dom-repeat" items="[[availableBanks]]" as="bank">
+              <option value="[[bank.bic]]">[[bank.name]]</option>
+          </template>
+
+          </select>
+        </p>
+
+        <placetobe-button
+          disabled$="[[!checkoutAllowed]]"
+          on-tap="checkout"
+        ><span>Betalen met iDEAL</span></placetobe-button>
+
+      </div>
+
+      <p>Hier komt betalen</p>
+
+    </placetobe-stepper-form>
+
+  </template>
+
+  <script>
+    Polymer({
+
+      is: 'placetobe-invest-page',
+
+      properties: {
+
+        apiEndpoint: {
+          type: String,
+          value: null
+        },
+
+        campaignId: {
+          type: String,
+          value: null
+        },
+
+        incentiveId: {
+          type: String,
+          observer: '_handleIncentiveIdChanged'
+        },
+
+        title: {
+          type: String
+        },
+
+        username: {
+          type: String
+        },
+
+        password: {
+          type: String
+        },
+
+        signedIn: {
+          type: Boolean,
+        },
+
+        accessToken: {
+          type: String
+        },
+
+        amount: {
+          type: Number
+        },
+
+        existingUser: {
+          type: Boolean,
+          value: true
+        },
+
+        smallestAllowedAmount: {
+          type: Number
+        },
+
+        largestAllowedAmount: {
+          type: Number
+        },
+
+        amountStep: {
+          type: Number
+        },
+
+        amountValid: {
+          type: Boolean,
+          observer: '_handleAmountValidChanged'
+        },
+
+        contractTypeId: {
+          type: String,
+          value: null
+        },
+
+        considerations: {
+          type: Array
+        },
+
+        considerationsAccepted: {
+          type: Boolean
+        },
+
+        contractAccepted: {
+          type: Boolean,
+          observer: '_handleContractAcceptedChanged'
+        },
+
+        termsOfUseAccepted: {
+          type: Boolean
+        },
+
+        bic: {
+          type: String,
+          value: null
+        },
+
+        checkoutAllowed: {
+          type: Boolean,
+          value: false
+        },
+
+        steps: {
+          type: Array,
+          value: [
+            {"name": "Selecteer een beloning"},
+            {"name": "Kies een bedrag"},
+            {"name": "Login of Registreer"},
+            {"name": "Lees je contract"},
+            {"finished": true, "name": "Betalen"}
+          ]
+        },
+
+        successCallbackUrl: {
+          type: String,
+          value: null
+        },
+
+        cancelCallbackUrl: {
+          type: String,
+          value: null
+        },
+
+        errorCallbackUrl: {
+          type: String,
+          value: null
+        },
+
+        rejectCallbackUrl: {
+          type: String,
+          value: null
+        },
+
+        availableContractTypes: {
+          type: Array
+        },
+
+        availableIncentives: {
+          type: Object
+        },
+
+        selectedIncentiveDescription: {
+          type: String,
+          computed: '_computeSelectedIncentiveDescription(incentiveId, availableIncentives.*)'
+        }
+
+      },
+
+      observers: [
+        '_finishStepThree(signedIn, accessToken)'
+      ],
+
+      checkout: function() {
+        this.$.caasInvest.checkout();
+      },
+
+      _isNewUser: function() {
+        this.existingUser = false;
+      },
+
+      _isExistingUser: function() {
+        this.existingUser = true;
+      },
+
+      _handleSignedUp: function(evt, data) {
+        this.username = data.username;
+        this.password = data.password;
+        this.$.signInCard.signIn();
+        this.existingUser = true;
+      },
+
+      _computeIsSelected: function (incentiveId, selectedIncentiveId) {
+        return incentiveId === selectedIncentiveId;
+      },
+
+      _handleIncentiveIdChanged: function(incentiveId) {
+        this.set('steps.0.finished', incentiveId || false);
+      },
+
+      _handleAmountValidChanged: function(amountValid) {
+        this.set('steps.1.finished', amountValid || false);        
+      },
+
+      _finishStepThree: function(signedIn, accessToken) {
+        this.set('steps.2.finished', (signedIn && accessToken));        
+      },
+
+      _handleContractDrafted: function(evt, draftContract) {
+        this.draftContract = draftContract;
+        this.$.contractFrame.innerHTML = draftContract;
+      },
+
+      _handleContractDraftError: function(evt, error) {
+        alert('Sorry, er is iets iets misgegaan bij het downloaden van je contract.')
+      },
+
+      _handleContractAcceptedChanged: function(contractAccepted) {
+        this.set('steps.3.finished', contractAccepted);        
+      },
+
+      _handleInvestmentSignError: function() {
+        alert('Sorry, er is iets iets misgegaan bij het valideren van je betaling.')
+      },
+
+      _computeSelectedIncentiveDescription: function (selectedIncentiveId, availableIncentivesChange) {
+        var availableIncentives = availableIncentivesChange.base;
+
+        var filteredItems = availableIncentives.filter(function(incentive){ 
+          return incentive.id === selectedIncentiveId;
+        })
+
+        if(! (filteredItems && filteredItems[0]) ) return;
+
+        var selectedIncentive = filteredItems[0];
+
+        return selectedIncentive.title || selectedIncentive.message;
+      }
+
+    });
+  </script>
+</dom-module>

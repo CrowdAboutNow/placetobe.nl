@@ -1,0 +1,70 @@
+can-textarea
+
+    display inline-block
+    position relative
+    width 100%
+    text-align left
+    margin-bottom 6px
+
+    &[required]
+        label
+            &:after
+                content '*'
+    &[disabled]
+            pointer-events none
+            opacity .5
+
+    > h3
+        color $can-blue!important
+
+    > textarea
+        resize none
+        background #F5EDEB
+        border-radius 2px
+        width 100%
+        height 90px
+        display inline-block
+        border 2px solid transparent
+        font-size 16px
+        padding 6px 9px
+        line-height 1.4
+
+        &:invalid
+            background-color $can-red
+            &:focus
+                border-color $can-red
+
+        &:focus
+            border-color #FAFFBD
+
+    &[empty]
+        &[required]
+            > textarea
+                background-color $can-yellow
+
+    .extended-info
+        font-size 12px
+        color $can-blue
+        padding 0px 3px
+        border 1px solid $can-blue
+        border-radius 50%
+        cursor pointer
+        text-align center
+        height 15px
+        width 15px
+        overflow hidden
+        display inline-block
+        vertical-align top
+        margin-top 10px
+        position relative
+
+        &:after
+            position absolute
+            top 0
+            left 0
+            margin -4px 0 0 3px
+            content "?"
+
+        &:active
+            color #FFF
+            background-color $can-blue

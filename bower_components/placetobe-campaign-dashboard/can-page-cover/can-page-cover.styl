@@ -1,0 +1,54 @@
+can-page-cover
+    display block
+    position relative
+    background-color $can-green
+    background-size cover
+    background-position center 40%
+    background-image url(/assets/components/can-page-cover/background.svg)
+    $$transition()
+    width 100%
+    height 35vh
+
+    @media only screen and (max-width $breakpoint-phone-max)
+        height 20vh
+                
+    > header
+        color $can-blue
+        z-index 2
+        position absolute
+        bottom 0
+        left 0
+        right 0
+        padding ($defaultmargin/2)
+        max-width $mainwidth
+        margin 0 auto
+        
+        @media only screen and (max-width $breakpoint-phone-max)
+            bottom 0
+
+    silk-image
+        height 75vh
+        width 100%
+        position absolute
+
+        @media only screen and (max-width $breakpoint-tablet-max)
+            height 40vh
+
+    &[has-image]
+        height 75vh
+        > header
+            color white
+            
+            &:after
+                content ' '
+                display block
+                position fixed
+                left 0
+                width 100vw
+                bottom 0
+                height 50%
+                background linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,.6) 100%)
+                z-index -1
+
+        @media only screen and (max-width $breakpoint-tablet-max)
+            height 40vh

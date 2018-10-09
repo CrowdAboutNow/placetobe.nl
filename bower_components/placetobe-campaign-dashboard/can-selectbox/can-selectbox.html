@@ -1,0 +1,19 @@
+<!doctype html>
+<link rel="import" href="../../polymer/polymer.html"> 
+
+<dom-module id="can-selectbox">
+    <template>
+
+        <label for$="[[name]]">{{placeholder}} <span hidden$="[[!required]]">*</span></label>
+        
+        <select
+            id="select"
+        	name$="[[name]]"
+        	disabled$="[[disabled]]"
+        	required="[[required]]"
+            >
+        </select>
+        
+    </template>
+    <script src="can-selectbox.js"></script>
+</dom-module>

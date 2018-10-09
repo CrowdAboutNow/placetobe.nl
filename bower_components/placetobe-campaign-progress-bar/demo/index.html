@@ -1,0 +1,108 @@
+<!doctype html>
+<html>
+  <head>
+    <title>placetobe-campaign-progress-bar demo</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
+    <script>
+      window.Polymer = {
+        // useNativeCSSProperties: true,
+        lazyRegister: true,
+        dom: 'shadow'
+      };
+    </script>
+
+    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+    
+    <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
+    <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
+
+    <link rel="import" href="../placetobe-campaign-progress-bar.html">
+
+    <style is="custom-style" include="demo-pages-shared-styles">
+      demo-snippet {
+        --demo-snippet-demo: {
+          display: block;
+        }
+      }
+      .colored {
+        --placetobe-campaign-progress-bar-background-color: var(--placetobe-color-gray);
+        --placetobe-campaign-progress-bar-tint-color: var(--placetobe-color-red);
+      }
+    </style>
+  </head>
+  <body>
+
+    <div class="vertical-section-container centered">
+      <h3>Basic example</h3>
+
+      <demo-snippet>
+        <template>
+          <placetobe-campaign-progress-bar
+            required-funding="100000"
+            currently-funded="30150"
+          ></placetobe-campaign-progress-bar>
+        </template>
+      </demo-snippet>
+
+      <h3>Text below</h3>
+
+      <demo-snippet>
+        <template>
+          <placetobe-campaign-progress-bar
+            text-below
+            required-funding="100000"
+            currently-funded="30150"
+          ></placetobe-campaign-progress-bar>
+        </template>
+      </demo-snippet>
+
+      <h3>Maximum funding</h3>
+
+      <demo-snippet>
+        <template>
+          <placetobe-campaign-progress-bar
+            required-funding="100000"
+            maximum-funding="200000"
+            currently-funded="30150"
+          ></placetobe-campaign-progress-bar>
+        </template>
+      </demo-snippet>
+
+      <h3>Not funded</h3>
+
+      <demo-snippet>
+        <template>
+          <placetobe-campaign-progress-bar
+            required-funding="100000"
+            currently-funded="0"
+          ></placetobe-campaign-progress-bar>
+        </template>
+      </demo-snippet>
+
+      <h3>Fully funded</h3>
+
+      <demo-snippet>
+        <template>
+          <placetobe-campaign-progress-bar
+            required-funding="100000"
+            currently-funded="100000"
+          ></placetobe-campaign-progress-bar>
+        </template>
+      </demo-snippet>
+
+      <h3>Custom colors</h3>
+
+      <demo-snippet>
+        <template>
+          <placetobe-campaign-progress-bar
+            class="colored"
+            required-funding="50000"
+            currently-funded="25000"
+          ></placetobe-campaign-progress-bar>
+        </template>
+      </demo-snippet>
+    </div>
+
+  </body>
+</html>

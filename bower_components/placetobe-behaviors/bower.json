@@ -1,0 +1,10 @@
+{
+  "name": "placetobe-behaviors",
+  "description": "Placetobe Behaviors",
+  "main": "placetobe-behaviors.html",
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.6.0"
+  },
+  "version": "1.0.0",
+  "homepage": "https://github.com/Placetobe/placetobe-behaviors"
+}

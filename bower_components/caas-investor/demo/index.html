@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+    <title>caas-investor demo</title>
+
+    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+
+    <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
+    <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
+    <link rel="import" href="../caas-investor.html">
+    <link rel="import" href="../../caas-auth/caas-auth.html">    
+
+    <style is="custom-style" include="demo-pages-shared-styles">
+      small {
+        word-wrap: break-word;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="vertical-section-container centered">
+      <h3>Basic caas-investor demo</h3>
+      <demo-snippet>
+        <template is="dom-bind" id="demo">
+          <caas-auth
+            id="auth"
+            api-endpoint="http://canapi.local"
+            signed-in="{{signedIn}}"
+            access-token="{{accessToken}}"
+            user-id="{{investorId}}"
+          ></caas-auth>
+
+          <h2>Sign in</h2>
+
+          <template is="dom-if" if="[[!signedIn]]">
+            <form on-submit="signIn">
+              <label for="username">username</label><br>
+              <input type="text" id="username" value="investor@caastest.local"><p>
+              <label for="password">password</label><br>
+              <input type="password" id="password" value="abc123"><p>
+              <input type="submit" value="Sign In">
+            </form>
+          </template>    
+          <template is="dom-if" if="[[signedIn]]">
+            <div>
+              <label for="token">signed in</label><br>
+              <small>[[accessToken]]</small>
+            </div>
+            <button on-tap="getData">Get data</button>
+          </template>                
+
+          <caas-investor
+            api-endpoint="http://canapi.local" 
+            investor-id="[[investorId]]" 
+            access-token="[[accessToken]]" 
+            first-name="{{firstName}}"
+            last-name="{{lastName}}"
+            subscribed-to-newsletter="{{subscribedToNewsletter}}"
+            iban="{{iban}}"
+            bank-account-name="{{bankAccountName}}"
+            twitter-url="{{twitter}}"
+            facebook-url="{{facebook}}"
+            linkedin-url="{{linkedin}}"
+            address="{{address}}"                            
+            currently-invested-capital="{{currentlyInvestedCapital}}"                                                                                    
+            total-investments="{{totalInvestments}}"       
+            total-invested-capital="{{totalInvestedCapital}}"
+            currently-invested-capital="{{currentlyInvestedCapital}}"
+            campaigns="{{campaigns}}"                                                                                       
+            contracts="{{contracts}}"                                                                                                                                                                  
+          ></caas-investor>
+
+          <template is="dom-if" if="[[investorDetailsReceived]]">
+            <ul>
+              <li>
+                First name: <input type="text" value="{{firstName::change}}">
+              </li>
+              <li>
+                Last name:  <input type="text" value="{{lastName::change}}">
+              </li>            
+              <li>
+                Subscribed to newsletter: <input type="checkbox" checked="{{subscribedToNewsletter::change}}" on-change="saveSubscriptionToNewsletter">
+              <li>
+                Iban: [[iban]]
+              </li>
+              <li>
+                Bank account name: [[bankAccountName]]
+              </li>
+              <li>
+                Twitter: [[twitter]]
+              </li>
+              <li>
+                Facebook: [[facebook]]
+              </li>
+              <li>
+                LinkedIn: [[linkedin]]
+              </li>
+              <li>
+                Street:  <input type="text" value="{{address.street::change}}">
+              </li>
+              <li>
+                houseNumber:  <input type="text" value="{{address.houseNumber::change}}">
+              </li>
+              <li>
+                postalCode:  <input type="text" value="{{address.postalCode::change}}">
+              </li>
+              <li>
+                city:  <input type="text" value="{{address.city::change}}">
+              </li>
+              <li>
+                region:  <input type="text" value="{{address.region::change}}">
+              </li>     
+              <li>
+                country:  <input type="text" value="{{address.country::change}}">
+              </li>                               
+              <li>
+                Currently invested capital: [[currentlyInvestedCapital]]
+              </li>      
+              <li>
+                Total investment: [[totalInvestments]]
+              </li>                                                                                                                                   
+            </ul>
+
+            <button on-tap="saveUpdatedProfile">Save Profile</button>
+          </template>
+
+          <template is="dom-if" if="[[investorContractsDetailsReceived]]">
+            <p>Contract 1:</p>
+            <ul>
+              <li>
+                Investment: [[contracts.0.investment]]
+              </li>
+              <li>
+                Campagne naam: [[contracts.0.projectNaam]]
+              </li>
+            </ul>
+          </template>
+          
+          <template is="dom-if" if="[[investorRepaymentReceived]]">
+            <ul>
+              <li>
+                Total invested capital: [[totalInvestedCapital]]
+              </li>
+              <li>
+                Currently invested capital: [[currentlyInvestedCapital]]
+              </li>   
+              <template is="dom-repeat" items="[[campaigns]]">
+                <template is="dom-repeat" items="[[item.payments]]" as="repayment">
+                  <li>
+                    Project Name: [[repayment.campaignProjectNaam]]
+                  </li>           
+                  <li>
+                    Project completed: [[repayment.completed]]
+                  </li>      
+                  <li>
+                    Date: [[repayment.date]]
+                  </li>  
+                  <li>
+                    Paid Payments: [[repayment.currentPaymentsStatus.paidPayments]]
+                  </li>          
+                  <li>
+                    Unpaid Payments: [[repayment.currentPaymentsStatus.unpaidPayments]]
+                  </li>                                           
+                  <li>
+                    Percentage remaining debt: [[repayment.remainingDebtPercentage]]
+                  </li>                      
+                  <li>
+                    totalAmountThisPayment: [[repayment.totalAmountThisPayment]]
+                  </li>                                                                                                                                
+                </template>   
+              </template>   
+            </ul>      
+          </template>
+
+          <script>
+            var investorDetailsReceived = false;
+            var d = document.querySelector('#demo');
+            var auth = document.querySelector('#auth');
+            var inv = document.querySelector('caas-investor');
+
+            d.signIn = function(evt) {
+              evt.preventDefault();
+              console.log(auth)
+              auth.signIn(
+                document.querySelector('#username').value,
+                document.querySelector('#password').value,
+                'investor'
+              );
+            }                      
+            d.getData = function(evt) {
+              evt.preventDefault();
+              inv.getData();
+            }
+
+            d.saveSubscriptionToNewsletter = function (evt) {
+              evt.preventDefault();              
+              // d.subscribedToNewsletter = !d.subscribedToNewsletter;
+              inv.saveNewsletterSubscription();              
+            }
+
+            d.saveUpdatedProfile = function (evt) {
+              evt.preventDefault();              
+              inv.save();              
+            }            
+
+            inv.addEventListener('investor-details-obtained', function(data) {
+              d.investorDetailsReceived = true;
+            })
+
+            inv.addEventListener('investor-repayment-obtained', function(data) {
+              d.investorRepaymentReceived = true;
+            })            
+            inv.addEventListener('investor-contracts-obtained', function(data) {
+              d.investorContractsDetailsReceived = true;
+            })
+
+            auth.addEventListener('sign-in-error', function(data) {
+              alert('error while logging in!');
+            })         
+          </script>   
+        </template>
+      </demo-snippet>
+    </div>
+  </body>
+</html>

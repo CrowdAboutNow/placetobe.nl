@@ -1,0 +1,15 @@
+{
+  "name": "google-analytics-tracker",
+  "description": "is a Polymer Element for [Google Analytics Web Tracking](https://developers.google.com/analytics/devguides/collection/analyticsjs/)",
+  "main": "google-analytics-tracker.html",
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.4.0",
+    "iron-signals": "PolymerElements/iron-signals#^1.0.3"
+  },
+  "devDependencies": {
+    "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
+    "iron-demo-helpers": "PolymerElements/iron-demo-helpers#^1.0.0",
+    "web-component-tester": "^4.0.0",
+    "webcomponentsjs": "webcomponents/webcomponentsjs#^0.7.0"
+  }
+}

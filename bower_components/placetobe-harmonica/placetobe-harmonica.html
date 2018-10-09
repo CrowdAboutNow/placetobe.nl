@@ -1,0 +1,76 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../placetobe-styles/placetobe-styles.html">
+<link rel="import" href="../iron-selector/iron-selector.html">
+
+<!--
+`placetobe-harmonica`
+Placetobe Harmonica
+
+@demo demo/index.html 
+-->
+
+<dom-module id="placetobe-harmonica">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+
+      :host header {
+        background-color: var(--placetobe-color-darkblue);
+        border-top-left-radius: var(--placetobe-border-radius-size);
+        border-top-right-radius: var(--placetobe-border-radius-size);
+        padding: var(--placetobe-margin);
+      }
+
+      :host header h3 {
+        @apply --placetobe-font-heading4;
+        color: white;
+      }
+
+      :host main ::slotted(placetobe-card) {
+        margin-top: 2px;
+      }
+    </style>
+    <section>
+      <header>
+        <h3>[[title]]</h3>
+      </header>
+      <main>
+        <iron-selector selected="{{selectedIndex}}">
+          <slot></slot>
+        </iron-selector>
+      </main>
+    </section>
+  </template>
+
+  <script>
+    Polymer({
+
+      is: 'placetobe-harmonica',
+
+
+      properties: {
+        title: {
+          type: String
+        },
+        selectedIndex: {
+          type: Number,
+          observer: '_handleSelectedItemChanged'
+        }
+      },
+
+      _handleSelectedItemChanged: function(selectedIndex) {
+        this._toggleItems(selectedIndex);
+      },
+
+      _toggleItems: function(selectedIndex) {
+        var items = this.$$('iron-selector').items;
+        for(var i in items) {
+          items[i].collapsed = (i != selectedIndex);
+        }
+      }
+
+    });
+  </script>
+</dom-module>
