@@ -29,6 +29,8 @@
       <caas-session
         token-data="{{tokenData}}"
         access-token="{{accessToken}}"
+        investor="{{investor}}"
+        assigned-roles="{{assignedRoles}}"
       ></caas-session>
 
       <template is="dom-if" if="[[signedInAsOtherRole]]">
@@ -58,7 +60,7 @@
     Polymer({
       is: 'placetobe-investeerders-dashboard-page',
       properties: {
-        
+
         accessToken: {
           type: String,
           value: null,
@@ -77,7 +79,17 @@
         signedInAsOtherRole: {
           type: Boolean,
           reflectToAttribute: true,
-          computed: '_computeSignedInAsOtherRole(accessToken, userRole)'
+          notify: true,
+          computed: '_computeSignedInAsOtherRole(accessToken, investor)'
+        },
+        investor: {
+          type: Boolean,
+          value: false,
+          notify: true
+        },
+        assignedRoles: {
+          type: Array,
+          notify: true
         }
 
       },
@@ -90,11 +102,11 @@
         return userRole || null;
       },
 
-      _computeSignedInAsOtherRole: function(accessToken, userRole) {
-        if (accessToken && userRole !== 'investor')  return true;      
+      _computeSignedInAsOtherRole: function(accessToken, investor) {
+        if (accessToken && !investor)  return true;
         return false;
       },
-      
+
     })
   </script>
 </dom-module>
