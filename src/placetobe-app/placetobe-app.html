@@ -460,7 +460,7 @@
 
       observers: [
         '_routePageChanged(routeData.page)',
-        '_broadcastAccessToken(userData.accessToken)'
+        '_broadcastAccessToken(userData.accessToken, userData.assignedRoles, userData.roleDescriptions)'
       ],
 
       ready: function() {
@@ -682,11 +682,13 @@
         this.set('userData.roleDescriptions', data.roleDescriptions);
       },
 
-      _broadcastAccessToken: function (accessToken) {
+      _broadcastAccessToken: function (accessToken, assignedRoles, roleDescriptions) {
         this.fire('iron-signal', {
           name: 'caas-access-token',
           data: {
-            accessToken: accessToken || null
+            accessToken: accessToken,
+            assignedRoles: assignedRoles,
+            roleDescriptions: roleDescriptions
           }
         });
       },
@@ -695,7 +697,9 @@
         this.fire('iron-signal', {
           name: 'caas-access-token',
           data: {
-            accessToken: this.userData.accessToken
+            accessToken: this.userData.accessToken,
+            assignedRoles: this.userData.assignedRoles,
+            roleDescriptions: this.userData.roleDescriptions
           }
         });
       }
